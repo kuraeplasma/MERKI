@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お問い合わせ | X Draft</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="new_logo.png">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                X Draft
+            </a>
+            <nav class="nav">
+                <ul>
+                    <li><a href="index.html">ホームに戻る</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="section">
+            <div class="container" style="max-width: 600px; padding-top: 60px;">
+                <h1 class="section-title">お問い合わせ</h1>
+                <p style="text-align: center; margin-bottom: 40px; color: var(--text-muted);">
+                    ご不明点やトラブルがございましたら、下記よりお問い合わせください。
+                </p>
+
+                <div class="glass-card">
+                    <!-- Netlify Form -->
+                    <form name="contact" method="POST" data-netlify="true" action="/contact.html?success=true">
+                        <div style="margin-bottom: 20px;">
+                            <label for="name" style="display: block; margin-bottom: 8px; font-weight: 600;">お名前</label>
+                            <input type="text" id="name" name="name" required
+                                style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label for="email"
+                                style="display: block; margin-bottom: 8px; font-weight: 600;">メールアドレス</label>
+                            <input type="email" id="email" name="email" required
+                                style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <label for="message"
+                                style="display: block; margin-bottom: 8px; font-weight: 600;">お問い合わせ内容</label>
+                            <textarea id="message" name="message" rows="5" required
+                                style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem; resize: vertical;"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn primary-btn" style="width: 100%;">送信する</button>
+                    </form>
+                </div>
+
+                <div id="success-message"
+                    style="display: none; margin-top: 30px; padding: 20px; background: #e6fffa; border: 1px solid #38b2ac; color: #2c7a7b; border-radius: 8px; text-align: center;">
+                    お問い合わせありがとうございます。<br>内容を確認の上、担当者よりご連絡いたします。
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p style="margin-bottom: 15px;">&copy; 2026 SpaceGleam Inc. All rights reserved.</p>
+            <div style="font-size: 0.85rem;">
+                <a href="terms.html" style="color: var(--text-muted); text-decoration: none; margin: 0 10px;">利用規約</a> |
+                <a href="privacy.html"
+                    style="color: var(--text-muted); text-decoration: none; margin: 0 10px;">プライバシーポリシー</a> |
+                <a href="legal.html"
+                    style="color: var(--text-muted); text-decoration: none; margin: 0 10px;">特定商取引法に基づく表記</a> |
+                <a href="company.html" style="color: var(--text-muted); text-decoration: none; margin: 0 10px;">会社概要</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple Success Message Show based on URL Query
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('success') === 'true') {
+            document.querySelector('form').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>

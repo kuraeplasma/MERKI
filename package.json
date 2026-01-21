@@ -1,0 +1,43 @@
+{
+    "name": "xdraft",
+    "productName": "X Draft",
+    "version": "1.0.0",
+    "description": "Imagine boldly, structure clearly.",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "build:app": "electron-builder"
+    },
+    "author": "SpaceGleam",
+    "license": "Commercial",
+    "dependencies": {
+        "firebase-admin": "^11.11.0",
+        "axios": "^1.6.0",
+        "crc-32": "^1.2.2",
+        "nodemailer": "^6.9.0"
+    },
+    "devDependencies": {
+        "electron": "^28.1.0",
+        "electron-builder": "^24.9.1"
+    },
+    "build": {
+        "appId": "com.spacegleam.xdraft",
+        "productName": "X Draft",
+        "directories": {
+            "output": "dist"
+        },
+        "win": {
+            "target": "nsis",
+            "icon": "new_logo.png"
+        },
+        "mac": {
+            "target": "dmg",
+            "icon": "new_logo.png"
+        },
+        "nsis": {
+            "oneClick": false,
+            "perMachine": false,
+            "allowToChangeInstallationDirectory": true
+        }
+    }
+}

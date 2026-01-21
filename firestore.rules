@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Licenses: Only the owner can read their own license
+    match /licenses/{docId} {
+      // Allow read if the logged-in user's email matches the 'userEmail' field in the document
+      allow read: if request.auth != null && resource.data.userEmail == request.auth.token.email;
+      
+      // Creating/Updating licenses is strictly server-side (Admin only)
+      // Client apps should NEVER be able to write to this collection directly
+      allow write: if false; 
+    }
+
+    // Default: Deny everything else
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

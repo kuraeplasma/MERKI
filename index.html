@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X Draft - Idea Structuring Tool</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="new_logo.png">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="#" class="logo">
+                X Draft
+            </a>
+            <nav class="nav">
+                <ul>
+                    <li><a href="#" id="nav-signup-btn" class="btn secondary-btn"
+                            style="padding: 8px 20px; font-size: 0.9em;">新規登録</a></li>
+                    <li><a href="#" id="nav-login-btn" style="color: var(--primary-color);">ログイン</a></li>
+                    <li id="auth-user-display"
+                        style="display:none; font-size: 0.8em; color: var(--text-muted); align-self: center; cursor: pointer;">
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container" style="text-align: center;">
+                <h1 class="hero-title">X Draft</h1>
+                <p class="hero-subtitle">混乱から構造へ。<br>クリエイターのためのアイデア整理ツール。</p>
+
+                <div style="margin-bottom: 40px; margin-top: 20px;">
+                    <p
+                        style="font-size: 1rem; color: var(--text-muted); font-weight: 600; margin-bottom: 0; letter-spacing: 1px;">
+                        先行リリース価格
+                    </p>
+                    <p
+                        style="font-size: 4rem; font-weight: 800; color: var(--primary-color); line-height: 1.1; letter-spacing: -0.05em; margin: 10px 0;">
+                        ¥9,800
+                    </p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); opacity: 0.8;">
+                        ※ 今後価格変更の可能性あり
+                    </p>
+                </div>
+
+                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 60px;">
+                    <a href="https://www.paypal.com/ncp/payment/A6D534WX2QR2J" id="buy-btn" class="btn primary-btn"
+                        style="min-width: 250px;" target="_blank">
+                        ライセンスを購入 (ダウンロード)
+                    </a>
+                </div>
+
+                <!-- Placeholder for App Screenshot -->
+                <!-- App Screenshot -->
+                <div
+                    style="margin: 0 auto; max-width: 900px; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 50px rgba(10, 25, 47, 0.15); border: 1px solid #e2e8f0;">
+                    <img src="top_image.png" alt="X Draft UI" style="width: 100%; display: block; height: auto;">
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">主な機能</h2>
+                <div class="grid-2">
+                    <div class="glass-card">
+                        <h3 class="card-title" style="color: #0a192f;">数万通りの投稿生成</h3>
+                        <p class="card-desc">
+                            業種とテーマを選択するだけで、AIが数万通り以上の投稿パターンを瞬時に生成。<br>
+                            日々の発信ネタに困ることは、もうありません。
+                        </p>
+                    </div>
+                    <div class="glass-card">
+                        <h3 class="card-title">直感的なドラッグ＆ドロップ</h3>
+                        <p class="card-desc">
+                            思考の断片をカードのように扱い、自由に並べ替えることができます。
+                            ポスト形式のUIで、SNSへの投稿イメージそのままで構成を練ることが可能です。
+                        </p>
+                    </div>
+                </div>
+                <div class="grid-2" style="margin-top: 40px;">
+                    <div class="glass-card">
+                        <h3 class="card-title">メディア・URL管理</h3>
+                        <p class="card-desc">
+                            画像や動画、参考URLを一元管理。
+                            ドラッグ＆ドロップで外部アプリへ素材を渡すこともでき、制作フローを妨げません。
+                        </p>
+                    </div>
+                    <div class="glass-card">
+                        <h3 class="card-title">マルチプラットフォーム</h3>
+                        <p class="card-desc">
+                            WindowsとmacOSの両方に対応。
+                            OSを問わず、同じ使用感でクリエイティブな作業に集中できます。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- System Requirements / Download -->
+        <section class="section" style="padding-bottom: 100px; background: #f8fafc;">
+            <div class="container" style="text-align: center;">
+                <h2 class="section-title">ダウンロード</h2>
+                <div class="glass-card"
+                    style="display: inline-block; text-align: left; min-width: 320px; background: #fff;">
+                    <h3 style="color: #0a192f; margin-bottom: 20px; font-weight: 700;">動作環境</h3>
+                    <ul style="color: #64748b; line-height: 2;">
+                        <li>Windows 10 / 11 (64bit)</li>
+                        <li>macOS 11.0 (Big Sur) 以上</li>
+                    </ul>
+                </div>
+                <div style="margin-top: 50px;">
+                    <p style="color: #64748b; margin-bottom: 20px;">バージョン 1.0.0</p>
+                    <a href="https://drive.google.com/drive/folders/1-UYz6n-2wCkR5qf4hjE1Zb-mLDihqNpp?usp=sharing"
+                        class="btn primary-btn" target="_blank">今すぐダウンロード (Google Drive)</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 SPACE GLEAM. All Rights Reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">
+                <a href="contact.html"
+                    style="color: var(--text-muted); text-decoration: none; margin: 0 10px;">お問い合わせ</a> |
+                <a href="terms.html" style="color: var(--text-muted); text-decoration: none; margin: 0 10px;">利用規約</a> |
+                <a href="privacy.html"
+                    style="color: var(--text-muted); text-decoration: none; margin: 0 10px;">プライバシーポリシー</a> |
+                <a href="legal.html"
+                    style="color: var(--text-muted); text-decoration: none; margin: 0 10px;">特定商取引法に基づく表記</a> |
+                <a href="company.html" style="color: var(--text-muted); text-decoration: none; margin: 0 10px;">会社概要</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 400px;">
+            <button class="modal-close">&times;</button>
+            <h3 id="modal-title" style="text-align:center; margin-bottom: 20px; color: var(--primary-color);">ログイン</h3>
+
+            <form id="login-form">
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; margin-bottom: 5px; font-weight: 500;">メールアドレス</label>
+                    <input type="email" id="login-email"
+                        style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;" required>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display:block; margin-bottom: 5px; font-weight: 500;">パスワード</label>
+                    <input type="password" id="login-password"
+                        style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;" required>
+                </div>
+                <button type="submit" id="login-submit" class="btn primary-btn" style="width: 100%;">ログイン</button>
+            </form>
+            <div style="text-align:center; margin-top: 15px;">
+                <span id="toggle-text" style="font-size: 0.9em; color: var(--text-muted);">
+                    アカウントをお持ちでない方は <a href="#" id="toggle-auth-mode"
+                        style="color: var(--primary-color); text-decoration: underline;">新規登録</a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Scripts -->
+    <script type="module">
+        import { initAuth } from './js/auth.js';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initAuth();
+        });
+    </script>
+</body>
+
+</html>

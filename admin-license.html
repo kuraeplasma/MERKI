@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>X Draft License Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: #f1f5f9;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .key-display {
+            font-size: 2em;
+            font-weight: bold;
+            font-family: monospace;
+            background: #fff;
+            padding: 20px;
+            border: 2px solid #0a192f;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="section-title">ライセンス発行ツール</h1>
+
+        <div class="glass-card">
+            <label>購入者メールアドレス</label>
+            <input type="email" id="user-email" placeholder="client@example.com">
+
+            <label>メモ (管理用)</label>
+            <input type="text" id="note" placeholder="山田様 2026/01/21購入分">
+
+            <button id="generate-btn" class="btn primary-btn" style="width:100%">ライセンスキー発行</button>
+
+            <div id="result-area" style="display:none;">
+                <p style="margin-top:20px; text-align:center;">発行されたキー:</p>
+                <div id="key-output" class="key-display"></div>
+                <p style="text-align:center; color: var(--primary-color);">
+                    ※ このキーはユーザーのマイページに自動で表示されます。
+                </p>
+            </div>
+        </div>
+
+        <!-- Maintenance Section -->
+        <div class="glass-card" style="margin-top: 40px; border-top: 4px solid #e0443e;">
+            <h2 class="card-title" style="font-size: 1.2rem; color: #e0443e;">ライセンス管理 (PC買い替え対応など)</h2>
+            <label style="display:block; margin-bottom:5px;">対象のライセンスキー</label>
+            <input type="text" id="maint-key" placeholder="XD-XXXX-XXXX-XXXX">
+            <button id="reset-device-btn" class="btn secondary-btn"
+                style="width:100%; border-color:#e0443e; color:#e0443e;">
+                端末ロックを解除 (再認証許可)
+            </button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { issueLicense, resetDeviceLock } from './js/admin-lib.js';
+
+        const btn = document.getElementById('generate-btn');
+        const emailInput = document.getElementById('user-email');
+        const noteInput = document.getElementById('note');
+        const resultArea = document.getElementById('result-area');
+
+        const keyOutput = document.getElementById('key-output');
+
+        const resetBtn = document.getElementById('reset-device-btn');
+        const maintKeyInput = document.getElementById('maint-key');
+
+        // Issue License
+        btn.addEventListener('click', async () => {
+            if (!emailInput.value) {
+                alert('メールアドレスを入力してください');
+                return;
+            }
+            if (!confirm('このユーザーにライセンスを発行しますか？\n' + emailInput.value)) return;
+
+            btn.disabled = true;
+            btn.textContent = '発行中...';
+
+            try {
+                const key = await issueLicense(emailInput.value, noteInput.value);
+                keyOutput.textContent = key;
+                resultArea.style.display = 'block';
+                // noteInput.value = ''; // Keep values
+            } catch (e) {
+                alert('エラー: ' + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'ライセンスキー発行';
+            }
+        });
+
+        // Reset Device
+        resetBtn.addEventListener('click', async () => {
+            const key = maintKeyInput.value.trim();
+            if (!key) return;
+
+            if (!confirm('本当にこのキーの端末ロックを解除しますか？\nPC買い替えなどの場合のみ行ってください。')) return;
+
+            resetBtn.disabled = true;
+
+            try {
+                const success = await resetDeviceLock(key);
+                if (success) {
+                    alert('解除しました。新しい端末で認証可能になります。');
+                    maintKeyInput.value = '';
+                } else {
+                    alert('キーが見つかりません。');
+                }
+            } catch (e) {
+                alert('エラー: ' + e.message);
+            } finally {
+                resetBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>

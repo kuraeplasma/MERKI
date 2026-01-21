@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>マイページ | X Draft</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="new_logo.png">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                X Draft
+            </a>
+            <nav class="nav">
+                <ul>
+                    <li><a href="index.html">ホームに戻る</a></li>
+                    <li><a href="#" id="logout-btn" style="color: var(--text-muted);">ログアウト</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content" style="display: none;">
+        <section class="section">
+            <div class="container" style="max-width: 800px; padding-top: 60px;">
+                <h1 class="section-title">マイページ</h1>
+
+                <!-- User Info -->
+                <div class="glass-card" style="margin-bottom: 40px; border-left: 4px solid var(--primary-color);">
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <div
+                            style="width: 50px; height: 50px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                            👤
+                        </div>
+                        <div>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 2px;">ログイン中</p>
+                            <p id="user-email" style="font-size: 1.1rem; font-weight: 600;">読み込み中...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Download Section -->
+                <div id="download-section" class="glass-card" style="margin-bottom: 40px; display: none;">
+                    <h2 class="card-title">製品ダウンロード</h2>
+                    <p style="margin-bottom: 20px; color: var(--text-color);">
+                        以下からいつでも最新版のインストーラーをダウンロードできます。<br>
+                        <span style="font-size: 0.9em; color: var(--text-muted);">※ すでに購入済みの方は、こちらから再ダウンロード可能です。</span>
+                    </p>
+
+                    <div
+                        style="background: #f8fafc; padding: 25px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;">
+                        <p style="font-weight: 700; margin-bottom: 15px; font-size: 1.1rem;">X Draft for Windows / macOS
+                        </p>
+                        <a href="download.html" class="btn primary-btn"
+                            style="width: 100%; max-width: 300px; margin-bottom: 10px;">
+                            ダウンロードページへ
+                        </a>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
+                            最終更新日: 2026/01/20 (v1.0.0)
+                        </p>
+                    </div>
+                </div>
+
+                <!-- License Key Info -->
+                <div class="glass-card">
+                    <h2 class="card-title">ライセンスキー</h2>
+                    <div id="license-area">
+                        <p style="color: var(--text-muted); margin-bottom: 10px;">ライセンス情報を確認中...</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p style="margin-bottom: 15px;">&copy; 2026 SpaceGleam Inc. All rights reserved.</p>
+            <div style="font-size: 0.85rem;">
+                <a href="terms.html" style="color: var(--text-muted); text-decoration: none; margin: 0 10px;">利用規約</a> |
+                <a href="privacy.html"
+                    style="color: var(--text-muted); text-decoration: none; margin: 0 10px;">プライバシーポリシー</a> |
+                <a href="legal.html"
+                    style="color: var(--text-muted); text-decoration: none; margin: 0 10px;">特定商取引法に基づく表記</a> |
+                <a href="company.html" style="color: var(--text-muted); text-decoration: none; margin: 0 10px;">会社概要</a>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { auth, signOut, onAuthStateChanged } from './js/firebase-config.js';
+        import { getUserLicense } from './js/license-lib.js';
+
+        const userEmailDisplay = document.getElementById('user-email');
+        const logoutBtn = document.getElementById('logout-btn');
+        const licenseArea = document.getElementById('license-area');
+
+        // Auth Monitor
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                document.getElementById('main-content').style.display = 'block';
+                userEmailDisplay.textContent = user.email;
+
+                // Fetch License
+                try {
+                    const licenseData = await getUserLicense(user.email);
+                    const downloadSection = document.getElementById('download-section');
+
+                    if (licenseData) {
+                        // User has purchased
+                        if (downloadSection) downloadSection.style.display = 'block';
+
+                        licenseArea.innerHTML = `
+                           <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 20px; border-radius: 8px; text-align: center;">
+                               <p style="font-size: 0.9rem; color: #166534; margin-bottom: 5px;">あなたのライセンスキー</p>
+                               <p style="font-size: 1.5rem; font-weight: 700; color: #15803d; font-family: monospace; letter-spacing: 1px;">
+                                   ${licenseData.key}
+                               </p>
+                               <p style="font-size: 0.8rem; color: #166534; margin-top: 10px;">
+                                   ステータス: ${licenseData.status === 'active' ? '認証済み' : '未認証'}
+                               </p>
+                           </div>
+                       `;
+                    } else {
+                        // User has NOT purchased (or waiting for issue)
+                        if (downloadSection) downloadSection.style.display = 'none';
+
+                        licenseArea.innerHTML = `
+                           <div style="text-align:center;">
+                               <p style="margin-bottom: 15px; font-weight:bold; color:var(--text-color);">
+                                   まだライセンスがありません
+                               </p>
+                               <p style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 20px;">
+                                   購入が完了すると、ここにライセンスキーとダウンロードリンクが表示されます。<br>
+                                   (PayPal決済後、反映まで少し時間がかかる場合があります)
+                               </p>
+                               <a href="index.html" class="btn primary-btn" style="padding: 10px 30px;">
+                                   購入ページへ戻る
+                               </a>
+                           </div>
+                       `;
+                    }
+                } catch (e) {
+                    console.error(e);
+                    licenseArea.textContent = "ライセンス情報の取得に失敗しました。";
+                }
+
+            } else {
+                // Redirect to home if not logged in
+                window.location.href = 'index.html';
+            }
+        });
+
+        // Logout
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                try {
+                    await signOut(auth);
+                    window.location.href = 'index.html';
+                } catch (error) {
+                    console.error("Logout failed", error);
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
