@@ -2,7 +2,7 @@ name: Build X Draft
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "website" ]
   workflow_dispatch:
 
 jobs:
