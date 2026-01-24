@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ダウンロード - X Draft</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="new_logo.png">
+    <style>
+        /* Specific styles for download page */
+        .download-hero {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: var(--nav-height);
+            background: radial-gradient(circle at 50% 50%, #f1f5f9 0%, #ffffff 70%);
+        }
+
+        .os-badge {
+            display: inline-block;
+            background: #e2e8f0;
+            color: #475569;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .dl-btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 40px 0;
+            align-items: center;
+        }
+
+        .dl-note {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+
+        .dl-note a {
+            text-decoration: underline;
+            color: var(--primary-color);
+        }
+
+        @media (min-width: 768px) {
+            .dl-btn-group {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                X Draft
+            </a>
+            <nav class="nav">
+                <ul>
+                    <li><a href="contact.html">お問い合わせ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="download-hero">
+            <div class="container" style="text-align: center; max-width: 800px;">
+
+                <h1 class="section-title" style="margin-bottom: 20px;">X Draft をダウンロード</h1>
+                <p class="hero-subtitle" style="margin-bottom: 40px;">
+                    ご購入ありがとうございます。<br>
+                    ご利用のOSに応じて、以下のボタンからインストーラーをダウンロードしてください。
+                </p>
+
+                <div class="glass-card">
+                    <div class="dl-btn-group">
+                        <!-- macOS Download -->
+                        <div style="text-align: center;">
+                            <span class="os-badge" style="background: #fef3c7; color: #92400e;"><i
+                                    class="fa-brands fa-apple"></i> macOS (Intel / Apple
+                                Silicon)</span>
+                            <br>
+                            <button class="btn primary-btn" style="min-width: 280px; opacity: 0.6; cursor: not-allowed;"
+                                disabled>
+                                準備中
+                            </button>
+                            <p class="dl-note">macOS版は現在準備中です</p>
+                        </div>
+
+                        <!-- Windows Download -->
+                        <div style="text-align: center;">
+                            <span class="os-badge"><i class="fa-brands fa-windows"></i> Windows 10 / 11</span>
+                            <br>
+                            <a href="https://drive.google.com/uc?export=download&id=1hJ2oVtADDAKgn9JqnefuGyA_eUm7GQ9i"
+                                class="btn primary-btn" style="min-width: 280px;">
+                                Windows版をダウンロード
+                            </a>
+                            <p class="dl-note">.exe ファイル (v1.0.0)</p>
+                        </div>
+                    </div>
+
+                    <div style="border-top: 1px solid #e2e8f0; padding-top: 20px; margin-top: 20px;">
+                        <p class="dl-note">
+                            ダウンロードが始まらない場合は、ボタンを右クリックして「リンク先を保存」を選択してください。<br>
+                            このページはブックマークして、いつでも再ダウンロードにご利用いただけます。
+                        </p>
+                        <p class="dl-note" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #f1f5f9;">
+                            <strong>購入済みの方へ:</strong> このページをブックマークしていつでもダウンロードできます。<br>
+                            購入時のメールアドレスで新規登録すると、マイページでライセンスキーの管理もできます。<br>
+                            <a href="index.html#"
+                                onclick="document.getElementById('nav-signup-btn').click(); return false;"
+                                style="color: var(--primary-color); text-decoration: underline;">新規登録はこちら</a><span
+                                id="mypage-separator" style="display: none;"> ｜ </span><a href="mypage.html"
+                                id="mypage-link"
+                                style="color: var(--primary-color); text-decoration: underline; display: none;">マイページはこちら</a>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 SPACE GLEAM. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Auth Check Script -->
+    <script type="module">
+        import { auth, onAuthStateChanged } from './js/firebase-config.js';
+
+        // Check authentication status and show/hide mypage link
+        onAuthStateChanged(auth, (user) => {
+            const mypageLink = document.getElementById('mypage-link');
+            const mypageSeparator = document.getElementById('mypage-separator');
+
+            if (user) {
+                // User is logged in - show mypage link
+                if (mypageLink) mypageLink.style.display = 'inline';
+                if (mypageSeparator) mypageSeparator.style.display = 'inline';
+            } else {
+                // User is not logged in - hide mypage link
+                if (mypageLink) mypageLink.style.display = 'none';
+                if (mypageSeparator) mypageSeparator.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

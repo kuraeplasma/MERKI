@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>サブスクリプション管理 - コンプラナビ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">コンプラナビ</a>
+            <nav class="nav">
+                <ul>
+                    <li><a href="dashboard.html">ダッシュボード</a></li>
+                    <li><a href="profile.html">プロフィール</a></li>
+                    <li><a href="subscription.html">サブスクリプション</a></li>
+                    <li><a href="#" id="logout-btn" style="color: var(--primary-color);">ログアウト</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main style="padding: 60px 0;">
+        <div class="container" style="max-width: 800px;">
+            <h1 style="margin-bottom: 40px; color: #0a192f;">サブスクリプション管理</h1>
+
+            <!-- Current Status -->
+            <div class="glass-card" style="margin-bottom: 40px;">
+                <h2 style="margin-bottom: 20px; color: #0a192f;">現在のプラン</h2>
+                <div id="subscription-info">
+                    <p style="color: var(--text-muted);">読み込み中...</p>
+                </div>
+            </div>
+
+            <!-- Subscribe Button (Trial users) -->
+            <div id="subscribe-section" style="display: none;" class="glass-card" style="margin-bottom: 40px;">
+                <h2 style="margin-bottom: 20px; color: #0a192f;">有料プランに登録</h2>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">
+                    月額¥980で、すべての機能をご利用いただけます。<br>
+                    自動更新で、いつでも解約可能です。
+                </p>
+                <div id="paypal-button-container"></div>
+            </div>
+
+            <!-- Cancel Button (Active users) -->
+            <div id="cancel-section" style="display: none;" class="glass-card">
+                <h2 style="margin-bottom: 20px; color: #0a192f;">サブスクリプションの解約</h2>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">
+                    解約すると、次回更新日以降は通知機能が停止します。<br>
+                    データは保持されますので、いつでも再開できます。
+                </p>
+                <button id="cancel-btn" class="btn" style="background: var(--error-color); color: white;">解約する</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 SPACE GLEAM. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&vault=true&intent=subscription"></script>
+
+    <script type="module">
+        import { auth, db, onAuthStateChanged } from './js/firebase-config.js';
+        import { doc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        let currentUser = null;
+        let userData = null;
+
+        // 認証チェック
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            currentUser = user;
+
+            // ユーザー情報取得
+            const userDoc = await getDoc(doc(db, 'users', user.uid));
+            if (userDoc.exists()) {
+                userData = userDoc.data();
+                displaySubscriptionInfo(userData);
+            }
+        });
+
+        // サブスクリプション情報表示
+        function displaySubscriptionInfo(data) {
+            const infoEl = document.getElementById('subscription-info');
+            const subscribeSection = document.getElementById('subscribe-section');
+            const cancelSection = document.getElementById('cancel-section');
+
+            const status = data.subscription_status || 'trial';
+
+            if (status === 'trial') {
+                const trialEnd = data.trial_end_date?.toDate();
+                const daysLeft = trialEnd ? Math.ceil((trialEnd - new Date()) / (1000 * 60 * 60 * 24)) : 30;
+
+                infoEl.innerHTML = `
+                    <div style="padding: 20px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                        <h3 style="color: #92400e; margin-bottom: 10px;">無料トライアル中</h3>
+                        <p style="color: #78350f;">残り${daysLeft}日</p>
+                    </div>
+                `;
+                subscribeSection.style.display = 'block';
+                initPayPalButton();
+
+            } else if (status === 'active') {
+                infoEl.innerHTML = `
+                    <div style="padding: 20px; background: #d1fae5; border-radius: 8px; border-left: 4px solid #059669;">
+                        <h3 style="color: #065f46; margin-bottom: 10px;">有料プラン（アクティブ）</h3>
+                        <p style="color: #047857;">月額¥980 - 自動更新中</p>
+                    </div>
+                `;
+                cancelSection.style.display = 'block';
+
+            } else if (status === 'canceled') {
+                infoEl.innerHTML = `
+                    <div style="padding: 20px; background: #fee2e2; border-radius: 8px; border-left: 4px solid #dc2626;">
+                        <h3 style="color: #991b1b; margin-bottom: 10px;">キャンセル済み</h3>
+                        <p style="color: #7f1d1d;">通知機能は停止しています</p>
+                    </div>
+                `;
+                subscribeSection.style.display = 'block';
+                initPayPalButton();
+            }
+        }
+
+        // PayPalボタン初期化
+        function initPayPalButton() {
+            paypal.Buttons({
+                createSubscription: function (data, actions) {
+                    return actions.subscription.create({
+                        'plan_id': 'YOUR_PAYPAL_PLAN_ID' // PayPalで作成したプランID
+                    });
+                },
+                onApprove: function (data, actions) {
+                    alert('サブスクリプション登録が完了しました!');
+                    // Webhookで自動的にステータス更新されます
+                    window.location.reload();
+                }
+            }).render('#paypal-button-container');
+        }
+
+        // 解約ボタン
+        document.getElementById('cancel-btn')?.addEventListener('click', async () => {
+            if (!confirm('本当に解約しますか?')) return;
+
+            try {
+                // PayPal APIで解約処理（実装省略）
+                // 本来はサーバー側で処理
+
+                // Firestoreのステータス更新
+                await updateDoc(doc(db, 'users', currentUser.uid), {
+                    subscription_status: 'canceled',
+                    updated_at: new Date()
+                });
+
+                alert('解約しました。');
+                window.location.reload();
+
+            } catch (error) {
+                console.error('Error canceling subscription:', error);
+                alert('解約に失敗しました。');
+            }
+        });
+
+        // ログアウト
+        document.getElementById('logout-btn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            await signOut(auth);
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理画面 - コンプラナビ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">コンプラナビ</a>
+            <nav class="nav">
+                <ul>
+                    <li><a href="dashboard.html">ダッシュボード</a></li>
+                    <li><a href="admin.html">管理画面</a></li>
+                    <li><a href="#" id="logout-btn" style="color: var(--primary-color);">ログアウト</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main style="padding: 60px 0;">
+        <div class="container">
+            <h1 style="margin-bottom: 40px; color: #0a192f;">制度マスタ管理</h1>
+
+            <!-- Add New Regulation -->
+            <div class="glass-card" style="margin-bottom: 40px;">
+                <h2 style="margin-bottom: 20px; color: #0a192f;">新規制度追加</h2>
+                <form id="regulation-form">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">制度名</label>
+                            <input type="text" id="reg-name"
+                                style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px;"
+                                required>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">期限タイプ</label>
+                            <select id="reg-deadline-type"
+                                style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px;"
+                                required>
+                                <option value="annual">年次</option>
+                                <option value="monthly">月次</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600;">説明</label>
+                        <textarea id="reg-description"
+                            style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; min-height: 80px;"></textarea>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">期限月</label>
+                            <input type="number" id="reg-month" min="1" max="12"
+                                style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px;"
+                                required>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">期限日</label>
+                            <input type="number" id="reg-day" min="1" max="31"
+                                style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px;"
+                                required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn primary-btn">追加</button>
+                </form>
+            </div>
+
+            <!-- Regulation List -->
+            <div class="glass-card">
+                <h2 style="margin-bottom: 20px; color: #0a192f;">登録済み制度</h2>
+                <div id="regulations-list">
+                    <p style="color: var(--text-muted);">読み込み中...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 SPACE GLEAM. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { auth, db, onAuthStateChanged } from './js/firebase-config.js';
+        import { collection, addDoc, getDocs, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        // 認証チェック（管理者のみ）
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // 管理者チェック（簡易版）
+            // 本来はFirestoreで is_admin フラグをチェック
+
+            loadRegulations();
+        });
+
+        // 制度一覧読み込み
+        async function loadRegulations() {
+            const listEl = document.getElementById('regulations-list');
+            const snapshot = await getDocs(collection(db, 'regulations'));
+
+            if (snapshot.empty) {
+                listEl.innerHTML = '<p style="color: var(--text-muted);">制度が登録されていません。</p>';
+                return;
+            }
+
+            listEl.innerHTML = '';
+            snapshot.forEach((doc) => {
+                const reg = doc.data();
+                const div = document.createElement('div');
+                div.style.cssText = 'padding: 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;';
+                div.innerHTML = `
+                    <div>
+                        <h3 style="margin-bottom: 5px; color: #0a192f;">${reg.name}</h3>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">${reg.description || ''}</p>
+                        <p style="color: var(--primary-color); font-size: 0.9rem; margin-top: 5px;">
+                            期限: ${reg.deadline_month}月${reg.deadline_day}日 (${reg.deadline_type === 'annual' ? '年次' : '月次'})
+                        </p>
+                    </div>
+                    <button class="btn" style="background: var(--error-color); color: white;" onclick="deleteRegulation('${doc.id}')">削除</button>
+                `;
+                listEl.appendChild(div);
+            });
+        }
+
+        // 制度追加
+        document.getElementById('regulation-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const data = {
+                name: document.getElementById('reg-name').value,
+                description: document.getElementById('reg-description').value,
+                deadline_type: document.getElementById('reg-deadline-type').value,
+                deadline_month: parseInt(document.getElementById('reg-month').value),
+                deadline_day: parseInt(document.getElementById('reg-day').value),
+                applicable_company_types: [], // 後で実装
+                applicable_industries: [],
+                applicable_employee_ranges: [],
+                created_at: new Date()
+            };
+
+            try {
+                await addDoc(collection(db, 'regulations'), data);
+                alert('制度を追加しました');
+                document.getElementById('regulation-form').reset();
+                loadRegulations();
+            } catch (error) {
+                console.error('Error adding regulation:', error);
+                alert('追加に失敗しました');
+            }
+        });
+
+        // 制度削除
+        window.deleteRegulation = async function (id) {
+            if (!confirm('本当に削除しますか?')) return;
+
+            try {
+                await deleteDoc(doc(db, 'regulations', id));
+                alert('削除しました');
+                loadRegulations();
+            } catch (error) {
+                console.error('Error deleting regulation:', error);
+                alert('削除に失敗しました');
+            }
+        };
+
+        // ログアウト
+        document.getElementById('logout-btn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            await signOut(auth);
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+
+</html>

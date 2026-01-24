@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ダッシュボード - コンプラナビ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">コンプラナビ</a>
+            <nav class="nav">
+                <ul>
+                    <li><a href="dashboard.html">ダッシュボード</a></li>
+                    <li><a href="profile.html">プロフィール</a></li>
+                    <li><a href="subscription.html">サブスクリプション</a></li>
+                    <li><a href="#" id="logout-btn" style="color: var(--primary-color);">ログアウト</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main style="padding: 60px 0;">
+        <div class="container">
+            <h1 style="margin-bottom: 40px; color: #0a192f;">ダッシュボード</h1>
+
+            <!-- Subscription Status -->
+            <div class="glass-card"
+                style="margin-bottom: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <h2 style="margin-bottom: 10px; color: white;">サブスクリプション状態</h2>
+                <p id="subscription-status" style="font-size: 1.2rem; font-weight: 600;">読み込み中...</p>
+                <p id="trial-info" style="font-size: 0.9rem; opacity: 0.9; margin-top: 10px;"></p>
+            </div>
+
+            <!-- Upcoming Deadlines -->
+            <div class="glass-card" style="margin-bottom: 40px;">
+                <h2 style="margin-bottom: 20px; color: #0a192f;">直近の期限</h2>
+                <div id="upcoming-deadlines">
+                    <p style="color: var(--text-muted);">該当する制度を計算中...</p>
+                </div>
+            </div>
+
+            <!-- All Regulations -->
+            <div class="glass-card">
+                <h2 style="margin-bottom: 20px; color: #0a192f;">該当する制度一覧</h2>
+                <div id="all-regulations">
+                    <p style="color: var(--text-muted);">読み込み中...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 SPACE GLEAM. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { auth, db, onAuthStateChanged } from './js/firebase-config.js';
+        import { collection, query, where, getDocs, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        // 認証チェック
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // ユーザー情報取得
+            const userDoc = await getDoc(doc(db, 'users', user.uid));
+            if (userDoc.exists()) {
+                const userData = userDoc.data();
+                displaySubscriptionStatus(userData);
+                await loadRegulations(userData);
+            }
+        });
+
+        // サブスクリプション状態表示
+        function displaySubscriptionStatus(userData) {
+            const statusEl = document.getElementById('subscription-status');
+            const trialInfoEl = document.getElementById('trial-info');
+
+            const status = userData.subscription_status || 'trial';
+
+            if (status === 'trial') {
+                statusEl.textContent = '無料トライアル中';
+                const trialEnd = userData.trial_end_date?.toDate();
+                if (trialEnd) {
+                    const daysLeft = Math.ceil((trialEnd - new Date()) / (1000 * 60 * 60 * 24));
+                    trialInfoEl.textContent = `残り${daysLeft}日`;
+                }
+            } else if (status === 'active') {
+                statusEl.textContent = '有料プラン（アクティブ）';
+                trialInfoEl.textContent = '通知機能が有効です';
+            } else if (status === 'canceled') {
+                statusEl.textContent = 'キャンセル済み';
+                trialInfoEl.textContent = '通知機能は停止しています';
+            }
+        }
+
+        // 制度読み込み
+        async function loadRegulations(userData) {
+            const upcomingEl = document.getElementById('upcoming-deadlines');
+            const allEl = document.getElementById('all-regulations');
+
+            // 制度マスタから該当制度を取得
+            const regulationsRef = collection(db, 'regulations');
+            const q = query(regulationsRef);
+            const snapshot = await getDocs(q);
+
+            const applicableRegulations = [];
+            snapshot.forEach((doc) => {
+                const reg = doc.data();
+                // 該当判定（簡易版）
+                if (isApplicable(reg, userData)) {
+                    applicableRegulations.push({ id: doc.id, ...reg });
+                }
+            });
+
+            if (applicableRegulations.length === 0) {
+                upcomingEl.innerHTML = '<p style="color: var(--text-muted);">該当する制度がありません。プロフィールを設定してください。</p>';
+                allEl.innerHTML = '<p style="color: var(--text-muted);">該当する制度がありません。</p>';
+                return;
+            }
+
+            // 期限計算
+            const deadlines = applicableRegulations.map(reg => {
+                const deadline = calculateDeadline(reg);
+                return { ...reg, deadline };
+            }).sort((a, b) => a.deadline - b.deadline);
+
+            // 直近3件表示
+            const upcoming = deadlines.slice(0, 3);
+            upcomingEl.innerHTML = upcoming.map(reg => `
+                <div style="padding: 15px; border-left: 4px solid var(--primary-color); background: #f8fafc; margin-bottom: 15px; border-radius: 4px;">
+                    <h3 style="margin-bottom: 5px; color: #0a192f;">${reg.name}</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">${reg.description || ''}</p>
+                    <p style="color: var(--primary-color); font-weight: 600; margin-top: 10px;">
+                        期限: ${reg.deadline.toLocaleDateString('ja-JP')}
+                    </p>
+                </div>
+            `).join('');
+
+            // 全件表示
+            allEl.innerHTML = deadlines.map(reg => `
+                <div style="padding: 15px; border-bottom: 1px solid #e2e8f0;">
+                    <h3 style="margin-bottom: 5px; color: #0a192f;">${reg.name}</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">${reg.description || ''}</p>
+                    <p style="color: var(--primary-color); font-weight: 600; margin-top: 10px;">
+                        期限: ${reg.deadline.toLocaleDateString('ja-JP')}
+                    </p>
+                </div>
+            `).join('');
+        }
+
+        // 該当判定（簡易版）
+        function isApplicable(regulation, userData) {
+            // 会社種別チェック
+            if (regulation.applicable_company_types && regulation.applicable_company_types.length > 0) {
+                if (!regulation.applicable_company_types.includes(userData.company_type)) {
+                    return false;
+                }
+            }
+
+            // 業種チェック
+            if (regulation.applicable_industries && regulation.applicable_industries.length > 0) {
+                if (!regulation.applicable_industries.includes(userData.industry)) {
+                    return false;
+                }
+            }
+
+            // 従業員数チェック
+            if (regulation.applicable_employee_ranges && regulation.applicable_employee_ranges.length > 0) {
+                if (!regulation.applicable_employee_ranges.includes(userData.employee_count)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // 期限計算（簡易版）
+        function calculateDeadline(regulation) {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+
+            // 年次の場合
+            if (regulation.deadline_type === 'annual') {
+                const deadline = new Date(currentYear, regulation.deadline_month - 1, regulation.deadline_day);
+                if (deadline < now) {
+                    deadline.setFullYear(currentYear + 1);
+                }
+                return deadline;
+            }
+
+            // 月次の場合（簡易実装）
+            const deadline = new Date(currentYear, now.getMonth() + 1, regulation.deadline_day);
+            return deadline;
+        }
+
+        // ログアウト
+        document.getElementById('logout-btn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            await signOut(auth);
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+
+</html>
