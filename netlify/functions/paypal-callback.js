@@ -102,7 +102,23 @@ async function sendLicenseEmail(toEmail, licenseKey) {
         from: `"X Draft Support" <${process.env.SMTP_USER}>`,
         to: toEmail,
         subject: '【X Draft】ライセンスキーの発行',
-        text: `ご購入ありがとうございます。\n\n以下のライセンスキーをアプリに入力してください。\n\nライセンスキー: ${licenseKey}\n\nダウンロード: https://xdraft.spacegleam.co.jp/download.html\n\nもし不明点があればこのメールに返信してください。`,
+        text: `ご購入ありがとうございます。
+
+以下のライセンスキーをアプリに入力してください。
+
+ライセンスキー: ${licenseKey}
+
+ダウンロード: https://xdraft.spacegleam.co.jp/download.html
+
+【重要】このメールは大切に保管してください
+このメールにダウンロードリンクとライセンスキーが記載されています。
+上記のダウンロードリンクをブックマークしていつでも再ダウンロードできます。
+
+【より便利にご利用いただくには】
+このメールアドレス（${toEmail}）で新規登録すると、マイページでライセンスキーの確認やアプリの再ダウンロードができます。
+マイページ: https://xdraft.spacegleam.co.jp/mypage.html
+
+もし不明点があればこのメールに返信してください。`,
     };
 
     try {

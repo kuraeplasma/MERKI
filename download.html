@@ -91,21 +91,22 @@
                     <div class="dl-btn-group">
                         <!-- macOS Download -->
                         <div style="text-align: center;">
-                            <span class="os-badge"><i class="fa-brands fa-apple"></i> macOS (Intel / Apple
+                            <span class="os-badge" style="background: #fef3c7; color: #92400e;"><i
+                                    class="fa-brands fa-apple"></i> macOS (Intel / Apple
                                 Silicon)</span>
                             <br>
-                            <a href="https://github.com/kuraeplasma/xdraft-releases/releases/download/v1.0.0/XDraft-1.0.0.dmg"
-                                class="btn primary-btn" style="min-width: 280px;">
-                                macOS版をダウンロード
-                            </a>
-                            <p class="dl-note">.dmg ファイル (v1.0.0)</p>
+                            <button class="btn primary-btn" style="min-width: 280px; opacity: 0.6; cursor: not-allowed;"
+                                disabled>
+                                準備中
+                            </button>
+                            <p class="dl-note">macOS版は現在準備中です</p>
                         </div>
 
                         <!-- Windows Download -->
                         <div style="text-align: center;">
                             <span class="os-badge"><i class="fa-brands fa-windows"></i> Windows 10 / 11</span>
                             <br>
-                            <a href="https://github.com/kuraeplasma/xdraft-releases/releases/download/v1.0.0/X.Draft.Setup.1.0.0.exe"
+                            <a href="https://drive.google.com/uc?export=download&id=1hJ2oVtADDAKgn9JqnefuGyA_eUm7GQ9i"
                                 class="btn primary-btn" style="min-width: 280px;">
                                 Windows版をダウンロード
                             </a>
@@ -117,6 +118,16 @@
                         <p class="dl-note">
                             ダウンロードが始まらない場合は、ボタンを右クリックして「リンク先を保存」を選択してください。<br>
                             このページはブックマークして、いつでも再ダウンロードにご利用いただけます。
+                        </p>
+                        <p class="dl-note" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #f1f5f9;">
+                            <strong>購入済みの方へ:</strong> このページをブックマークしていつでもダウンロードできます。<br>
+                            購入時のメールアドレスで新規登録すると、マイページでライセンスキーの管理もできます。<br>
+                            <a href="index.html#"
+                                onclick="document.getElementById('nav-signup-btn').click(); return false;"
+                                style="color: var(--primary-color); text-decoration: underline;">新規登録はこちら</a><span
+                                id="mypage-separator" style="display: none;"> ｜ </span><a href="mypage.html"
+                                id="mypage-link"
+                                style="color: var(--primary-color); text-decoration: underline; display: none;">マイページはこちら</a>
                         </p>
                     </div>
                 </div>
@@ -133,6 +144,27 @@
 
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Auth Check Script -->
+    <script type="module">
+        import { auth, onAuthStateChanged } from './js/firebase-config.js';
+
+        // Check authentication status and show/hide mypage link
+        onAuthStateChanged(auth, (user) => {
+            const mypageLink = document.getElementById('mypage-link');
+            const mypageSeparator = document.getElementById('mypage-separator');
+
+            if (user) {
+                // User is logged in - show mypage link
+                if (mypageLink) mypageLink.style.display = 'inline';
+                if (mypageSeparator) mypageSeparator.style.display = 'inline';
+            } else {
+                // User is not logged in - hide mypage link
+                if (mypageLink) mypageLink.style.display = 'none';
+                if (mypageSeparator) mypageSeparator.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 
 </html>
