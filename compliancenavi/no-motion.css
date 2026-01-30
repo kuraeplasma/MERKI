@@ -1,0 +1,388 @@
+﻿/* Enforce static, flat UI for dashboard elements */
+.glass-card,
+.glass-card:hover,
+.team-member-item,
+.team-member-item:hover,
+tr,
+tr:hover,
+td,
+td:hover,
+th,
+th:hover,
+.stat-card,
+.stat-card:hover,
+.nav-item,
+.nav-item:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    transition: none !important;
+    border-color: var(--border-color) !important;
+    cursor: default !important;
+}
+
+/* Base card styling for no-motion */
+.glass-card,
+.stat-card,
+.team-member-item {
+    background: #ffffff !important;
+    color: var(--text-primary) !important;
+}
+
+/* Remove header line and spacing */
+.content-header {
+    border-bottom: none !important;
+    margin-bottom: 1rem !important;
+    /* Reduced from 3.5rem, kept slight gap */
+    padding-bottom: 0 !important;
+    min-height: 0 !important;
+}
+
+/* Adjust top padding to pull content up */
+.content-inner {
+    padding-top: 1.5rem !important;
+    /* Reduced from 3rem */
+}
+
+/* Distinct Active State for Menu (Purple Button) */
+.nav-item.active {
+    background: var(--primary-gradient) !important;
+    color: white !important;
+    font-weight: 700 !important;
+    transform: none !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+    cursor: default !important;
+}
+
+/* Logo refinement */
+.logo,
+.sidebar .logo span,
+.mobile-logo span {
+    /* 使用 style.css の 2.5rem を優先するため削除 */
+    /* font-size: 1.8rem !important; */
+    font-weight: 900 !important;
+    letter-spacing: normal !important;
+}
+
+/* Re-enable pointer cursor only for actual buttons/inputs */
+button,
+.btn,
+input[type="checkbox"],
+select,
+a {
+    cursor: pointer !important;
+}
+
+/* --- Mobile Fixes --- */
+@media (max-width: 1024px) {
+    html {
+        font-size: 15px !important;
+        /* Reset from 20px to prevent huge UI on mobile */
+    }
+
+    .main-content {
+        padding-top: 80px !important;
+        /* Ensure content clears fixed header */
+    }
+
+    .content-inner {
+        padding: 1.5rem 1rem !important;
+        /* Reduce side padding */
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Stack grids vertically */
+    .grid-3,
+    .grid-2,
+    .grid-modal-resp {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+        display: grid !important;
+    }
+
+    /* Fix Stat Cards */
+    .stat-card {
+        width: 100% !important;
+        margin-bottom: 0 !important;
+        padding: 1.5rem !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        background: white !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: 16px !important;
+    }
+
+    /* Fix Profile/Form inputs */
+    .textarea-pro,
+    select,
+    input {
+        width: 100% !important;
+        max-width: 100% !important;
+        font-size: 1rem !important;
+        /* Prevent zoom on iOS */
+    }
+
+    /* Fix Team/List Items */
+    .team-member-item {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 1rem !important;
+    }
+
+    .team-member-item>div {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    /* Fix Pricing Card */
+    .pricing-card {
+        padding: 1.5rem !important;
+    }
+
+    /* Ensure modal content fits */
+    .modal-content,
+    .modal-content.edit-modal-content {
+        padding: 1.5rem !important;
+        width: 90% !important;
+        max-width: 95% !important;
+        max-height: 90vh;
+        overflow-y: auto;
+        border-radius: 20px !important;
+        margin: 0 auto;
+    }
+
+    /* Fix Close Button overlap */
+    /* Fix Close Button overlap - ROBUST ABSOLUTE POSITIONING */
+    .close-modal-pro {
+        position: absolute !important;
+        top: 20px !important;
+        right: 20px !important;
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 2rem !important;
+        background: #f1f5f9 !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        z-index: 2147483647 !important;
+        /* Max Z-Index */
+        line-height: 1 !important;
+        color: #64748b !important;
+        padding-bottom: 4px !important;
+        border: none !important;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    /* Hover effect for visibility */
+    .close-modal-pro:hover {
+        background: #e2e8f0 !important;
+        color: #ef4444 !important;
+    }
+
+    /* Avoid title overlap */
+    .modal-content h2 {
+        padding-right: 3rem;
+        /* Space for close button */
+        font-size: 1.25rem !important;
+        /* Smaller title on mobile */
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* Ensure modal content is relative so absolute children position correctly */
+    .modal-content {
+        position: relative !important;
+    }
+
+    .btn-group-pro {
+        flex-direction: column-reverse;
+        width: 100%;
+    }
+
+
+
+    .btn {
+        width: 100% !important;
+    }
+
+    /* --- Responsive Table to Card View (Accordion) --- */
+    #all-regulations table,
+    #all-regulations thead,
+    #all-regulations tbody,
+    #all-regulations tr,
+    #all-regulations td {
+        display: block !important;
+    }
+
+    #all-regulations thead {
+        display: none !important;
+    }
+
+    #all-regulations tr {
+        margin-bottom: 0.75rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+        background: #ffffff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.2s ease !important;
+    }
+
+    #all-regulations tr.expanded {
+        padding-bottom: 1.25rem;
+        background: #f8fafc;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    #all-regulations td {
+        padding: 0;
+        border: none !important;
+        width: 100% !important;
+        display: block !important;
+    }
+
+    /* Hide Details by Default */
+    #all-regulations tr:not(.expanded) td:not(:first-child) {
+        display: none !important;
+    }
+
+    /* Show Details when Expanded */
+    #all-regulations tr.expanded td:not(:first-child) {
+        display: flex !important;
+        margin-top: 0.75rem;
+        animation: fadeIn 0.2s ease;
+    }
+
+    /* 1. Title - Accordion Header */
+    #all-regulations td:nth-child(1) {
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: var(--text-primary);
+        line-height: 1.4;
+        position: relative;
+        padding-right: 2rem;
+        /* Space for chevron */
+        margin-bottom: 0;
+        /* Tight when collapsed */
+    }
+
+    /* Chevron Icon */
+    #all-regulations td:nth-child(1)::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        width: 8px;
+        height: 8px;
+        border-right: 2px solid #94a3b8;
+        border-bottom: 2px solid #94a3b8;
+        transform: translateY(-60%) rotate(45deg);
+        transition: transform 0.2rem;
+    }
+
+    /* Rotate Chevron on Expand */
+    #all-regulations tr.expanded td:nth-child(1)::after {
+        transform: translateY(-20%) rotate(-135deg);
+        border-color: #6366f1;
+        /* Primary color */
+    }
+
+    /* 2. Date */
+    #all-regulations td:nth-child(2) {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        display: flex !important;
+        align-items: center;
+        gap: 8px;
+        padding-top: 0.5rem;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    #all-regulations td:nth-child(2)::before {
+        content: "📅 期限";
+        font-size: 0.75rem;
+        padding: 2px 8px;
+        background: #f1f5f9;
+        border-radius: 4px;
+        color: #64748b;
+        font-weight: 700;
+        min-width: 60px;
+        text-align: center;
+    }
+
+    /* 3. Days */
+    #all-regulations td:nth-child(3) {
+        color: var(--text-primary);
+        font-size: 0.9rem;
+        display: flex !important;
+        align-items: center;
+        gap: 8px;
+    }
+
+    #all-regulations td:nth-child(3)::before {
+        content: "⏳ 残り";
+        font-size: 0.75rem;
+        padding: 2px 8px;
+        background: #fff1f2;
+        color: #e11d48;
+        border-radius: 4px;
+        font-weight: 700;
+        min-width: 60px;
+        text-align: center;
+    }
+
+    /* 4. Notification Toggle */
+    #all-regulations td:nth-child(4) {
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 0.5rem;
+        margin-top: 0.5rem;
+        border-top: 1px dashed #e2e8f0;
+    }
+
+    #all-regulations td:nth-child(4)::before {
+        content: "🔔 通知設定";
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--text-secondary);
+    }
+
+    /* 5. Edit Button */
+    #all-regulations td:nth-child(5) {
+        margin-top: 1rem;
+    }
+
+    #all-regulations td:nth-child(5) button {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+}
+
+/* Disable Hamburger Animation (Keep as 3 bars) */
+.mobile-menu-btn.active span:nth-child(1) {
+    transform: none !important;
+}
+
+.mobile-menu-btn.active span:nth-child(2) {
+    opacity: 1 !important;
+}
+
+.mobile-menu-btn.active span:nth-child(3) {
+    transform: none !important;
+}
+
+/* Remove table row hover effects specifically */
+tr:hover td {
+    background-color: transparent !important;
+    color: inherit !important;
+}
+
+/* Remove any specific "daysUntil" styling that might cause movement */
+#upcoming-deadlines div {
+    transform: none !important;
+    box-shadow: none !important;
+}

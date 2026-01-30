@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>料金プラン - MERKI（メルキ） - 制度期限を見逃さない</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="style.css?v=20260128_ULTRA_REFRESH">
+    <link rel="stylesheet" href="no-motion.css?v=20260128_ULTRA_REFRESH">
+
+    <!-- Auth Flicker Prevention -->
+    <script>
+        (function () {
+            const authActive = localStorage.getItem('merki_auth_active');
+            if (authActive === 'true') {
+                document.documentElement.classList.add('auth-logged-in');
+                window.addEventListener('DOMContentLoaded', () => {
+                    document.body.classList.add('auth-logged-in');
+                });
+            } else {
+                document.documentElement.classList.add('auth-logged-out');
+                window.addEventListener('DOMContentLoaded', () => {
+                    document.body.classList.add('auth-logged-out');
+                });
+            }
+        })();
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <img src="merki_logo_transparent.png" alt="MERKI Logo" class="logo-img">MERKI
+            </a>
+
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <nav>
+                <a href="index.html#features">機能</a>
+                <a href="index.html#how-it-works">使い方</a>
+                <a href="index.html#compliance-list">対応範囲</a>
+                <a href="pricing.html">料金</a>
+                <a href="index.html#faq">よくある質問</a>
+                <a href="#" id="login-link" class="nav-btn nav-btn-secondary auth-only-out">ログイン</a>
+                <a href="#" id="signup-link" class="nav-btn nav-btn-primary trigger-signup auth-only-out">無料で始める</a>
+            </nav>
+        </div>
+    </header>
+
+    <main style="padding-top: 100px;">
+        <!-- Pricing Section -->
+        <section id="pricing" style="background: white; padding: 100px 0;">
+            <div class="container">
+                <h2 class="section-title">料金プラン</h2>
+                <p class="section-subtitle">
+                    事業規模に合わせて選べる3つのプラン。<br>
+                    まずは30日間の無料トライアルでお試しください。
+                </p>
+
+                <div class="pricing-grid">
+                    <!-- Lite Plan -->
+                    <div class="pricing-card">
+                        <h3 class="plan-name">Lite</h3>
+                        <div class="price">¥980<small>/月</small></div>
+                        <p class="plan-description">前日に知らせてくれれば十分、という方に</p>
+
+                        <ul class="plan-features">
+                            <li><span>✅</span> 全制度の期限通知　前日のみ</li>
+                            <li><span>👥</span> 1ユーザー</li>
+                            <li><span>📊</span> ダッシュボード閲覧</li>
+                        </ul>
+
+                        <a href="#" class="btn primary-btn trigger-signup">無料で始める</a>
+                    </div>
+
+                    <!-- Standard Plan -->
+                    <div class="pricing-card">
+                        <h3 class="plan-name">Standard</h3>
+                        <div class="price">¥1,980<small>/月</small></div>
+                        <p class="plan-description">税理士・担当者と、安心して共有したい方に</p>
+
+                        <ul class="plan-features">
+                            <li><span>✅</span> 全制度の期限通知　7日前＋前日</li>
+                            <li><span>👥</span> 最大3ユーザー</li>
+                            <li><span>📊</span> ダッシュボード閲覧</li>
+                        </ul>
+
+                        <a href="#" class="btn primary-btn trigger-signup">無料で始める</a>
+                    </div>
+
+                    <!-- Pro Plan (Recommended) -->
+                    <div class="pricing-card recommended">
+                        <div class="plan-badge">推奨プラン</div>
+                        <h3 class="plan-name">Pro</h3>
+                        <div class="price">¥4,980<small>/月</small></div>
+                        <p class="plan-description">覚えておくことから、解放されたい方に</p>
+
+                        <ul class="plan-features">
+                            <li><span>✅</span> 全制度の期限通知　30日・7日・前日</li>
+                            <li><span>👥</span> 最大10ユーザー</li>
+                            <li><span>📊</span> ダッシュボード閲覧</li>
+                            <li><span>⚙️</span> 通知内容編集機能</li>
+                            <li><span>🔘</span> 制度ごと通知ON/OFF</li>
+                            <li><span>📩</span> 月初まとめメール</li>
+                        </ul>
+
+                        <a href="#" class="btn primary-btn trigger-signup">無料で始める</a>
+                    </div>
+                </div>
+
+                <div
+                    style="text-align: center; margin-top: 3rem; color: var(--text-primary); font-weight: 600; font-size: 0.95rem;">
+                    ℹ️ すべてのプランで、30日間 Proプランの全機能を無料で体験できます
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--dark-bg); color: white; padding: 6rem 0 3rem; position: relative;">
+        <div class="container">
+            <div
+                style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 3rem; font-size: 0.9rem;">
+                <a href="legal-info.html?tab=terms">利用規約</a>
+                <a href="legal-info.html?tab=privacy">プライバシーポリシー</a>
+                <a href="legal-info.html?tab=legal">特定商取引法</a>
+                <a href="legal-info.html?tab=company">運営会社</a>
+            </div>
+            <p style="text-align: center; opacity: 0.7; margin-top: 2rem;">&copy; 2026 SPACE GLEAM. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Same Auth Modals -->
+    <div id="login-modal" class="modal-overlay">
+        <div class="modal-content merki-auth-modal">
+            <button class="modal-close">&times;</button>
+            <div class="auth-modal-header">
+                <div class="auth-modal-logo">MERKI</div>
+                <h3 id="modal-title" class="auth-modal-title">ログイン</h3>
+                <p class="auth-modal-subtitle">制度期限管理をスマートに</p>
+            </div>
+            <div id="auth-error-msg" class="auth-error" style="display: none;"></div>
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label class="form-label"><span class="label-icon">📧</span> メールアドレス</label>
+                    <input type="email" id="login-email" class="form-input" placeholder="example@company.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label"><span class="label-icon">🔒</span> パスワード</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="login-password" class="form-input" placeholder="6文字以上" required>
+                        <button type="button" class="password-toggle" id="toggle-password">
+                            <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                style="display: none;">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            <svg class="eye-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                                </path>
+                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" id="login-submit" class="auth-submit-btn">
+                    <span class="btn-text">ログイン</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+            </form>
+            <div class="auth-divider"><span>または</span></div>
+            <div class="auth-toggle">
+                <span id="toggle-text">アカウントをお持ちでない方は</span>
+                <a href="#" id="toggle-auth-mode" class="toggle-link">新規登録</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Basic scripts for navigation
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('nav');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenuBtn.classList.toggle('active');
+                nav.classList.toggle('active');
+            });
+        }
+        // Password toggle
+        const togglePassword = document.getElementById('toggle-password');
+        const passwordInput = document.getElementById('login-password');
+        if (togglePassword && passwordInput) {
+            togglePassword.addEventListener('click', () => {
+                const isPassword = passwordInput.getAttribute('type') === 'password';
+                passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+                togglePassword.querySelector('.eye-icon').style.display = isPassword ? 'block' : 'none';
+                togglePassword.querySelector('.eye-off-icon').style.display = isPassword ? 'none' : 'block';
+            });
+        }
+    </script>
+    <script type="module">
+        import { initAuth } from './js/auth.js?v=20260128_LAYOUT_FIX_V7';
+        initAuth();
+    </script>
+</body>
+
+</html>

@@ -7,13 +7,13 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, si
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIza" + "SyAccbsaNt605UyXKxGS7fqMtT9RIJkWLi4",
-    authDomain: "scut-7de5e.firebaseapp.com",
-    projectId: "scut-7de5e",
-    storageBucket: "scut-7de5e.firebasestorage.app",
-    messagingSenderId: "870909830646",
-    appId: "1:870909830646:web:22984014b4ae7791e093d7",
-    measurementId: "G-8FWF6K4WLQ"
+    apiKey: "AIzaSyAf2PSD2642QX_Wt1WkYzcF8UnBqUq4SzI",
+    authDomain: "merki-1f5d5.firebaseapp.com",
+    projectId: "merki-1f5d5",
+    storageBucket: "merki-1f5d5.firebasestorage.app",
+    messagingSenderId: "107224092542",
+    appId: "1:107224092542:web:bd7be48ee438d1e0bb6d2f",
+    measurementId: "G-MC8HQSR938"
 };
 
 // Initialize Firebase (Check if already initialized to avoid errors)
@@ -54,4 +54,4 @@ export {
     updateEmail
 };
 
-console.log('Firebase initialized successfully');
+console.log('Firebase initialized successfully v20260127_26');

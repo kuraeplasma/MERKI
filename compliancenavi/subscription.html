@@ -1,84 +1,138 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="robots" content="noindex">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>サブスクリプション管理 - コンプラナビ</title>
+    <title>サブスクリプション管理 - MERKI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="style.css?v=20260128_ULTRA_REFRESH">
+    <link rel="stylesheet" href="pro_dashboard.css?v=20260128_ULTRA_REFRESH">
+    <link rel="stylesheet" href="no-motion.css?v=20260128_ULTRA_REFRESH">
+
+    <!-- Auth Flicker Prevention -->
+    <script>
+        (function () {
+            const authActive = localStorage.getItem('merki_auth_active');
+            if (authActive === 'true') {
+                document.documentElement.classList.add('auth-logged-in');
+                window.addEventListener('DOMContentLoaded', () => {
+                    document.body.classList.add('auth-logged-in');
+                });
+            } else {
+                document.documentElement.classList.add('auth-logged-out');
+                window.addEventListener('DOMContentLoaded', () => {
+                    document.body.classList.add('auth-logged-out');
+                });
+            }
+        })();
+    </script>
 </head>
 
 <body>
 
-    <header class="header">
+    <header>
         <div class="container header-inner">
-            <a href="index.html" class="logo">コンプラナビ</a>
-            <nav class="nav">
-                <ul>
-                    <li><a href="dashboard.html">ダッシュボード</a></li>
-                    <li><a href="profile.html">プロフィール</a></li>
-                    <li><a href="subscription.html">サブスクリプション</a></li>
-                    <li><a href="#" id="logout-btn" style="color: var(--primary-color);">ログアウト</a></li>
-                </ul>
+            <a href="dashboard.html" class="logo">
+                <img src="merki_logo_transparent.png" alt="MERKI Logo" class="logo-img">MERKI
+            </a>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <nav>
+                <a href="dashboard.html">ダッシュボード</a>
+                <a href="profile.html">プロフィール</a>
+                <a href="subscription.html">サブスクリプション</a>
+                <a href="#" id="logout-btn">ログアウト</a>
             </nav>
         </div>
     </header>
 
-    <main style="padding: 60px 0;">
-        <div class="container" style="max-width: 800px;">
-            <h1 style="margin-bottom: 40px; color: #0a192f;">サブスクリプション管理</h1>
+    <main style="padding-top: 120px; padding-bottom: 80px;">
+        <div class="container" style="max-width: 900px;">
 
-            <!-- Current Status -->
-            <div class="glass-card" style="margin-bottom: 40px;">
-                <h2 style="margin-bottom: 20px; color: #0a192f;">現在のプラン</h2>
-                <div id="subscription-info">
-                    <p style="color: var(--text-muted);">読み込み中...</p>
+            <!-- Current Plan Card -->
+            <div class="glass-card fade-in-up" style="margin-bottom: 3rem;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem;">
+                    <div>
+                        <h2
+                            style="font-size: 2rem; font-weight: 800; margin-bottom: 0.75rem; color: var(--text-primary);">
+                            現在のプラン
+                        </h2>
+                        <p id="plan-status"
+                            style="font-size: 1.25rem; font-weight: 700; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                            読み込み中...
+                        </p>
+                    </div>
+                    <div class="card-icon">
+                        💳
+                    </div>
                 </div>
+
+                <div id="plan-details"
+                    style="padding: 2rem; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-radius: 16px; margin-bottom: 2rem;">
+                    <p style="color: var(--text-secondary); text-align: center;">読み込み中...</p>
+                </div>
+
+                <div id="action-buttons"></div>
             </div>
 
-            <!-- Subscribe Button (Trial users) -->
-            <div id="subscribe-section" style="display: none;" class="glass-card" style="margin-bottom: 40px;">
-                <h2 style="margin-bottom: 20px; color: #0a192f;">有料プランに登録</h2>
-                <p style="color: var(--text-muted); margin-bottom: 20px;">
-                    月額¥980で、すべての機能をご利用いただけます。<br>
-                    自動更新で、いつでも解約可能です。
+            <!-- Pricing Info -->
+            <div class="pricing-card fade-in-up">
+                <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-primary);">
+                    💎 プレミアムプラン
+                </h3>
+                <div class="price">¥980<small style="font-size: 1.5rem; font-weight: 600;">/月</small></div>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.05rem;">
+                    30日間の無料トライアル付き
                 </p>
-                <div id="paypal-button-container"></div>
-            </div>
 
-            <!-- Cancel Button (Active users) -->
-            <div id="cancel-section" style="display: none;" class="glass-card">
-                <h2 style="margin-bottom: 20px; color: #0a192f;">サブスクリプションの解約</h2>
-                <p style="color: var(--text-muted); margin-bottom: 20px;">
-                    解約すると、次回更新日以降は通知機能が停止します。<br>
-                    データは保持されますので、いつでも再開できます。
-                </p>
-                <button id="cancel-btn" class="btn" style="background: var(--error-color); color: white;">解約する</button>
+                <ul style="list-style: none; text-align: left; margin-bottom: 2.5rem;">
+                    <li
+                        style="padding: 1rem 0; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 1rem;">
+                        <span style="color: #10b981; font-size: 1.5rem; font-weight: 800;">✓</span>
+                        <span style="color: var(--text-primary); font-weight: 600;">制度期限の自動計算</span>
+                    </li>
+                    <li
+                        style="padding: 1rem 0; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 1rem;">
+                        <span style="color: #10b981; font-size: 1.5rem; font-weight: 800;">✓</span>
+                        <span style="color: var(--text-primary); font-weight: 600;">メール通知（30日前・7日前・前日）</span>
+                    </li>
+                    <li
+                        style="padding: 1rem 0; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 1rem;">
+                        <span style="color: #10b981; font-size: 1.5rem; font-weight: 800;">✓</span>
+                        <span style="color: var(--text-primary); font-weight: 600;">業種・規模別の制度管理</span>
+                    </li>
+                    <li style="padding: 1rem 0; display: flex; align-items: center; gap: 1rem;">
+                        <span style="color: #10b981; font-size: 1.5rem; font-weight: 800;">✓</span>
+                        <span style="color: var(--text-primary); font-weight: 600;">いつでもキャンセル可能</span>
+                    </li>
+                </ul>
             </div>
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 SPACE GLEAM. All Rights Reserved.</p>
+    <footer>
+        <div class="container" style="text-align: center;">
+            <p style="opacity: 0.7;">&copy; 2026 SPACE GLEAM. All Rights Reserved.</p>
         </div>
     </footer>
 
-    <!-- PayPal SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&vault=true&intent=subscription"></script>
-
     <script type="module">
-        import { auth, db, onAuthStateChanged } from './js/firebase-config.js';
-        import { doc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { auth, db, onAuthStateChanged } from './js/firebase-config.js?v=20260128_ULTRA_REFRESH';
+        import { doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
-        let currentUser = null;
-        let userData = null;
+        // PayPal Configuration (Dynamic)
+        let PAYPAL_PLAN_ID = '';
+        let PAYPAL_CLIENT_ID = '';
 
         // 認証チェック
         onAuthStateChanged(auth, async (user) => {
@@ -87,96 +141,258 @@
                 return;
             }
 
-            currentUser = user;
-
             // ユーザー情報取得
             const userDoc = await getDoc(doc(db, 'users', user.uid));
             if (userDoc.exists()) {
-                userData = userDoc.data();
-                displaySubscriptionInfo(userData);
+                const userData = userDoc.data();
+
+                // PayPal設定をバックエンドから取得
+                try {
+                    const configResponse = await fetch('/.netlify/functions/get-paypal-config');
+                    const config = await configResponse.json();
+                    PAYPAL_CLIENT_ID = config.clientId;
+                    PAYPAL_PLAN_ID = config.planId;
+                    console.log("PayPal config loaded successfully");
+                } catch (configError) {
+                    console.error("Failed to fetch PayPal config:", configError);
+                    // フォールバック（ローカル開発用など）
+                    PAYPAL_CLIENT_ID = 'sb'; // Sandbox
+                }
+
+                displaySubscriptionInfo(userData, user);
             }
         });
 
         // サブスクリプション情報表示
-        function displaySubscriptionInfo(data) {
-            const infoEl = document.getElementById('subscription-info');
-            const subscribeSection = document.getElementById('subscribe-section');
-            const cancelSection = document.getElementById('cancel-section');
+        function displaySubscriptionInfo(userData, user) {
+            const statusEl = document.getElementById('plan-status');
+            const detailsEl = document.getElementById('plan-details');
+            const actionsEl = document.getElementById('action-buttons');
 
-            const status = data.subscription_status || 'trial';
+            const status = userData.subscription_status || 'trial';
+            const plan = userData.subscription_plan || userData.plan || 'pro';
+
+            // Calculate dates and trial days
+            let trialDaysLeft = 30;
+            if (userData.updated_at) {
+                const updatedDate = userData.updated_at.toDate();
+                const now = new Date();
+                const diffTime = now - updatedDate;
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                trialDaysLeft = Math.max(0, 30 - diffDays);
+            } else if (userData.trial_end_date) {
+                const trialEnd = userData.trial_end_date.toDate();
+                trialDaysLeft = Math.ceil((trialEnd - new Date()) / (1000 * 60 * 60 * 24));
+            }
+
+            const regDate = userData.created_at ? userData.created_at.toDate() : (userData.updated_at ? userData.updated_at.toDate() : new Date());
+            const expDate = new Date(regDate);
+            expDate.setDate(expDate.getDate() + 30);
+            const memberSince = (regDate.getMonth() + 1).toString().padStart(2, '0') + '/' + regDate.getFullYear().toString().slice(-2);
+            const validThru = (expDate.getMonth() + 1).toString().padStart(2, '0') + '/' + expDate.getFullYear().toString().slice(-2);
+
+            // Determine Theme
+            let themeClass = '';
+            let badgeText = 'PRO';
+            let planName = 'プレミアム';
+            let price = '¥980';
+
+            if (plan === 'lite') {
+                themeClass = 'lite';
+                badgeText = 'LITE';
+                planName = 'ライト';
+                price = '¥980';
+            } else if (plan === 'standard') {
+                themeClass = 'standard';
+                badgeText = 'STANDARD';
+                planName = 'スタンダード';
+                price = '¥1,980';
+            }
+
+            // Update Header Status
+            statusEl.innerHTML = status === 'active' ? '✨ 有料プラン(アクティブ)' : (status === 'canceled' ? '⚠️ キャンセル済み' : '🎁 無料トライアル中');
+            statusEl.style.color = status === 'active' ? '#10b981' : (status === 'canceled' ? '#ef4444' : 'inherit');
+
+            // Render Card UI
+            detailsEl.innerHTML = `
+                <div class="membership-dashboard">
+                    <div class="membership-card ${themeClass}" style="margin: 0 auto 2rem auto; width: 100%; max-width: 500px; aspect-ratio: 1.58/1; height: auto;">
+                        <div class="membership-card-watermark" style="font-size: 5rem;">MERKI</div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; z-index: 2; width: 100%;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <div class="gold-logo-mask" style="width: 32px; height: 32px;"></div>
+                                <h2 class="gold-text-metallic" style="font-family: 'OCR A Std', 'Courier New', monospace; letter-spacing: 4px; font-size: 1.4rem; margin: 0; line-height: 1;">MERKI</h2>
+                            </div>
+                            <div class="plan-badge" style="position: static; border: 1.5px solid var(--card-border); color: var(--card-border); padding: 0.4rem 1rem; border-radius: 4px; font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; background: rgba(0,0,0,0.6);">${badgeText}</div>
+                        </div>
+                        
+                        <div class="membership-status-grid" style="z-index: 2; gap: 1rem;">
+                            <div class="status-main">
+                                <div style="display: flex; gap: 2rem; align-items: flex-end; margin-bottom: 2rem;">
+                                    <div>
+                                        <div class="card-label">MEMBER SINCE</div>
+                                        <div class="card-value" style="font-size: 1rem;">${memberSince}</div>
+                                    </div>
+                                    <div>
+                                        <div class="card-label">VALID THRU</div>
+                                        <div class="card-value" style="font-size: 1rem;">${validThru}</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="card-label">CARD MEMBER</div>
+                                    <div class="card-value" style="font-size: 1.3rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">${userData.company_name || 'VIP MEMBER'}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="status-visual" style="display: flex; justify-content: center; align-items: center;">
+                                ${status === 'trial' ? `
+                                    <div class="progress-indicator-wrapper" style="position: relative; width: 110px; height: 110px; display: flex; justify-content: center; align-items: center;">
+                                        <div style="position: absolute; inset: 0; border: 1.5px solid var(--card-accent-glow); border-radius: 50%; background: rgba(0,0,0,0.5);"></div>
+                                        <svg viewBox="0 0 140 140" style="width: 100px; height: 100px; transform: rotate(-90deg); z-index: 1;">
+                                            <circle cx="70" cy="70" r="62" style="fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 4;"></circle>
+                                            <circle cx="70" cy="70" r="62" 
+                                                style="fill: none; stroke: var(--card-border); stroke-width: 10; stroke-linecap: round; stroke-dasharray: 390; stroke-dashoffset: ${390 * (1 - trialDaysLeft / 30)}; transition: stroke-dashoffset 2s ease-out;"></circle>
+                                        </svg>
+                                        <div style="position: absolute; z-index: 2; text-align: center; width: 100%;">
+                                            <span style="font-size: 0.6rem; color: var(--card-border); font-weight: 800; display: block; margin-bottom: -0.2rem;">残り</span>
+                                            <span style="color: var(--card-text-primary); font-weight: 900; font-size: 2.2rem; line-height: 1; display: block;">${trialDaysLeft}</span>
+                                            <span style="font-size: 0.7rem; color: var(--card-text-primary); font-weight: 800; display: block; margin-top: -0.1rem;">日</span>
+                                        </div>
+                                    </div>
+                                ` : `
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 4rem; filter: drop-shadow(0 0 20px var(--card-accent-glow)); margin-bottom: 0.5rem;">💎</div>
+                                        <div style="font-weight: 900; color: var(--card-border); letter-spacing: 2px; font-size: 0.7rem;">ULTIMATE</div>
+                                    </div>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; background: rgba(0,0,0,0.03); padding: 1.5rem; border-radius: 16px;">
+                        <div>
+                            <p style="color: var(--text-secondary); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.25rem;">現在の詳細プラン</p>
+                            <p style="color: var(--text-primary); font-size: 1.1rem; font-weight: 800;">${planName}</p>
+                        </div>
+                        <div>
+                            <p style="color: var(--text-secondary); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.25rem;">ステータス</p>
+                            <p style="color: ${status === 'active' ? '#10b981' : (status === 'canceled' ? '#ef4444' : 'var(--text-primary)')}; font-size: 1.1rem; font-weight: 800;">
+                                ${status === 'active' ? 'アクティブ' : (status === 'canceled' ? '終了済み' : 'トライアル中')}
+                            </p>
+                        </div>
+                        <div>
+                            <p style="color: var(--text-secondary); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.25rem;">月額料金</p>
+                            <p style="color: var(--text-primary); font-size: 1.1rem; font-weight: 800;">${price}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
 
             if (status === 'trial') {
-                const trialEnd = data.trial_end_date?.toDate();
-                const daysLeft = trialEnd ? Math.ceil((trialEnd - new Date()) / (1000 * 60 * 60 * 24)) : 30;
-
-                infoEl.innerHTML = `
-                    <div style="padding: 20px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
-                        <h3 style="color: #92400e; margin-bottom: 10px;">無料トライアル中</h3>
-                        <p style="color: #78350f;">残り${daysLeft}日</p>
-                    </div>
+                actionsEl.innerHTML = `
+                    <div id="paypal-button-container" style="margin-top: 2rem;"></div>
                 `;
-                subscribeSection.style.display = 'block';
-                initPayPalButton();
-
+                loadPayPalSDK(() => {
+                    renderPayPalButton(user);
+                });
             } else if (status === 'active') {
-                infoEl.innerHTML = `
-                    <div style="padding: 20px; background: #d1fae5; border-radius: 8px; border-left: 4px solid #059669;">
-                        <h3 style="color: #065f46; margin-bottom: 10px;">有料プラン（アクティブ）</h3>
-                        <p style="color: #047857;">月額¥980 - 自動更新中</p>
-                    </div>
+                actionsEl.innerHTML = `
+                    <button id="cancel-btn" class="btn secondary-btn" style="width: 100%; font-size: 1rem; padding: 1rem; background: transparent; color: #ef4444; border: 2px solid #ef4444; margin-top: 2rem; border-radius: 12px; font-weight: 700;">
+                        ⚠️ サブスクリプションをキャンセル
+                    </button>
                 `;
-                cancelSection.style.display = 'block';
-
+                document.getElementById('cancel-btn').addEventListener('click', () => {
+                    if (confirm('本当にキャンセルしますか?')) {
+                        cancelSubscription(userData.subscription_id);
+                    }
+                });
             } else if (status === 'canceled') {
-                infoEl.innerHTML = `
-                    <div style="padding: 20px; background: #fee2e2; border-radius: 8px; border-left: 4px solid #dc2626;">
-                        <h3 style="color: #991b1b; margin-bottom: 10px;">キャンセル済み</h3>
-                        <p style="color: #7f1d1d;">通知機能は停止しています</p>
-                    </div>
+                actionsEl.innerHTML = `
+                    <div id="paypal-button-container" style="margin-top: 2rem;"></div>
                 `;
-                subscribeSection.style.display = 'block';
-                initPayPalButton();
+                loadPayPalSDK(() => {
+                    renderPayPalButton(user);
+                });
             }
         }
 
-        // PayPalボタン初期化
-        function initPayPalButton() {
+        // Load PayPal SDK dynamically
+        function loadPayPalSDK(callback) {
+            if (window.paypal) {
+                callback();
+                return;
+            }
+
+            const script = document.createElement('script');
+            script.src = `https://www.paypal.com/sdk/js?client-id=${PAYPAL_CLIENT_ID}&vault=true&intent=subscription`;
+            script.onload = callback;
+            script.onerror = () => {
+                alert('PayPal SDKの読み込みに失敗しました。');
+            };
+            document.head.appendChild(script);
+        }
+
+        // Render PayPal Subscription Button
+        function renderPayPalButton(user) {
             paypal.Buttons({
+                style: {
+                    shape: 'rect',
+                    color: 'blue',
+                    layout: 'vertical',
+                    label: 'subscribe'
+                },
                 createSubscription: function (data, actions) {
                     return actions.subscription.create({
-                        'plan_id': 'YOUR_PAYPAL_PLAN_ID' // PayPalで作成したプランID
+                        'plan_id': PAYPAL_PLAN_ID,
+                        'custom_id': user.uid,
+                        'subscriber': {
+                            'email_address': user.email
+                        }
                     });
                 },
-                onApprove: function (data, actions) {
+                onApprove: async function (data, actions) {
+                    console.log('Subscription approved:', data);
+
+                    // Update Firestore
+                    await setDoc(doc(db, 'users', user.uid), {
+                        subscription_id: data.subscriptionID,
+                        subscription_status: 'active',
+                        subscription_start_date: new Date()
+                    }, { merge: true });
+
                     alert('サブスクリプション登録が完了しました!');
-                    // Webhookで自動的にステータス更新されます
-                    window.location.reload();
+                    location.reload();
+                },
+                onError: function (err) {
+                    console.error('PayPal Error:', err);
+                    alert('サブスクリプション登録に失敗しました。');
                 }
             }).render('#paypal-button-container');
         }
 
-        // 解約ボタン
-        document.getElementById('cancel-btn')?.addEventListener('click', async () => {
-            if (!confirm('本当に解約しますか?')) return;
-
+        // サブスクリプションキャンセル
+        async function cancelSubscription(subscriptionId) {
             try {
-                // PayPal APIで解約処理（実装省略）
-                // 本来はサーバー側で処理
-
-                // Firestoreのステータス更新
-                await updateDoc(doc(db, 'users', currentUser.uid), {
-                    subscription_status: 'canceled',
-                    updated_at: new Date()
+                const response = await fetch('/.netlify/functions/cancel-subscription', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ subscriptionId })
                 });
 
-                alert('解約しました。');
-                window.location.reload();
+                const result = await response.json();
 
+                if (result.success) {
+                    alert('サブスクリプションをキャンセルしました。');
+                    location.reload();
+                } else {
+                    alert('キャンセルに失敗しました: ' + result.error);
+                }
             } catch (error) {
-                console.error('Error canceling subscription:', error);
-                alert('解約に失敗しました。');
+                console.error('Cancel error:', error);
+                alert('キャンセル処理でエラーが発生しました。');
             }
-        });
+        }
 
         // ログアウト
         document.getElementById('logout-btn').addEventListener('click', async (e) => {
@@ -184,6 +400,33 @@
             await signOut(auth);
             window.location.href = 'index.html';
         });
+
+        // Mobile Menu Logic
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('nav');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                mobileMenuBtn.classList.toggle('active');
+                nav.classList.toggle('active');
+            });
+            // Close when link clicked
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenuBtn.classList.remove('active');
+                    nav.classList.remove('active');
+                });
+            });
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (nav.classList.contains('active') &&
+                    !nav.contains(e.target) &&
+                    !mobileMenuBtn.contains(e.target)) {
+                    mobileMenuBtn.classList.remove('active');
+                    nav.classList.remove('active');
+                }
+            });
+        }
     </script>
 </body>
 

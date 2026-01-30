@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 
 <head>
@@ -11,7 +11,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="icon" type="image/png" href="logo.png">
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css?v=20260128_ULTRA_REFRESH">
+    <link rel="stylesheet" href="no-motion.css?v=20260128_ULTRA_REFRESH">
+
+    <!-- Auth Flicker Prevention -->
+    <script>
+        (function () {
+            const authActive = localStorage.getItem('merki_auth_active');
+            if (authActive === 'true') {
+                document.documentElement.classList.add('auth-logged-in');
+                // We add it to documentElement for earliest possible CSS trigger, 
+                // but the CSS also targets body. Most robust to do both or either.
+                // Let's also ensure body gets it once it exists.
+                window.addEventListener('DOMContentLoaded', () => {
+                    document.body.classList.add('auth-logged-in');
+                });
+            } else {
+                document.documentElement.classList.add('auth-logged-out');
+                window.addEventListener('DOMContentLoaded', () => {
+                    document.body.classList.add('auth-logged-out');
+                });
+            }
+        })();
+    </script>
 </head>
 
 <body>
@@ -20,8 +42,8 @@
 
     <header>
         <div class="container header-inner">
-            <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 2px;">
-                <img src="merki_logo_transparent.png" alt="MERKI Logo" style="height: 42px; width: auto;">MERKI
+            <a href="index.html" class="logo">
+                <img src="merki_logo_transparent.png" alt="MERKI Logo" class="logo-img">MERKI
             </a>
 
             <div class="mobile-menu-btn">
@@ -33,11 +55,11 @@
                 <a href="#features">機能</a>
                 <a href="#how-it-works">使い方</a>
                 <a href="#compliance-list">対応範囲</a>
-                <a href="#pricing">料金</a>
+                <a href="pricing.html">料金</a>
                 <a href="#faq">よくある質問</a>
-                <a href="#" id="login-link">ログイン</a>
-                <a href="#" id="signup-link" class="btn"
-                    style="padding: 0.75rem 1.75rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-weight: 700; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">無料で始める</a>
+                <a href="#" id="login-link" class="nav-btn nav-btn-secondary auth-only-out">ログイン</a>
+                <a href="#" id="signup-link" class="nav-btn nav-btn-primary trigger-signup auth-only-out">無料で始める</a>
+                <!-- These will be updated by auth.js but CSS ensures they occupy the same space and are hidden/shown correctly -->
             </nav>
         </div>
     </header>
@@ -46,30 +68,30 @@
     <section class="hero">
         <div class="container">
             <h1 class="hero-title">
-                放置していても、<br>
-                大丈夫。
+                期限管理は任せていい。
             </h1>
 
-            <p
-                style="font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 2rem; line-height: 1.4; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                日々の事業運営を支える<br>制度期限の通知サービス
+            <p class="responsive-hero-desc"
+                style="font-size: 2rem; font-weight: 700; color: white; margin-bottom: 2rem; line-height: 1.4; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                日々の事業運営を、継続的に支える<br>制度期限の通知サービス
             </p>
 
             <p class="hero-subtitle" style="margin-bottom: 3rem;">
-                設立日や決算月を選ぶだけで、<br>
-                該当する制度の期限を自動で把握。<br>
-                30日前・7日前・前日に、メールでお知らせします。
+                設立日や決算月を登録するだけで、<br>
+                該当する制度の期限を自動で管理。<br>
+                必要なタイミングで、メールでお知らせします。
             </p>
 
             <div
                 style="display: inline-block; background: rgba(255, 255, 255, 0.12); backdrop-filter: blur(15px); border: 2px solid rgba(255, 255, 255, 0.25); border-radius: 24px; padding: 2rem 3rem; margin-bottom: 3rem; position: relative;">
-                <div
-                    style="font-size: 1.25rem; opacity: 1; margin-bottom: 0.25rem; font-weight: 700; letter-spacing: 0.5px; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div class="responsive-anshin-text"
+                    style="font-size: 2.2rem !important; opacity: 1; margin-bottom: 0.25rem; font-weight: 700; letter-spacing: 0.5px; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                     月額たった</div>
                 <div
                     style="display: flex; align-items: baseline; justify-content: center; gap: 0.25rem; margin-bottom: 1.5rem;">
-                    <span style="font-size: 5rem; font-weight: 900; line-height: 1; letter-spacing: -3px;">¥980</span>
-                    <span style="font-size: 1.25rem; font-weight: 600; opacity: 0.7;">/月</span>
+                    <span class="responsive-price-yen"
+                        style="font-size: 6rem; font-weight: 900; line-height: 1; letter-spacing: -3px;">¥980</span>
+                    <span style="font-size: 1.5rem; font-weight: 600; opacity: 0.7;">/月</span>
                 </div>
 
                 <div
@@ -77,65 +99,35 @@
                     🎁 30日間無料トライアル
                 </div>
 
-                <div style="font-size: 0.8rem; color: rgba(255, 255, 255, 0.7); text-align: center;">
-                    期間中はいつでも解約できます
+                <br>
+                <div style="margin-top: 1rem; text-align: left; display: inline-block;">
+                    <div class="responsive-anshin-text"
+                        style="font-size: 1.1rem; color: white; margin-bottom: 0.25rem;">🟢 安心① 無料｜30日間無料</div>
+                    <div class="responsive-anshin-text"
+                        style="font-size: 1.1rem; color: white; margin-bottom: 0.25rem;">🟢 安心② 解約｜いつでもOK</div>
+                    <div class="responsive-anshin-text" style="font-size: 1.1rem; color: white;">🟢 安心③ 放置｜設定後は不要</div>
                 </div>
             </div>
 
             <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-bottom: 1rem;">
                 <div style="display: flex; gap: 2rem; align-items: center; justify-content: center; flex-wrap: wrap;">
-                    <a href="#" id="hero-signup" class="btn primary-btn"
-                        style="font-size: 1.25rem; padding: 1.25rem 4rem; box-shadow: 0 10px 25px rgba(242, 153, 74, 0.4); background: linear-gradient(135deg, #F2994A 0%, #F2C94C 100%); color: white;">
+                    <a href="#" id="hero-signup" class="btn primary-btn responsive-btn-large trigger-signup"
+                        style="font-size: 1.5rem; padding: 1.25rem 4rem; box-shadow: 0 10px 25px rgba(243, 156, 18, 0.4); background: linear-gradient(135deg, #f39c12 0%, #f1c40f 100%); color: white;">
                         今すぐ無料で始める
                     </a>
                     <a href="#how-it-works"
-                        style="color: rgba(255,255,255,0.9); text-decoration: none; font-weight: 600; font-size: 1.1rem; border-bottom: 1px solid rgba(255,255,255,0.6); transition: all 0.3s; padding-bottom: 2px;">
+                        style="color: rgba(255,255,255,0.9); text-decoration: none; font-weight: 600; font-size: 1.3rem; border-bottom: 1px solid rgba(255,255,255,0.6); transition: all 0.3s; padding-bottom: 2px;">
                         仕組みを見る →
                     </a>
                 </div>
-
+                <p style="color: rgba(255, 255, 255, 0.8); font-size: 1.1rem; margin-top: -0.5rem;">
+                    クレジットカードの登録は、あとから行えます。
+                </p>
             </div>
         </div>
     </section>
 
-    <!-- Stats Section -->
-    <section
-        style="background: white; padding: 80px 0; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
-        <div class="container">
-            <div class="grid-3">
-                <div style="text-align: center;">
-                    <div
-                        style="font-size: 4rem; font-weight: 900; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.75rem; letter-spacing: -2px;">
-                        35
-                    </div>
-                    <div
-                        style="color: var(--text-secondary); font-weight: 600; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 1px;">
-                        登録制度数
-                    </div>
-                </div>
-                <div style="text-align: center;">
-                    <div
-                        style="font-size: 4rem; font-weight: 900; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.75rem; letter-spacing: -2px;">
-                        3回
-                    </div>
-                    <div
-                        style="color: var(--text-secondary); font-weight: 600; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 1px;">
-                        期限前通知
-                    </div>
-                </div>
-                <div style="text-align: center;">
-                    <div
-                        style="font-size: 4rem; font-weight: 900; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.75rem; letter-spacing: -2px;">
-                        30日
-                    </div>
-                    <div
-                        style="color: var(--text-secondary); font-weight: 600; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 1px;">
-                        無料トライアル
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- Features Section -->
     <section id="features">
@@ -146,19 +138,20 @@
             </p>
 
             <div class="grid-3">
+                <!-- Row 1 -->
+                <div class="glass-card">
+                    <div class="card-icon">⚡</div>
+                    <h3 class="card-title">簡単設定</h3>
+                    <p class="card-desc">
+                        プロフィールを設定するだけ。面倒な手続きは一切不要です。
+                    </p>
+                </div>
+
                 <div class="glass-card">
                     <div class="card-icon">🎯</div>
                     <h3 class="card-title">自動期限計算</h3>
                     <p class="card-desc">
                         会社種別・業種・従業員数に基づいて、該当する制度を自動判定。期限を自動計算します。
-                    </p>
-                </div>
-
-                <div class="glass-card">
-                    <div class="card-icon">📧</div>
-                    <h3 class="card-title">メール通知</h3>
-                    <p class="card-desc">
-                        期限の30日前・7日前・前日にメールで通知。うっかり忘れを防ぎます。
                     </p>
                 </div>
 
@@ -170,19 +163,37 @@
                     </p>
                 </div>
 
+                <!-- Row 2 -->
                 <div class="glass-card">
-                    <div class="card-icon">🏢</div>
-                    <h3 class="card-title">業種別対応</h3>
+                    <div class="card-icon">📧</div>
+                    <h3 class="card-title">メール通知</h3>
                     <p class="card-desc">
-                        製造業、小売業、サービス業など、業種ごとに異なる制度に対応しています。
+                        期限の30日前・7日前・前日にメールで通知うっかり忘れを防ぎます。
                     </p>
                 </div>
 
                 <div class="glass-card">
-                    <div class="card-icon">⚡</div>
-                    <h3 class="card-title">簡単設定</h3>
+                    <div class="card-icon">📩</div>
+                    <h3 class="card-title">月初まとめメール</h3>
                     <p class="card-desc">
-                        プロフィールを設定するだけ。面倒な手続きは一切不要です。
+                        その月の期限予定を月初にまとめてお届け。月間のスケジュール管理がスムーズになります。
+                    </p>
+                </div>
+
+                <div class="glass-card">
+                    <div class="card-icon">🔘</div>
+                    <h3 class="card-title">制度ごと通知ON/OFF</h3>
+                    <p class="card-desc">
+                        通知が必要な制度を個別に選択。不要な通知をカットして重要な情報に集中できます。
+                    </p>
+                </div>
+
+                <!-- Row 3 -->
+                <div class="glass-card">
+                    <div class="card-icon">⌨️</div>
+                    <h3 class="card-title">通知内容編集機能</h3>
+                    <p class="card-desc">
+                        通知メールの内容を自由に編集可能。社内ルールに合わせた文言にカスタマイズできます。
                     </p>
                 </div>
 
@@ -256,7 +267,7 @@
                 <div class="step-card step-arrow">
                     <img src="step1.png" alt="会社情報を登録"
                         style="width: 140px; height: 140px; object-fit: contain; margin-bottom: 1.5rem; filter: drop-shadow(0 10px 20px rgba(102, 126, 234, 0.2));">
-                    <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem;">会社情報を登録</h3>
+                    <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.75rem;">会社情報を登録</h3>
                     <p style="color: var(--text-secondary); line-height: 1.6;">
                         決算月、従業員数、業種など、<br>
                         基本的な情報をプロフィール設定で登録します。
@@ -267,7 +278,7 @@
                 <div class="step-card step-arrow">
                     <img src="step2.png" alt="制度を自動判定"
                         style="width: 140px; height: 140px; object-fit: contain; margin-bottom: 1.5rem; filter: drop-shadow(0 10px 20px rgba(102, 126, 234, 0.2));">
-                    <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem;">制度を自動判定</h3>
+                    <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.75rem;">制度を自動判定</h3>
                     <p style="color: var(--text-secondary); line-height: 1.6;">
                         登録情報に基づいて、<br>
                         あなたの会社に必要な制度だけを自動で判定します。
@@ -278,7 +289,7 @@
                 <div class="step-card">
                     <img src="step3.png" alt="メールで通知"
                         style="width: 140px; height: 140px; object-fit: contain; margin-bottom: 1.5rem; filter: drop-shadow(0 10px 20px rgba(102, 126, 234, 0.2));">
-                    <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem;">メールで通知</h3>
+                    <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.75rem;">メールで通知</h3>
                     <p style="color: var(--text-secondary); line-height: 1.6;">
                         期限の30日前・7日前・前日にメールでお知らせ。<br>
                         あとは通知を待つだけです。
@@ -313,7 +324,7 @@
                 <!-- 税務系 -->
                 <div class="glass-card" style="margin-bottom: 3rem;">
                     <h3
-                        style="font-size: 1.75rem; font-weight: 800; margin-bottom: 1.5rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.75rem;">
+                        style="font-size: 1.4rem; font-weight: 800; margin-bottom: 1.5rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.75rem;">
                         <span style="font-size: 2rem;">💰</span> 税務系（8制度）
                     </h3>
                     <div class="grid-3" style="gap: 1rem;">
@@ -371,7 +382,7 @@
                 <!-- 労務系 -->
                 <div class="glass-card" style="margin-bottom: 3rem;">
                     <h3
-                        style="font-size: 1.75rem; font-weight: 800; margin-bottom: 1.5rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.75rem;">
+                        style="font-size: 1.4rem; font-weight: 800; margin-bottom: 1.5rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.75rem;">
                         <span style="font-size: 2rem;">👥</span> 労務系（6制度）
                     </h3>
                     <div class="grid-3" style="gap: 1rem;">
@@ -417,7 +428,7 @@
                 <!-- その他 -->
                 <div class="glass-card">
                     <h3
-                        style="font-size: 1.75rem; font-weight: 800; margin-bottom: 1.5rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.75rem;">
+                        style="font-size: 1.4rem; font-weight: 800; margin-bottom: 1.5rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.75rem;">
                         <span style="font-size: 2rem;">📋</span> その他重要な届出（10制度）
                     </h3>
                     <div class="grid-3" style="gap: 1rem;">
@@ -506,12 +517,7 @@
                             </div>
                             <div style="font-size: 0.9rem; color: var(--text-secondary);">毎年3月31日</div>
                         </div>
-                        <div
-                            style="padding: 1rem; background: white; border-radius: 12px; border: 1px solid var(--border-color);">
-                            <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem;">青色申告決算書
-                            </div>
-                            <div style="font-size: 0.9rem; color: var(--text-secondary);">毎年3月15日</div>
-                        </div>
+
                         <div
                             style="padding: 1rem; background: white; border-radius: 12px; border: 1px solid var(--border-color);">
                             <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem;">個人事業税（1期）
@@ -524,12 +530,7 @@
                             </div>
                             <div style="font-size: 0.9rem; color: var(--text-secondary);">毎年11月30日</div>
                         </div>
-                        <div
-                            style="padding: 1rem; background: white; border-radius: 12px; border: 1px solid var(--border-color);">
-                            <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem;">源泉所得税納付
-                            </div>
-                            <div style="font-size: 0.9rem; color: var(--text-secondary);">毎月10日（特例あり）</div>
-                        </div>
+
                     </div>
                 </div>
 
@@ -564,12 +565,7 @@
                             </div>
                             <div style="font-size: 0.9rem; color: var(--text-secondary);">毎年1月31日</div>
                         </div>
-                        <div
-                            style="padding: 1rem; background: white; border-radius: 12px; border: 1px solid var(--border-color);">
-                            <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem;">償却資産申告
-                            </div>
-                            <div style="font-size: 0.9rem; color: var(--text-secondary);">毎年1月31日</div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -614,52 +610,140 @@
         </div>
     </section>
 
-    <!-- Pricing Section -->
-    <section id="pricing" style="background: white;">
+    <!-- Dashboard Demo Section -->
+    <section id="dashboard" style="background: #ffffff; padding: 100px 0;">
         <div class="container">
-            <h2 class="section-title">料金プラン</h2>
+            <h2 class="section-title">直感的に使えるダッシュボード</h2>
             <p class="section-subtitle">
-                月額¥980で、延滞税・罰金のリスクを回避。1回の延滞で数万円の損失を防げます。
+                複雑な設定は一切不要。必要な情報がひと目でわかる、<br>
+                ビジネスを加速させるためのシンプルなデザインです。
             </p>
 
-            <div class="pricing-card" style="max-width: 600px; margin: 0 auto;">
-                <h3 style="font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-primary);">
-                    💎 プレミアムプラン
-                </h3>
-                <div class="price">¥980<small style="font-size: 2rem; font-weight: 600;">/月</small></div>
-                <p style="color: var(--text-secondary); margin-bottom: 2.5rem; font-size: 1.1rem; font-weight: 600;">
-                    30日間の無料トライアル付き
-                </p>
+            <div
+                style="display: flex; align-items: flex-start; justify-content: center; flex-wrap: wrap; gap: 4rem; margin-top: 4rem;">
+                <!-- Live Dashboard Preview Mockup -->
+                <div style="flex: 1; min-width: 300px; max-width: 740px;">
+                    <div class="dashboard-preview">
+                        <div class="preview-sidebar">
+                            <div class="preview-logo">MERKI管理</div>
+                            <div class="preview-nav-item active">
+                                <span class="preview-icon">
+                                    <svg viewBox="0 0 24 24">
+                                        <rect width="7" height="9" x="3" y="3" rx="1" />
+                                        <rect width="7" height="5" x="14" y="3" rx="1" />
+                                        <rect width="7" height="9" x="14" y="12" rx="1" />
+                                        <rect width="7" height="5" x="3" y="16" rx="1" />
+                                    </svg>
+                                </span>
+                                ダッシュボード
+                            </div>
+                            <div class="preview-nav-item">
+                                <span class="preview-icon">
+                                    <svg viewBox="0 0 24 24">
+                                        <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
+                                        <path
+                                            d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                                        <path d="M12 11h4" />
+                                        <path d="M12 16h4" />
+                                        <path d="M8 11h.01" />
+                                        <path d="M8 16h.01" />
+                                    </svg>
+                                </span>
+                                制度一覧
+                            </div>
+                            <div class="preview-nav-item">
+                                <span class="preview-icon">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                                        <circle cx="9" cy="7" r="4" />
+                                        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                    </svg>
+                                </span>
+                                チーム管理
+                            </div>
+                            <div class="preview-nav-item">
+                                <span class="preview-icon">
+                                    <svg viewBox="0 0 24 24">
+                                        <path
+                                            d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                </span>
+                                設定
+                            </div>
+                        </div>
+                        <div class="preview-main">
+                            <div class="preview-header">ダッシュボード</div>
+                            <div class="preview-stats">
+                                <div class="preview-stat-card">
+                                    <div class="preview-stat-val">24</div>
+                                    <div class="preview-stat-label">該当制度</div>
+                                </div>
+                                <div class="preview-stat-card">
+                                    <div class="preview-stat-val">3</div>
+                                    <div class="preview-stat-label">30日内の期限</div>
+                                </div>
+                            </div>
+                            <div class="preview-list">
+                                <div class="preview-list-header">📅 直近の期限</div>
+                                <div class="preview-item">
+                                    <div class="preview-item-info">
+                                        <div class="preview-item-name">法人税確定申告</div>
+                                        <div class="preview-item-date">2026年3月31日</div>
+                                    </div>
+                                    <span class="preview-badge">未対応</span>
+                                </div>
+                                <div class="preview-item">
+                                    <div class="preview-item-info">
+                                        <div class="preview-item-name">消費税確定申告</div>
+                                        <div class="preview-item-date">2026年3月31日</div>
+                                    </div>
+                                    <span class="preview-badge">未対応</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                <ul style="list-style: none; text-align: left; margin-bottom: 3rem;">
-                    <li
-                        style="padding: 1.25rem 0; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 1.25rem;">
-                        <span style="color: #10b981; font-size: 1.75rem; font-weight: 800;">✓</span>
-                        <span style="color: var(--text-primary); font-weight: 600; font-size: 1.05rem;">制度期限の自動計算</span>
-                    </li>
-                    <li
-                        style="padding: 1.25rem 0; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 1.25rem;">
-                        <span style="color: #10b981; font-size: 1.75rem; font-weight: 800;">✓</span>
-                        <span
-                            style="color: var(--text-primary); font-weight: 600; font-size: 1.05rem;">メール通知（30日前・7日前・前日）</span>
-                    </li>
-                    <li
-                        style="padding: 1.25rem 0; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 1.25rem;">
-                        <span style="color: #10b981; font-size: 1.75rem; font-weight: 800;">✓</span>
-                        <span
-                            style="color: var(--text-primary); font-weight: 600; font-size: 1.05rem;">業種・規模別の制度管理</span>
-                    </li>
-                    <li style="padding: 1.25rem 0; display: flex; align-items: center; gap: 1.25rem;">
-                        <span style="color: #10b981; font-size: 1.75rem; font-weight: 800;">✓</span>
-                        <span
-                            style="color: var(--text-primary); font-weight: 600; font-size: 1.05rem;">いつでもキャンセル可能</span>
-                    </li>
-                </ul>
+                <!-- Usage Description -->
+                <div style="flex: 1; min-width: 300px; max-width: 500px; text-align: left;">
+                    <div style="margin-bottom: 2.5rem;">
+                        <h3
+                            style="font-size: 1.4rem; font-weight: 800; color: var(--text-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                            <span
+                                style="font-size: 1.75rem; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">01.</span>
+                            一括管理ダッシュボード
+                        </h3>
+                        <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1.1rem;">
+                            全制度の期限が一画面に集約。直近のタスクや該当件数など、今すべきことがひと目でわかります。
+                        </p>
+                    </div>
 
-                <a href="#" id="pricing-signup" class="btn primary-btn"
-                    style="width: 100%; font-size: 1.25rem; padding: 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4); color: white; font-weight: 700; transition: all 0.3s ease;">
-                    今すぐ無料で始める
-                </a>
+                    <div style="margin-bottom: 2.5rem;">
+                        <h3
+                            style="font-size: 1.4rem; font-weight: 800; color: var(--text-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                            <span
+                                style="font-size: 1.75rem; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">02.</span>
+                            柔軟な通知カスタマイズ
+                        </h3>
+                        <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1.1rem;">
+                            「制度一覧」から、通知のON/OFFや個別のスケジュール設定が可能。現場の状況に合わせた運用が実現します。
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3
+                            style="font-size: 1.4rem; font-weight: 800; color: var(--text-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                            <span
+                                style="font-size: 1.75rem; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">03.</span>
+                            チーム・税理士との共有
+                        </h3>
+                        <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1.1rem;">
+                            「チーム管理」機能で、社内スタッフや顧問税理士を招待。期限情報をリアルタイムに共有し、漏れを防ぎます。
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -729,6 +813,36 @@
         </div>
     </section>
 
+
+
+    <!-- Big CTA Section -->
+    <section style="background: #000000; padding: 100px 0 0; text-align: center; overflow: hidden; position: relative;">
+        <!-- Content Container -->
+        <div class="container" style="position: relative; z-index: 2; padding-bottom: 4rem;">
+
+            <h2 class="responsive-cta-title"
+                style="font-size: 4rem; font-weight: 900; color: white; margin-bottom: 1.5rem; letter-spacing: -1px; line-height: 1.3;">
+                期限管理の悩みは、<br>ここで終わりにしましょう。
+            </h2>
+            <p class="responsive-cta-desc"
+                style="color: rgba(255,255,255,0.7); font-size: 1.5rem; margin-bottom: 3rem; line-height: 1.8;">
+                30日間の無料体験で、その便利さを実感してください。<br>
+                もう、制度の期限に追われることはありません。
+            </p>
+            <a href="#" class="btn responsive-btn-large"
+                style="background: white; color: #000000; padding: 1.5rem 5rem; border-radius: 50px; font-weight: 800; font-size: 1.5rem; margin-bottom: 0; display: inline-block; box-shadow: 0 4px 20px rgba(255,255,255,0.25); transition: transform 0.3s;">
+                今すぐ無料で始める &raquo;
+            </a>
+
+        </div>
+
+        <!-- Full Background Text (Fully Visible) -->
+        <div
+            style="font-size: 25vw; font-weight: 900; line-height: 1; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; opacity: 1; text-align: center; letter-spacing: -0.5vw; pointer-events: none; font-family: 'Inter', sans-serif; width: 100%; margin-bottom: -2vw;">
+            MERKI
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -775,14 +889,14 @@
                     </label>
                     <div class="password-wrapper">
                         <input type="password" id="login-password" class="form-input" placeholder="6文字以上" required>
-                        <button type="button" class="password-toggle" id="toggle-password" aria-label="パスワードを表示">
+                        <button type="button" class="password-toggle" id="toggle-password" aria-label="パスワードを表示する">
                             <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
+                                stroke-linecap="round" stroke-linejoin="round" style="display: none;">
                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                 <circle cx="12" cy="12" r="3"></circle>
                             </svg>
                             <svg class="eye-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path
                                     d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
                                 </path>
@@ -835,7 +949,8 @@
         const nav = document.querySelector('nav');
 
         if (mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 mobileMenuBtn.classList.toggle('active');
                 nav.classList.toggle('active');
                 document.body.classList.toggle('no-scroll');
@@ -848,6 +963,17 @@
                     nav.classList.remove('active');
                     document.body.classList.remove('no-scroll');
                 });
+            });
+
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (nav.classList.contains('active') &&
+                    !nav.contains(e.target) &&
+                    !mobileMenuBtn.contains(e.target)) {
+                    mobileMenuBtn.classList.remove('active');
+                    nav.classList.remove('active');
+                    document.body.classList.remove('no-scroll');
+                }
             });
         }
 
@@ -913,15 +1039,15 @@
                     passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
 
                     if (isPassword) {
-                        // パスワードを表示する → 目が開いているアイコンを表示
+                        // パスワードを表示状態にした -> 目が開いているアイコンにする
                         eyeIcon.style.display = 'block';
                         eyeOffIcon.style.display = 'none';
-                        togglePassword.setAttribute('aria-label', 'パスワードを非表示');
+                        togglePassword.setAttribute('aria-label', 'パスワードを非表示にする');
                     } else {
-                        // パスワードを隠す → 目が閉じているアイコンを表示
+                        // パスワードを非表示状態にした -> 目が閉じているアイコンにする
                         eyeIcon.style.display = 'none';
                         eyeOffIcon.style.display = 'block';
-                        togglePassword.setAttribute('aria-label', 'パスワードを表示');
+                        togglePassword.setAttribute('aria-label', 'パスワードを表示する');
                     }
                 });
             }
@@ -929,10 +1055,8 @@
     </script>
 
     <script type="module">
-        import { initAuth } from './js/auth.js?v=2';
-        document.addEventListener('DOMContentLoaded', () => {
-            initAuth();
-        });
+        import { initAuth } from './js/auth.js?v=20260127_26';
+        initAuth();
     </script>
 </body>
 

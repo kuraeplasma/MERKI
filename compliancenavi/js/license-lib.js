@@ -1,4 +1,4 @@
-import { db, collection, getDocs, query, where } from './firebase-config.js';
+import { db, collection, getDocs, query, where, auth } from './firebase-config.js?v=20260127_26';
 
 const LICENSE_COLLECTION = 'licenses';
 

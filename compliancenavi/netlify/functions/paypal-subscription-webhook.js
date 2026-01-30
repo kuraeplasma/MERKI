@@ -110,11 +110,11 @@ async function sendWelcomeEmail(toEmail) {
     });
 
     const mailOptions = {
-        from: `"コンプラナビ" <${process.env.SMTP_USER}>`,
+        from: `"MERKI" <${process.env.SMTP_USER}>`,
         to: toEmail,
-        subject: '【コンプラナビ】ご登録ありがとうございます',
+        subject: '【MERKI】ご登録ありがとうございます',
         text: `
-コンプラナビにご登録いただき、ありがとうございます。
+MERKIにご登録いただき、ありがとうございます。
 
 これより、制度期限の自動通知サービスをご利用いただけます。
 
@@ -128,7 +128,7 @@ https://compliancenavi.spacegleam.co.jp/dashboard.html
 
 ご不明な点がございましたら、このメールに返信してください。
 
-コンプラナビ運営チーム
+MERKI運営チーム
         `
     };
 

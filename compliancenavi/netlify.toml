@@ -12,3 +12,7 @@
 
 [[plugins]]
   package = "@netlify/plugin-functions-install-core"
+
+# Scheduled Functions
+[functions."send-notifications"]
+  schedule = "0 0 * * *"  # 毎日 0:00 UTC (9:00 JST) に実行

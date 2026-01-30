@@ -1,111 +1,172 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>プロフィール設定 - コンプラナビ</title>
+    <title>プロフィール設定 - MERKI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="style.css?v=20260128_ULTRA_REFRESH">
+    <link rel="stylesheet" href="pro_dashboard.css?v=20260128_ULTRA_REFRESH">
+    <link rel="stylesheet" href="no-motion.css?v=20260128_ULTRA_REFRESH">
+
+    <!-- Auth Flicker Prevention -->
+    <script>
+        (function () {
+            const authActive = localStorage.getItem('merki_auth_active');
+            if (authActive === 'true') {
+                document.documentElement.classList.add('auth-logged-in');
+                window.addEventListener('DOMContentLoaded', () => {
+                    document.body.classList.add('auth-logged-in');
+                });
+            } else {
+                document.documentElement.classList.add('auth-logged-out');
+                window.addEventListener('DOMContentLoaded', () => {
+                    document.body.classList.add('auth-logged-out');
+                });
+            }
+        })();
+    </script>
 </head>
 
 <body>
 
-    <header class="header">
+    <header>
         <div class="container header-inner">
-            <a href="index.html" class="logo">コンプラナビ</a>
-            <nav class="nav">
-                <ul>
-                    <li><a href="dashboard.html">ダッシュボード</a></li>
-                    <li><a href="profile.html">プロフィール</a></li>
-                    <li><a href="subscription.html">サブスクリプション</a></li>
-                    <li><a href="#" id="logout-btn" style="color: var(--primary-color);">ログアウト</a></li>
-                </ul>
+            <a href="dashboard.html" class="logo">
+                <img src="merki_logo_transparent.png" alt="MERKI Logo" class="logo-img">MERKI
+            </a>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <nav>
+                <a href="dashboard.html">ダッシュボード</a>
+                <a href="profile.html">プロフィール</a>
+                <a href="subscription.html">サブスクリプション</a>
+                <a href="#" id="logout-btn">ログアウト</a>
             </nav>
         </div>
     </header>
 
-    <main style="padding: 60px 0;">
-        <div class="container" style="max-width: 600px;">
-            <h1 style="margin-bottom: 40px; color: #0a192f;">プロフィール設定</h1>
+    <main style="padding-top: 120px; padding-bottom: 80px;">
+        <div class="container" style="max-width: 800px;">
 
-            <div class="glass-card">
+            <!-- 蜈崎ｲｬ莠矩・-->
+            <div
+                style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 1.5rem; border-radius: 14px; margin-bottom: 3rem;">
+                <p style="color: #92400e; font-weight: 600; font-size: 0.95rem; line-height: 1.7;">
+                    ⚠️ 注意： 本サービスは、一般的な制度情報をもとに期限を通知するリマインドサービスです。正確な対応内容や最終判断は、利用者ご自身または専門家にご確認ください。
+                </p>
+            </div>
+
+            <div class="glass-card no-hover" id="profile-form-container" style="visibility: hidden;">
                 <form id="profile-form">
-                    <div style="margin-bottom: 20px;">
+                    <div style="margin-bottom: 2rem;">
                         <label
-                            style="display: block; margin-bottom: 8px; font-weight: 600; color: #0a192f;">会社種別</label>
-                        <select id="company-type"
-                            style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;"
-                            required>
+                            style="display: block; font-weight: 700; margin-bottom: 0.75rem; color: var(--text-primary); font-size: 1.05rem;">
+                            🏢 会社種別
+                        </label>
+                        <select id="company-type" required>
                             <option value="">選択してください</option>
-                            <option value="株式会社">株式会社</option>
-                            <option value="合同会社">合同会社</option>
-                            <option value="合名会社">合名会社</option>
-                            <option value="合資会社">合資会社</option>
-                            <option value="個人事業主">個人事業主</option>
+                            <option value="corporation">法人</option>
+                            <option value="sole">個人事業主</option>
                         </select>
                     </div>
 
-                    <div style="margin-bottom: 20px;">
-                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #0a192f;">業種</label>
-                        <select id="industry"
-                            style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;"
-                            required>
-                            <option value="">選択してください</option>
-                            <option value="製造業">製造業</option>
-                            <option value="建設業">建設業</option>
-                            <option value="卸売業">卸売業</option>
-                            <option value="小売業">小売業</option>
-                            <option value="飲食業">飲食業</option>
-                            <option value="サービス業">サービス業</option>
-                            <option value="IT・情報通信業">IT・情報通信業</option>
-                            <option value="医療・福祉">医療・福祉</option>
-                            <option value="その他">その他</option>
-                        </select>
-                    </div>
-
-                    <div style="margin-bottom: 30px;">
+                    <div style="margin-bottom: 2rem;">
                         <label
-                            style="display: block; margin-bottom: 8px; font-weight: 600; color: #0a192f;">従業員数</label>
-                        <select id="employee-count"
-                            style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;"
-                            required>
+                            style="display: block; font-weight: 700; margin-bottom: 0.75rem; color: var(--text-primary); font-size: 1.05rem;">
+                            🏢 業種
+                        </label>
+                        <select id="industry" required>
                             <option value="">選択してください</option>
-                            <option value="1-5人">1-5人</option>
-                            <option value="6-20人">6-20人</option>
-                            <option value="21-50人">21-50人</option>
-                            <option value="51-100人">51-100人</option>
-                            <option value="101人以上">101人以上</option>
+                            <option value="it">IT・通信</option>
+                            <option value="ec">EC・小売</option>
+                            <option value="food">飲食業</option>
+                            <option value="other">その他</option>
                         </select>
                     </div>
 
-                    <button type="submit" class="btn primary-btn" style="width: 100%;">保存</button>
+                    <div style="margin-bottom: 2rem;">
+                        <label
+                            style="display: block; font-weight: 700; margin-bottom: 0.75rem; color: var(--text-primary); font-size: 1.05rem;">
+                            👥 従業員数
+                        </label>
+                        <select id="employee-size" required>
+                            <option value="">選択してください</option>
+                            <option value="1">1名（代表のみ）</option>
+                            <option value="2-5">2〜5名</option>
+                            <option value="6-20">6〜20名</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-bottom: 2.5rem;">
+                        <label
+                            style="display: block; font-weight: 700; margin-bottom: 0.75rem; color: var(--text-primary); font-size: 1.05rem;">
+                            📅 決算月
+                        </label>
+                        <select id="fiscal-month" required>
+                            <option value="">驕ｸ謚槭＠縺ｦ縺上□縺輔＞</option>
+                            <option value="1">1譛・/option>
+                            <option value="2">2譛・/option>
+                            <option value="3">3譛・/option>
+                            <option value="4">4譛・/option>
+                            <option value="5">5譛・/option>
+                            <option value="6">6譛・/option>
+                            <option value="7">7譛・/option>
+                            <option value="8">8譛・/option>
+                            <option value="9">9譛・/option>
+                            <option value="10">10譛・/option>
+                            <option value="11">11譛・/option>
+                            <option value="12">12譛・/option>
+                        </select>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">
+                            窶ｻ 豕穂ｺｺ遞弱・豸郁ｲｻ遞弱・逕ｳ蜻頑悄髯占ｨ育ｮ励↓菴ｿ逕ｨ縺励∪縺・
+                        </p>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <label
+                            style="display: block; font-weight: 700; margin-bottom: 0.75rem; color: var(--text-primary); font-size: 1.05rem;">
+                            獅 險ｭ遶句ｹｴ譛域律
+                        </label>
+                        <input type="text" id="incorporation-date" required class="form-input" style="width: 100%;"
+                            placeholder="萓・ 20240101 縺ｾ縺溘・ 2024/01/01">
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">
+                            窶ｻ 險ｭ遶句ｾ・蟷ｴ莉･蜀・・豸郁ｲｻ遞主・遞主愛螳壹↑縺ｩ縺ｫ菴ｿ逕ｨ縺励∪縺・
+                        </p>
+                    </div>
+
+                    <button type="submit" class="btn primary-btn"
+                        style="width: 100%; font-size: 1.1rem; padding: 1.25rem;">
+                        沈 菫晏ｭ倥☆繧・
+                    </button>
                 </form>
 
                 <div id="success-message"
-                    style="display: none; margin-top: 20px; padding: 15px; background: #d1fae5; color: #065f46; border-radius: 6px; text-align: center;">
-                    プロフィールを保存しました
+                    style="display: none; margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border-radius: 14px; text-align: center; font-weight: 700; font-size: 1.05rem;">
+                    笨・繝励Ο繝輔ぅ繝ｼ繝ｫ繧剃ｿ晏ｭ倥＠縺ｾ縺励◆
                 </div>
             </div>
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 SPACE GLEAM. All Rights Reserved.</p>
+    <footer>
+        <div class="container" style="text-align: center;">
+            <p style="opacity: 0.7;">&copy; 2026 SPACE GLEAM. All Rights Reserved.</p>
         </div>
     </footer>
 
     <script type="module">
-        import { auth, db, onAuthStateChanged } from './js/firebase-config.js';
-        import { doc, getDoc, setDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { auth, db, onAuthStateChanged } from './js/firebase-config.js?v=20260127_26';
+        import { doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-
-        let currentUser = null;
 
         // 認証チェック
         onAuthStateChanged(auth, async (user) => {
@@ -114,15 +175,40 @@
                 return;
             }
 
-            currentUser = user;
+            console.log("Profile page loaded for user:", user.email);
 
-            // 既存データ読み込み
-            const userDoc = await getDoc(doc(db, 'users', user.uid));
-            if (userDoc.exists()) {
-                const userData = userDoc.data();
-                document.getElementById('company-type').value = userData.company_type || '';
-                document.getElementById('industry').value = userData.industry || '';
-                document.getElementById('employee-count').value = userData.employee_count || '';
+            // 既存データ読み込み（新規ユーザーの場合は存在しない可能性がある）
+            try {
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    console.log("Existing profile data found, loading...");
+                    document.getElementById('company-type').value = userData.company_type || '';
+                    document.getElementById('industry').value = userData.industry || '';
+                    document.getElementById('employee-size').value = userData.employee_size || '';
+
+                    document.getElementById('fiscal-month').value = userData.fiscal_month || '';
+                    if (userData.incorporation_date) {
+                        // Timestamp から Date に変換して YYYY/MM/DD 形式に
+                        const date = userData.incorporation_date.toDate();
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+                        document.getElementById('incorporation-date').value = `${year}/${month}/${day}`;
+                    }
+                } else {
+                    console.log("No existing profile data, showing empty form for new user");
+                    // 新規ユーザーの場合は空のフォームを表示（エラーではない）
+                }
+            } catch (error) {
+                console.warn("Could not load profile data:", error);
+                // 新規ユーザーの場合、権限エラーが発生する可能性があるため
+            }
+
+            // データ読み込み完了後、フォームを表示（ちらつき防止）
+            const formContainer = document.getElementById('profile-form-container');
+            if (formContainer) {
+                formContainer.style.visibility = 'visible';
             }
         });
 
@@ -130,45 +216,84 @@
         document.getElementById('profile-form').addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            const user = auth.currentUser;
+            if (!user || !user.uid) {
+                console.error("No user logged in or UID missing");
+                alert("ログイン状態が確認できません。再ログインしてください。");
+                window.location.href = 'index.html';
+                return;
+            }
+
+            console.log("Saving profile for UID:", user.uid);
+
             const companyType = document.getElementById('company-type').value;
             const industry = document.getElementById('industry').value;
-            const employeeCount = document.getElementById('employee-count').value;
+            const employeeSize = document.getElementById('employee-size').value;
+
+            const fiscalMonth = parseInt(document.getElementById('fiscal-month').value);
+            const incorporationDateStr = document.getElementById('incorporation-date').value;
+
+            // 日付文字列をパース
+            const cleanDateStr = incorporationDateStr.replace(/\//g, '');
+            let incorporationDate;
+
+            if (cleanDateStr.length === 8) {
+                const year = parseInt(cleanDateStr.substring(0, 4));
+                const month = parseInt(cleanDateStr.substring(4, 6)) - 1;
+                const day = parseInt(cleanDateStr.substring(6, 8));
+                incorporationDate = new Date(year, month, day);
+            } else {
+                incorporationDate = new Date(incorporationDateStr);
+            }
+
+            if (isNaN(incorporationDate.getTime())) {
+                alert('正しく日付を入力してください（例: 20240101）');
+                return;
+            }
 
             try {
-                const userRef = doc(db, 'users', currentUser.uid);
-                const userDoc = await getDoc(userRef);
+                const userRef = doc(db, 'users', user.uid);
 
-                const data = {
+                // 保存データ構築
+                // 新規ユーザーの場合、トライアル情報を初期化
+                const trialEndDate = new Date();
+                trialEndDate.setDate(trialEndDate.getDate() + 30);
+
+                const dataToSave = {
+                    email: user.email, // セキュリティルール対策：メールアドレスは必須
                     company_type: companyType,
                     industry: industry,
-                    employee_count: employeeCount,
-                    updated_at: new Date()
+                    employee_size: employeeSize,
+
+                    fiscal_month: fiscalMonth,
+                    incorporation_date: incorporationDate,
+                    updated_at: serverTimestamp()
                 };
 
-                if (userDoc.exists()) {
-                    await updateDoc(userRef, data);
-                } else {
-                    await setDoc(userRef, {
-                        ...data,
-                        uid: currentUser.uid,
-                        email: currentUser.email,
-                        subscription_status: 'trial',
-                        trial_end_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-                        created_at: new Date()
-                    });
-                }
+                // setDoc with merge: true を使用
+                // ドキュメントが存在しない場合は作成、存在する場合は指定フィールドのみ更新
+                await setDoc(userRef, dataToSave, { merge: true });
+
+                console.log("Profile saved successfully");
 
                 // 成功メッセージ表示
                 const successMsg = document.getElementById('success-message');
                 successMsg.style.display = 'block';
+
+                // 1.5秒後にダッシュボードへ自動遷移
                 setTimeout(() => {
                     successMsg.style.display = 'none';
                     window.location.href = 'dashboard.html';
-                }, 2000);
+                }, 1500);
 
             } catch (error) {
                 console.error('Error saving profile:', error);
-                alert('保存に失敗しました。もう一度お試しください。');
+                // エラー詳細をユーザーに伝える
+                if (error.code === 'permission-denied') {
+                    alert('保存に失敗しました。権限がありません。\n再ログインをお試しください。');
+                } else {
+                    alert('保存に失敗しました: ' + error.message);
+                }
             }
         });
 
@@ -178,6 +303,62 @@
             await signOut(auth);
             window.location.href = 'index.html';
         });
+
+        // 設立年月日：連続入力補完ロジック
+        const dateInput = document.getElementById('incorporation-date');
+        if (dateInput) {
+            dateInput.addEventListener('input', (e) => {
+                let value = e.target.value.replace(/\D/g, ''); // 数字以外を削除
+                if (value.length > 8) value = value.slice(0, 8); // 最大8桁
+
+                let formattedValue = '';
+                if (value.length > 0) {
+                    formattedValue = value.substring(0, 4);
+                    if (value.length > 4) {
+                        formattedValue += '/' + value.substring(4, 6);
+                        if (value.length > 6) {
+                            formattedValue += '/' + value.substring(6, 8);
+                        }
+                    }
+                }
+                e.target.value = formattedValue;
+            });
+
+            // フォーカスが外れた時にバリデーション
+            dateInput.addEventListener('blur', (e) => {
+                const value = e.target.value.replace(/\//g, '');
+                if (value.length > 0 && value.length < 8) {
+                    // 8桁に満たない場合は警告なしでそのままにするが、保存時にチェックされる。
+                }
+            });
+        }
+
+        // Mobile Menu Logic
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('nav');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                mobileMenuBtn.classList.toggle('active');
+                nav.classList.toggle('active');
+            });
+            // Close when link clicked
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenuBtn.classList.remove('active');
+                    nav.classList.remove('active');
+                });
+            });
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (nav.classList.contains('active') &&
+                    !nav.contains(e.target) &&
+                    !mobileMenuBtn.contains(e.target)) {
+                    mobileMenuBtn.classList.remove('active');
+                    nav.classList.remove('active');
+                }
+            });
+        }
     </script>
 </body>
 
