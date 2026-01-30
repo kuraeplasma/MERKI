@@ -1,220 +1,1099 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="robots" content="noindex">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ダッシュボード - コンプラナビ</title>
+    <title>ダッシュボード - MERKI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=20260128_perfect_gold">
+    <link rel="stylesheet" href="pro_dashboard.css?v=20260128_perfect_gold">
+    <!-- <link rel="stylesheet" href="no-motion.css?v=20260128_perfect_gold"> -->
+    <link rel="icon" type="image/png" href="logo.png">
 </head>
 
 <body>
 
-    <header class="header">
-        <div class="container header-inner">
-            <a href="index.html" class="logo">コンプラナビ</a>
-            <nav class="nav">
-                <ul>
-                    <li><a href="dashboard.html">ダッシュボード</a></li>
-                    <li><a href="profile.html">プロフィール</a></li>
-                    <li><a href="subscription.html">サブスクリプション</a></li>
-                    <li><a href="#" id="logout-btn" style="color: var(--primary-color);">ログアウト</a></li>
-                </ul>
-            </nav>
-        </div>
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+        <a href="index.html" class="logo">
+            <img src="merki_logo_transparent.png" alt="MERKI Logo" class="logo-img">MERKI
+        </a>
+        <button class="mobile-menu-btn" id="mobile-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </header>
 
-    <main style="padding: 60px 0;">
-        <div class="container">
-            <h1 style="margin-bottom: 40px; color: #0a192f;">ダッシュボード</h1>
+    <div class="dashboard-layout">
+        <!-- CRM-style Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <a href="index.html" class="logo">
+                <span>MERKI管理</span>
+            </a>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="dashboard" onclick="showSection('dashboard')">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <rect width="7" height="9" x="3" y="3" rx="1" />
+                            <rect width="7" height="5" x="14" y="3" rx="1" />
+                            <rect width="7" height="9" x="14" y="12" rx="1" />
+                            <rect width="7" height="5" x="3" y="16" rx="1" />
+                        </svg>
+                    </span>
+                    <span>ダッシュボード</span>
+                </a>
+                <a href="#" class="nav-item" data-section="regulations" onclick="showSection('regulations')">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
+                            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                            <path d="M12 11h4" />
+                            <path d="M12 16h4" />
+                            <path d="M8 11h.01" />
+                            <path d="M8 16h.01" />
+                        </svg>
+                    </span>
+                    <span>制度一覧</span>
+                </a>
+                <a href="#" class="nav-item" data-section="team" onclick="showSection('team')">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                    </span>
+                    <span>チーム管理</span>
+                </a>
+                <a href="#" class="nav-item" data-section="profile" onclick="showSection('profile')">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path
+                                d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                            <circle cx="12" cy="12" r="3" />
+                        </svg>
+                    </span>
+                    <span>プロフィール設定</span>
+                </a>
+                <a href="#" class="nav-item" data-section="subscription" onclick="showSection('subscription')">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <rect width="20" height="14" x="2" y="5" rx="2" />
+                            <line x1="2" x2="22" y1="10" y2="10" />
+                        </svg>
+                    </span>
+                    <span>プラン・お支払い</span>
+                </a>
 
-            <!-- Subscription Status -->
-            <div class="glass-card"
-                style="margin-bottom: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-                <h2 style="margin-bottom: 10px; color: white;">サブスクリプション状態</h2>
-                <p id="subscription-status" style="font-size: 1.2rem; font-weight: 600;">読み込み中...</p>
-                <p id="trial-info" style="font-size: 0.9rem; opacity: 0.9; margin-top: 10px;"></p>
+                <div style="padding: 1rem 0.75rem; border-top: 1px solid var(--border-color); margin-top: auto;">
+                    <a href="#" id="logout-btn-side" class="nav-item"
+                        style="color: #ef4444; background: none; box-shadow: none;">
+                        <span class="nav-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                <polyline points="16 17 21 12 16 7" />
+                                <line x1="21" x2="9" y1="12" y2="12" />
+                            </svg>
+                        </span>
+                        <span>ログアウト</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="content-inner">
+
+                <!-- Section: Dashboard -->
+                <div id="section-dashboard" class="content-section active">
+                    <div class="content-header">
+                        <h1
+                            style="font-size: 2.2rem; font-weight: 900; color: var(--text-primary); margin: 0; letter-spacing: -0.5px;">
+                        </h1>
+                    </div>
+
+                    <!-- Stats Grid -->
+                    <div class="grid-3" style="margin-bottom: 3rem;">
+                        <div class="stat-card">
+                            <span class="stat-icon-wrapper"
+                                style="background: rgba(102, 126, 234, 0.1); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; margin-bottom: 1rem;">
+                                <span style="font-size:1.2rem;">📋</span>
+                            </span>
+                            <div class="stat-value" id="total-regulations">0</div>
+                            <div class="stat-label">該当制度</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-icon-wrapper"
+                                style="background: rgba(245, 158, 11, 0.1); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; margin-bottom: 1rem;">
+                                <span style="font-size:1.2rem;">🔔</span>
+                            </span>
+                            <div class="stat-value" id="upcoming-count">0</div>
+                            <div class="stat-label">30日内の期限</div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Deadlines -->
+                    <div id="upcoming-section" class="glass-card" style="margin-bottom: 3rem;">
+                        <h2
+                            style="margin-bottom: 2rem; font-size: 1.75rem; font-weight: 800; color: var(--text-primary);">
+                            📅 直近の期限</h2>
+                        <div id="upcoming-deadlines">
+                            <p style="color: var(--text-secondary); text-align: center; padding: 2rem;">制度を計算中...</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Section: Regulations List (New) -->
+                <div id="section-regulations" class="content-section">
+
+                    <div class="glass-card fade-in-up">
+                        <div id="all-regulations" style="overflow-x: auto;">
+                            <!-- 税務カテゴリ -->
+                            <div class="category-accordion" id="cat-tax">
+                                <div class="category-header" onclick="toggleCategory('tax')">
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <span style="font-size: 1.2rem;">🏛️</span>
+                                        <span style="font-weight: 800; color: var(--text-primary);">税務</span>
+                                        <span class="badge" style="background: #f1f5f9; color: #64748b; margin-left: 8px; text-transform: none; padding: 0.25rem 0.75rem;">8件</span>
+                                    </div>
+                                    <span class="accordion-icon">▼</span>
+                                </div>
+                                <div class="category-content">
+                                    <table>
+                                        <thead>
+                                            <tr><th>制度名</th><th>期限</th><th>残日数</th><th style="text-align:center;">通知</th><th>操作</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td style="font-weight: 700;">法人税申告</td><td>決算月+2ヶ月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('corporate_tax', '法人税申告')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">消費税申告</td><td>決算月+2ヶ月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('consumption_tax', '消費税申告')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">源泉所得税納付</td><td>毎月10日</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('withholding_tax', '源泉所得税納付')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">年末調整</td><td>毎年12月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('year_end_adjustment', '年末調整')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">固定資産税申告</td><td>毎年1月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('fixed_asset_tax', '固定資産税申告')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">法人税中間申告</td><td>決算月+8ヶ月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('corporate_interim_tax', '法人税中間申告')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">消費税中間申告</td><td>決算月+8ヶ月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('consumption_interim_tax', '消費税中間申告')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">法人住民税・事業税</td><td>決算月+2ヶ月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('resident_tax', '法人住民税・事業税')">編集</button></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- 労務カテゴリ -->
+                            <div class="category-accordion" id="cat-labor">
+                                <div class="category-header" onclick="toggleCategory('labor')">
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <span style="font-size: 1.2rem;">👥</span>
+                                        <span style="font-weight: 800; color: var(--text-primary);">労務</span>
+                                        <span class="badge" style="background: #f1f5f9; color: #64748b; margin-left: 8px; text-transform: none; padding: 0.25rem 0.75rem;">6件</span>
+                                    </div>
+                                    <span class="accordion-icon">▼</span>
+                                </div>
+                                <div class="category-content">
+                                    <table>
+                                        <thead>
+                                            <tr><th>制度名</th><th>期限</th><th>残日数</th><th style="text-align:center;">通知</th><th>操作</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td style="font-weight: 700;">労働保険 年度更新</td><td>毎年6月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('labor_insurance', '労働保険 年度更新')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">算定基礎届</td><td>毎年7月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('pension_report', '算定基礎届')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">定期健康診断</td><td>毎年9月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('health_checkup', '定期健康診断')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">ストレスチェック</td><td>毎年11月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('stress_check', 'ストレスチェック')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">社会保険料納付</td><td>毎月末日</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('social_insurance', '社会保険料納付')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">36協定届出</td><td>毎年3月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('labor_agreement', '36協定届出')">編集</button></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- その他カテゴリ -->
+                            <div class="category-accordion" id="cat-other">
+                                <div class="category-header" onclick="toggleCategory('other')">
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <span style="font-size: 1.2rem;">📄</span>
+                                        <span style="font-weight: 800; color: var(--text-primary);">その他</span>
+                                        <span class="badge" style="background: #f1f5f9; color: #64748b; margin-left: 8px; text-transform: none; padding: 0.25rem 0.75rem;">10件</span>
+                                    </div>
+                                    <span class="accordion-icon">▼</span>
+                                </div>
+                                <div class="category-content">
+                                    <table>
+                                        <thead>
+                                            <tr><th>制度名</th><th>期限</th><th>残日数</th><th style="text-align:center;">通知</th><th>操作</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td style="font-weight: 700;">決算公告</td><td>決算月+3ヶ月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('financial_disclosure', '決算公告')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">法定調書合計表</td><td>毎年1月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('legal_report', '法定調書合計表')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">源泉徴収票交付</td><td>毎年1月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('withholding_slip', '源泉徴収票交付')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">住民税特別徴収</td><td>毎月10日</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('resident_tax_collect', '住民税特別徴収')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">事業所税申告</td><td>決算月+2ヶ月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('office_tax', '事業所税申告')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">事業報告書提出</td><td>決算月+3ヶ月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('business_report', '事業報告書提出')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">賞与支払届</td><td>支払後5日以内</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('bonus_report', '賞与支払届')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">雇用保険料申告</td><td>毎年6月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('employment_insurance', '雇用保険料申告')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">法人登記事項変更届</td><td>変更後2週間以内</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('registration_change', '法人登記事項変更届')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">法人番号変更届</td><td>速やかに</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('corporate_number_change', '法人番号変更届')">編集</button></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Team (New) -->
+                <div id="section-team" class="content-section">
+
+                    <div class="glass-card fade-in-up">
+                        <div id="team-list">
+                            <div class="team-member-item"
+                                style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: #f8fafc; border-radius: 12px; border: 1px solid var(--border-color);">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div
+                                        style="width: 40px; height: 40px; background: var(--primary-gradient); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800;">
+                                        主</div>
+                                    <div>
+                                        <p style="font-weight: 700; color: var(--text-primary); margin: 0;">あなた（オーナー）
+                                        </p>
+                                        <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;">全権限</p>
+                                    </div>
+                                </div>
+                                <span class="badge badge-info" style="font-size: 0.7rem;">アクティブ</span>
+                            </div>
+                            <div id="add-member-btn"
+                                style="text-align: center; padding: 2rem; border: 2px dashed var(--border-color); border-radius: 16px; margin-top: 1rem; cursor: pointer;">
+                                <p style="color: var(--text-secondary); font-weight: 600; margin: 0;">+ チームメンバーを追加</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Member Modal -->
+                <div id="add-member-modal" class="modal-overlay" style="display: none; z-index: 10000;">
+                    <div class="modal-content" style="max-width: 500px;">
+                        <button class="close-modal-pro" id="close-add-member-x">&times;</button>
+                        <h2
+                            style="font-size: 1.5rem; font-weight: 800; margin-bottom: 2rem; color: var(--text-primary); padding-right: 3rem;">
+                            チームメンバーを招待
+                        </h2>
+                        <form id="invite-member-form">
+                            <div class="form-group-pro">
+                                <label class="label-pro-fixed">メールアドレス</label>
+                                <input type="email" id="invite-email" required class="textarea-pro"
+                                    style="height: auto; padding: 1rem;" placeholder="member@example.com">
+                            </div>
+                            <div class="form-group-pro">
+                                <label class="label-pro-fixed">権限</label>
+                                <select id="invite-role" class="textarea-pro" style="height: auto; padding: 1rem;">
+                                    <option value="admin">管理者 (全機能の利用)</option>
+                                    <option value="editor">編集者 (設定変更のみ)</option>
+                                    <option value="viewer">閲覧者 (閲覧のみ)</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn primary-btn"
+                                style="width: 100%; padding: 1rem; margin-top: 1rem;">招待メールを送信</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Section: Profile -->
+                <div id="section-profile" class="content-section">
+
+                    <div class="glass-card no-hover" style="max-width: 800px;">
+                        <form id="profile-form">
+                            <div class="form-group-pro">
+                                <label class="label-pro-fixed">🏢 会社種別</label>
+                                <select id="company-type" required class="textarea-pro"
+                                    style="height: auto; padding: 1rem;">
+                                    <option value="">選択してください</option>
+                                    <option value="corporation">法人</option>
+                                    <option value="sole">個人事業主</option>
+                                </select>
+                            </div>
+                            <div class="form-group-pro">
+                                <label class="label-pro-fixed">🏢 業種</label>
+                                <select id="industry" required class="textarea-pro"
+                                    style="height: auto; padding: 1rem;">
+                                    <option value="">選択してください</option>
+                                    <option value="it">IT・通信</option>
+                                    <option value="ec">EC・小売</option>
+                                    <option value="food">飲食業</option>
+                                    <option value="other">その他</option>
+                                </select>
+                            </div>
+                            <div class="form-group-pro">
+                                <label class="label-pro-fixed">👥 従業員数</label>
+                                <select id="employee-size" required class="textarea-pro"
+                                    style="height: auto; padding: 1rem;">
+                                    <option value="">選択してください</option>
+                                    <option value="1">1名（代表のみ）</option>
+                                    <option value="2-5">2〜5名</option>
+                                    <option value="6-20">6〜20名</option>
+                                </select>
+                            </div>
+                            <div class="form-group-pro">
+                                <label class="label-pro-fixed">📅 決算月</label>
+                                <select id="fiscal-month" required class="textarea-pro"
+                                    style="height: auto; padding: 1rem;">
+                                    <option value="">選択してください</option>
+                                    <option value="1">1月</option>
+                                    <option value="2">2月</option>
+                                    <option value="3">3月</option>
+                                    <option value="4">4月</option>
+                                    <option value="5">5月</option>
+                                    <option value="6">6月</option>
+                                    <option value="7">7月</option>
+                                    <option value="8">8月</option>
+                                    <option value="9">9月</option>
+                                    <option value="10">10月</option>
+                                    <option value="11">11月</option>
+                                    <option value="12">12月</option>
+                                </select>
+                            </div>
+                            <div class="form-group-pro">
+                                <label class="label-pro-fixed">📅 設立年月日</label>
+                                <input type="text" id="incorporation-date" required class="textarea-pro"
+                                    style="height: auto; padding: 1rem;" placeholder="2024/01/01">
+                            </div>
+                            <button type="submit" class="btn primary-btn"
+                                style="width: 100%; padding: 1.25rem; font-size: 1.1rem;">💾 変更を保存する</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Section: Subscription -->
+                <div id="section-subscription" class="content-section">
+                    <div class="membership-dashboard fade-in-up">
+                        <!-- Single Membership Card -->
+                        <div class="membership-card">
+                            <div class="membership-card-watermark">MERKI</div>
+
+                            <!-- Top Branding -->
+                            <div style="display: flex; justify-content: space-between; align-items: center; z-index: 2; width: 100%;">
+                                <h2 class="gold-text-metallic" style="font-family: 'OCR A Std', 'Courier New', monospace; letter-spacing: 6px; font-size: 1.8rem; margin: 0; line-height: 1;">MERKI</h2>
+                                <div class="plan-badge" style="position: static; border: 1.5px solid var(--card-border); color: var(--card-border); padding: 0.5rem 1.4rem; border-radius: 4px; font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; background: rgba(0,0,0,0.6); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">PRO</div>
+                            </div>
+
+                            <!-- Main Content Grid -->
+                            <div class="membership-status-grid" style="z-index: 2;">
+                                <div class="status-main">
+                                    <div style="display: flex; gap: 4rem; align-items: flex-end; margin-bottom: 2.5rem;">
+                                        <div>
+                                            <div class="card-label">MEMBER SINCE</div>
+                                            <div class="card-value">01/26</div>
+                                        </div>
+                                        <div>
+                                            <div class="card-label">VALID THRU</div>
+                                            <div class="card-value">02/26</div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="card-label">CARD MEMBER</div>
+                                        <div class="card-value" style="font-size: 1.6rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">VIP MEMBER</div>
+                                    </div>
+                                </div>
+
+                                <div class="status-visual" style="display: flex; justify-content: center; align-items: center;">
+                                    <div class="progress-indicator-wrapper" style="position: relative; width: 150px; height: 150px; display: flex; justify-content: center; align-items: center;">
+                                        <div style="position: absolute; inset: 0; border: 1.5px solid var(--card-accent-glow); border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.6); background: rgba(0,0,0,0.5);"></div>
+                                        <svg viewBox="0 0 140 140" style="width: 130px; height: 130px; transform: rotate(-90deg); z-index: 1;">
+                                            <circle cx="70" cy="70" r="62" style="fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 4;"></circle>
+                                            <circle cx="70" cy="70" r="62" style="fill: none; stroke: var(--card-border); stroke-width: 10; stroke-linecap: round; stroke-dasharray: 390; stroke-dashoffset: 65; filter: drop-shadow(0 0 8px var(--card-accent-glow)); transition: stroke-dashoffset 2s ease-out;"></circle>
+                                        </svg>
+                                        <div style="position: absolute; z-index: 2; text-align: center; width: 100%;">
+                                            <span style="font-size: 0.75rem; color: var(--card-border); font-weight: 800; display: block; margin-bottom: -0.4rem; letter-spacing: 1px;">残り</span>
+                                            <span style="color: var(--card-text-primary); font-weight: 900; font-size: 3.2rem; line-height: 1; display: block; text-shadow: none;">29</span>
+                                            <span style="font-size: 0.8rem; color: var(--card-text-primary); font-weight: 800; display: block; margin-top: -0.2rem;">日</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Benefits Section -->
+                        <div class="benefits-section">
+                            <h3><span style="font-size: 1.5rem;">✨</span> 解放されているプレミアム機能</h3>
+                            <div class="benefits-grid">
+                                <div class="benefit-item">
+                                    <div class="benefit-icon">🔔</div>
+                                    <div class="benefit-info">
+                                        <h4>各制度の期限通知</h4>
+                                        <p>30日、7日、前日のタイミングで自動リマインドを送信します。</p>
+                                    </div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="benefit-icon">👥</div>
+                                    <div class="benefit-info">
+                                        <h4>チーム管理機能</h4>
+                                        <p>最大10名のメンバーを招待し、管理画面を共有できます。</p>
+                                    </div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="benefit-icon">⚙️</div>
+                                    <div class="benefit-info">
+                                        <h4>通知内容のカスタマイズ</h4>
+                                        <p>通知されるメッセージの文面を制度ごとに自由に変更可能です。</p>
+                                    </div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="benefit-icon">✅</div>
+                                    <div class="benefit-info">
+                                        <h4>個別通知のON/OFF</h4>
+                                        <p>ご自身の状況に合わせ、制度ごとに通知の有無を制御できます。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Button -->
+                        <div style="display: flex; justify-content: center; margin-bottom: 3rem;">
+                            <div id="paypal-button-container" style="width: 100%; max-width: 500px;">
+                                <a href="pricing.html" class="btn primary-btn" style="width: 100%; padding: 1.25rem; font-size: 1.1rem; border-radius: 12px; display: block; text-align: center; text-decoration: none;">有料プランにアップグレード</a>
+                            </div>
+                        </div>
+
+                        <div class="payment-security">
+                            <div class="security-badge">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                                PayPalによる安全な決済
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 1rem;">
+                                お支払いはPayPal経由で安全に処理されます。クレジットカード情報は本サービスには保存されません。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+        </main>
+    </div>
 
-            <!-- Upcoming Deadlines -->
-            <div class="glass-card" style="margin-bottom: 40px;">
-                <h2 style="margin-bottom: 20px; color: #0a192f;">直近の期限</h2>
-                <div id="upcoming-deadlines">
-                    <p style="color: var(--text-muted);">該当する制度を計算中...</p>
+    <!-- Notification Edit Modal -->
+    <div id="edit-modal" class="modal-overlay" style="display: none; z-index: 10000;">
+        <div class="modal-content edit-modal-content">
+            <button class="close-modal-pro" id="close-modal-x">&times;</button>
+            <h2
+                style="font-size: 1.75rem; font-weight: 900; margin-bottom: 2.5rem; color: var(--text-primary); padding-right: 3rem;">
+                📅 通知文面の編集
+            </h2>
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2.5rem;" class="grid-modal-resp">
+                <div>
+                    <div class="form-group-pro">
+                        <label class="label-pro-fixed">対象制度</label>
+                        <p id="edit-reg-title"
+                            style="font-weight: 800; color: var(--text-primary); font-size: 1.25rem;"></p>
+                    </div>
+                    <div style="background: #f1f5f9; padding: 1.5rem; border-radius: 16px;">
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>利用可能な変数:</strong><br>
+                            <code>{{title}}</code> : 制度名<br>
+                            <code>{{date}}</code> : 期限日<br>
+                            <code>{{days}}</code> : 残日数
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group-pro">
+                        <label class="label-pro-fixed">通知テンプレート</label>
+                        <textarea id="edit-custom-message" class="textarea-pro" style="height: 350px;"></textarea>
+                    </div>
                 </div>
             </div>
-
-            <!-- All Regulations -->
-            <div class="glass-card">
-                <h2 style="margin-bottom: 20px; color: #0a192f;">該当する制度一覧</h2>
-                <div id="all-regulations">
-                    <p style="color: var(--text-muted);">読み込み中...</p>
-                </div>
+            <div class="btn-group-pro" style="justify-content: flex-end;">
+                <button type="button" class="btn secondary-btn" id="close-edit-modal"
+                    style="flex: 0 1 150px; padding: 1rem;">キャンセル</button>
+                <button type="button" class="btn primary-btn" id="save-edit-btn"
+                    style="flex: 0 1 250px; padding: 1rem;">保存する</button>
             </div>
         </div>
-    </main>
+    </div>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 SPACE GLEAM. All Rights Reserved.</p>
-        </div>
-    </footer>
+    <!-- Navigation Script (non-module for immediate availability) -->
+    <script>
+        // --- SPA Section Logic ---
+        function showSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(function(s) { s.classList.remove('active'); });
+            var section = document.getElementById('section-' + sectionId);
+            if (section) section.classList.add('active');
+
+            document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
+            var activeNav = document.querySelector('.nav-item[data-section="' + sectionId + '"]');
+            if (activeNav) activeNav.classList.add('active');
+
+            // Close mobile sidebar if open
+            var sidebar = document.getElementById('sidebar');
+            if (sidebar) sidebar.classList.remove('active');
+
+            var mobileToggle = document.getElementById('mobile-toggle');
+            if (mobileToggle) mobileToggle.classList.remove('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- Category Accordion Toggle ---
+        function toggleCategory(key) {
+            var el = document.getElementById('cat-' + key);
+            if (el) el.classList.toggle('active');
+        }
+
+        // --- Modal Logic ---
+        function openEditModal(id, title) {
+            document.getElementById('edit-reg-title').textContent = title;
+            document.getElementById('edit-modal').style.display = 'flex';
+            document.getElementById('edit-custom-message').value = localStorage.getItem('custom_msg_' + id) || '';
+            window.currentEditingId = id;
+        }
+
+        // --- Mobile Toggle Logic ---
+        document.addEventListener('DOMContentLoaded', function() {
+            var mobileToggle = document.getElementById('mobile-toggle');
+            var sidebar = document.getElementById('sidebar');
+            if (mobileToggle && sidebar) {
+                mobileToggle.onclick = function(e) {
+                    e.stopPropagation();
+                    mobileToggle.classList.toggle('active');
+                    sidebar.classList.toggle('active');
+                };
+
+                document.addEventListener('click', function(e) {
+                    var isMobile = window.innerWidth <= 1024;
+                    if (isMobile && sidebar.classList.contains('active') &&
+                        !sidebar.contains(e.target) &&
+                        !mobileToggle.contains(e.target)) {
+                        sidebar.classList.remove('active');
+                        mobileToggle.classList.remove('active');
+                    }
+                });
+            }
+
+            // --- Team Member Modal Logic ---
+            var addMemberBtn = document.getElementById('add-member-btn');
+            var addMemberModal = document.getElementById('add-member-modal');
+            var closeAddMemberX = document.getElementById('close-add-member-x');
+
+            if (addMemberBtn && addMemberModal) {
+                addMemberBtn.onclick = function() {
+                    addMemberModal.style.display = 'flex';
+                };
+            }
+            if (closeAddMemberX && addMemberModal) {
+                closeAddMemberX.onclick = function() {
+                    addMemberModal.style.display = 'none';
+                };
+            }
+
+            // --- Edit Modal Close Logic ---
+            var editModal = document.getElementById('edit-modal');
+            var closeModalX = document.getElementById('close-modal-x');
+            var closeEditModalBtn = document.getElementById('close-edit-modal');
+            var saveEditBtn = document.getElementById('save-edit-btn');
+
+            function closeEditModal() {
+                if (editModal) editModal.style.display = 'none';
+            }
+
+            if (closeModalX) closeModalX.onclick = closeEditModal;
+            if (closeEditModalBtn) closeEditModalBtn.onclick = closeEditModal;
+            if (saveEditBtn) {
+                saveEditBtn.onclick = function() {
+                    localStorage.setItem('custom_msg_' + window.currentEditingId, document.getElementById('edit-custom-message').value);
+                    alert('保存しました');
+                    closeEditModal();
+                };
+            }
+        });
+    </script>
 
     <script type="module">
-        import { auth, db, onAuthStateChanged } from './js/firebase-config.js';
-        import { collection, query, where, getDocs, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { auth, db, onAuthStateChanged } from './js/firebase-config.js?v=20260128_perfect_gold';
+        import { doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { COMPLIANCE_ITEMS, getApplicableCompliances, calculateDeadline } from './js/compliance-logic.js?v=20260128_perfect_gold';
 
-        // 認証チェック
+        let currentUserData = null;
+
+        // --- Auth & Data Loading ---
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
                 window.location.href = 'index.html';
                 return;
             }
 
-            // ユーザー情報取得
-            const userDoc = await getDoc(doc(db, 'users', user.uid));
-            if (userDoc.exists()) {
-                const userData = userDoc.data();
-                displaySubscriptionStatus(userData);
-                await loadRegulations(userData);
+            try {
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                if (userDoc.exists()) {
+                    currentUserData = userDoc.data();
+                    if (!currentUserData.company_type) {
+                        showSection('profile');
+                    }
+                    updateDashboardUI(currentUserData);
+                    fillProfileForm(currentUserData);
+                    loadSubscriptionUI(currentUserData, user);
+                } else {
+                    showSection('profile');
+                }
+            } catch (error) {
+                console.error("Data load error:", error);
             }
         });
 
-        // サブスクリプション状態表示
-        function displaySubscriptionStatus(userData) {
-            const statusEl = document.getElementById('subscription-status');
-            const trialInfoEl = document.getElementById('trial-info');
-
-            const status = userData.subscription_status || 'trial';
-
-            if (status === 'trial') {
-                statusEl.textContent = '無料トライアル中';
-                const trialEnd = userData.trial_end_date?.toDate();
-                if (trialEnd) {
-                    const daysLeft = Math.ceil((trialEnd - new Date()) / (1000 * 60 * 60 * 24));
-                    trialInfoEl.textContent = `残り${daysLeft}日`;
-                }
-            } else if (status === 'active') {
-                statusEl.textContent = '有料プラン（アクティブ）';
-                trialInfoEl.textContent = '通知機能が有効です';
-            } else if (status === 'canceled') {
-                statusEl.textContent = 'キャンセル済み';
-                trialInfoEl.textContent = '通知機能は停止しています';
-            }
+        // --- Dashboard Logic ---
+        function updateDashboardUI(userData) {
+            renderCompliances(userData);
         }
 
-        // 制度読み込み
-        async function loadRegulations(userData) {
+        async function renderCompliances(userData) {
             const upcomingEl = document.getElementById('upcoming-deadlines');
             const allEl = document.getElementById('all-regulations');
+            const totalEl = document.getElementById('total-regulations');
+            const upcomingCountEl = document.getElementById('upcoming-count');
 
-            // 制度マスタから該当制度を取得
-            const regulationsRef = collection(db, 'regulations');
-            const q = query(regulationsRef);
-            const snapshot = await getDocs(q);
-
-            const applicableRegulations = [];
-            snapshot.forEach((doc) => {
-                const reg = doc.data();
-                // 該当判定（簡易版）
-                if (isApplicable(reg, userData)) {
-                    applicableRegulations.push({ id: doc.id, ...reg });
-                }
-            });
-
-            if (applicableRegulations.length === 0) {
-                upcomingEl.innerHTML = '<p style="color: var(--text-muted);">該当する制度がありません。プロフィールを設定してください。</p>';
-                allEl.innerHTML = '<p style="color: var(--text-muted);">該当する制度がありません。</p>';
+            const applicableItems = getApplicableCompliances(userData);
+            if (applicableItems.length === 0) {
+                upcomingEl.innerHTML = '<p style="text-align: center; padding: 2rem;">該当する制度がありません</p>';
+                allEl.innerHTML = '<p style="text-align: center; padding: 2rem;">該当する制度がありません</p>';
                 return;
             }
 
-            // 期限計算
-            const deadlines = applicableRegulations.map(reg => {
-                const deadline = calculateDeadline(reg);
-                return { ...reg, deadline };
+            const deadlines = applicableItems.map(item => {
+                const deadline = calculateDeadline(item, userData);
+                const daysUntil = Math.ceil((deadline - new Date()) / (1000 * 60 * 60 * 24));
+                return { ...item, deadline, daysUntil };
             }).sort((a, b) => a.deadline - b.deadline);
 
-            // 直近3件表示
-            const upcoming = deadlines.slice(0, 3);
-            upcomingEl.innerHTML = upcoming.map(reg => `
-                <div style="padding: 15px; border-left: 4px solid var(--primary-color); background: #f8fafc; margin-bottom: 15px; border-radius: 4px;">
-                    <h3 style="margin-bottom: 5px; color: #0a192f;">${reg.name}</h3>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">${reg.description || ''}</p>
-                    <p style="color: var(--primary-color); font-weight: 600; margin-top: 10px;">
-                        期限: ${reg.deadline.toLocaleDateString('ja-JP')}
-                    </p>
-                </div>
-            `).join('');
+            totalEl.textContent = deadlines.length;
+            upcomingCountEl.textContent = deadlines.filter(d => d.daysUntil <= 30 && d.daysUntil >= 0).length;
 
-            // 全件表示
-            allEl.innerHTML = deadlines.map(reg => `
-                <div style="padding: 15px; border-bottom: 1px solid #e2e8f0;">
-                    <h3 style="margin-bottom: 5px; color: #0a192f;">${reg.name}</h3>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">${reg.description || ''}</p>
-                    <p style="color: var(--primary-color); font-weight: 600; margin-top: 10px;">
-                        期限: ${reg.deadline.toLocaleDateString('ja-JP')}
-                    </p>
-                </div>
-            `).join('');
+            // Render Upcoming (Top 3)
+            upcomingEl.innerHTML = deadlines.slice(0, 3).map(item => {
+                const color = item.daysUntil <= 7 ? '#ef4444' : item.daysUntil <= 30 ? '#f59e0b' : '#3b82f6';
+                return `<div class="glass-card" style="margin-bottom: 1rem; padding: 1.5rem;">
+                    <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem; color: var(--text-primary);">${item.title}</h3>
+                    <div style="display: flex; gap: 1rem; font-size: 0.85rem; font-weight: 700;">
+                        <span>📅 ${item.deadline.toLocaleDateString('ja-JP')}</span>
+                        <span style="color: ${color}">${item.daysUntil}日後</span>
+                    </div>
+                </div>`;
+            }).join('');
+
+            // Grouping by category
+            const groups = {
+                tax: { title: '税務', icon: '🏛️', items: [] },
+                labor: { title: '労務', icon: '👥', items: [] },
+                other: { title: 'その他', icon: '📄', items: [] }
+            };
+
+            deadlines.forEach(item => {
+                const cat = item.category || 'other';
+                if (groups[cat]) groups[cat].items.push(item);
+                else groups['other'].items.push(item);
+            });
+
+            // Render Grouped Accordion
+            let html = '';
+            for (const [key, group] of Object.entries(groups)) {
+                if (group.items.length === 0) continue;
+
+                html += `
+                    <div class="category-accordion" id="cat-${key}">
+                        <div class="category-header" onclick="toggleCategory('${key}')">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 1.2rem;">${group.icon}</span>
+                                <span style="font-weight: 800; color: var(--text-primary);">${group.title}</span>
+                                <span class="badge" style="background: #f1f5f9; color: #64748b; margin-left: 8px; text-transform: none; padding: 0.25rem 0.75rem;">${group.items.length}件</span>
+                            </div>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                        <div class="category-content">
+                            <table>
+                                <thead>
+                                    <tr><th>制度名</th><th>期限</th><th>残日数</th><th style="text-align:center;">通知</th><th>操作</th></tr>
+                                </thead>
+                                <tbody>
+                                    ${group.items.map(item => `
+                                        <tr onclick="if(window.innerWidth<=1024) this.classList.toggle('expanded')">
+                                            <td style="font-weight: 700;">${item.title}</td>
+                                            <td>${item.deadline.toLocaleDateString('ja-JP')}</td>
+                                            <td>${item.daysUntil}日</td>
+                                            <td style="text-align:center;" onclick="event.stopPropagation()">
+                                                <label class="switch">
+                                                    <input type="checkbox" checked>
+                                                    <span class="slider"></span>
+                                                </label>
+                                            </td>
+                                            <td onclick="event.stopPropagation()">
+                                                <button class="edit-btn" onclick="openEditModal('${item.id}', '${item.title}')">編集</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+            allEl.innerHTML = html;
         }
 
-        // 該当判定（簡易版）
-        function isApplicable(regulation, userData) {
-            // 会社種別チェック
-            if (regulation.applicable_company_types && regulation.applicable_company_types.length > 0) {
-                if (!regulation.applicable_company_types.includes(userData.company_type)) {
-                    return false;
-                }
+        // --- Profile Logic ---
+        function fillProfileForm(userData) {
+            document.getElementById('company-type').value = userData.company_type || '';
+            document.getElementById('industry').value = userData.industry || '';
+            document.getElementById('employee-size').value = userData.employee_size || '';
+            document.getElementById('fiscal-month').value = userData.fiscal_month || '';
+            if (userData.incorporation_date) {
+                const d = userData.incorporation_date.toDate();
+                document.getElementById('incorporation-date').value = `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
             }
-
-            // 業種チェック
-            if (regulation.applicable_industries && regulation.applicable_industries.length > 0) {
-                if (!regulation.applicable_industries.includes(userData.industry)) {
-                    return false;
-                }
-            }
-
-            // 従業員数チェック
-            if (regulation.applicable_employee_ranges && regulation.applicable_employee_ranges.length > 0) {
-                if (!regulation.applicable_employee_ranges.includes(userData.employee_count)) {
-                    return false;
-                }
-            }
-
-            return true;
         }
 
-        // 期限計算（簡易版）
-        function calculateDeadline(regulation) {
-            const now = new Date();
-            const currentYear = now.getFullYear();
-
-            // 年次の場合
-            if (regulation.deadline_type === 'annual') {
-                const deadline = new Date(currentYear, regulation.deadline_month - 1, regulation.deadline_day);
-                if (deadline < now) {
-                    deadline.setFullYear(currentYear + 1);
-                }
-                return deadline;
-            }
-
-            // 月次の場合（簡易実装）
-            const deadline = new Date(currentYear, now.getMonth() + 1, regulation.deadline_day);
-            return deadline;
-        }
-
-        // ログアウト
-        document.getElementById('logout-btn').addEventListener('click', async (e) => {
+        document.getElementById('profile-form').onsubmit = async (e) => {
             e.preventDefault();
-            await signOut(auth);
-            window.location.href = 'index.html';
-        });
+            const user = auth.currentUser;
+            const incDateStr = document.getElementById('incorporation-date').value.replace(/\//g, '');
+            const incDate = new Date(incDateStr.substring(0, 4), parseInt(incDateStr.substring(4, 6)) - 1, incDateStr.substring(6, 8));
+
+            await setDoc(doc(db, 'users', user.uid), {
+                company_type: document.getElementById('company-type').value,
+                industry: document.getElementById('industry').value,
+                employee_size: document.getElementById('employee-size').value,
+                fiscal_month: parseInt(document.getElementById('fiscal-month').value),
+                incorporation_date: incDate,
+                updated_at: serverTimestamp()
+            }, { merge: true });
+            alert('プロフィールを保存しました');
+            location.reload();
+        };
+
+        // --- Subscription Logic ---
+        async function loadSubscriptionUI(userData, user) {
+            const container = document.getElementById('section-subscription');
+            const status = userData.subscription_status || 'trial';
+
+            // Calculate trial days (assumes 30 days from updated_at if trial)
+            let trialDaysLeft = 30;
+            if (userData.updated_at) {
+                const updatedDate = userData.updated_at.toDate();
+                const now = new Date();
+                const diffTime = now - updatedDate;
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                trialDaysLeft = Math.max(0, 30 - diffDays);
+            }
+
+            const regDate = userData.created_at ? userData.created_at.toDate() : (userData.updated_at ? userData.updated_at.toDate() : new Date());
+            const expDate = new Date(regDate);
+            expDate.setDate(expDate.getDate() + 30);
+            const memberSince = (regDate.getMonth() + 1).toString().padStart(2, '0') + '/' + regDate.getFullYear().toString().slice(-2);
+            const validThru = (expDate.getMonth() + 1).toString().padStart(2, '0') + '/' + expDate.getFullYear().toString().slice(-2);
+
+            container.innerHTML = `
+                <div class="membership-dashboard fade-in-up">
+                    <div class="membership-card">
+                        <div class="membership-card-watermark">MERKI</div>
+                        
+                        <!-- Top Branding -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; z-index: 2; width: 100%;">
+                            <h2 class="gold-text-metallic" style="font-family: 'OCR A Std', 'Courier New', monospace; letter-spacing: 6px; font-size: 1.8rem; margin: 0; line-height: 1;">MERKI</h2>
+                            <div class="plan-badge" style="position: static; border: 1.5px solid #d4af37; color: #d4af37; padding: 0.5rem 1.4rem; border-radius: 4px; font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; background: rgba(0,0,0,0.6); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">${status === 'active' ? 'PLATINUM' : 'PRO'}</div>
+                        </div>
+                        
+                        <!-- Main Content Grid -->
+                        <div class="membership-status-grid" style="z-index: 2;">
+                            <div class="status-main">
+                                <div style="display: flex; gap: 4rem; align-items: flex-end; margin-bottom: 2.5rem;">
+                                    <div>
+                                        <div class="card-label">MEMBER SINCE</div>
+                                        <div class="card-value">${memberSince}</div>
+                                    </div>
+                                    <div>
+                                        <div class="card-label">VALID THRU</div>
+                                        <div class="card-value">${validThru}</div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="card-label">CARD MEMBER</div>
+                                    <div class="card-value" style="font-size: 1.6rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">${userData.company_name || 'VIP MEMBER'}</div>
+                                </div>
+                            </div>
+                            
+                             <div class="status-visual" style="display: flex; justify-content: center; align-items: center;">
+                                ${status === 'trial' ? `
+                                    <div class="progress-indicator-wrapper" style="position: relative; width: 150px; height: 150px; display: flex; justify-content: center; align-items: center;">
+                                        <!-- Outer luxury ring -->
+                                        <div style="position: absolute; inset: 0; border: 1.5px solid rgba(212,175,55,0.2); border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.6); background: rgba(0,0,0,0.5);"></div>
+                                        <svg viewBox="0 0 140 140" style="width: 130px; height: 130px; transform: rotate(-90deg); z-index: 1;">
+                                            <circle cx="70" cy="70" r="62" style="fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 4;"></circle>
+                                            <circle cx="70" cy="70" r="62" 
+                                                style="fill: none; stroke: #fbbf24; stroke-width: 10; stroke-linecap: round; stroke-dasharray: 390; stroke-dashoffset: ${390 * (1 - trialDaysLeft / 30)}; filter: drop-shadow(0 0 8px rgba(251,191,36,0.6)); transition: stroke-dashoffset 2s ease-out;"></circle>
+                                        </svg>
+                                        <div style="position: absolute; z-index: 2; text-align: center; width: 100%;">
+                                            <span style="font-size: 0.75rem; color: #fbbf24; font-weight: 800; display: block; margin-bottom: -0.4rem; letter-spacing: 1px;">残り</span>
+                                            <span style="color: #ffffff; font-weight: 900; font-size: 3.2rem; line-height: 1; display: block; text-shadow: 0 0 20px rgba(255,255,255,0.5);">${trialDaysLeft}</span>
+                                            <span style="font-size: 0.8rem; color: #ffffff; font-weight: 800; display: block; margin-top: -0.2rem;">日</span>
+                                        </div>
+                                    </div>
+                                ` : `
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 5.5rem; filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.5)); margin-bottom: 0.5rem; animation: pulse 3s infinite;">💎</div>
+                                        <div style="font-weight: 900; color: #d4af37; letter-spacing: 4px; font-size: 0.8rem;">ULTIMATE MASTER</div>
+                                    </div>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="benefits-section">
+                        <h3><span style="font-size: 1.5rem;">✨</span> 解放されているプレミアム機能</h3>
+                        <div class="benefits-grid">
+                            <div class="benefit-item">
+                                <div class="benefit-icon">🔔</div>
+                                <div class="benefit-info">
+                                    <h4>各制度の期限通知</h4>
+                                    <p>30日、7日、前日のタイミングで自動リマインドを送信します。</p>
+                                </div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="benefit-icon">👥</div>
+                                <div class="benefit-info">
+                                    <h4>チーム管理機能</h4>
+                                    <p>最大10名のメンバーを招待し、管理画面を共有できます。</p>
+                                </div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="benefit-icon">⚙️</div>
+                                <div class="benefit-info">
+                                    <h4>通知内容のカスタマイズ</h4>
+                                    <p>通知されるメッセージの文面を制度ごとに自由に変更可能です。</p>
+                                </div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="benefit-icon">✅</div>
+                                <div class="benefit-info">
+                                    <h4>個別通知のON/OFF</h4>
+                                    <p>ご自身の状況に合わせ、制度ごとに通知の有無を制御できます。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: center; margin-bottom: 3rem;">
+                        <div id="paypal-button-container" style="width: 100%; max-width: 500px;"></div>
+                    </div>
+
+                    <div class="payment-security">
+                        <div class="security-badge">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                            PayPalによる安全な決済
+                        </div>
+                        <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 1rem;">
+                            お支払いはPayPal経由で安全に処理されます。クレジットカード情報は本サービスには保存されません。
+                        </p>
+                    </div>
+
+                    <!-- Cancel Subscription Section -->
+                    <div id="cancel-subscription-section" style="display: none; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
+                        <h3 style="font-size: 1rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 1rem;">サブスクリプション管理</h3>
+                        <button id="cancel-subscription-btn" class="btn" style="width: 100%; max-width: 400px; padding: 1rem; background: transparent; color: #ef4444; border: 2px solid #ef4444; border-radius: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s;">
+                            サブスクリプションを解約する
+                        </button>
+                        <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.75rem;">
+                            解約しても現在の請求期間終了まではサービスをご利用いただけます。
+                        </p>
+                    </div>
+                </div >
+                `;
+
+            // Show cancel button for active subscriptions
+            if (status === 'active') {
+                setTimeout(() => {
+                    const cancelSection = document.getElementById('cancel-subscription-section');
+                    const cancelBtn = document.getElementById('cancel-subscription-btn');
+                    if (cancelSection) {
+                        cancelSection.style.display = 'block';
+                    }
+                    if (cancelBtn) {
+                        cancelBtn.addEventListener('click', () => handleCancelSubscription(userData, user));
+                        cancelBtn.addEventListener('mouseenter', () => {
+                            cancelBtn.style.background = '#ef4444';
+                            cancelBtn.style.color = '#fff';
+                        });
+                        cancelBtn.addEventListener('mouseleave', () => {
+                            cancelBtn.style.background = 'transparent';
+                            cancelBtn.style.color = '#ef4444';
+                        });
+                    }
+                }, 100);
+            }
+
+            if (status === 'trial') {
+                loadPayPalSDK(() => renderPayPalButton(user));
+            }
+        }
+
+        // Handle subscription cancellation
+        async function handleCancelSubscription(userData, user) {
+            const confirmed = confirm('本当にサブスクリプションを解約しますか？\n\n解約しても現在の請求期間終了まではサービスをご利用いただけます。');
+            if (!confirmed) return;
+
+            const cancelBtn = document.getElementById('cancel-subscription-btn');
+            if (cancelBtn) {
+                cancelBtn.disabled = true;
+                cancelBtn.textContent = '処理中...';
+            }
+
+            try {
+                const response = await fetch('/.netlify/functions/cancel-subscription', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ subscriptionId: userData.subscription_id })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert('サブスクリプションを解約しました。現在の請求期間終了まではサービスをご利用いただけます。');
+                    location.reload();
+                } else {
+                    throw new Error(result.error || '解約に失敗しました');
+                }
+            } catch (error) {
+                console.error('Cancel error:', error);
+                alert('解約処理でエラーが発生しました: ' + error.message);
+                if (cancelBtn) {
+                    cancelBtn.disabled = false;
+                    cancelBtn.textContent = 'サブスクリプションを解約する';
+                }
+            }
+        }
+
+        function loadPayPalSDK(callback) {
+            if (window.paypal) return callback();
+            const s = document.createElement('script');
+            s.src = "https://www.paypal.com/sdk/js?client-id=sb&vault=true&intent=subscription";
+            s.onload = callback;
+            document.head.appendChild(s);
+        }
+
+        function renderPayPalButton(user) {
+            paypal.Buttons({
+                style: { shape: 'rect', color: 'blue', layout: 'vertical', label: 'subscribe' },
+                createSubscription: (data, actions) => actions.subscription.create({ 'plan_id': 'P-TEST', 'custom_id': user.uid }),
+                onApprove: async (data, actions) => {
+                    await setDoc(doc(db, 'users', user.uid), { subscription_id: data.subscriptionID, subscription_status: 'active' }, { merge: true });
+                    alert('アップグレード完了！');
+                    location.reload();
+                }
+            }).render('#paypal-button-container');
+        }
+
+        // --- Modal Logic ---
+        const closeEditModal = () => document.getElementById('edit-modal').style.display = 'none';
+        document.getElementById('close-modal-x').onclick = closeEditModal;
+        document.getElementById('close-edit-modal').onclick = closeEditModal;
+        document.getElementById('save-edit-btn').onclick = () => {
+            localStorage.setItem(`custom_msg_${window.currentEditingId} `, document.getElementById('edit-custom-message').value);
+            alert('保存しました');
+            closeEditModal();
+        };
+
+        // --- Team Member Logic ---
+        const addMemberBtn = document.getElementById('add-member-btn');
+        const addMemberModal = document.getElementById('add-member-modal');
+        const closeAddMemberX = document.getElementById('close-add-member-x');
+        const inviteForm = document.getElementById('invite-member-form');
+
+        if (addMemberBtn) {
+            addMemberBtn.onclick = () => {
+                addMemberModal.style.display = 'flex';
+            };
+        }
+        if (closeAddMemberX) {
+            closeAddMemberX.onclick = () => {
+                addMemberModal.style.display = 'none';
+            };
+        }
+
+        if (inviteForm) {
+            inviteForm.onsubmit = async (e) => {
+                e.preventDefault();
+                const btn = inviteForm.querySelector('button[type="submit"]');
+                const originalText = btn.textContent;
+                btn.disabled = true;
+                btn.textContent = '送信中...';
+
+                const email = document.getElementById('invite-email').value;
+                const role = document.getElementById('invite-role').value;
+
+                try {
+                    const response = await fetch('/.netlify/functions/send-invite', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            email: email,
+                            role: role,
+                            senderName: currentUserData?.name || 'オーナー',
+                            senderEmail: auth.currentUser?.email || ''
+                        })
+                    });
+
+                    if (!response.ok) throw new Error('Failed to send email');
+
+                    const teamList = document.getElementById('team-list');
+                    const newMemberHTML = `
+                < div class="team-member-item" style = "display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: #fff; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 1rem;" >
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 40px; height: 40px; background: #e2e8f0; border-radius: 50%; color: #64748b; display: flex; align-items: center; justify-content: center; font-weight: 800;">
+                                ${email.charAt(0).toUpperCase()}</div>
+                            <div>
+                                <p style="font-weight: 700; color: var(--text-primary); margin: 0;">${email}</p>
+                                <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;">招待中 - ${role === 'admin' ? '管理者' : role === 'editor' ? '編集者' : '閲覧者'}</p>
+                            </div>
+                        </div>
+                        <span class="badge badge-warning" style="font-size: 0.7rem; background: #fff7ed; color: #c2410c; padding: 2px 8px; border-radius: 6px;">招待中</span>
+                    </div > `;
+
+                    addMemberBtn.insertAdjacentHTML('beforebegin', newMemberHTML);
+                    alert(`${email} に招待状を送信しました`);
+                    addMemberModal.style.display = 'none';
+                    inviteForm.reset();
+
+                } catch (error) {
+                    console.error(error);
+                    alert('招待メールの送信に失敗しました。時間をおいて再試行してください。');
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = originalText;
+                }
+            };
+        }
+
+        const logoutBtnSide = document.getElementById('logout-btn-side');
+        if (logoutBtnSide) {
+            logoutBtnSide.onclick = async () => {
+                await signOut(auth);
+                window.location.href = 'index.html';
+            };
+        }
+
+        // Date input helper
+        const incDateInput = document.getElementById('incorporation-date');
+        if (incDateInput) {
+            incDateInput.oninput = (e) => {
+                let v = e.target.value.replace(/\D/g, '');
+                if (v.length > 8) v = v.slice(0, 8);
+                if (v.length >= 4) {
+                    v = v.substring(0, 4) + (v.length > 4 ? '/' + v.substring(4, 6) : '') + (v.length > 6 ? '/' + v.substring(6, 8) : '');
+                }
+                e.target.value = v;
+            };
+        }
     </script>
 </body>
 
