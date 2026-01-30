@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex">
-    <title>テストメール送信 - MERKI</title>
+    <title>テスト通知送信 - MERKI</title>
     <style>
         * { box-sizing: border-box; }
         body {
@@ -22,39 +22,62 @@
             background: #1e293b;
             padding: 2rem;
             border-radius: 16px;
-            max-width: 500px;
+            max-width: 600px;
             width: 100%;
         }
         h1 {
-            margin: 0 0 1.5rem;
+            margin: 0 0 0.5rem;
             font-size: 1.5rem;
+        }
+        .subtitle {
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        .section {
+            background: #0f172a;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+        .section h2 {
+            margin: 0 0 1rem;
+            font-size: 1.1rem;
+            color: #fbbf24;
         }
         label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
+            font-size: 0.9rem;
         }
-        input {
+        input, select {
             width: 100%;
-            padding: 1rem;
+            padding: 0.875rem;
             border: 1px solid #334155;
             border-radius: 8px;
-            background: #0f172a;
+            background: #1e293b;
             color: #fff;
             font-size: 1rem;
             margin-bottom: 1rem;
         }
+        .btn-group {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
         button {
-            width: 100%;
+            flex: 1;
+            min-width: 150px;
             padding: 1rem;
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: #fff;
             border: none;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.2s, opacity 0.2s;
         }
         button:hover {
             transform: scale(1.02);
@@ -62,12 +85,17 @@
         button:disabled {
             opacity: 0.6;
             cursor: not-allowed;
+            transform: none;
         }
+        .btn-30 { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .btn-7 { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .btn-1 { background: linear-gradient(135deg, #ef4444, #dc2626); }
         #result {
             margin-top: 1rem;
             padding: 1rem;
             border-radius: 8px;
             display: none;
+            font-size: 0.9rem;
         }
         .success {
             background: #065f46;
@@ -77,44 +105,124 @@
             background: #7f1d1d;
             color: #fca5a5;
         }
+        .info {
+            background: #1e3a5f;
+            color: #93c5fd;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        .user-info {
+            background: #334155;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .user-info p {
+            margin: 0.25rem 0;
+            font-size: 0.9rem;
+        }
+        .user-info strong {
+            color: #fbbf24;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📧 テストメール送信</h1>
-        <label for="email">送信先メールアドレス</label>
-        <input type="email" id="email" placeholder="example@email.com" value="contact@spacegleam.co.jp">
-        <button id="sendBtn" onclick="sendTestMail()">テストメールを送信</button>
-        <div id="result"></div>
+        <h1>📧 MERKI 通知テスト</h1>
+        <p class="subtitle">登録済みユーザー情報を使って通知メールをテスト送信します</p>
+
+        <div class="section">
+            <h2>👤 現在のユーザー</h2>
+            <div id="userInfo" class="user-info">
+                <p>ログイン確認中...</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📬 通知テンプレート送信</h2>
+            <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 1rem;">
+                送信したいテンプレートのボタンをクリックしてください。<br>
+                登録済みのメールアドレスに送信されます。
+            </p>
+            <div class="btn-group">
+                <button class="btn-30" onclick="sendNotification(30)">📅 30日前通知</button>
+                <button class="btn-7" onclick="sendNotification(7)">⚠️ 7日前通知</button>
+                <button class="btn-1" onclick="sendNotification(1)">🚨 前日通知</button>
+            </div>
+            <div id="result"></div>
+        </div>
+
+        <div class="info">
+            <strong>テスト内容:</strong><br>
+            • 制度名: 法人税申告（サンプル）<br>
+            • 期限日: 選択した日数後の日付<br>
+            • 会社名: Firestoreに登録された会社名<br>
+            • 送信先: 登録済みメールアドレス
+        </div>
     </div>
 
-    <script>
-        async function sendTestMail() {
-            const email = document.getElementById('email').value;
-            const btn = document.getElementById('sendBtn');
-            const result = document.getElementById('result');
+    <script type="module">
+        import { auth, db, onAuthStateChanged } from './js/firebase-config.js';
+        import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-            if (!email) {
-                alert('メールアドレスを入力してください');
+        let currentUser = null;
+        let currentUserData = null;
+
+        onAuthStateChanged(auth, async (user) => {
+            const userInfoEl = document.getElementById('userInfo');
+
+            if (user) {
+                currentUser = user;
+                try {
+                    const userDoc = await getDoc(doc(db, 'users', user.uid));
+                    if (userDoc.exists()) {
+                        currentUserData = userDoc.data();
+                        userInfoEl.innerHTML = `
+                            <p><strong>UID:</strong> ${user.uid}</p>
+                            <p><strong>メール:</strong> ${currentUserData.email || user.email}</p>
+                            <p><strong>会社名:</strong> ${currentUserData.company_name || '未設定'}</p>
+                            <p><strong>ステータス:</strong> ${currentUserData.subscription_status || 'trial'}</p>
+                        `;
+                    } else {
+                        userInfoEl.innerHTML = `<p>⚠️ ユーザーデータが見つかりません</p>`;
+                    }
+                } catch (error) {
+                    userInfoEl.innerHTML = `<p>❌ データ取得エラー: ${error.message}</p>`;
+                }
+            } else {
+                userInfoEl.innerHTML = `<p>⚠️ ログインしていません。<a href="index.html" style="color: #fbbf24;">ログインページへ</a></p>`;
+            }
+        });
+
+        window.sendNotification = async function(daysType) {
+            if (!currentUser) {
+                alert('ログインしてください');
                 return;
             }
 
-            btn.disabled = true;
-            btn.textContent = '送信中...';
+            const buttons = document.querySelectorAll('button');
+            const result = document.getElementById('result');
+
+            buttons.forEach(btn => btn.disabled = true);
             result.style.display = 'none';
 
             try {
-                const response = await fetch('/.netlify/functions/send-test-mail', {
+                const response = await fetch('/.netlify/functions/send-test-notification', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ to: email })
+                    body: JSON.stringify({
+                        userId: currentUser.uid,
+                        daysType: daysType
+                    })
                 });
 
                 const data = await response.json();
 
                 if (response.ok && data.success) {
                     result.className = 'success';
-                    result.textContent = '✅ ' + data.message;
+                    result.innerHTML = `✅ 送信成功！<br>${data.message}`;
                 } else {
                     throw new Error(data.error || data.details || '送信に失敗しました');
                 }
@@ -123,10 +231,9 @@
                 result.textContent = '❌ エラー: ' + error.message;
             } finally {
                 result.style.display = 'block';
-                btn.disabled = false;
-                btn.textContent = 'テストメールを送信';
+                buttons.forEach(btn => btn.disabled = false);
             }
-        }
+        };
     </script>
 </body>
 </html>
