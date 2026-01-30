@@ -308,6 +308,11 @@
                     <div class="glass-card no-hover" style="max-width: 800px;">
                         <form id="profile-form">
                             <div class="form-group-pro">
+                                <label class="label-pro-fixed">🏢 会社名・屋号</label>
+                                <input type="text" id="company-name" required class="textarea-pro"
+                                    style="height: auto; padding: 1rem;" placeholder="株式会社○○ / ○○事務所">
+                            </div>
+                            <div class="form-group-pro">
                                 <label class="label-pro-fixed">🏢 会社種別</label>
                                 <select id="company-type" required class="textarea-pro"
                                     style="height: auto; padding: 1rem;">
@@ -744,6 +749,7 @@
 
         // --- Profile Logic ---
         function fillProfileForm(userData) {
+            document.getElementById('company-name').value = userData.company_name || '';
             document.getElementById('company-type').value = userData.company_type || '';
             document.getElementById('industry').value = userData.industry || '';
             document.getElementById('employee-size').value = userData.employee_size || '';
@@ -761,6 +767,7 @@
             const incDate = new Date(incDateStr.substring(0, 4), parseInt(incDateStr.substring(4, 6)) - 1, incDateStr.substring(6, 8));
 
             await setDoc(doc(db, 'users', user.uid), {
+                company_name: document.getElementById('company-name').value,
                 company_type: document.getElementById('company-type').value,
                 industry: document.getElementById('industry').value,
                 employee_size: document.getElementById('employee-size').value,
