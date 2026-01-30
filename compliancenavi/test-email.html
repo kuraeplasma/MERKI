@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>テストメール送信 - MERKI</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f172a;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: #1e293b;
+            padding: 2rem;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            margin: 0 0 1.5rem;
+            font-size: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            background: #0f172a;
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.02);
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        #result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+        .success {
+            background: #065f46;
+            color: #6ee7b7;
+        }
+        .error {
+            background: #7f1d1d;
+            color: #fca5a5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📧 テストメール送信</h1>
+        <label for="email">送信先メールアドレス</label>
+        <input type="email" id="email" placeholder="example@email.com" value="contact@spacegleam.co.jp">
+        <button id="sendBtn" onclick="sendTestMail()">テストメールを送信</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function sendTestMail() {
+            const email = document.getElementById('email').value;
+            const btn = document.getElementById('sendBtn');
+            const result = document.getElementById('result');
+
+            if (!email) {
+                alert('メールアドレスを入力してください');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = '送信中...';
+            result.style.display = 'none';
+
+            try {
+                const response = await fetch('/.netlify/functions/send-test-mail', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ to: email })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    result.className = 'success';
+                    result.textContent = '✅ ' + data.message;
+                } else {
+                    throw new Error(data.error || data.details || '送信に失敗しました');
+                }
+            } catch (error) {
+                result.className = 'error';
+                result.textContent = '❌ エラー: ' + error.message;
+            } finally {
+                result.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'テストメールを送信';
+            }
+        }
+    </script>
+</body>
+</html>
