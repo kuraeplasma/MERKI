@@ -10,8 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20260131_input_fix">
-    <link rel="stylesheet" href="pro_dashboard.css?v=20260131_input_fix">
+    <link rel="stylesheet" href="style.css?v=20260131_card_themes_final">
+    <link rel="stylesheet" href="pro_dashboard.css?v=20260131_card_themes_final">
     <!-- <link rel="stylesheet" href="no-motion.css?v=20260128_perfect_gold"> -->
     <link rel="icon" type="image/png" href="logo.png">
 </head>
@@ -378,7 +378,7 @@
                             <!-- Main Content Grid -->
                             <div class="membership-status-grid" style="z-index: 2;">
                                 <div class="status-main">
-                                    <div style="display: flex; gap: 4rem; align-items: flex-end; margin-bottom: 2.5rem;">
+                                    <div class="card-dates">
                                         <div>
                                             <div class="card-label">MEMBER SINCE</div>
                                             <div class="card-value">01/26</div>
@@ -390,21 +390,21 @@
                                     </div>
                                     <div>
                                         <div class="card-label">CARD MEMBER</div>
-                                        <div class="card-value" style="font-size: 1.6rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">VIP MEMBER</div>
+                                        <div class="card-value card-member-name">VIP MEMBER</div>
                                     </div>
                                 </div>
 
-                                <div class="status-visual" style="display: flex; justify-content: center; align-items: center;">
-                                    <div class="progress-indicator-wrapper" style="position: relative; width: 150px; height: 150px; display: flex; justify-content: center; align-items: center;">
-                                        <div style="position: absolute; inset: 0; border: 1.5px solid var(--card-accent-glow); border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.6); background: rgba(0,0,0,0.5);"></div>
-                                        <svg viewBox="0 0 140 140" style="width: 130px; height: 130px; transform: rotate(-90deg); z-index: 1;">
+                                <div class="status-visual">
+                                    <div class="progress-indicator-wrapper">
+                                        <div class="progress-ring-bg"></div>
+                                        <svg viewBox="0 0 140 140" class="progress-ring-svg">
                                             <circle cx="70" cy="70" r="62" style="fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 4;"></circle>
                                             <circle cx="70" cy="70" r="62" style="fill: none; stroke: var(--card-border); stroke-width: 10; stroke-linecap: round; stroke-dasharray: 390; stroke-dashoffset: 65; filter: drop-shadow(0 0 8px var(--card-accent-glow)); transition: stroke-dashoffset 2s ease-out;"></circle>
                                         </svg>
-                                        <div style="position: absolute; z-index: 2; text-align: center; width: 100%;">
-                                            <span style="font-size: 0.75rem; color: var(--card-border); font-weight: 800; display: block; margin-bottom: -0.4rem; letter-spacing: 1px;">残り</span>
-                                            <span style="color: var(--card-text-primary); font-weight: 900; font-size: 3.2rem; line-height: 1; display: block; text-shadow: none;">29</span>
-                                            <span style="font-size: 0.8rem; color: var(--card-text-primary); font-weight: 800; display: block; margin-top: -0.2rem;">日</span>
+                                        <div class="progress-text">
+                                            <span class="progress-label">残り</span>
+                                            <span class="progress-number">29</span>
+                                            <span class="progress-unit">日</span>
                                         </div>
                                     </div>
                                 </div>
@@ -790,21 +790,29 @@
             const memberSince = (regDate.getMonth() + 1).toString().padStart(2, '0') + '/' + regDate.getFullYear().toString().slice(-2);
             const validThru = (expDate.getMonth() + 1).toString().padStart(2, '0') + '/' + expDate.getFullYear().toString().slice(-2);
 
+            // Determine card theme based on plan
+            const plan = userData.plan || 'pro'; // 'lite', 'standard', 'pro' - default to pro for trial users
+            const cardThemeClass = plan === 'pro' ? '' : plan; // pro uses default (no class), others use .lite or .standard
+            const planBadgeText = plan === 'pro' ? 'PRO' : (plan === 'standard' ? 'STANDARD' : 'LITE');
+            const isProPlan = plan === 'pro';
+            const showTrialInfo = isProPlan && status === 'trial'; // PROプランかつトライアル中のみ残り日数表示
+
             container.innerHTML = `
                 <div class="membership-dashboard fade-in-up">
-                    <div class="membership-card">
+                    <div class="membership-card ${cardThemeClass}">
                         <div class="membership-card-watermark">MERKI</div>
-                        
+
                         <!-- Top Branding -->
-                        <div style="display: flex; justify-content: space-between; align-items: center; z-index: 2; width: 100%;">
-                            <h2 class="gold-text-metallic" style="font-family: 'OCR A Std', 'Courier New', monospace; letter-spacing: 6px; font-size: 1.8rem; margin: 0; line-height: 1;">MERKI</h2>
-                            <div class="plan-badge" style="position: static; border: 1.5px solid #d4af37; color: #d4af37; padding: 0.5rem 1.4rem; border-radius: 4px; font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; background: rgba(0,0,0,0.6); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">${status === 'active' ? 'PLATINUM' : 'PRO'}</div>
+                        <div class="card-header-row">
+                            <h2 class="gold-text-metallic card-logo-text">MERKI</h2>
+                            <div class="plan-badge-responsive">${planBadgeText}</div>
                         </div>
-                        
+
                         <!-- Main Content Grid -->
                         <div class="membership-status-grid" style="z-index: 2;">
                             <div class="status-main">
-                                <div style="display: flex; gap: 4rem; align-items: flex-end; margin-bottom: 2.5rem;">
+                                ${showTrialInfo ? `
+                                <div class="card-dates">
                                     <div>
                                         <div class="card-label">MEMBER SINCE</div>
                                         <div class="card-value">${memberSince}</div>
@@ -814,36 +822,30 @@
                                         <div class="card-value">${validThru}</div>
                                     </div>
                                 </div>
+                                ` : ''}
 
                                 <div>
                                     <div class="card-label">CARD MEMBER</div>
-                                    <div class="card-value" style="font-size: 1.6rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">${userData.company_name || 'VIP MEMBER'}</div>
+                                    <div class="card-value card-member-name">${userData.company_name || 'VIP MEMBER'}</div>
                                 </div>
                             </div>
-                            
-                             <div class="status-visual" style="display: flex; justify-content: center; align-items: center;">
-                                ${status === 'trial' ? `
-                                    <div class="progress-indicator-wrapper" style="position: relative; width: 150px; height: 150px; display: flex; justify-content: center; align-items: center;">
-                                        <!-- Outer luxury ring -->
-                                        <div style="position: absolute; inset: 0; border: 1.5px solid rgba(212,175,55,0.2); border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.6); background: rgba(0,0,0,0.5);"></div>
-                                        <svg viewBox="0 0 140 140" style="width: 130px; height: 130px; transform: rotate(-90deg); z-index: 1;">
-                                            <circle cx="70" cy="70" r="62" style="fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 4;"></circle>
-                                            <circle cx="70" cy="70" r="62" 
-                                                style="fill: none; stroke: #fbbf24; stroke-width: 10; stroke-linecap: round; stroke-dasharray: 390; stroke-dashoffset: ${390 * (1 - trialDaysLeft / 30)}; filter: drop-shadow(0 0 8px rgba(251,191,36,0.6)); transition: stroke-dashoffset 2s ease-out;"></circle>
-                                        </svg>
-                                        <div style="position: absolute; z-index: 2; text-align: center; width: 100%;">
-                                            <span style="font-size: 0.75rem; color: #fbbf24; font-weight: 800; display: block; margin-bottom: -0.4rem; letter-spacing: 1px;">残り</span>
-                                            <span style="color: #ffffff; font-weight: 900; font-size: 3.2rem; line-height: 1; display: block; text-shadow: 0 0 20px rgba(255,255,255,0.5);">${trialDaysLeft}</span>
-                                            <span style="font-size: 0.8rem; color: #ffffff; font-weight: 800; display: block; margin-top: -0.2rem;">日</span>
-                                        </div>
+
+                            ${showTrialInfo ? `
+                            <div class="status-visual">
+                                <div class="progress-indicator-wrapper">
+                                    <div class="progress-ring-bg"></div>
+                                    <svg viewBox="0 0 140 140" class="progress-ring-svg">
+                                        <circle cx="70" cy="70" r="62" style="fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 4;"></circle>
+                                        <circle cx="70" cy="70" r="62" style="fill: none; stroke: var(--card-border); stroke-width: 10; stroke-linecap: round; stroke-dasharray: 390; stroke-dashoffset: ${390 * (1 - trialDaysLeft / 30)}; filter: drop-shadow(0 0 8px var(--card-accent-glow)); transition: stroke-dashoffset 2s ease-out;"></circle>
+                                    </svg>
+                                    <div class="progress-text">
+                                        <span class="progress-label">残り</span>
+                                        <span class="progress-number">${trialDaysLeft}</span>
+                                        <span class="progress-unit">日</span>
                                     </div>
-                                ` : `
-                                    <div style="text-align: center;">
-                                        <div style="font-size: 5.5rem; filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.5)); margin-bottom: 0.5rem; animation: pulse 3s infinite;">💎</div>
-                                        <div style="font-weight: 900; color: #d4af37; letter-spacing: 4px; font-size: 0.8rem;">ULTIMATE MASTER</div>
-                                    </div>
-                                `}
+                                </div>
                             </div>
+                            ` : ''}
                         </div>
                     </div>
 
