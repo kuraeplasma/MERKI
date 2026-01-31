@@ -109,13 +109,13 @@ header:hover {
     /* transform: scale(1.05); */
 }
 
-nav {
+header nav {
     display: flex;
     gap: 1.5rem;
     align-items: center;
 }
 
-nav a {
+header nav a {
     color: var(--text-primary);
     text-decoration: none;
     font-weight: 700;
@@ -125,7 +125,7 @@ nav a {
     padding: 0.5rem 0;
 }
 
-nav a::after {
+header nav a::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -137,11 +137,11 @@ nav a::after {
     border-radius: 2px;
 }
 
-nav a:hover {
+header nav a:hover {
     color: var(--text-primary);
 }
 
-nav a:hover::after {
+header nav a:hover::after {
     width: 100%;
 }
 
@@ -568,15 +568,27 @@ input,
 select,
 textarea {
     width: 100%;
-    padding: 1.125rem 1.5rem;
-    border: 2px solid var(--border-color);
-    border-radius: 14px;
-    font-size: 1.05rem;
-    margin-bottom: 1.75rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
     transition: none;
     background: white;
     font-family: inherit;
     font-weight: 500;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    padding-right: 2.5rem;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%2364748b' d='M5 6L0 0h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 10px 6px;
 }
 
 input:focus,
@@ -584,7 +596,7 @@ select:focus,
 textarea:focus {
     outline: none;
     border-color: #667eea;
-    box-shadow: 0 0 0 5px rgba(102, 126, 234, 0.12);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     transform: none !important;
     /* Ensure no movement on focus */
 }
@@ -876,6 +888,8 @@ tbody tr:hover {
     font-weight: 700;
     letter-spacing: 0.3px;
     text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .badge-success {
@@ -919,7 +933,7 @@ tbody tr:hover {
         font-size: 2.25rem;
     }
 
-    nav {
+    header nav {
         gap: 1.25rem;
     }
 
@@ -1651,6 +1665,7 @@ tbody tr:hover {
     width: 30px;
     height: 21px;
     cursor: pointer;
+    position: relative;
     z-index: 6000;
     border: none;
     background: none;
@@ -1673,6 +1688,14 @@ tbody tr:hover {
         display: flex;
     }
 
+    /* When menu is active, make hamburger button fixed to stay above nav overlay */
+    .mobile-menu-btn.active {
+        position: fixed;
+        top: 1.5rem;
+        right: 1.5rem;
+        z-index: 6000;
+    }
+
     .mobile-menu-btn.active span:nth-child(1) {
         transform: translateY(9px) rotate(45deg);
     }
@@ -1686,7 +1709,7 @@ tbody tr:hover {
     }
 }
 
-nav a:hover {
+header nav a:hover {
     color: #667eea;
 }
 
@@ -1700,26 +1723,29 @@ nav a:hover {
         padding: 1rem;
     }
 
-    /* Mobile Nav Drawer */
-    nav {
+    /* Mobile Nav Drawer - Only for header nav, not sidebar-nav */
+    header nav {
         position: fixed;
         top: 0;
-        right: -100%;
+        right: 0;
         width: 100%;
         height: 100vh;
         background: rgba(255, 255, 255, 0.98);
         backdrop-filter: blur(10px);
+        display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+        gap: 0.5rem;
         z-index: 5000;
-        /* Behind the toggle button */
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
     }
 
-    nav.active {
-        right: 0;
+    header nav.active {
+        opacity: 1;
+        visibility: visible;
     }
 }
 
@@ -2036,5 +2062,143 @@ nav a:hover {
 @media (max-width: 640px) {
     .preview-stats {
         grid-template-columns: 1fr;
+    }
+}
+
+/* ========================================
+   Additional Mobile Responsive (480px)
+   ======================================== */
+@media (max-width: 480px) {
+    /* Container padding */
+    .container {
+        padding: 0 1rem !important;
+    }
+
+    /* Hero section */
+    .hero-title {
+        font-size: 2rem !important;
+        line-height: 1.2 !important;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem !important;
+    }
+
+    /* Section titles */
+    .section-title {
+        font-size: 1.75rem !important;
+    }
+
+    .section-subtitle {
+        font-size: 0.95rem !important;
+    }
+
+    /* Glass card mobile */
+    .glass-card {
+        padding: 1.5rem !important;
+        border-radius: 16px !important;
+    }
+
+    /* Buttons */
+    .btn {
+        padding: 0.875rem 1.5rem !important;
+        font-size: 0.9rem !important;
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        margin-bottom: 0.75rem;
+    }
+
+    /* Pricing card */
+    .pricing-card {
+        padding: 2rem 1.5rem !important;
+        border-radius: 20px !important;
+    }
+
+    .pricing-card .price {
+        font-size: 2.5rem !important;
+    }
+
+    .pricing-card h3 {
+        font-size: 1.5rem !important;
+    }
+
+    /* Modal on mobile */
+    .modal-content,
+    .merki-auth-modal {
+        width: 95% !important;
+        max-width: none !important;
+        padding: 1.5rem !important;
+        border-radius: 20px !important;
+    }
+
+    .auth-form input {
+        padding: 0.875rem 1rem !important;
+        font-size: 1rem !important;
+    }
+
+    /* Footer */
+    footer {
+        padding: 2rem 1rem !important;
+    }
+
+    .footer-links {
+        gap: 1rem !important;
+    }
+
+    /* Section padding */
+    section {
+        padding: 60px 0 !important;
+    }
+
+    /* Card icon */
+    .card-icon {
+        width: 50px !important;
+        height: 50px !important;
+        font-size: 1.5rem !important;
+    }
+
+    /* Feature list items */
+    .feature-item {
+        padding: 0.75rem 0 !important;
+    }
+}
+
+/* ========================================
+   Small Mobile (320px - 375px)
+   ======================================== */
+@media (max-width: 375px) {
+    .container {
+        padding: 0 0.75rem !important;
+    }
+
+    .hero-title {
+        font-size: 1.75rem !important;
+    }
+
+    .section-title {
+        font-size: 1.5rem !important;
+    }
+
+    .glass-card {
+        padding: 1.25rem !important;
+    }
+
+    .btn {
+        padding: 0.75rem 1.25rem !important;
+        font-size: 0.85rem !important;
+    }
+
+    .pricing-card {
+        padding: 1.5rem 1rem !important;
+    }
+
+    .pricing-card .price {
+        font-size: 2rem !important;
     }
 }

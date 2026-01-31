@@ -10,8 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20260128_perfect_gold">
-    <link rel="stylesheet" href="pro_dashboard.css?v=20260128_perfect_gold">
+    <link rel="stylesheet" href="style.css?v=20260131_input_fix">
+    <link rel="stylesheet" href="pro_dashboard.css?v=20260131_input_fix">
     <!-- <link rel="stylesheet" href="no-motion.css?v=20260128_perfect_gold"> -->
     <link rel="icon" type="image/png" href="logo.png">
 </head>
@@ -114,12 +114,6 @@
 
                 <!-- Section: Dashboard -->
                 <div id="section-dashboard" class="content-section active">
-                    <div class="content-header">
-                        <h1
-                            style="font-size: 2.2rem; font-weight: 900; color: var(--text-primary); margin: 0; letter-spacing: -0.5px;">
-                        </h1>
-                    </div>
-
                     <!-- Stats Grid -->
                     <div class="grid-3" style="margin-bottom: 3rem;">
                         <div class="stat-card">
@@ -285,12 +279,12 @@
                         <form id="invite-member-form">
                             <div class="form-group-pro">
                                 <label class="label-pro-fixed">メールアドレス</label>
-                                <input type="email" id="invite-email" required class="textarea-pro"
-                                    style="height: auto; padding: 1rem;" placeholder="member@example.com">
+                                <input type="email" id="invite-email" required class="input-pro"
+                                    placeholder="member@example.com">
                             </div>
                             <div class="form-group-pro">
                                 <label class="label-pro-fixed">権限</label>
-                                <select id="invite-role" class="textarea-pro" style="height: auto; padding: 1rem;">
+                                <select id="invite-role" class="input-pro">
                                     <option value="admin">管理者 (全機能の利用)</option>
                                     <option value="editor">編集者 (設定変更のみ)</option>
                                     <option value="viewer">閲覧者 (閲覧のみ)</option>
@@ -309,13 +303,12 @@
                         <form id="profile-form">
                             <div class="form-group-pro">
                                 <label class="label-pro-fixed">🏢 会社名・屋号</label>
-                                <input type="text" id="company-name" required class="textarea-pro"
-                                    style="height: auto; padding: 1rem;" placeholder="株式会社○○ / ○○事務所">
+                                <input type="text" id="company-name" required class="input-pro"
+                                    placeholder="株式会社○○ / ○○事務所">
                             </div>
                             <div class="form-group-pro">
                                 <label class="label-pro-fixed">🏢 会社種別</label>
-                                <select id="company-type" required class="textarea-pro"
-                                    style="height: auto; padding: 1rem;">
+                                <select id="company-type" required class="input-pro">
                                     <option value="">選択してください</option>
                                     <option value="corporation">法人</option>
                                     <option value="sole">個人事業主</option>
@@ -323,8 +316,7 @@
                             </div>
                             <div class="form-group-pro">
                                 <label class="label-pro-fixed">🏢 業種</label>
-                                <select id="industry" required class="textarea-pro"
-                                    style="height: auto; padding: 1rem;">
+                                <select id="industry" required class="input-pro">
                                     <option value="">選択してください</option>
                                     <option value="it">IT・通信</option>
                                     <option value="ec">EC・小売</option>
@@ -334,8 +326,7 @@
                             </div>
                             <div class="form-group-pro">
                                 <label class="label-pro-fixed">👥 従業員数</label>
-                                <select id="employee-size" required class="textarea-pro"
-                                    style="height: auto; padding: 1rem;">
+                                <select id="employee-size" required class="input-pro">
                                     <option value="">選択してください</option>
                                     <option value="1">1名（代表のみ）</option>
                                     <option value="2-5">2〜5名</option>
@@ -344,8 +335,7 @@
                             </div>
                             <div class="form-group-pro">
                                 <label class="label-pro-fixed">📅 決算月</label>
-                                <select id="fiscal-month" required class="textarea-pro"
-                                    style="height: auto; padding: 1rem;">
+                                <select id="fiscal-month" required class="input-pro">
                                     <option value="">選択してください</option>
                                     <option value="1">1月</option>
                                     <option value="2">2月</option>
@@ -363,8 +353,8 @@
                             </div>
                             <div class="form-group-pro">
                                 <label class="label-pro-fixed">📅 設立年月日</label>
-                                <input type="text" id="incorporation-date" required class="textarea-pro"
-                                    style="height: auto; padding: 1rem;" placeholder="2024/01/01">
+                                <input type="text" id="incorporation-date" required class="input-pro"
+                                    placeholder="2024/01/01">
                             </div>
                             <button type="submit" class="btn primary-btn"
                                 style="width: 100%; padding: 1.25rem; font-size: 1.1rem;">💾 変更を保存する</button>
