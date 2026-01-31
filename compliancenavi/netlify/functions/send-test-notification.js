@@ -24,7 +24,7 @@ const DASHBOARD_URL = 'https://merki.spacegleam.co.jp/dashboard.html';
 const EMAIL_TEMPLATES = {
     30: {
         subject: '【MERKI】{{regulationName}}の期限まで、あと30日です',
-        body: `{{companyName}} 様
+        body: `{{companyName}}
 
 MERKIからのご連絡です。
 
@@ -50,7 +50,7 @@ https://merki.spacegleam.co.jp`
     },
     7: {
         subject: '【MERKI】{{regulationName}}の期限まで、あと7日です',
-        body: `{{companyName}} 様
+        body: `{{companyName}}
 
 MERKIからのご連絡です。
 
@@ -74,7 +74,7 @@ https://merki.spacegleam.co.jp`
     },
     1: {
         subject: '【MERKI】{{regulationName}}の期限は明日です',
-        body: `{{companyName}} 様
+        body: `{{companyName}}
 
 MERKIからのご連絡です。
 
@@ -119,7 +119,51 @@ exports.handler = async function (event, context) {
 
         const userData = userDoc.data();
         const userEmail = userData.email;
-        const companyName = userData.company_name || userData.email?.split('@')[0] || 'お客様';
+
+        // 宛名フォーマット生成
+        // 法人: 「法人名様　氏名様」
+        // 個人（屋号あり）: 「屋号様　氏名様」
+        // 個人（屋号なし）: 「氏名様」
+        let recipientName;
+        const companyType = userData.company_type;
+        const contactName = userData.contact_name || '';
+
+        if (companyType === 'corporation') {
+            // 法人の場合: 法人名様　氏名様
+            const corpName = userData.company_name || '';
+            if (corpName && contactName) {
+                recipientName = `${corpName}様　${contactName}様`;
+            } else if (corpName) {
+                recipientName = `${corpName}様`;
+            } else if (contactName) {
+                recipientName = `${contactName}様`;
+            } else {
+                recipientName = 'お客様';
+            }
+        } else if (companyType === 'sole') {
+            // 個人事業主の場合: 屋号様　氏名様 または 氏名様
+            const shopName = userData.shop_name || '';
+            if (shopName && contactName) {
+                recipientName = `${shopName}様　${contactName}様`;
+            } else if (contactName) {
+                recipientName = `${contactName}様`;
+            } else if (shopName) {
+                recipientName = `${shopName}様`;
+            } else {
+                recipientName = 'お客様';
+            }
+        } else {
+            // 未設定の場合
+            if (contactName) {
+                recipientName = `${contactName}様`;
+            } else if (userData.company_name) {
+                recipientName = `${userData.company_name}様`;
+            } else {
+                recipientName = 'お客様';
+            }
+        }
+
+        const companyName = recipientName;
 
         if (!userEmail) {
             return { statusCode: 400, body: JSON.stringify({ error: 'User has no email' }) };

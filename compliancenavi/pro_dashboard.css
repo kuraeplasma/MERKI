@@ -305,13 +305,51 @@ tr:hover td {
 
 /* Edit Modal Alignment - Enhanced Large Version */
 .modal-content.edit-modal-content {
-    max-width: 900px !important;
-    padding: 3.5rem !important;
+    max-width: 700px !important;
+    padding: 2.5rem !important;
     text-align: left;
     background: white;
     position: relative !important;
     border-radius: 28px;
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Email Template Body Editor - Simple large textarea */
+.template-body-editor {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.template-body-editor textarea {
+    width: 100%;
+    height: 220px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    resize: vertical;
+    background: #fff;
+}
+
+.template-body-editor textarea:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Edit Modal Buttons */
+.edit-modal-btns {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+}
+
+.edit-modal-btns button {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
 }
 
 .close-modal-pro {
@@ -1396,21 +1434,96 @@ input:checked+.slider:before {
         margin-bottom: 1rem !important;
     }
 
-    /* Table responsive styles */
+    /* Table responsive styles - Convert to card layout on mobile */
     .category-content {
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch;
+        overflow-x: visible !important;
+        padding: 0 !important;
     }
 
     .category-content table {
-        min-width: 600px;
-        font-size: 0.8rem !important;
+        display: block;
+        min-width: unset !important;
+        width: 100% !important;
     }
 
-    .category-content th,
+    .category-content thead {
+        display: none; /* Hide table header on mobile */
+    }
+
+    .category-content tbody {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+
+    .category-content tr {
+        display: flex;
+        flex-direction: column;
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 1rem;
+        border: 1px solid var(--border-color);
+        gap: 0.5rem;
+    }
+
     .category-content td {
-        padding: 0.75rem 0.5rem !important;
-        white-space: nowrap;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.25rem 0 !important;
+        white-space: normal !important;
+        border: none !important;
+    }
+
+    /* Add labels before each cell */
+    .category-content td:nth-child(1)::before {
+        content: "制度名";
+        font-weight: 600;
+        color: #64748b;
+        font-size: 0.75rem;
+        min-width: 60px;
+    }
+
+    .category-content td:nth-child(2)::before {
+        content: "期限";
+        font-weight: 600;
+        color: #64748b;
+        font-size: 0.75rem;
+        min-width: 60px;
+    }
+
+    .category-content td:nth-child(3)::before {
+        content: "残日数";
+        font-weight: 600;
+        color: #64748b;
+        font-size: 0.75rem;
+        min-width: 60px;
+    }
+
+    .category-content td:nth-child(4)::before {
+        content: "通知";
+        font-weight: 600;
+        color: #64748b;
+        font-size: 0.75rem;
+        min-width: 60px;
+    }
+
+    .category-content td:nth-child(5)::before {
+        content: "操作";
+        font-weight: 600;
+        color: #64748b;
+        font-size: 0.75rem;
+        min-width: 60px;
+    }
+
+    /* Style the first cell (name) prominently */
+    .category-content td:first-child {
+        font-size: 0.95rem !important;
+        font-weight: 700 !important;
+        padding-bottom: 0.5rem !important;
+        border-bottom: 1px solid var(--border-color) !important;
+        margin-bottom: 0.25rem;
     }
 
     /* Category accordion */
@@ -1421,7 +1534,113 @@ input:checked+.slider:before {
 
     /* Edit button */
     .edit-btn {
-        padding: 0.4rem 0.75rem !important;
+        padding: 0.5rem 1rem !important;
+        font-size: 0.8rem !important;
+    }
+
+    /* Edit Modal Responsive - Full screen on mobile */
+    .modal-content.edit-modal-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        padding: 1rem !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+    }
+
+    .modal-content.edit-modal-content h2 {
+        font-size: 1rem !important;
+        margin-bottom: 0.5rem !important;
+        padding-right: 2.5rem !important;
+        flex-shrink: 0 !important;
+    }
+
+    .edit-modal-content .form-group-pro {
+        margin-bottom: 0.5rem !important;
+    }
+
+    .edit-modal-content .label-pro-fixed {
+        font-size: 0.85rem !important;
+        margin-bottom: 0.25rem !important;
+    }
+
+    .email-template-editor {
+        flex: 1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        min-height: 0 !important;
+    }
+
+    .email-template-editor > .form-group-pro {
+        flex: 1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        min-height: 0 !important;
+    }
+
+    .template-body-editor {
+        flex: 1 !important;
+        display: flex !important;
+        min-height: 0 !important;
+    }
+
+    .template-body-editor textarea {
+        flex: 1 !important;
+        height: auto !important;
+        min-height: 100px !important;
+        font-size: 0.9rem !important;
+        padding: 0.75rem !important;
+        resize: none !important;
+    }
+
+    .template-tabs {
+        flex-wrap: nowrap !important;
+        gap: 0 !important;
+        margin-bottom: 0.5rem !important;
+        flex-shrink: 0 !important;
+    }
+
+    .template-tab {
+        padding: 0.4rem 0.5rem !important;
+        font-size: 0.75rem !important;
+    }
+
+    /* Edit modal buttons */
+    .edit-modal-btns {
+        flex-shrink: 0 !important;
+        gap: 0.5rem !important;
+        margin-top: 0.5rem !important;
+    }
+
+    .edit-modal-btns button {
+        flex: 1 !important;
+        padding: 0.6rem 0.4rem !important;
+        font-size: 0.75rem !important;
+    }
+
+    /* Notification tabs - Mobile */
+    .notification-tabs {
+        margin-bottom: 1rem !important;
+    }
+
+    .notification-tab {
+        padding: 0.5rem 1rem !important;
+        font-size: 0.85rem !important;
+    }
+
+    /* Notification message textarea - Mobile */
+    .edit-modal-content #edit-custom-message {
+        height: calc(100vh - 320px) !important;
+        min-height: 200px !important;
+        font-size: 0.95rem !important;
+    }
+
+    /* Edit modal form group spacing */
+    .edit-modal-content .form-group-pro p {
         font-size: 0.75rem !important;
     }
 

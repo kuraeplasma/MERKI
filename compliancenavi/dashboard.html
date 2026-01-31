@@ -10,8 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20260131_card_themes_final">
-    <link rel="stylesheet" href="pro_dashboard.css?v=20260131_card_themes_final">
+    <link rel="stylesheet" href="style.css?v=20260131_fullscreen">
+    <link rel="stylesheet" href="pro_dashboard.css?v=20260131_fullscreen">
     <!-- <link rel="stylesheet" href="no-motion.css?v=20260128_perfect_gold"> -->
     <link rel="icon" type="image/png" href="logo.png">
 </head>
@@ -471,41 +471,36 @@
 
     <!-- Notification Edit Modal -->
     <div id="edit-modal" class="modal-overlay" style="display: none; z-index: 10000;">
-        <div class="modal-content edit-modal-content" style="max-width: 700px;">
+        <div class="modal-content edit-modal-content">
             <button class="close-modal-pro" id="close-modal-x">&times;</button>
-            <h2
-                style="font-size: 1.5rem; font-weight: 900; margin-bottom: 1.5rem; color: var(--text-primary); padding-right: 3rem;">
-                📊 通知メールの編集
+            <h2 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 1.5rem; color: var(--text-primary); padding-right: 3rem;">
+                📧 通知メールの編集
             </h2>
 
             <!-- 対象制度 -->
             <div class="form-group-pro" style="margin-bottom: 1.5rem;">
                 <label class="label-pro-fixed">対象制度</label>
-                <p id="edit-reg-title"
-                    style="font-weight: 800; color: var(--text-primary); font-size: 1.15rem; margin: 0;"></p>
+                <p id="edit-reg-title" style="font-weight: 800; color: var(--text-primary); font-size: 1.1rem; margin: 0;"></p>
             </div>
 
             <!-- タブ切り替え -->
-            <div class="notification-tabs" style="display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
-                <button type="button" class="notification-tab active" data-days="30" style="padding: 0.75rem 1.5rem; background: none; border: none; border-bottom: 2px solid var(--primary-color); color: var(--text-primary); font-weight: 700; cursor: pointer; font-size: 0.95rem;">30日前</button>
-                <button type="button" class="notification-tab" data-days="7" style="padding: 0.75rem 1.5rem; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-secondary); font-weight: 600; cursor: pointer; font-size: 0.95rem;">7日前</button>
-                <button type="button" class="notification-tab" data-days="1" style="padding: 0.75rem 1.5rem; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-secondary); font-weight: 600; cursor: pointer; font-size: 0.95rem;">前日</button>
+            <div class="template-tabs" style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0;">
+                <button type="button" class="template-tab active" data-days="30" style="padding: 0.75rem 1.25rem; border: none; background: none; font-weight: 700; color: #64748b; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.2s;">30日前</button>
+                <button type="button" class="template-tab" data-days="7" style="padding: 0.75rem 1.25rem; border: none; background: none; font-weight: 700; color: #64748b; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.2s;">7日前</button>
+                <button type="button" class="template-tab" data-days="1" style="padding: 0.75rem 1.25rem; border: none; background: none; font-weight: 700; color: #64748b; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.2s;">前日</button>
             </div>
 
-            <!-- 通知メッセージ -->
-            <div class="form-group-pro" style="margin-bottom: 1.5rem;">
-                <label class="label-pro-fixed" style="display: flex; align-items: center; gap: 0.5rem;">
-                    <span style="font-size: 1rem;">📧</span> 通知メッセージ <span style="font-weight: 400; font-size: 0.75rem; color: var(--text-secondary);">（この内容がそのままメールで届きます）</span>
-                </label>
-                <p style="font-size: 0.8rem; color: #f59e0b; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
-                    <span>💡</span> 自分用のメモ・税理士への転送文面・社内共有用の注意書きなど、自由にカスタマイズできます
-                </p>
-                <textarea id="edit-custom-message" class="textarea-pro" style="height: 320px; resize: none;"></textarea>
-            </div>
-
-            <div class="btn-group-pro" style="justify-content: flex-end;">
-                <button type="button" class="btn primary-btn" id="save-edit-btn"
-                    style="flex: 0 1 200px; padding: 1rem;">保存する</button>
+            <!-- 本文編集 -->
+            <div class="email-template-editor">
+                <div class="form-group-pro" style="margin-bottom: 1rem;">
+                    <label class="label-pro-fixed">📝 送信予定本文</label>
+                    <div id="body-editor" class="template-body-editor"></div>
+                </div>
+                <div class="btn-group-pro edit-modal-btns">
+                    <button type="button" class="btn secondary-btn" id="reset-template-btn">初期化</button>
+                    <button type="button" class="btn secondary-btn" id="close-edit-modal">キャンセル</button>
+                    <button type="button" class="btn primary-btn" id="save-edit-btn">保存する</button>
+                </div>
             </div>
         </div>
     </div>
@@ -539,47 +534,100 @@
             if (el) el.classList.toggle('active');
         }
 
-        // --- Modal Logic ---
-        window.currentEditingDays = 30; // 現在選択中のタブ（30日前、7日前、1日前）
+        // --- Default Email Templates ---
+        // 編集可能な部分: note（補足説明）のみ
+        // intro（導入文）は変数を含むため固定
+        const DEFAULT_TEMPLATES = {
+            30: {
+                subject: '【MERKI】{{regulationName}}の期限まで、あと30日です',
+                intro: '{{regulationName}}の期限が、約30日後に近づいています。',
+                note: `現時点で対応いただく必要はありませんが、
+この時期に一度ご確認いただくことで、
+今後の予定が立てやすくなります。
 
+必要な対応がある場合は、
+ご自身のタイミングでご準備ください。`
+            },
+            7: {
+                subject: '【MERKI】{{regulationName}}の期限まで、あと7日です',
+                intro: '{{regulationName}}の期限が、1週間後に迫っています。',
+                note: `対応が必要な制度の場合は、
+このタイミングで準備状況をご確認ください。
+
+期限直前にも、あらためてお知らせいたします。`
+            },
+            1: {
+                subject: '【MERKI】{{regulationName}}の期限は明日です',
+                intro: '{{regulationName}}の期限は、明日となっています。',
+                note: `すでに対応済みの場合は、
+本メールは読み流していただいて問題ありません。
+
+未対応の場合は、
+お時間の許す範囲でご確認ください。`
+            }
+        };
+
+        // Current editing state
+        window.currentEditingId = null;
+        window.currentEditingDays = 30;
+        window.editingTemplates = {};
+
+        // --- Modal Logic ---
         function openEditModal(id, title) {
             document.getElementById('edit-reg-title').textContent = title;
             document.getElementById('edit-modal').style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // 背景スクロール無効化
             window.currentEditingId = id;
-            window.currentEditingDays = 30; // デフォルトは30日前
+            window.currentEditingDays = 30;
 
-            // タブをリセット
-            document.querySelectorAll('.notification-tab').forEach(function(tab) {
+            // Load saved templates or use defaults (note only - intro is fixed)
+            window.editingTemplates = {};
+            [30, 7, 1].forEach(days => {
+                const savedNote = localStorage.getItem(`template_${id}_${days}_note`);
+                window.editingTemplates[days] = {
+                    note: savedNote !== null ? savedNote : DEFAULT_TEMPLATES[days].note
+                };
+            });
+
+            // Reset tabs
+            document.querySelectorAll('.template-tab').forEach(tab => {
                 tab.classList.remove('active');
                 tab.style.borderBottomColor = 'transparent';
-                tab.style.color = 'var(--text-secondary)';
+                tab.style.color = '#64748b';
             });
-            var firstTab = document.querySelector('.notification-tab[data-days="30"]');
-            if (firstTab) {
-                firstTab.classList.add('active');
-                firstTab.style.borderBottomColor = 'var(--primary-color)';
-                firstTab.style.color = 'var(--text-primary)';
+            const activeTab = document.querySelector('.template-tab[data-days="30"]');
+            if (activeTab) {
+                activeTab.classList.add('active');
+                activeTab.style.borderBottomColor = '#6366f1';
+                activeTab.style.color = '#6366f1';
             }
 
-            // 30日前のメッセージを読み込む
-            loadMessageForDays(id, 30);
+            // Load 30-day template
+            loadTemplateForDays(30);
         }
 
-        function loadMessageForDays(id, days) {
-            var key = 'custom_msg_' + id + '_' + days;
-            var defaultMsg = getDefaultMessage(days);
-            document.getElementById('edit-custom-message').value = localStorage.getItem(key) || defaultMsg;
-        }
-
-        function getDefaultMessage(days) {
-            if (days === 30) {
-                return '現時点で対応いただく必要はありませんが、\nこの時期に一度ご確認いただくことで、\n今後の予定が立てやすくなります。\n\n必要な対応がある場合は、\nご自身のタイミングでご準備ください。';
-            } else if (days === 7) {
-                return '期限まで1週間となりました。\n準備が整っていない場合は、\n早めのご対応をお願いします。';
-            } else {
-                return '明日が期限日です。\n最終確認をお願いします。';
+        function loadTemplateForDays(days) {
+            // 本文エディタを構築（補足メッセージのみ編集可能、大きく表示）
+            const bodyEditor = document.getElementById('body-editor');
+            if (bodyEditor) {
+                const template = window.editingTemplates[days];
+                bodyEditor.innerHTML = `<textarea id="edit-note">${escapeHtml(template.note)}</textarea>`;
             }
+        }
+
+        function saveCurrentTemplate() {
+            const days = window.currentEditingDays;
+            const noteEl = document.getElementById('edit-note');
+            if (noteEl) {
+                window.editingTemplates[days] = {
+                    note: noteEl.value
+                };
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         // --- Mobile Toggle Logic ---
@@ -620,50 +668,71 @@
                 };
             }
 
-            // --- Edit Modal Close Logic ---
+            // --- Edit Modal Logic ---
             var editModal = document.getElementById('edit-modal');
             var closeModalX = document.getElementById('close-modal-x');
+            var closeEditModalBtn = document.getElementById('close-edit-modal');
             var saveEditBtn = document.getElementById('save-edit-btn');
+            var resetTemplateBtn = document.getElementById('reset-template-btn');
 
             function closeEditModal() {
                 if (editModal) editModal.style.display = 'none';
-                document.body.style.overflow = ''; // 背景スクロール再有効化
             }
 
             if (closeModalX) closeModalX.onclick = closeEditModal;
+            if (closeEditModalBtn) closeEditModalBtn.onclick = closeEditModal;
 
-            // タブ切り替えロジック
-            document.querySelectorAll('.notification-tab').forEach(function(tab) {
+            // Tab switching
+            document.querySelectorAll('.template-tab').forEach(tab => {
                 tab.onclick = function() {
-                    var days = parseInt(this.getAttribute('data-days'));
+                    // Save current before switching
+                    saveCurrentTemplate();
 
-                    // 現在のメッセージを保存
-                    var currentKey = 'custom_msg_' + window.currentEditingId + '_' + window.currentEditingDays;
-                    localStorage.setItem(currentKey, document.getElementById('edit-custom-message').value);
-
-                    // タブのスタイル更新
-                    document.querySelectorAll('.notification-tab').forEach(function(t) {
+                    // Update tab styles
+                    document.querySelectorAll('.template-tab').forEach(t => {
                         t.classList.remove('active');
                         t.style.borderBottomColor = 'transparent';
-                        t.style.color = 'var(--text-secondary)';
+                        t.style.color = '#64748b';
                     });
                     this.classList.add('active');
-                    this.style.borderBottomColor = 'var(--primary-color)';
-                    this.style.color = 'var(--text-primary)';
+                    this.style.borderBottomColor = '#6366f1';
+                    this.style.color = '#6366f1';
 
-                    // 選択したタブのメッセージを読み込む
+                    // Load new template
+                    const days = parseInt(this.dataset.days);
                     window.currentEditingDays = days;
-                    loadMessageForDays(window.currentEditingId, days);
+                    loadTemplateForDays(days);
                 };
             });
 
+            // Save all templates
             if (saveEditBtn) {
                 saveEditBtn.onclick = function() {
-                    // 現在のタブのメッセージを保存
-                    var key = 'custom_msg_' + window.currentEditingId + '_' + window.currentEditingDays;
-                    localStorage.setItem(key, document.getElementById('edit-custom-message').value);
-                    alert('保存しました');
+                    // Save current tab first
+                    saveCurrentTemplate();
+
+                    // Save all templates to localStorage (note only)
+                    const id = window.currentEditingId;
+                    [30, 7, 1].forEach(days => {
+                        localStorage.setItem(`template_${id}_${days}_note`, window.editingTemplates[days].note);
+                    });
+
+                    alert('テンプレートを保存しました');
                     closeEditModal();
+                };
+            }
+
+            // Reset current template to default
+            if (resetTemplateBtn) {
+                resetTemplateBtn.onclick = function() {
+                    const days = window.currentEditingDays;
+                    const daysLabel = days === 1 ? '前日' : `${days}日前`;
+                    if (confirm(`${daysLabel}のテンプレートを初期状態に戻しますか？`)) {
+                        window.editingTemplates[days] = {
+                            note: DEFAULT_TEMPLATES[days].note
+                        };
+                        loadTemplateForDays(days);
+                    }
                 };
             }
         });

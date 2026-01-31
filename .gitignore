@@ -3,3 +3,6 @@ dist/
 package-lock.json
 *.log
 .DS_Store
+
+# Local Netlify folder
+.netlify
