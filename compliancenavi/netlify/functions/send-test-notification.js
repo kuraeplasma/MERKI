@@ -1,15 +1,40 @@
 const admin = require('firebase-admin');
 const sgMail = require('@sendgrid/mail');
 
-// Firebase初期化
-if (!admin.apps.length) {
+// Firebase初期化関数
+function initializeFirebase() {
+    if (admin.apps.length) return;
+
+    if (!process.env.FIREBASE_PRIVATE_KEY) {
+        console.error('FIREBASE_PRIVATE_KEY is missing');
+        throw new Error('Firebase Private Key missing');
+    }
+
+    // 秘密鍵のフォーマットを補正（Netlify環境変数での不整合対策）
+    let privateKey = process.env.FIREBASE_PRIVATE_KEY;
+
+    // 1. 前後の引用符を削除
+    privateKey = privateKey.replace(/^["']|["']$/g, '');
+
+    // 2. リテラルの \n を実際の改行に変換
+    privateKey = privateKey.replace(/\\n/g, '\n');
+
+    // 3. すでに改行されている場合、二重に改行コードが含まれないように調整
+    // (特定の環境での重複防止)
+
     admin.initializeApp({
         credential: admin.credential.cert({
             projectId: process.env.FIREBASE_PROJECT_ID,
             clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-            privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n')
+            privateKey: privateKey
         })
     });
+}
+
+try {
+    initializeFirebase();
+} catch (e) {
+    console.error('Firebase initialization failed:', e.message);
 }
 
 const db = admin.firestore();
