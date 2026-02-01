@@ -82,7 +82,7 @@ MERKIからのご連絡です。
 必要な対応がある場合は、
 ご自身のタイミングでご準備ください。
 
-▼ 制度の詳細・一覧はこちら
+▼ ダッシュボードはこちらから
 ${DASHBOARD_URL}
 
 ――
@@ -106,7 +106,7 @@ MERKIからのご連絡です。
 
 期限直前にも、あらためてお知らせいたします。
 
-▼ 制度の詳細・一覧はこちら
+▼ ダッシュボードはこちらから
 ${DASHBOARD_URL}
 
 ――
@@ -131,7 +131,7 @@ MERKIからのご連絡です。
 未対応の場合は、
 お時間の許す範囲でご確認ください。
 
-▼ 制度の詳細・一覧はこちら
+▼ ダッシュボードはこちらから
 ${DASHBOARD_URL}
 
 ――
@@ -163,15 +163,11 @@ exports.handler = async function (event, context) {
         const userEmail = userData.email;
 
         // 宛名フォーマット生成
-        // 法人: 「法人名様　氏名様」
-        // 個人（屋号あり）: 「屋号様　氏名様」
-        // 個人（屋号なし）: 「氏名様」
         let recipientName;
         const companyType = userData.company_type;
         const contactName = userData.contact_name || '';
 
         if (companyType === 'corporation') {
-            // 法人の場合: 法人名様　氏名様
             const corpName = userData.company_name || '';
             if (corpName && contactName) {
                 recipientName = `${corpName}様　${contactName}様`;
@@ -183,7 +179,6 @@ exports.handler = async function (event, context) {
                 recipientName = 'お客様';
             }
         } else if (companyType === 'sole') {
-            // 個人事業主の場合: 屋号様　氏名様 または 氏名様
             const shopName = userData.shop_name || '';
             if (shopName && contactName) {
                 recipientName = `${shopName}様　${contactName}様`;
@@ -195,7 +190,6 @@ exports.handler = async function (event, context) {
                 recipientName = 'お客様';
             }
         } else {
-            // 未設定の場合
             if (contactName) {
                 recipientName = `${contactName}様`;
             } else if (userData.company_name) {
@@ -235,19 +229,26 @@ exports.handler = async function (event, context) {
         const subject = template.subject
             .replace(/\{\{regulationName\}\}/g, sampleRegulation);
 
-        const body = template.body
+        const bodyText = template.body
             .replace(/\{\{companyName\}\}/g, companyName)
             .replace(/\{\{regulationName\}\}/g, sampleRegulation)
             .replace(/\{\{deadlineDate\}\}/g, deadlineDate);
 
+        // HTMLボディの作成（リンクを短く見せるため）
+        const bodyHtml = bodyText
+            .replace(/\n/g, '<br>')
+            .replace(DASHBOARD_URL, `<a href="${DASHBOARD_URL}">${DASHBOARD_URL}</a>`)
+            .replace('https://merki.spacegleam.co.jp', `<a href="https://merki.spacegleam.co.jp">https://merki.spacegleam.co.jp</a>`);
+
         const msg = {
             to: userEmail,
             from: {
-                email: 'contact@spacegleam.co.jp',
+                email: 'merki@spacegleam.co.jp',
                 name: 'MERKI'
             },
             subject: subject,
-            text: body,
+            text: bodyText,
+            html: bodyHtml
         };
 
         await sgMail.send(msg);

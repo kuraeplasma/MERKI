@@ -1496,8 +1496,71 @@
         }
     </script>
 
+    <!-- TEMPORARY TEST BUTTONS FOR EMAIL NOTIFICATION -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (document.getElementById('test-email-container')) return;
+
+            const container = document.createElement('div');
+            container.id = 'test-email-container';
+            container.style.cssText = 'position:fixed; bottom:20px; right:20px; z-index:99999; display:flex; flex-direction:column; gap:10px; align-items:flex-end;';
+
+            const createBtn = (days, label, color) => {
+                const btn = document.createElement('button');
+                btn.innerHTML = label;
+                btn.style.cssText = `padding:12px 20px; background:${color}; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.2); font-family:sans-serif; transition: transform 0.2s; min-width:200px;`;
+
+                btn.onmouseover = () => btn.style.transform = 'scale(1.05)';
+                btn.onmouseout = () => btn.style.transform = 'scale(1)';
+
+                btn.onclick = async () => {
+                    if (!confirm(`【テスト実行】\n通知タイプ: ${days}日前\n\nこの内容でテストメールを送信しますか？`)) return;
+
+                    const originalText = btn.innerHTML;
+                    btn.disabled = true;
+                    btn.innerHTML = '送信中... ⏳';
+                    const originalBg = btn.style.background;
+                    btn.style.background = '#666';
+
+                    try {
+                        const res = await fetch('/.netlify/functions/send-test-notification', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ userId: 's1DL232yuVRjkuwTh8wJM8mZIn52', daysType: days })
+                        });
+
+                        const data = await res.json();
+
+                        if (res.ok) {
+                            alert(`✅ ${days}日前通知：送信成功！\n\n(kuraeplasma@gmail.com) の受信トレイを確認してください。`);
+                            btn.innerHTML = '✅ 送信完了';
+                            btn.style.background = '#10b981';
+                        } else {
+                            alert('❌ エラー: ' + (data.error || '不明なエラー'));
+                            btn.innerHTML = '❌ エラー';
+                            btn.style.background = '#f43f5e';
+                        }
+                    } catch (e) {
+                        alert('❌ 通信エラー: ' + e.message);
+                        btn.innerHTML = '❌ 失敗';
+                    } finally {
+                        setTimeout(() => {
+                            btn.disabled = false;
+                            btn.innerHTML = originalText;
+                            btn.style.background = originalBg;
+                        }, 3000);
+                    }
+                };
+                return btn;
+            };
+
+            container.appendChild(createBtn(30, '📩 送信テスト (30日前)', '#ef4444'));
+            container.appendChild(createBtn(7, '📩 送信テスト (7日前)', '#f59e0b'));
+            container.appendChild(createBtn(1, '📩 送信テスト (1日前)', '#3b82f6'));
+
+            document.body.appendChild(container);
+        });
     </script>
-</body>
 </body>
 
 </html>
