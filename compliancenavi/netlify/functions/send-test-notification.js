@@ -6,21 +6,38 @@ function initializeFirebase() {
     if (admin.apps.length) return;
 
     if (!process.env.FIREBASE_PRIVATE_KEY) {
-        console.error('FIREBASE_PRIVATE_KEY is missing');
-        throw new Error('Firebase Private Key missing');
+        throw new Error('FIREBASE_PRIVATE_KEY が環境変数に設定されていません。');
     }
 
-    // 秘密鍵のフォーマットを補正（Netlify環境変数での不整合対策）
     let privateKey = process.env.FIREBASE_PRIVATE_KEY;
 
-    // 1. 前後の引用符を削除
-    privateKey = privateKey.replace(/^["']|["']$/g, '');
+    // 1. JSON全体が貼り付けられている場合の救済措置
+    try {
+        if (privateKey.trim().startsWith('{')) {
+            const config = JSON.parse(privateKey);
+            if (config.private_key) {
+                privateKey = config.private_key;
+            }
+        }
+    } catch (e) { /* JSONではない場合は無視 */ }
 
-    // 2. リテラルの \n を実際の改行に変換
+    // 2. 引用符の除去
+    privateKey = privateKey.replace(/^["']|["']$/g, '').trim();
+
+    // 3. 改行コード（\n）の変換
     privateKey = privateKey.replace(/\\n/g, '\n');
 
-    // 3. すでに改行されている場合、二重に改行コードが含まれないように調整
-    // (特定の環境での重複防止)
+    // 4. 改行が全くない場合の補正（ヘッダーとフッターを独立させる）
+    if (!privateKey.includes('\n')) {
+        privateKey = privateKey
+            .replace('-----BEGIN PRIVATE KEY-----', '-----BEGIN PRIVATE KEY-----\n')
+            .replace('-----END PRIVATE KEY-----', '\n-----END PRIVATE KEY-----');
+    }
+
+    // 5. 最終チェック
+    if (!privateKey.includes('-----BEGIN PRIVATE KEY-----')) {
+        throw new Error('秘密鍵の形式が不正です（BEGINヘッダーが見つかりません）。Netlifyの設定を確認してください。');
+    }
 
     admin.initializeApp({
         credential: admin.credential.cert({
