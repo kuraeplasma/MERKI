@@ -235,10 +235,19 @@ exports.handler = async function (event, context) {
             .replace(/\{\{deadlineDate\}\}/g, deadlineDate);
 
         // HTMLボディの作成（リンクを短く見せるため）
-        const bodyHtml = bodyText
-            .replace(/\n/g, '<br>')
-            .replace(DASHBOARD_URL, `<a href="${DASHBOARD_URL}">${DASHBOARD_URL}</a>`)
-            .replace('https://merki.spacegleam.co.jp', `<a href="https://merki.spacegleam.co.jp">https://merki.spacegleam.co.jp</a>`);
+        let bodyHtml = bodyText.replace(/\n/g, '<br>');
+
+        // 重複置換を防ぐため、長いURLから順に、かつ属性内は置換しないように処理
+        // 1. ダッシュボードURLを置換
+        bodyHtml = bodyHtml.split(DASHBOARD_URL).join(`<a href="${DASHBOARD_URL}">${DASHBOARD_URL}</a>`);
+
+        // 2. ルートURLを置換（運営：の直後にあるものだけを対象とする）
+        const rootUrl = 'https://merki.spacegleam.co.jp';
+        const footerLineBefore = '運営：SpaceGleam株式会社<br>';
+        if (bodyHtml.includes(footerLineBefore + rootUrl)) {
+            bodyHtml = bodyHtml.replace(footerLineBefore + rootUrl,
+                footerLineBefore + `<a href="${rootUrl}">${rootUrl}</a>`);
+        }
 
         const msg = {
             to: userEmail,
