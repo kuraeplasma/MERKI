@@ -1,9 +1,14 @@
 const admin = require('firebase-admin');
 const sgMail = require('@sendgrid/mail');
 
+let db;
+
 // Firebase初期化関数
 function initializeFirebase() {
-    if (admin.apps.length) return;
+    if (admin.apps.length) {
+        db = admin.firestore();
+        return;
+    }
 
     if (!process.env.FIREBASE_PRIVATE_KEY) {
         throw new Error('FIREBASE_PRIVATE_KEY が環境変数に設定されていません。');
@@ -46,15 +51,8 @@ function initializeFirebase() {
             privateKey: privateKey
         })
     });
+    db = admin.firestore();
 }
-
-try {
-    initializeFirebase();
-} catch (e) {
-    console.error('Firebase initialization failed:', e.message);
-}
-
-const db = admin.firestore();
 
 // SendGrid初期化
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -147,6 +145,8 @@ exports.handler = async function (event, context) {
     }
 
     try {
+        initializeFirebase();
+
         const { userId, daysType } = JSON.parse(event.body || '{}');
 
         if (!userId) {
