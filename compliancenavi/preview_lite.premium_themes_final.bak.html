@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LITE Plan Membership Card Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=20260128_ULTRA_REFRESH">
+    <link rel="stylesheet" href="pro_dashboard.css?v=20260128_ULTRA_REFRESH">
+    <style>
+        body {
+            background: #f0f2f5;
+            padding: 100px 20px;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+        }
+
+        .membership-dashboard {
+            width: 100%;
+            max-width: 900px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="membership-dashboard">
+        <div class="membership-card lite">
+            <div class="membership-card-watermark">MERKI</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; z-index: 2; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div class="gold-logo-mask" style="width: 42px; height: 42px;"></div>
+                    <h2 class="gold-text-metallic"
+                        style="font-family: 'OCR A Std', 'Courier New', monospace; letter-spacing: 6px; font-size: 1.8rem; margin: 0; line-height: 1;">
+                        MERKI</h2>
+                </div>
+                <div class="plan-badge"
+                    style="position: static; border: 1.5px solid var(--card-border); color: var(--card-border); padding: 0.5rem 1.4rem; border-radius: 4px; font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; background: rgba(0,0,0,0.6); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                    LITE</div>
+            </div>
+            <div class="membership-status-grid"
+                style="z-index: 2; display:grid; grid-template-columns: 1fr 1fr; align-items:center; gap:2rem;">
+                <div class="status-main" style="display: flex; flex-direction: column; justify-content: center;">
+                    <div style="display: flex; gap: 4rem; align-items: flex-end; margin-bottom: 2.5rem;">
+                        <div>
+                            <div class="card-label">MEMBER SINCE</div>
+                            <div class="card-value">01/26</div>
+                        </div>
+                        <div>
+                            <div class="card-label">VALID THRU</div>
+                            <div class="card-value">02/26</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="card-label">CARD MEMBER</div>
+                        <div class="card-value" style="font-size: 1.6rem; text-shadow: none;">VIP MEMBER</div>
+                    </div>
+                </div>
+                <div class="status-visual" style="display: flex; justify-content: center; align-items: center;">
+                    <div class="progress-indicator-wrapper"
+                        style="position: relative; width: 150px; height: 150px; display: flex; justify-content: center; align-items: center;">
+                        <div
+                            style="position: absolute; inset: 0; border: 1.5px solid var(--card-accent-glow); border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.6); background: rgba(0,0,0,0.5);">
+                        </div>
+                        <svg viewBox="0 0 140 140"
+                            style="width: 130px; height: 130px; transform: rotate(-90deg); z-index: 1;">
+                            <circle cx="70" cy="70" r="62"
+                                style="fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 4;"></circle>
+                            <circle cx="70" cy="70" r="62"
+                                style="fill: none; stroke: var(--card-border); stroke-width: 10; stroke-linecap: round; stroke-dasharray: 390; stroke-dashoffset: 65; filter: drop-shadow(0 0 8px var(--card-accent-glow)); transition: stroke-dashoffset 2s ease-out;">
+                            </circle>
+                        </svg>
+                        <div style="position: absolute; z-index: 2; text-align: center; width: 100%;">
+                            <span
+                                style="font-size: 0.75rem; color: var(--card-border); font-weight: 800; display: block; margin-bottom: -0.4rem; letter-spacing: 1px;">残り</span>
+                            <span
+                                style="color: var(--card-text-primary); font-weight: 900; font-size: 3.2rem; line-height: 1; display: block; text-shadow: none;">29</span>
+                            <span
+                                style="font-size: 0.8rem; color: var(--card-text-primary); font-weight: 800; display: block; margin-top: -0.2rem;">日</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

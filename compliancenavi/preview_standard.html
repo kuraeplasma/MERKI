@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STANDARD Plan Membership Card Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=preview">
+    <link rel="stylesheet" href="pro_dashboard.css?v=preview">
+    <style>
+        body {
+            background: #f0f2f5;
+            padding: 100px 20px;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+        }
+
+        .membership-dashboard {
+            width: 100%;
+            max-width: 900px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="membership-dashboard">
+        <div class="membership-card standard">
+            <div class="membership-card-watermark">MERKI</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; z-index: 2; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div class="gold-logo-mask" style="width: 42px; height: 42px;"></div>
+                    <h2 class="gold-text-metallic"
+                        style="font-family: 'OCR A Std', 'Courier New', monospace; letter-spacing: 6px; font-size: 1.8rem; margin: 0; line-height: 1;">
+                        MERKI</h2>
+                </div>
+                <div class="plan-badge"
+                    style="position: static; border: 1.5px solid var(--card-border); color: var(--card-border); padding: 0.5rem 1.4rem; border-radius: 4px; font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; background: rgba(0,0,0,0.6); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                    STANDARD</div>
+            </div>
+            <div class="membership-status-grid"
+                style="z-index: 2; display:grid; grid-template-columns: 1fr 1fr; align-items:center; gap:2rem;">
+                <div class="status-main" style="display: flex; flex-direction: column; justify-content: center;">
+                    <div style="display: flex; gap: 4rem; align-items: flex-end; margin-bottom: 2.5rem;">
+                        <div>
+                            <div class="card-label">MEMBER SINCE</div>
+                            <div class="card-value">01/26</div>
+                        </div>
+                        <div>
+                            <div class="card-label">VALID THRU</div>
+                            <div class="card-value">02/26</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="card-label">CARD MEMBER</div>
+                        <div class="card-value" style="font-size: 1.6rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+                            REGULAR USER</div>
+                    </div>
+                </div>
+                <div class="status-visual" style="text-align: center;">
+                    <div
+                        style="font-size: 5.5rem; filter: drop-shadow(0 0 30px var(--card-accent-glow)); margin-bottom: 0.5rem; animation: pulse 3s infinite;">
+                        💎</div>
+                    <div style="font-weight: 900; color: var(--card-border); letter-spacing: 4px; font-size: 0.8rem;">
+                        ULTIMATE MASTER</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

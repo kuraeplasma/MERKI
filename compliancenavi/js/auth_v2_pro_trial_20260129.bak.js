@@ -167,7 +167,7 @@ export function initAuth() {
                 loginNav.textContent = 'ダッシュボード';
                 loginNav.setAttribute('href', 'dashboard.html');
                 loginNav.className = 'nav-btn nav-btn-primary auth-only-in';
-                // loginNav.onclick = null; // Remove this to allow our custom handler to work
+                loginNav.onclick = null;
 
                 signupNav.textContent = 'ログアウト';
                 signupNav.setAttribute('href', '#');
@@ -209,10 +209,8 @@ export function initAuth() {
             if (!user) {
                 e.preventDefault();
                 openModal('login');
-            } else {
-                // User is logged in, force navigation
-                window.location.href = 'dashboard.html';
             }
+            // If user exists, let it follow the href (dashboard.html)
         };
     }
 

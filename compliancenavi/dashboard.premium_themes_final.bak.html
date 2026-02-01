@@ -1,0 +1,821 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ダッシュボード - MERKI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=20260128_ULTRA_REFRESH">
+    <link rel="stylesheet" href="pro_dashboard.css?v=20260128_ULTRA_REFRESH">
+    <link rel="stylesheet" href="no-motion.css?v=20260128_ULTRA_REFRESH">
+    <link rel="icon" type="image/png" href="logo.png">
+</head>
+
+<body>
+
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+        <a href="index.html" class="logo">
+            <img src="merki_logo_transparent.png" alt="MERKI Logo" class="logo-img">MERKI
+        </a>
+        <button class="mobile-menu-btn" id="mobile-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <div class="dashboard-layout">
+        <!-- CRM-style Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <a href="index.html" class="logo">
+                <span>MERKI管理</span>
+            </a>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="dashboard" onclick="showSection('dashboard')">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <rect width="7" height="9" x="3" y="3" rx="1" />
+                            <rect width="7" height="5" x="14" y="3" rx="1" />
+                            <rect width="7" height="9" x="14" y="12" rx="1" />
+                            <rect width="7" height="5" x="3" y="16" rx="1" />
+                        </svg>
+                    </span>
+                    <span>ダッシュボード</span>
+                </a>
+                <a href="#" class="nav-item" data-section="regulations" onclick="showSection('regulations')">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
+                            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                            <path d="M12 11h4" />
+                            <path d="M12 16h4" />
+                            <path d="M8 11h.01" />
+                            <path d="M8 16h.01" />
+                        </svg>
+                    </span>
+                    <span>制度一覧</span>
+                </a>
+                <a href="#" class="nav-item" data-section="team" onclick="showSection('team')">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                    </span>
+                    <span>チーム管理</span>
+                </a>
+                <a href="#" class="nav-item" data-section="profile" onclick="showSection('profile')">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path
+                                d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                            <circle cx="12" cy="12" r="3" />
+                        </svg>
+                    </span>
+                    <span>プロフィール設定</span>
+                </a>
+                <a href="#" class="nav-item" data-section="subscription" onclick="showSection('subscription')">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <rect width="20" height="14" x="2" y="5" rx="2" />
+                            <line x1="2" x2="22" y1="10" y2="10" />
+                        </svg>
+                    </span>
+                    <span>プラン・お支払い</span>
+                </a>
+
+                <div style="padding: 1rem 0.75rem; border-top: 1px solid var(--border-color); margin-top: auto;">
+                    <a href="#" id="logout-btn-side" class="nav-item"
+                        style="color: #ef4444; background: none; box-shadow: none;">
+                        <span class="nav-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                <polyline points="16 17 21 12 16 7" />
+                                <line x1="21" x2="9" y1="12" y2="12" />
+                            </svg>
+                        </span>
+                        <span>ログアウト</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="content-inner">
+
+                <!-- Section: Dashboard -->
+                <div id="section-dashboard" class="content-section active">
+                    <div class="content-header">
+                        <h1
+                            style="font-size: 2.2rem; font-weight: 900; color: var(--text-primary); margin: 0; letter-spacing: -0.5px;">
+                        </h1>
+                    </div>
+
+                    <!-- Stats Grid -->
+                    <div class="grid-3" style="margin-bottom: 3rem;">
+                        <div class="stat-card">
+                            <span class="stat-icon-wrapper"
+                                style="background: rgba(102, 126, 234, 0.1); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; margin-bottom: 1rem;">
+                                <span style="font-size:1.2rem;">📋</span>
+                            </span>
+                            <div class="stat-value" id="total-regulations">0</div>
+                            <div class="stat-label">該当制度</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-icon-wrapper"
+                                style="background: rgba(245, 158, 11, 0.1); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; margin-bottom: 1rem;">
+                                <span style="font-size:1.2rem;">🔔</span>
+                            </span>
+                            <div class="stat-value" id="upcoming-count">0</div>
+                            <div class="stat-label">30日内の期限</div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Deadlines -->
+                    <div id="upcoming-section" class="glass-card" style="margin-bottom: 3rem;">
+                        <h2
+                            style="margin-bottom: 2rem; font-size: 1.75rem; font-weight: 800; color: var(--text-primary);">
+                            📅 直近の期限</h2>
+                        <div id="upcoming-deadlines">
+                            <p style="color: var(--text-secondary); text-align: center; padding: 2rem;">制度を計算中...</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Section: Regulations List (New) -->
+                <div id="section-regulations" class="content-section">
+
+                    <div class="glass-card fade-in-up">
+                        <div id="all-regulations" style="overflow-x: auto;">
+                            <p style="color: var(--text-secondary); text-align: center; padding: 2rem;">読み込み中...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Team (New) -->
+                <div id="section-team" class="content-section">
+
+                    <div class="glass-card fade-in-up">
+                        <div id="team-list">
+                            <div class="team-member-item"
+                                style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: #f8fafc; border-radius: 12px; border: 1px solid var(--border-color);">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div
+                                        style="width: 40px; height: 40px; background: var(--primary-gradient); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800;">
+                                        主</div>
+                                    <div>
+                                        <p style="font-weight: 700; color: var(--text-primary); margin: 0;">あなた（オーナー）
+                                        </p>
+                                        <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;">全権限</p>
+                                    </div>
+                                </div>
+                                <span class="badge badge-info" style="font-size: 0.7rem;">アクティブ</span>
+                            </div>
+                            <div id="add-member-btn"
+                                style="text-align: center; padding: 2rem; border: 2px dashed var(--border-color); border-radius: 16px; margin-top: 1rem; cursor: pointer;">
+                                <p style="color: var(--text-secondary); font-weight: 600; margin: 0;">+ チームメンバーを追加</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Member Modal -->
+                <div id="add-member-modal" class="modal-overlay" style="display: none; z-index: 10000;">
+                    <div class="modal-content" style="max-width: 500px;">
+                        <button class="close-modal-pro" id="close-add-member-x">&times;</button>
+                        <h2
+                            style="font-size: 1.5rem; font-weight: 800; margin-bottom: 2rem; color: var(--text-primary); padding-right: 3rem;">
+                            チームメンバーを招待
+                        </h2>
+                        <form id="invite-member-form">
+                            <div class="form-group-pro">
+                                <label class="label-pro-fixed">メールアドレス</label>
+                                <input type="email" id="invite-email" required class="textarea-pro"
+                                    style="height: auto; padding: 1rem;" placeholder="member@example.com">
+                            </div>
+                            <div class="form-group-pro">
+                                <label class="label-pro-fixed">権限</label>
+                                <select id="invite-role" class="textarea-pro" style="height: auto; padding: 1rem;">
+                                    <option value="admin">管理者 (全機能の利用)</option>
+                                    <option value="editor">編集者 (設定変更のみ)</option>
+                                    <option value="viewer">閲覧者 (閲覧のみ)</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn primary-btn"
+                                style="width: 100%; padding: 1rem; margin-top: 1rem;">招待メールを送信</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Section: Profile -->
+                <div id="section-profile" class="content-section">
+
+                    <div class="glass-card no-hover" style="max-width: 800px;">
+                        <form id="profile-form">
+                            <div class="form-group-pro">
+                                <label class="label-pro-fixed">🏢 会社種別</label>
+                                <select id="company-type" required class="textarea-pro"
+                                    style="height: auto; padding: 1rem;">
+                                    <option value="">選択してください</option>
+                                    <option value="corporation">法人</option>
+                                    <option value="sole">個人事業主</option>
+                                </select>
+                            </div>
+                            <div class="form-group-pro">
+                                <label class="label-pro-fixed">🏢 業種</label>
+                                <select id="industry" required class="textarea-pro"
+                                    style="height: auto; padding: 1rem;">
+                                    <option value="">選択してください</option>
+                                    <option value="it">IT・通信</option>
+                                    <option value="ec">EC・小売</option>
+                                    <option value="food">飲食業</option>
+                                    <option value="other">その他</option>
+                                </select>
+                            </div>
+                            <div class="form-group-pro">
+                                <label class="label-pro-fixed">👥 従業員数</label>
+                                <select id="employee-size" required class="textarea-pro"
+                                    style="height: auto; padding: 1rem;">
+                                    <option value="">選択してください</option>
+                                    <option value="1">1名（代表のみ）</option>
+                                    <option value="2-5">2〜5名</option>
+                                    <option value="6-20">6〜20名</option>
+                                </select>
+                            </div>
+                            <div class="form-group-pro">
+                                <label class="label-pro-fixed">📅 決算月</label>
+                                <select id="fiscal-month" required class="textarea-pro"
+                                    style="height: auto; padding: 1rem;">
+                                    <option value="">選択してください</option>
+                                    <option value="1">1月</option>
+                                    <option value="2">2月</option>
+                                    <option value="3">3月</option>
+                                    <option value="4">4月</option>
+                                    <option value="5">5月</option>
+                                    <option value="6">6月</option>
+                                    <option value="7">7月</option>
+                                    <option value="8">8月</option>
+                                    <option value="9">9月</option>
+                                    <option value="10">10月</option>
+                                    <option value="11">11月</option>
+                                    <option value="12">12月</option>
+                                </select>
+                            </div>
+                            <div class="form-group-pro">
+                                <label class="label-pro-fixed">📅 設立年月日</label>
+                                <input type="text" id="incorporation-date" required class="textarea-pro"
+                                    style="height: auto; padding: 1rem;" placeholder="2024/01/01">
+                            </div>
+                            <button type="submit" class="btn primary-btn"
+                                style="width: 100%; padding: 1.25rem; font-size: 1.1rem;">💾 変更を保存する</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Section: Subscription -->
+                <div id="section-subscription" class="content-section">
+                    <p style="text-align: center; padding: 2rem; color: var(--text-secondary);">メンバーシップ情報を読み込み中...</p>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Edit Modal -->
+    <div id="edit-modal" class="modal-overlay" style="display: none; z-index: 10000;">
+        <div class="modal-content edit-modal-content">
+            <button class="close-modal-pro" id="close-modal-x">&times;</button>
+            <h2
+                style="font-size: 1.75rem; font-weight: 900; margin-bottom: 2.5rem; color: var(--text-primary); padding-right: 3rem;">
+                📅 通知文面の編集
+            </h2>
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2.5rem;" class="grid-modal-resp">
+                <div>
+                    <div class="form-group-pro">
+                        <label class="label-pro-fixed">対象制度</label>
+                        <p id="edit-reg-title"
+                            style="font-weight: 800; color: var(--text-primary); font-size: 1.25rem;"></p>
+                    </div>
+                    <div style="background: #f1f5f9; padding: 1.5rem; border-radius: 16px;">
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>利用可能な変数:</strong><br>
+                            <code>{{title}}</code> : 制度名<br>
+                            <code>{{date}}</code> : 期限日<br>
+                            <code>{{days}}</code> : 残日数
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group-pro">
+                        <label class="label-pro-fixed">通知テンプレート</label>
+                        <textarea id="edit-custom-message" class="textarea-pro" style="height: 350px;"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-group-pro" style="justify-content: flex-end;">
+                <button type="button" class="btn secondary-btn" id="close-edit-modal"
+                    style="flex: 0 1 150px; padding: 1rem;">キャンセル</button>
+                <button type="button" class="btn primary-btn" id="save-edit-btn"
+                    style="flex: 0 1 250px; padding: 1rem;">保存する</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { auth, db, onAuthStateChanged } from './js/firebase-config.js?v=20260128_ULTRA_REFRESH';
+        import { doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { COMPLIANCE_ITEMS, getApplicableCompliances, calculateDeadline } from './js/compliance-logic.js?v=20260128_ULTRA_REFRESH';
+
+        let currentUserData = null;
+
+        // --- Mobile Toggle Logic ---
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const sidebar = document.getElementById('sidebar');
+        if (mobileToggle && sidebar) {
+            mobileToggle.onclick = (e) => {
+                e.stopPropagation();
+                mobileToggle.classList.toggle('active');
+                sidebar.classList.toggle('active');
+            };
+
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', (e) => {
+                const isMobile = window.innerWidth <= 1024;
+                if (isMobile && sidebar.classList.contains('active') &&
+                    !sidebar.contains(e.target) &&
+                    !mobileToggle.contains(e.target)) {
+                    sidebar.classList.remove('active');
+                    mobileToggle.classList.remove('active');
+                }
+            });
+        }
+
+        // --- SPA Section Logic ---
+        window.showSection = (sectionId) => {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(`section-${sectionId}`).classList.add('active');
+
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            const activeNav = document.querySelector(`.nav-item[data-section="${sectionId}"]`);
+            if (activeNav) activeNav.classList.add('active');
+
+            // Close mobile sidebar if open
+            if (sidebar) sidebar.classList.remove('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        // --- Auth & Data Loading ---
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            try {
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                if (userDoc.exists()) {
+                    currentUserData = userDoc.data();
+                    if (!currentUserData.company_type) {
+                        showSection('profile');
+                    }
+                    updateDashboardUI(currentUserData);
+                    fillProfileForm(currentUserData);
+                    loadSubscriptionUI(currentUserData, user);
+                } else {
+                    showSection('profile');
+                }
+            } catch (error) {
+                console.error("Data load error:", error);
+            }
+        });
+
+        // --- Dashboard Logic ---
+        function updateDashboardUI(userData) {
+            renderCompliances(userData);
+        }
+
+        async function renderCompliances(userData) {
+            const upcomingEl = document.getElementById('upcoming-deadlines');
+            const allEl = document.getElementById('all-regulations');
+            const totalEl = document.getElementById('total-regulations');
+            const upcomingCountEl = document.getElementById('upcoming-count');
+
+            const applicableItems = getApplicableCompliances(userData);
+            if (applicableItems.length === 0) {
+                upcomingEl.innerHTML = '<p style="text-align: center; padding: 2rem;">該当する制度がありません</p>';
+                allEl.innerHTML = '<p style="text-align: center; padding: 2rem;">該当する制度がありません</p>';
+                return;
+            }
+
+            const deadlines = applicableItems.map(item => {
+                const deadline = calculateDeadline(item, userData);
+                const daysUntil = Math.ceil((deadline - new Date()) / (1000 * 60 * 60 * 24));
+                return { ...item, deadline, daysUntil };
+            }).sort((a, b) => a.deadline - b.deadline);
+
+            totalEl.textContent = deadlines.length;
+            upcomingCountEl.textContent = deadlines.filter(d => d.daysUntil <= 30 && d.daysUntil >= 0).length;
+
+            // Render Upcoming (Top 3)
+            upcomingEl.innerHTML = deadlines.slice(0, 3).map(item => {
+                const color = item.daysUntil <= 7 ? '#ef4444' : item.daysUntil <= 30 ? '#f59e0b' : '#3b82f6';
+                return `<div class="glass-card" style="margin-bottom: 1rem; padding: 1.5rem;">
+                    <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem; color: var(--text-primary);">${item.title}</h3>
+                    <div style="display: flex; gap: 1rem; font-size: 0.85rem; font-weight: 700;">
+                        <span>📅 ${item.deadline.toLocaleDateString('ja-JP')}</span>
+                        <span style="color: ${color}">${item.daysUntil}日後</span>
+                    </div>
+                </div>`;
+            }).join('');
+
+            // Grouping by category
+            const groups = {
+                tax: { title: '税務', icon: '🏛️', items: [] },
+                labor: { title: '労務', icon: '👥', items: [] },
+                other: { title: 'その他', icon: '📄', items: [] }
+            };
+
+            deadlines.forEach(item => {
+                const cat = item.category || 'other';
+                if (groups[cat]) groups[cat].items.push(item);
+                else groups['other'].items.push(item);
+            });
+
+            // Render Grouped Accordion
+            let html = '';
+            for (const [key, group] of Object.entries(groups)) {
+                if (group.items.length === 0) continue;
+
+                html += `
+                    <div class="category-accordion" id="cat-${key}">
+                        <div class="category-header" onclick="toggleCategory('${key}')">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 1.2rem;">${group.icon}</span>
+                                <span style="font-weight: 800; color: var(--text-primary);">${group.title}</span>
+                                <span class="badge" style="background: #f1f5f9; color: #64748b; margin-left: 8px; text-transform: none; padding: 0.25rem 0.75rem;">${group.items.length}件</span>
+                            </div>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                        <div class="category-content">
+                            <table>
+                                <thead>
+                                    <tr><th>制度名</th><th>期限</th><th>残日数</th><th style="text-align:center;">通知</th><th>操作</th></tr>
+                                </thead>
+                                <tbody>
+                                    ${group.items.map(item => `
+                                        <tr onclick="if(window.innerWidth<=1024) this.classList.toggle('expanded')">
+                                            <td style="font-weight: 700;">${item.title}</td>
+                                            <td>${item.deadline.toLocaleDateString('ja-JP')}</td>
+                                            <td>${item.daysUntil}日</td>
+                                            <td style="text-align:center;" onclick="event.stopPropagation()">
+                                                <label class="switch">
+                                                    <input type="checkbox" checked>
+                                                    <span class="slider"></span>
+                                                </label>
+                                            </td>
+                                            <td onclick="event.stopPropagation()">
+                                                <button class="edit-btn" onclick="openEditModal('${item.id}', '${item.title}')">編集</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+            allEl.innerHTML = html;
+        }
+
+        window.toggleCategory = (key) => {
+            const el = document.getElementById(`cat-${key}`);
+            if (el) el.classList.toggle('active');
+        };
+
+        // --- Profile Logic ---
+        function fillProfileForm(userData) {
+            document.getElementById('company-type').value = userData.company_type || '';
+            document.getElementById('industry').value = userData.industry || '';
+            document.getElementById('employee-size').value = userData.employee_size || '';
+            document.getElementById('fiscal-month').value = userData.fiscal_month || '';
+            if (userData.incorporation_date) {
+                const d = userData.incorporation_date.toDate();
+                document.getElementById('incorporation-date').value = `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
+            }
+        }
+
+        document.getElementById('profile-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const user = auth.currentUser;
+            const incDateStr = document.getElementById('incorporation-date').value.replace(/\//g, '');
+            const incDate = new Date(incDateStr.substring(0, 4), parseInt(incDateStr.substring(4, 6)) - 1, incDateStr.substring(6, 8));
+
+            await setDoc(doc(db, 'users', user.uid), {
+                company_type: document.getElementById('company-type').value,
+                industry: document.getElementById('industry').value,
+                employee_size: document.getElementById('employee-size').value,
+                fiscal_month: parseInt(document.getElementById('fiscal-month').value),
+                incorporation_date: incDate,
+                updated_at: serverTimestamp()
+            }, { merge: true });
+            alert('プロフィールを保存しました');
+            location.reload();
+        };
+
+        // --- Subscription Logic ---
+        async function loadSubscriptionUI(userData, user) {
+            const container = document.getElementById('section-subscription');
+            const status = userData.subscription_status || 'trial';
+
+            // Calculate trial days (assumes 30 days from updated_at if trial)
+            let trialDaysLeft = 30;
+            if (userData.updated_at) {
+                const updatedDate = userData.updated_at.toDate();
+                const now = new Date();
+                const diffTime = now - updatedDate;
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                trialDaysLeft = Math.max(0, 30 - diffDays);
+            }
+
+            const regDate = userData.created_at ? userData.created_at.toDate() : (userData.updated_at ? userData.updated_at.toDate() : new Date());
+            const expDate = new Date(regDate);
+            expDate.setDate(expDate.getDate() + 30);
+            const memberSince = (regDate.getMonth() + 1).toString().padStart(2, '0') + '/' + regDate.getFullYear().toString().slice(-2);
+            const validThru = (expDate.getMonth() + 1).toString().padStart(2, '0') + '/' + expDate.getFullYear().toString().slice(-2);
+
+            // Determine Card Theme
+            const plan = userData.plan || 'lite';
+            let themeClass = '';
+            let badgeText = 'PRO';
+            let accentColor = '#d4af37';
+
+            if (plan === 'lite') {
+                themeClass = 'lite';
+                badgeText = 'LITE';
+                accentColor = '#9e9e9e';
+            } else if (plan === 'standard') {
+                themeClass = 'standard';
+                badgeText = 'STANDARD';
+                accentColor = '#64b5f6';
+            } else if (status === 'active') {
+                badgeText = 'PLATINUM';
+            }
+
+            container.innerHTML = `
+                <div class="membership-dashboard fade-in-up">
+                    <div class="membership-card ${themeClass}">
+                        <div class="membership-card-watermark">MERKI</div>
+                        
+                        <!-- Top Branding -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; z-index: 2; width: 100%;">
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <div class="gold-logo-mask" style="width: 42px; height: 42px;"></div>
+                                <h2 class="gold-text-metallic" style="font-family: 'OCR A Std', 'Courier New', monospace; letter-spacing: 6px; font-size: 1.8rem; margin: 0; line-height: 1;">MERKI</h2>
+                            </div>
+                            <div class="plan-badge" style="position: static; border: 1.5px solid var(--card-border); color: var(--card-border); padding: 0.5rem 1.4rem; border-radius: 4px; font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; background: rgba(0,0,0,0.6); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">${badgeText}</div>
+                        </div>
+                        
+                        <!-- Main Content Grid -->
+                        <div class="membership-status-grid" style="z-index: 2;">
+                            <div class="status-main">
+                                <div style="display: flex; gap: 4rem; align-items: flex-end; margin-bottom: 2.5rem;">
+                                    <div>
+                                        <div class="card-label">MEMBER SINCE</div>
+                                        <div class="card-value">${memberSince}</div>
+                                    </div>
+                                    <div>
+                                        <div class="card-label">VALID THRU</div>
+                                        <div class="card-value">${validThru}</div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="card-label">CARD MEMBER</div>
+                                    <div class="card-value" style="font-size: 1.6rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">${userData.company_name || 'VIP MEMBER'}</div>
+                                </div>
+                            </div>
+                            
+                             <div class="status-visual" style="display: flex; justify-content: center; align-items: center;">
+                                ${status === 'trial' ? `
+                                     <div class="progress-indicator-wrapper" style="position: relative; width: 150px; height: 150px; display: flex; justify-content: center; align-items: center;">
+                                        <!-- Outer luxury ring -->
+                                        <div style="position: absolute; inset: 0; border: 1.5px solid var(--card-accent-glow); border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.6); background: rgba(0,0,0,0.5);"></div>
+                                        <svg viewBox="0 0 140 140" style="width: 130px; height: 130px; transform: rotate(-90deg); z-index: 1;">
+                                            <circle cx="70" cy="70" r="62" style="fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 4;"></circle>
+                                            <circle cx="70" cy="70" r="62" 
+                                                style="fill: none; stroke: var(--card-border); stroke-width: 10; stroke-linecap: round; stroke-dasharray: 390; stroke-dashoffset: ${390 * (1 - trialDaysLeft / 30)}; filter: drop-shadow(0 0 8px var(--card-accent-glow)); transition: stroke-dashoffset 2s ease-out;"></circle>
+                                        </svg>
+                                        <div style="position: absolute; z-index: 2; text-align: center; width: 100%;">
+                                            <span style="font-size: 0.75rem; color: var(--card-border); font-weight: 800; display: block; margin-bottom: -0.4rem; letter-spacing: 1px;">残り</span>
+                                            <span style="color: var(--card-text-primary); font-weight: 900; font-size: 3.2rem; line-height: 1; display: block; text-shadow: none;">${trialDaysLeft}</span>
+                                            <span style="font-size: 0.8rem; color: var(--card-text-primary); font-weight: 800; display: block; margin-top: -0.2rem;">日</span>
+                                        </div>
+                                    </div>
+                                ` : `
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 5.5rem; filter: drop-shadow(0 0 30px var(--card-accent-glow)); margin-bottom: 0.5rem; animation: pulse 3s infinite;">💎</div>
+                                        <div style="font-weight: 900; color: var(--card-border); letter-spacing: 4px; font-size: 0.8rem;">ULTIMATE MASTER</div>
+                                    </div>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="benefits-section">
+                        <h3><span style="font-size: 1.5rem;">✨</span> 解放されているプレミアム機能</h3>
+                        <div class="benefits-grid">
+                            <div class="benefit-item">
+                                <div class="benefit-icon">🔔</div>
+                                <div class="benefit-info">
+                                    <h4>各制度の期限通知</h4>
+                                    <p>30日、7日、前日のタイミングで自動リマインドを送信します。</p>
+                                </div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="benefit-icon">👥</div>
+                                <div class="benefit-info">
+                                    <h4>チーム管理機能</h4>
+                                    <p>最大10名のメンバーを招待し、管理画面を共有できます。</p>
+                                </div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="benefit-icon">⚙️</div>
+                                <div class="benefit-info">
+                                    <h4>通知内容のカスタマイズ</h4>
+                                    <p>通知されるメッセージの文面を制度ごとに自由に変更可能です。</p>
+                                </div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="benefit-icon">✅</div>
+                                <div class="benefit-info">
+                                    <h4>個別通知のON/OFF</h4>
+                                    <p>ご自身の状況に合わせ、制度ごとに通知の有無を制御できます。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: center; margin-bottom: 3rem;">
+                        <div id="paypal-button-container" style="width: 100%; max-width: 500px;"></div>
+                    </div>
+
+                    <div class="payment-security">
+                        <div class="security-badge">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                            PayPalによる安全な決済
+                        </div>
+                        <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 1rem;">
+                            お支払いはPayPal経由で安全に処理されます。クレジットカード情報は本サービスには保存されません。
+                        </p>
+                    </div>
+                </div >
+                `;
+
+            if (status === 'trial') {
+                loadPayPalSDK(() => renderPayPalButton(user));
+            }
+        }
+
+        function loadPayPalSDK(callback) {
+            if (window.paypal) return callback();
+            const s = document.createElement('script');
+            s.src = "https://www.paypal.com/sdk/js?client-id=sb&vault=true&intent=subscription";
+            s.onload = callback;
+            document.head.appendChild(s);
+        }
+
+        function renderPayPalButton(user) {
+            paypal.Buttons({
+                style: { shape: 'rect', color: 'blue', layout: 'vertical', label: 'subscribe' },
+                createSubscription: (data, actions) => actions.subscription.create({ 'plan_id': 'P-TEST', 'custom_id': user.uid }),
+                onApprove: async (data, actions) => {
+                    await setDoc(doc(db, 'users', user.uid), { subscription_id: data.subscriptionID, subscription_status: 'active' }, { merge: true });
+                    alert('アップグレード完了！');
+                    location.reload();
+                }
+            }).render('#paypal-button-container');
+        }
+
+        // --- Modal Logic ---
+        window.openEditModal = (id, title) => {
+            document.getElementById('edit-reg-title').textContent = title;
+            document.getElementById('edit-modal').style.display = 'flex';
+            document.getElementById('edit-custom-message').value = localStorage.getItem(`custom_msg_${id} `) || '';
+            window.currentEditingId = id;
+        };
+        const closeEditModal = () => document.getElementById('edit-modal').style.display = 'none';
+        document.getElementById('close-modal-x').onclick = closeEditModal;
+        document.getElementById('close-edit-modal').onclick = closeEditModal;
+        document.getElementById('save-edit-btn').onclick = () => {
+            localStorage.setItem(`custom_msg_${window.currentEditingId} `, document.getElementById('edit-custom-message').value);
+            alert('保存しました');
+            closeEditModal();
+        };
+
+        // --- Team Member Logic ---
+        const addMemberBtn = document.getElementById('add-member-btn');
+        const addMemberModal = document.getElementById('add-member-modal');
+        const closeAddMemberX = document.getElementById('close-add-member-x');
+        const inviteForm = document.getElementById('invite-member-form');
+
+        if (addMemberBtn) {
+            addMemberBtn.onclick = () => {
+                addMemberModal.style.display = 'flex';
+            };
+        }
+        if (closeAddMemberX) {
+            closeAddMemberX.onclick = () => {
+                addMemberModal.style.display = 'none';
+            };
+        }
+
+        if (inviteForm) {
+            inviteForm.onsubmit = async (e) => {
+                e.preventDefault();
+                const btn = inviteForm.querySelector('button[type="submit"]');
+                const originalText = btn.textContent;
+                btn.disabled = true;
+                btn.textContent = '送信中...';
+
+                const email = document.getElementById('invite-email').value;
+                const role = document.getElementById('invite-role').value;
+
+                try {
+                    const response = await fetch('/.netlify/functions/send-invite', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            email: email,
+                            role: role,
+                            senderName: currentUserData?.name || 'オーナー',
+                            senderEmail: auth.currentUser?.email || ''
+                        })
+                    });
+
+                    if (!response.ok) throw new Error('Failed to send email');
+
+                    const teamList = document.getElementById('team-list');
+                    const newMemberHTML = `
+                < div class="team-member-item" style = "display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: #fff; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 1rem;" >
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 40px; height: 40px; background: #e2e8f0; border-radius: 50%; color: #64748b; display: flex; align-items: center; justify-content: center; font-weight: 800;">
+                                ${email.charAt(0).toUpperCase()}</div>
+                            <div>
+                                <p style="font-weight: 700; color: var(--text-primary); margin: 0;">${email}</p>
+                                <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;">招待中 - ${role === 'admin' ? '管理者' : role === 'editor' ? '編集者' : '閲覧者'}</p>
+                            </div>
+                        </div>
+                        <span class="badge badge-warning" style="font-size: 0.7rem; background: #fff7ed; color: #c2410c; padding: 2px 8px; border-radius: 6px;">招待中</span>
+                    </div > `;
+
+                    addMemberBtn.insertAdjacentHTML('beforebegin', newMemberHTML);
+                    alert(`${email} に招待状を送信しました`);
+                    addMemberModal.style.display = 'none';
+                    inviteForm.reset();
+
+                } catch (error) {
+                    console.error(error);
+                    alert('招待メールの送信に失敗しました。時間をおいて再試行してください。');
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = originalText;
+                }
+            };
+        }
+
+        const logoutBtnSide = document.getElementById('logout-btn-side');
+        if (logoutBtnSide) {
+            logoutBtnSide.onclick = async () => {
+                await signOut(auth);
+                window.location.href = 'index.html';
+            };
+        }
+
+        // Date input helper
+        const incDateInput = document.getElementById('incorporation-date');
+        if (incDateInput) {
+            incDateInput.oninput = (e) => {
+                let v = e.target.value.replace(/\D/g, '');
+                if (v.length > 8) v = v.slice(0, 8);
+                if (v.length >= 4) {
+                    v = v.substring(0, 4) + (v.length > 4 ? '/' + v.substring(4, 6) : '') + (v.length > 6 ? '/' + v.substring(6, 8) : '');
+                }
+                e.target.value = v;
+            };
+        }
+    </script>
+</body>
+
+</html>

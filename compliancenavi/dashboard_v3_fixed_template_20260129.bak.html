@@ -10,8 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20260201_mobile_card_fix_v13_script_inject">
-    <link rel="stylesheet" href="pro_dashboard.css?v=20260201_mobile_card_fix_v13_script_inject">
+    <link rel="stylesheet" href="style.css?v=20260128_perfect_gold">
+    <link rel="stylesheet" href="pro_dashboard.css?v=20260128_perfect_gold">
     <!-- <link rel="stylesheet" href="no-motion.css?v=20260128_perfect_gold"> -->
     <link rel="icon" type="image/png" href="logo.png">
 </head>
@@ -114,6 +114,12 @@
 
                 <!-- Section: Dashboard -->
                 <div id="section-dashboard" class="content-section active">
+                    <div class="content-header">
+                        <h1
+                            style="font-size: 2.2rem; font-weight: 900; color: var(--text-primary); margin: 0; letter-spacing: -0.5px;">
+                        </h1>
+                    </div>
+
                     <!-- Stats Grid -->
                     <div class="grid-3" style="margin-bottom: 3rem;">
                         <div class="stat-card">
@@ -157,111 +163,24 @@
                                     <div style="display: flex; align-items: center; gap: 10px;">
                                         <span style="font-size: 1.2rem;">🏛️</span>
                                         <span style="font-weight: 800; color: var(--text-primary);">税務</span>
-                                        <span class="badge"
-                                            style="background: #f1f5f9; color: #64748b; margin-left: 8px; text-transform: none; padding: 0.25rem 0.75rem;">8件</span>
+                                        <span class="badge" style="background: #f1f5f9; color: #64748b; margin-left: 8px; text-transform: none; padding: 0.25rem 0.75rem;">8件</span>
                                     </div>
                                     <span class="accordion-icon">▼</span>
                                 </div>
                                 <div class="category-content">
                                     <table>
                                         <thead>
-                                            <tr>
-                                                <th>制度名</th>
-                                                <th>期限</th>
-                                                <th>残日数</th>
-                                                <th style="text-align:center;">通知</th>
-                                                <th>操作</th>
-                                            </tr>
+                                            <tr><th>制度名</th><th>期限</th><th>残日数</th><th style="text-align:center;">通知</th><th>操作</th></tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td style="font-weight: 700;">法人税申告</td>
-                                                <td>決算月+2ヶ月</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('corporate_tax', '法人税申告')">編集</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">消費税申告</td>
-                                                <td>決算月+2ヶ月</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('consumption_tax', '消費税申告')">編集</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">源泉所得税納付</td>
-                                                <td>毎月10日</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('withholding_tax', '源泉所得税納付')">編集</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">年末調整</td>
-                                                <td>毎年12月</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('year_end_adjustment', '年末調整')">編集</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">固定資産税申告</td>
-                                                <td>毎年1月</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('fixed_asset_tax', '固定資産税申告')">編集</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">法人税中間申告</td>
-                                                <td>決算月+8ヶ月</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('corporate_interim_tax', '法人税中間申告')">編集</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">消費税中間申告</td>
-                                                <td>決算月+8ヶ月</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('consumption_interim_tax', '消費税中間申告')">編集</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">法人住民税・事業税</td>
-                                                <td>決算月+2ヶ月</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('resident_tax', '法人住民税・事業税')">編集</button>
-                                                </td>
-                                            </tr>
+                                            <tr><td style="font-weight: 700;">法人税申告</td><td>決算月+2ヶ月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('corporate_tax', '法人税申告')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">消費税申告</td><td>決算月+2ヶ月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('consumption_tax', '消費税申告')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">源泉所得税納付</td><td>毎月10日</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('withholding_tax', '源泉所得税納付')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">年末調整</td><td>毎年12月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('year_end_adjustment', '年末調整')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">固定資産税申告</td><td>毎年1月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('fixed_asset_tax', '固定資産税申告')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">法人税中間申告</td><td>決算月+8ヶ月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('corporate_interim_tax', '法人税中間申告')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">消費税中間申告</td><td>決算月+8ヶ月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('consumption_interim_tax', '消費税中間申告')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">法人住民税・事業税</td><td>決算月+2ヶ月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('resident_tax', '法人住民税・事業税')">編集</button></td></tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -273,89 +192,22 @@
                                     <div style="display: flex; align-items: center; gap: 10px;">
                                         <span style="font-size: 1.2rem;">👥</span>
                                         <span style="font-weight: 800; color: var(--text-primary);">労務</span>
-                                        <span class="badge"
-                                            style="background: #f1f5f9; color: #64748b; margin-left: 8px; text-transform: none; padding: 0.25rem 0.75rem;">6件</span>
+                                        <span class="badge" style="background: #f1f5f9; color: #64748b; margin-left: 8px; text-transform: none; padding: 0.25rem 0.75rem;">6件</span>
                                     </div>
                                     <span class="accordion-icon">▼</span>
                                 </div>
                                 <div class="category-content">
                                     <table>
                                         <thead>
-                                            <tr>
-                                                <th>制度名</th>
-                                                <th>期限</th>
-                                                <th>残日数</th>
-                                                <th style="text-align:center;">通知</th>
-                                                <th>操作</th>
-                                            </tr>
+                                            <tr><th>制度名</th><th>期限</th><th>残日数</th><th style="text-align:center;">通知</th><th>操作</th></tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td style="font-weight: 700;">労働保険 年度更新</td>
-                                                <td>毎年6月</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('labor_insurance', '労働保険 年度更新')">編集</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">算定基礎届</td>
-                                                <td>毎年7月</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('pension_report', '算定基礎届')">編集</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">定期健康診断</td>
-                                                <td>毎年9月</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('health_checkup', '定期健康診断')">編集</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">ストレスチェック</td>
-                                                <td>毎年11月</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('stress_check', 'ストレスチェック')">編集</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">社会保険料納付</td>
-                                                <td>毎月末日</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('social_insurance', '社会保険料納付')">編集</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">36協定届出</td>
-                                                <td>毎年3月</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('labor_agreement', '36協定届出')">編集</button>
-                                                </td>
-                                            </tr>
+                                            <tr><td style="font-weight: 700;">労働保険 年度更新</td><td>毎年6月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('labor_insurance', '労働保険 年度更新')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">算定基礎届</td><td>毎年7月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('pension_report', '算定基礎届')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">定期健康診断</td><td>毎年9月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('health_checkup', '定期健康診断')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">ストレスチェック</td><td>毎年11月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('stress_check', 'ストレスチェック')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">社会保険料納付</td><td>毎月末日</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('social_insurance', '社会保険料納付')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">36協定届出</td><td>毎年3月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('labor_agreement', '36協定届出')">編集</button></td></tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -367,132 +219,26 @@
                                     <div style="display: flex; align-items: center; gap: 10px;">
                                         <span style="font-size: 1.2rem;">📄</span>
                                         <span style="font-weight: 800; color: var(--text-primary);">その他</span>
-                                        <span class="badge"
-                                            style="background: #f1f5f9; color: #64748b; margin-left: 8px; text-transform: none; padding: 0.25rem 0.75rem;">10件</span>
+                                        <span class="badge" style="background: #f1f5f9; color: #64748b; margin-left: 8px; text-transform: none; padding: 0.25rem 0.75rem;">10件</span>
                                     </div>
                                     <span class="accordion-icon">▼</span>
                                 </div>
                                 <div class="category-content">
                                     <table>
                                         <thead>
-                                            <tr>
-                                                <th>制度名</th>
-                                                <th>期限</th>
-                                                <th>残日数</th>
-                                                <th style="text-align:center;">通知</th>
-                                                <th>操作</th>
-                                            </tr>
+                                            <tr><th>制度名</th><th>期限</th><th>残日数</th><th style="text-align:center;">通知</th><th>操作</th></tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td style="font-weight: 700;">決算公告</td>
-                                                <td>決算月+3ヶ月</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('financial_disclosure', '決算公告')">編集</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">法定調書合計表</td>
-                                                <td>毎年1月</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('legal_report', '法定調書合計表')">編集</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">源泉徴収票交付</td>
-                                                <td>毎年1月</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('withholding_slip', '源泉徴収票交付')">編集</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">住民税特別徴収</td>
-                                                <td>毎月10日</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('resident_tax_collect', '住民税特別徴収')">編集</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">事業所税申告</td>
-                                                <td>決算月+2ヶ月</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('office_tax', '事業所税申告')">編集</button></td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">事業報告書提出</td>
-                                                <td>決算月+3ヶ月</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('business_report', '事業報告書提出')">編集</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">賞与支払届</td>
-                                                <td>支払後5日以内</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('bonus_report', '賞与支払届')">編集</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">雇用保険料申告</td>
-                                                <td>毎年6月</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('employment_insurance', '雇用保険料申告')">編集</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">法人登記事項変更届</td>
-                                                <td>変更後2週間以内</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('registration_change', '法人登記事項変更届')">編集</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: 700;">法人番号変更届</td>
-                                                <td>速やかに</td>
-                                                <td>-</td>
-                                                <td style="text-align:center;"><label class="switch"><input
-                                                            type="checkbox" checked><span class="slider"></span></label>
-                                                </td>
-                                                <td><button class="edit-btn"
-                                                        onclick="openEditModal('corporate_number_change', '法人番号変更届')">編集</button>
-                                                </td>
-                                            </tr>
+                                            <tr><td style="font-weight: 700;">決算公告</td><td>決算月+3ヶ月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('financial_disclosure', '決算公告')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">法定調書合計表</td><td>毎年1月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('legal_report', '法定調書合計表')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">源泉徴収票交付</td><td>毎年1月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('withholding_slip', '源泉徴収票交付')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">住民税特別徴収</td><td>毎月10日</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('resident_tax_collect', '住民税特別徴収')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">事業所税申告</td><td>決算月+2ヶ月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('office_tax', '事業所税申告')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">事業報告書提出</td><td>決算月+3ヶ月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('business_report', '事業報告書提出')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">賞与支払届</td><td>支払後5日以内</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('bonus_report', '賞与支払届')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">雇用保険料申告</td><td>毎年6月</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('employment_insurance', '雇用保険料申告')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">法人登記事項変更届</td><td>変更後2週間以内</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('registration_change', '法人登記事項変更届')">編集</button></td></tr>
+                                            <tr><td style="font-weight: 700;">法人番号変更届</td><td>速やかに</td><td>-</td><td style="text-align:center;"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td><td><button class="edit-btn" onclick="openEditModal('corporate_number_change', '法人番号変更届')">編集</button></td></tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -539,12 +285,12 @@
                         <form id="invite-member-form">
                             <div class="form-group-pro">
                                 <label class="label-pro-fixed">メールアドレス</label>
-                                <input type="email" id="invite-email" required class="input-pro"
-                                    placeholder="member@example.com">
+                                <input type="email" id="invite-email" required class="textarea-pro"
+                                    style="height: auto; padding: 1rem;" placeholder="member@example.com">
                             </div>
                             <div class="form-group-pro">
                                 <label class="label-pro-fixed">権限</label>
-                                <select id="invite-role" class="input-pro">
+                                <select id="invite-role" class="textarea-pro" style="height: auto; padding: 1rem;">
                                     <option value="admin">管理者 (全機能の利用)</option>
                                     <option value="editor">編集者 (設定変更のみ)</option>
                                     <option value="viewer">閲覧者 (閲覧のみ)</option>
@@ -562,13 +308,9 @@
                     <div class="glass-card no-hover" style="max-width: 800px;">
                         <form id="profile-form">
                             <div class="form-group-pro">
-                                <label class="label-pro-fixed">🏢 会社名・屋号</label>
-                                <input type="text" id="company-name" required class="input-pro"
-                                    placeholder="株式会社○○ / ○○事務所">
-                            </div>
-                            <div class="form-group-pro">
                                 <label class="label-pro-fixed">🏢 会社種別</label>
-                                <select id="company-type" required class="input-pro">
+                                <select id="company-type" required class="textarea-pro"
+                                    style="height: auto; padding: 1rem;">
                                     <option value="">選択してください</option>
                                     <option value="corporation">法人</option>
                                     <option value="sole">個人事業主</option>
@@ -576,7 +318,8 @@
                             </div>
                             <div class="form-group-pro">
                                 <label class="label-pro-fixed">🏢 業種</label>
-                                <select id="industry" required class="input-pro">
+                                <select id="industry" required class="textarea-pro"
+                                    style="height: auto; padding: 1rem;">
                                     <option value="">選択してください</option>
                                     <option value="it">IT・通信</option>
                                     <option value="ec">EC・小売</option>
@@ -586,7 +329,8 @@
                             </div>
                             <div class="form-group-pro">
                                 <label class="label-pro-fixed">👥 従業員数</label>
-                                <select id="employee-size" required class="input-pro">
+                                <select id="employee-size" required class="textarea-pro"
+                                    style="height: auto; padding: 1rem;">
                                     <option value="">選択してください</option>
                                     <option value="1">1名（代表のみ）</option>
                                     <option value="2-5">2〜5名</option>
@@ -595,7 +339,8 @@
                             </div>
                             <div class="form-group-pro">
                                 <label class="label-pro-fixed">📅 決算月</label>
-                                <select id="fiscal-month" required class="input-pro">
+                                <select id="fiscal-month" required class="textarea-pro"
+                                    style="height: auto; padding: 1rem;">
                                     <option value="">選択してください</option>
                                     <option value="1">1月</option>
                                     <option value="2">2月</option>
@@ -613,8 +358,8 @@
                             </div>
                             <div class="form-group-pro">
                                 <label class="label-pro-fixed">📅 設立年月日</label>
-                                <input type="text" id="incorporation-date" required class="input-pro"
-                                    placeholder="2024/01/01">
+                                <input type="text" id="incorporation-date" required class="textarea-pro"
+                                    style="height: auto; padding: 1rem;" placeholder="2024/01/01">
                             </div>
                             <button type="submit" class="btn primary-btn"
                                 style="width: 100%; padding: 1.25rem; font-size: 1.1rem;">💾 変更を保存する</button>
@@ -630,20 +375,15 @@
                             <div class="membership-card-watermark">MERKI</div>
 
                             <!-- Top Branding -->
-                            <div
-                                style="display: flex; justify-content: space-between; align-items: center; z-index: 2; width: 100%;">
-                                <h2 class="gold-text-metallic"
-                                    style="font-family: 'OCR A Std', 'Courier New', monospace; letter-spacing: 6px; font-size: 1.8rem; margin: 0; line-height: 1;">
-                                    MERKI</h2>
-                                <div class="plan-badge"
-                                    style="position: static; border: 1.5px solid var(--card-border); color: var(--card-border); padding: 0.5rem 1.4rem; border-radius: 4px; font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; background: rgba(0,0,0,0.6); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
-                                    PRO</div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; z-index: 2; width: 100%;">
+                                <h2 class="gold-text-metallic" style="font-family: 'OCR A Std', 'Courier New', monospace; letter-spacing: 6px; font-size: 1.8rem; margin: 0; line-height: 1;">MERKI</h2>
+                                <div class="plan-badge" style="position: static; border: 1.5px solid var(--card-border); color: var(--card-border); padding: 0.5rem 1.4rem; border-radius: 4px; font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; background: rgba(0,0,0,0.6); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">PRO</div>
                             </div>
 
                             <!-- Main Content Grid -->
                             <div class="membership-status-grid" style="z-index: 2;">
                                 <div class="status-main">
-                                    <div class="card-dates">
+                                    <div style="display: flex; gap: 4rem; align-items: flex-end; margin-bottom: 2.5rem;">
                                         <div>
                                             <div class="card-label">MEMBER SINCE</div>
                                             <div class="card-value">01/26</div>
@@ -655,25 +395,21 @@
                                     </div>
                                     <div>
                                         <div class="card-label">CARD MEMBER</div>
-                                        <div class="card-value card-member-name">VIP MEMBER</div>
+                                        <div class="card-value" style="font-size: 1.6rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">VIP MEMBER</div>
                                     </div>
                                 </div>
 
-                                <div class="status-visual">
-                                    <div class="progress-indicator-wrapper">
-                                        <div class="progress-ring-bg"></div>
-                                        <svg viewBox="0 0 140 140" class="progress-ring-svg">
-                                            <circle cx="70" cy="70" r="62"
-                                                style="fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 4;">
-                                            </circle>
-                                            <circle cx="70" cy="70" r="62"
-                                                style="fill: none; stroke: var(--card-border); stroke-width: 10; stroke-linecap: round; stroke-dasharray: 390; stroke-dashoffset: 65; filter: drop-shadow(0 0 8px var(--card-accent-glow)); transition: stroke-dashoffset 2s ease-out;">
-                                            </circle>
+                                <div class="status-visual" style="display: flex; justify-content: center; align-items: center;">
+                                    <div class="progress-indicator-wrapper" style="position: relative; width: 150px; height: 150px; display: flex; justify-content: center; align-items: center;">
+                                        <div style="position: absolute; inset: 0; border: 1.5px solid var(--card-accent-glow); border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.6); background: rgba(0,0,0,0.5);"></div>
+                                        <svg viewBox="0 0 140 140" style="width: 130px; height: 130px; transform: rotate(-90deg); z-index: 1;">
+                                            <circle cx="70" cy="70" r="62" style="fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 4;"></circle>
+                                            <circle cx="70" cy="70" r="62" style="fill: none; stroke: var(--card-border); stroke-width: 10; stroke-linecap: round; stroke-dasharray: 390; stroke-dashoffset: 65; filter: drop-shadow(0 0 8px var(--card-accent-glow)); transition: stroke-dashoffset 2s ease-out;"></circle>
                                         </svg>
-                                        <div class="progress-text">
-                                            <span class="progress-label">残り</span>
-                                            <span class="progress-number">29</span>
-                                            <span class="progress-unit">日</span>
+                                        <div style="position: absolute; z-index: 2; text-align: center; width: 100%;">
+                                            <span style="font-size: 0.75rem; color: var(--card-border); font-weight: 800; display: block; margin-bottom: -0.4rem; letter-spacing: 1px;">残り</span>
+                                            <span style="color: var(--card-text-primary); font-weight: 900; font-size: 3.2rem; line-height: 1; display: block; text-shadow: none;">29</span>
+                                            <span style="font-size: 0.8rem; color: var(--card-text-primary); font-weight: 800; display: block; margin-top: -0.2rem;">日</span>
                                         </div>
                                     </div>
                                 </div>
@@ -718,18 +454,13 @@
                         <!-- Payment Button -->
                         <div style="display: flex; justify-content: center; margin-bottom: 3rem;">
                             <div id="paypal-button-container" style="width: 100%; max-width: 500px;">
-                                <a href="pricing.html" class="btn primary-btn"
-                                    style="width: 100%; padding: 1.25rem; font-size: 1.1rem; border-radius: 12px; display: block; text-align: center; text-decoration: none;">有料プランにアップグレード</a>
+                                <a href="pricing.html" class="btn primary-btn" style="width: 100%; padding: 1.25rem; font-size: 1.1rem; border-radius: 12px; display: block; text-align: center; text-decoration: none;">有料プランにアップグレード</a>
                             </div>
                         </div>
 
                         <div class="payment-security">
                             <div class="security-badge">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                                 PayPalによる安全な決済
                             </div>
                             <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 1rem;">
@@ -745,47 +476,40 @@
 
     <!-- Notification Edit Modal -->
     <div id="edit-modal" class="modal-overlay" style="display: none; z-index: 10000;">
-        <div class="modal-content edit-modal-content" style="max-width: 500px;">
+        <div class="modal-content edit-modal-content">
             <button class="close-modal-pro" id="close-modal-x">&times;</button>
             <h2
-                style="font-size: 1.25rem; font-weight: 900; margin-bottom: 1rem; color: var(--text-primary); padding-right: 3rem;">
-                📊 通知メールの編集
+                style="font-size: 1.75rem; font-weight: 900; margin-bottom: 2.5rem; color: var(--text-primary); padding-right: 3rem;">
+                📅 通知文面の編集
             </h2>
-
-            <!-- 対象制度 -->
-            <div class="form-group-pro" style="margin-bottom: 1rem;">
-                <label class="label-pro-fixed" style="font-size: 0.75rem;">対象制度</label>
-                <p id="edit-reg-title"
-                    style="font-weight: 800; color: var(--text-primary); font-size: 1.1rem; margin: 0;"></p>
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2.5rem;" class="grid-modal-resp">
+                <div>
+                    <div class="form-group-pro">
+                        <label class="label-pro-fixed">対象制度</label>
+                        <p id="edit-reg-title"
+                            style="font-weight: 800; color: var(--text-primary); font-size: 1.25rem;"></p>
+                    </div>
+                    <div style="background: #f1f5f9; padding: 1.5rem; border-radius: 16px;">
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>利用可能な変数:</strong><br>
+                            <code>{{title}}</code> : 制度名<br>
+                            <code>{{date}}</code> : 期限日<br>
+                            <code>{{days}}</code> : 残日数
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group-pro">
+                        <label class="label-pro-fixed">通知テンプレート</label>
+                        <textarea id="edit-custom-message" class="textarea-pro" style="height: 350px;"></textarea>
+                    </div>
+                </div>
             </div>
-
-            <!-- タブ切り替え -->
-            <div class="notification-tabs" style="display: flex; gap: 0; margin-bottom: 1rem;">
-                <button type="button" class="notification-tab active" data-days="30"
-                    style="padding: 0.5rem 1rem; background: none; border: none; border-bottom: 2px solid #6366f1; color: #6366f1; font-weight: 700; cursor: pointer; font-size: 0.9rem;">30日前</button>
-                <button type="button" class="notification-tab" data-days="7"
-                    style="padding: 0.5rem 1rem; background: none; border: none; border-bottom: 2px solid transparent; color: #94a3b8; font-weight: 600; cursor: pointer; font-size: 0.9rem;">7日前</button>
-                <button type="button" class="notification-tab" data-days="1"
-                    style="padding: 0.5rem 1rem; background: none; border: none; border-bottom: 2px solid transparent; color: #94a3b8; font-weight: 600; cursor: pointer; font-size: 0.9rem;">前日</button>
-            </div>
-
-            <!-- 通知メッセージ -->
-            <div class="form-group-pro" style="margin-bottom: 1rem;">
-                <label class="label-pro-fixed"
-                    style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: #6366f1;">
-                    📧 通知メッセージ <span
-                        style="font-weight: 400; font-size: 0.75rem; color: var(--text-secondary);">（この内容がそのままメールで届きます）</span>
-                </label>
-                <p
-                    style="font-size: 0.8rem; color: #f59e0b; margin-bottom: 0.75rem; display: flex; align-items: flex-start; gap: 0.4rem; line-height: 1.5;">
-                    <span>💡</span> <span>自分用のメモ・税理士への転送文面・社内共有用の注意書きなど、自由にカスタマイズできます</span>
-                </p>
-                <textarea id="edit-custom-message" class="textarea-pro" style="height: 220px; resize: none;"></textarea>
-            </div>
-
             <div class="btn-group-pro" style="justify-content: flex-end;">
+                <button type="button" class="btn secondary-btn" id="close-edit-modal"
+                    style="flex: 0 1 150px; padding: 1rem;">キャンセル</button>
                 <button type="button" class="btn primary-btn" id="save-edit-btn"
-                    style="flex: 0 1 150px; padding: 0.875rem 1.5rem;">保存する</button>
+                    style="flex: 0 1 250px; padding: 1rem;">保存する</button>
             </div>
         </div>
     </div>
@@ -794,11 +518,11 @@
     <script>
         // --- SPA Section Logic ---
         function showSection(sectionId) {
-            document.querySelectorAll('.content-section').forEach(function (s) { s.classList.remove('active'); });
+            document.querySelectorAll('.content-section').forEach(function(s) { s.classList.remove('active'); });
             var section = document.getElementById('section-' + sectionId);
             if (section) section.classList.add('active');
 
-            document.querySelectorAll('.nav-item').forEach(function (n) { n.classList.remove('active'); });
+            document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
             var activeNav = document.querySelector('.nav-item[data-section="' + sectionId + '"]');
             if (activeNav) activeNav.classList.add('active');
 
@@ -819,114 +543,26 @@
             if (el) el.classList.toggle('active');
         }
 
-        // --- Default Email Templates ---
-        // 編集可能な部分: note（補足説明）のみ
-        // intro（導入文）は変数を含むため固定
-        const DEFAULT_TEMPLATES = {
-            30: {
-                subject: '【MERKI】{{regulationName}}の期限まで、あと30日です',
-                intro: '{{regulationName}}の期限が、約30日後に近づいています。',
-                note: `現時点で対応いただく必要はありませんが、
-この時期に一度ご確認いただくことで、
-今後の予定が立てやすくなります。
-
-必要な対応がある場合は、
-ご自身のタイミングでご準備ください。`
-            },
-            7: {
-                subject: '【MERKI】{{regulationName}}の期限まで、あと7日です',
-                intro: '{{regulationName}}の期限が、1週間後に迫っています。',
-                note: `対応が必要な制度の場合は、
-このタイミングで準備状況をご確認ください。
-
-期限直前にも、あらためてお知らせいたします。`
-            },
-            1: {
-                subject: '【MERKI】{{regulationName}}の期限は明日です',
-                intro: '{{regulationName}}の期限は、明日となっています。',
-                note: `すでに対応済みの場合は、
-本メールは読み流していただいて問題ありません。
-
-未対応の場合は、
-お時間の許す範囲でご確認ください。`
-            }
-        };
-
-        // Current editing state
-        window.currentEditingId = null;
-        window.currentEditingDays = 30;
-        window.editingTemplates = {};
-
         // --- Modal Logic ---
         function openEditModal(id, title) {
             document.getElementById('edit-reg-title').textContent = title;
             document.getElementById('edit-modal').style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // 背景スクロール無効化
+            document.getElementById('edit-custom-message').value = localStorage.getItem('custom_msg_' + id) || '';
             window.currentEditingId = id;
-            window.currentEditingDays = 30;
-
-            // Load saved templates or use defaults
-            window.editingTemplates = {};
-            [30, 7, 1].forEach(days => {
-                const savedNote = localStorage.getItem(`template_${id}_${days}_note`);
-                window.editingTemplates[days] = {
-                    note: savedNote !== null ? savedNote : DEFAULT_TEMPLATES[days].note
-                };
-            });
-
-            // Reset tabs
-            document.querySelectorAll('.notification-tab').forEach(tab => {
-                tab.classList.remove('active');
-                tab.style.borderBottomColor = 'transparent';
-                tab.style.color = '#94a3b8';
-            });
-            const activeTab = document.querySelector('.notification-tab[data-days="30"]');
-            if (activeTab) {
-                activeTab.classList.add('active');
-                activeTab.style.borderBottomColor = '#6366f1';
-                activeTab.style.color = '#6366f1';
-            }
-
-            // Load 30-day template
-            loadTemplateForDays(30);
-        }
-
-        function loadTemplateForDays(days) {
-            const textarea = document.getElementById('edit-custom-message');
-            if (textarea) {
-                const template = window.editingTemplates[days];
-                textarea.value = template.note;
-            }
-        }
-
-        function saveCurrentTemplate() {
-            const days = window.currentEditingDays;
-            const textarea = document.getElementById('edit-custom-message');
-            if (textarea) {
-                window.editingTemplates[days] = {
-                    note: textarea.value
-                };
-            }
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
         }
 
         // --- Mobile Toggle Logic ---
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             var mobileToggle = document.getElementById('mobile-toggle');
             var sidebar = document.getElementById('sidebar');
             if (mobileToggle && sidebar) {
-                mobileToggle.onclick = function (e) {
+                mobileToggle.onclick = function(e) {
                     e.stopPropagation();
                     mobileToggle.classList.toggle('active');
                     sidebar.classList.toggle('active');
                 };
 
-                document.addEventListener('click', function (e) {
+                document.addEventListener('click', function(e) {
                     var isMobile = window.innerWidth <= 1024;
                     if (isMobile && sidebar.classList.contains('active') &&
                         !sidebar.contains(e.target) &&
@@ -943,63 +579,31 @@
             var closeAddMemberX = document.getElementById('close-add-member-x');
 
             if (addMemberBtn && addMemberModal) {
-                addMemberBtn.onclick = function () {
+                addMemberBtn.onclick = function() {
                     addMemberModal.style.display = 'flex';
                 };
             }
             if (closeAddMemberX && addMemberModal) {
-                closeAddMemberX.onclick = function () {
+                closeAddMemberX.onclick = function() {
                     addMemberModal.style.display = 'none';
                 };
             }
 
-            // --- Edit Modal Logic ---
+            // --- Edit Modal Close Logic ---
             var editModal = document.getElementById('edit-modal');
             var closeModalX = document.getElementById('close-modal-x');
+            var closeEditModalBtn = document.getElementById('close-edit-modal');
             var saveEditBtn = document.getElementById('save-edit-btn');
 
             function closeEditModal() {
                 if (editModal) editModal.style.display = 'none';
-                document.body.style.overflow = ''; // 背景スクロール復元
             }
 
             if (closeModalX) closeModalX.onclick = closeEditModal;
-
-            // Tab switching
-            document.querySelectorAll('.notification-tab').forEach(tab => {
-                tab.onclick = function () {
-                    // Save current before switching
-                    saveCurrentTemplate();
-
-                    // Update tab styles
-                    document.querySelectorAll('.notification-tab').forEach(t => {
-                        t.classList.remove('active');
-                        t.style.borderBottomColor = 'transparent';
-                        t.style.color = '#94a3b8';
-                    });
-                    this.classList.add('active');
-                    this.style.borderBottomColor = '#6366f1';
-                    this.style.color = '#6366f1';
-
-                    // Load new template
-                    const days = parseInt(this.dataset.days);
-                    window.currentEditingDays = days;
-                    loadTemplateForDays(days);
-                };
-            });
-
-            // Save all templates
+            if (closeEditModalBtn) closeEditModalBtn.onclick = closeEditModal;
             if (saveEditBtn) {
-                saveEditBtn.onclick = function () {
-                    // Save current tab first
-                    saveCurrentTemplate();
-
-                    // Save all templates to localStorage (note only)
-                    const id = window.currentEditingId;
-                    [30, 7, 1].forEach(days => {
-                        localStorage.setItem(`template_${id}_${days}_note`, window.editingTemplates[days].note);
-                    });
-
+                saveEditBtn.onclick = function() {
+                    localStorage.setItem('custom_msg_' + window.currentEditingId, document.getElementById('edit-custom-message').value);
                     alert('保存しました');
                     closeEditModal();
                 };
@@ -1140,7 +744,6 @@
 
         // --- Profile Logic ---
         function fillProfileForm(userData) {
-            document.getElementById('company-name').value = userData.company_name || '';
             document.getElementById('company-type').value = userData.company_type || '';
             document.getElementById('industry').value = userData.industry || '';
             document.getElementById('employee-size').value = userData.employee_size || '';
@@ -1158,7 +761,6 @@
             const incDate = new Date(incDateStr.substring(0, 4), parseInt(incDateStr.substring(4, 6)) - 1, incDateStr.substring(6, 8));
 
             await setDoc(doc(db, 'users', user.uid), {
-                company_name: document.getElementById('company-name').value,
                 company_type: document.getElementById('company-type').value,
                 industry: document.getElementById('industry').value,
                 employee_size: document.getElementById('employee-size').value,
@@ -1191,29 +793,21 @@
             const memberSince = (regDate.getMonth() + 1).toString().padStart(2, '0') + '/' + regDate.getFullYear().toString().slice(-2);
             const validThru = (expDate.getMonth() + 1).toString().padStart(2, '0') + '/' + expDate.getFullYear().toString().slice(-2);
 
-            // Determine card theme based on plan
-            const plan = userData.plan || 'pro'; // 'lite', 'standard', 'pro' - default to pro for trial users
-            const cardThemeClass = plan === 'pro' ? '' : plan; // pro uses default (no class), others use .lite or .standard
-            const planBadgeText = plan === 'pro' ? 'PRO' : (plan === 'standard' ? 'STANDARD' : 'LITE');
-            const isProPlan = plan === 'pro';
-            const showTrialInfo = isProPlan && status === 'trial'; // PROプランかつトライアル中のみ残り日数表示
-
             container.innerHTML = `
                 <div class="membership-dashboard fade-in-up">
-                    <div class="membership-card ${cardThemeClass}">
+                    <div class="membership-card">
                         <div class="membership-card-watermark">MERKI</div>
-
+                        
                         <!-- Top Branding -->
-                        <div class="card-header-row">
-                            <h2 class="gold-text-metallic card-logo-text">MERKI</h2>
-                            <div class="plan-badge-responsive">${planBadgeText}</div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; z-index: 2; width: 100%;">
+                            <h2 class="gold-text-metallic" style="font-family: 'OCR A Std', 'Courier New', monospace; letter-spacing: 6px; font-size: 1.8rem; margin: 0; line-height: 1;">MERKI</h2>
+                            <div class="plan-badge" style="position: static; border: 1.5px solid #d4af37; color: #d4af37; padding: 0.5rem 1.4rem; border-radius: 4px; font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; background: rgba(0,0,0,0.6); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">${status === 'active' ? 'PLATINUM' : 'PRO'}</div>
                         </div>
-
+                        
                         <!-- Main Content Grid -->
                         <div class="membership-status-grid" style="z-index: 2;">
                             <div class="status-main">
-                                ${showTrialInfo ? `
-                                <div class="card-dates">
+                                <div style="display: flex; gap: 4rem; align-items: flex-end; margin-bottom: 2.5rem;">
                                     <div>
                                         <div class="card-label">MEMBER SINCE</div>
                                         <div class="card-value">${memberSince}</div>
@@ -1223,30 +817,36 @@
                                         <div class="card-value">${validThru}</div>
                                     </div>
                                 </div>
-                                ` : ''}
 
                                 <div>
                                     <div class="card-label">CARD MEMBER</div>
-                                    <div class="card-value card-member-name">${userData.company_name || 'VIP MEMBER'}</div>
+                                    <div class="card-value" style="font-size: 1.6rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">${userData.company_name || 'VIP MEMBER'}</div>
                                 </div>
                             </div>
-
-                            ${showTrialInfo ? `
-                            <div class="status-visual">
-                                <div class="progress-indicator-wrapper">
-                                    <div class="progress-ring-bg"></div>
-                                    <svg viewBox="0 0 140 140" class="progress-ring-svg">
-                                        <circle cx="70" cy="70" r="62" style="fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 4;"></circle>
-                                        <circle cx="70" cy="70" r="62" style="fill: none; stroke: var(--card-border); stroke-width: 10; stroke-linecap: round; stroke-dasharray: 390; stroke-dashoffset: ${390 * (1 - trialDaysLeft / 30)}; filter: drop-shadow(0 0 8px var(--card-accent-glow)); transition: stroke-dashoffset 2s ease-out;"></circle>
-                                    </svg>
-                                    <div class="progress-text">
-                                        <span class="progress-label">残り</span>
-                                        <span class="progress-number">${trialDaysLeft}</span>
-                                        <span class="progress-unit">日</span>
+                            
+                             <div class="status-visual" style="display: flex; justify-content: center; align-items: center;">
+                                ${status === 'trial' ? `
+                                    <div class="progress-indicator-wrapper" style="position: relative; width: 150px; height: 150px; display: flex; justify-content: center; align-items: center;">
+                                        <!-- Outer luxury ring -->
+                                        <div style="position: absolute; inset: 0; border: 1.5px solid rgba(212,175,55,0.2); border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.6); background: rgba(0,0,0,0.5);"></div>
+                                        <svg viewBox="0 0 140 140" style="width: 130px; height: 130px; transform: rotate(-90deg); z-index: 1;">
+                                            <circle cx="70" cy="70" r="62" style="fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 4;"></circle>
+                                            <circle cx="70" cy="70" r="62" 
+                                                style="fill: none; stroke: #fbbf24; stroke-width: 10; stroke-linecap: round; stroke-dasharray: 390; stroke-dashoffset: ${390 * (1 - trialDaysLeft / 30)}; filter: drop-shadow(0 0 8px rgba(251,191,36,0.6)); transition: stroke-dashoffset 2s ease-out;"></circle>
+                                        </svg>
+                                        <div style="position: absolute; z-index: 2; text-align: center; width: 100%;">
+                                            <span style="font-size: 0.75rem; color: #fbbf24; font-weight: 800; display: block; margin-bottom: -0.4rem; letter-spacing: 1px;">残り</span>
+                                            <span style="color: #ffffff; font-weight: 900; font-size: 3.2rem; line-height: 1; display: block; text-shadow: 0 0 20px rgba(255,255,255,0.5);">${trialDaysLeft}</span>
+                                            <span style="font-size: 0.8rem; color: #ffffff; font-weight: 800; display: block; margin-top: -0.2rem;">日</span>
+                                        </div>
                                     </div>
-                                </div>
+                                ` : `
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 5.5rem; filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.5)); margin-bottom: 0.5rem; animation: pulse 3s infinite;">💎</div>
+                                        <div style="font-weight: 900; color: #d4af37; letter-spacing: 4px; font-size: 0.8rem;">ULTIMATE MASTER</div>
+                                    </div>
+                                `}
                             </div>
-                            ` : ''}
                         </div>
                     </div>
 
@@ -1297,80 +897,11 @@
                             お支払いはPayPal経由で安全に処理されます。クレジットカード情報は本サービスには保存されません。
                         </p>
                     </div>
-
-                    <!-- Cancel Subscription Section -->
-                    <div id="cancel-subscription-section" style="display: none; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
-                        <h3 style="font-size: 1rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 1rem;">サブスクリプション管理</h3>
-                        <button id="cancel-subscription-btn" class="btn" style="width: 100%; max-width: 400px; padding: 1rem; background: transparent; color: #ef4444; border: 2px solid #ef4444; border-radius: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s;">
-                            サブスクリプションを解約する
-                        </button>
-                        <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.75rem;">
-                            解約しても現在の請求期間終了まではサービスをご利用いただけます。
-                        </p>
-                    </div>
                 </div >
                 `;
 
-            // Show cancel button for active subscriptions
-            if (status === 'active') {
-                setTimeout(() => {
-                    const cancelSection = document.getElementById('cancel-subscription-section');
-                    const cancelBtn = document.getElementById('cancel-subscription-btn');
-                    if (cancelSection) {
-                        cancelSection.style.display = 'block';
-                    }
-                    if (cancelBtn) {
-                        cancelBtn.addEventListener('click', () => handleCancelSubscription(userData, user));
-                        cancelBtn.addEventListener('mouseenter', () => {
-                            cancelBtn.style.background = '#ef4444';
-                            cancelBtn.style.color = '#fff';
-                        });
-                        cancelBtn.addEventListener('mouseleave', () => {
-                            cancelBtn.style.background = 'transparent';
-                            cancelBtn.style.color = '#ef4444';
-                        });
-                    }
-                }, 100);
-            }
-
             if (status === 'trial') {
                 loadPayPalSDK(() => renderPayPalButton(user));
-            }
-        }
-
-        // Handle subscription cancellation
-        async function handleCancelSubscription(userData, user) {
-            const confirmed = confirm('本当にサブスクリプションを解約しますか？\n\n解約しても現在の請求期間終了まではサービスをご利用いただけます。');
-            if (!confirmed) return;
-
-            const cancelBtn = document.getElementById('cancel-subscription-btn');
-            if (cancelBtn) {
-                cancelBtn.disabled = true;
-                cancelBtn.textContent = '処理中...';
-            }
-
-            try {
-                const response = await fetch('/.netlify/functions/cancel-subscription', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ subscriptionId: userData.subscription_id })
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    alert('サブスクリプションを解約しました。現在の請求期間終了まではサービスをご利用いただけます。');
-                    location.reload();
-                } else {
-                    throw new Error(result.error || '解約に失敗しました');
-                }
-            } catch (error) {
-                console.error('Cancel error:', error);
-                alert('解約処理でエラーが発生しました: ' + error.message);
-                if (cancelBtn) {
-                    cancelBtn.disabled = false;
-                    cancelBtn.textContent = 'サブスクリプションを解約する';
-                }
             }
         }
 
