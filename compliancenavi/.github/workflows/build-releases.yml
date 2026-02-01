@@ -1,4 +1,4 @@
-name: Build and Release X Draft
+name: Build and Release MERKI
 
 on:
   push:

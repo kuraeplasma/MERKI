@@ -1495,6 +1495,62 @@
             };
         }
     </script>
+
+    <!-- TEMPORARY TEST BUTTON FOR EMAIL NOTIFICATION -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Avoid duplicate buttons
+            if (document.getElementById('test-email-btn')) return;
+
+            const btn = document.createElement('button');
+            btn.id = 'test-email-btn';
+            btn.innerHTML = '📩 テストメール送信 (30日前)';
+            btn.style.cssText = 'position:fixed; bottom:20px; right:20px; z-index:99999; padding:15px; background:#ef4444; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.2); font-family:sans-serif;';
+
+            btn.onmouseover = () => btn.style.transform = 'scale(1.05)';
+            btn.onmouseout = () => btn.style.transform = 'scale(1)';
+            btn.style.transition = 'transform 0.2s';
+
+            btn.onclick = async () => {
+                if (!confirm('【テスト実行】\nユーザーID: s1DL...In52\n通知タイプ: 30日前\n\nこの内容でテストメールを送信しますか？')) return;
+
+                const originalText = btn.innerHTML;
+                btn.disabled = true;
+                btn.innerHTML = '送信中... ⏳';
+                btn.style.background = '#666';
+
+                try {
+                    const res = await fetch('/.netlify/functions/send-test-notification', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ userId: 's1DL232yuVRjkuwTh8wJM8mZIn52', daysType: 30 })
+                    });
+
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        alert('✅ 送信成功！\n\n登録アドレス (kuraeplasma@gmail.com) の受信トレイを確認してください。\n(迷惑メールフォルダも念のため確認を)');
+                        btn.innerHTML = '✅ 送信完了';
+                        btn.style.background = '#10b981';
+                    } else {
+                        alert('❌ エラー: ' + (data.error || '不明なエラー') + '\n詳細: ' + (data.details || 'なし'));
+                        btn.innerHTML = '❌ エラー';
+                        btn.style.background = '#f43f5e';
+                    }
+                } catch (e) {
+                    alert('❌ 通信エラー: ' + e.message);
+                    btn.innerHTML = '❌ 通信エラー';
+                } finally {
+                    setTimeout(() => {
+                        btn.disabled = false;
+                        btn.innerHTML = originalText;
+                        btn.style.background = '#ef4444';
+                    }, 3000);
+                }
+            };
+            document.body.appendChild(btn);
+        });
+    </script>
 </body>
 
 </html>

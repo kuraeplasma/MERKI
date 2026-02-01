@@ -1,4 +1,4 @@
-name: Build X Draft
+name: Build MERKI
 
 on:
   push:
@@ -32,7 +32,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: X-Draft-${{ matrix.os }}
+          name: MERKI-${{ matrix.os }}
           path: |
             dist/*.exe
             dist/*.dmg

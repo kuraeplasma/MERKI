@@ -1,0 +1,28 @@
+<!-- TEMPORARY TEST BUTTON -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.createElement('button');
+        btn.innerHTML = '📩 テストメール送信 (30日前)';
+        btn.style.cssText = 'position:fixed; bottom:20px; right:20px; z-index:99999; padding:15px; background:#ef4444; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.2);';
+        btn.onclick = async () => {
+            if (!confirm('テストメール（30日前通知）を送信しますか？')) return;
+            btn.disabled = true;
+            btn.textContent = '送信中...';
+            try {
+                const res = await fetch('/.netlify/functions/send-test-notification', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId: 's1DL232yuVRjkuwTh8wJM8mZIn52', daysType: 30 })
+                });
+                const data = await res.json();
+                alert(res.ok ? '✅ 送信成功！メールを確認してください。' : '❌ エラー: ' + (data.error || '不明なエラー'));
+            } catch (e) {
+                alert('❌ 通信エラー: ' + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '📩 テストメール送信 (30日前)';
+            }
+        };
+        document.body.appendChild(btn);
+    });
+</script>
