@@ -1536,7 +1536,8 @@
                             btn.innerHTML = '✅ 送信完了';
                             btn.style.background = '#10b981';
                         } else {
-                            alert('❌ エラー: ' + (data.error || '不明なエラー'));
+                            const errorMsg = data.details ? `${data.error}\n詳細: ${data.details}` : (data.error || '不明なエラー');
+                            alert('❌ エラー: ' + errorMsg);
                             btn.innerHTML = '❌ エラー';
                             btn.style.background = '#f43f5e';
                         }
