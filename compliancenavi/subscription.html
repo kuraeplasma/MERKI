@@ -392,6 +392,14 @@
                 },
                 onApprove: async function (data, actions) {
                     console.log('Subscription approved:', data);
+                    console.log('Saving subscription ID to Firestore:', data.subscriptionID);
+
+                    // Validate subscription ID
+                    if (!data.subscriptionID || !data.subscriptionID.startsWith('I-')) {
+                        console.error('Invalid subscription ID:', data.subscriptionID);
+                        alert('エラー: 無効なサブスクリプションIDです。サポートにお問い合わせください。');
+                        return;
+                    }
 
                     // Update Firestore
                     await setDoc(doc(db, 'users', user.uid), {
@@ -403,6 +411,7 @@
                         updated_at: new Date()
                     }, { merge: true });
 
+                    console.log('Subscription ID saved successfully:', data.subscriptionID);
                     alert(planName.toUpperCase() + 'プランへの登録が完了しました!');
                     location.reload();
                 },
