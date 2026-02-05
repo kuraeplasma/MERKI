@@ -1,5 +1,6 @@
 [build]
-  command = "echo 'Skipping build'"
+  base = "compliancenavi"
+  command = ""
   publish = "."
   functions = "netlify/functions"
 
