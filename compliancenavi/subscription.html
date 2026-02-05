@@ -333,6 +333,19 @@
                     </button>
                 `;
                 document.getElementById('cancel-btn').addEventListener('click', () => {
+                    // デバッグ情報を追加
+                    console.log('Cancel button clicked');
+                    console.log('User data:', userData);
+                    console.log('Subscription ID:', userData.subscription_id);
+
+                    if (!userData.subscription_id) {
+                        alert('エラー: サブスクリプションIDが見つかりません。\n\nデバッグ情報:\n' +
+                            'Status: ' + (userData.subscription_status || 'なし') + '\n' +
+                            'Plan: ' + (userData.subscription_plan || userData.plan || 'なし') + '\n\n' +
+                            'サポートにお問い合わせください。');
+                        return;
+                    }
+
                     if (confirm('本当にキャンセルしますか?')) {
                         cancelSubscription(userData.subscription_id);
                     }
@@ -402,6 +415,8 @@
 
         // サブスクリプションキャンセル
         async function cancelSubscription(subscriptionId) {
+            console.log('cancelSubscription called with ID:', subscriptionId);
+
             try {
                 const response = await fetch('/.netlify/functions/cancel-subscription', {
                     method: 'POST',
@@ -409,17 +424,20 @@
                     body: JSON.stringify({ subscriptionId })
                 });
 
+                console.log('Response status:', response.status);
                 const result = await response.json();
+                console.log('Response data:', result);
 
                 if (result.success) {
                     alert('サブスクリプションをキャンセルしました。');
                     location.reload();
                 } else {
-                    alert('キャンセルに失敗しました: ' + result.error);
+                    console.error('Cancellation failed:', result);
+                    alert('キャンセルに失敗しました。\n\nエラー: ' + (result.error || '不明なエラー') + '\n\nサポートにお問い合わせください。');
                 }
             } catch (error) {
                 console.error('Cancel error:', error);
-                alert('キャンセル処理でエラーが発生しました。');
+                alert('キャンセル処理でエラーが発生しました。\n\nエラー: ' + error.message + '\n\nインターネット接続を確認してください。');
             }
         }
 
