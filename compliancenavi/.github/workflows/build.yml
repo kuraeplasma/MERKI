@@ -1,0 +1,3 @@
+# This file intentionally left empty to disable unnecessary CI/CD builds
+# MERKI is a browser-based web application and does not require platform-specific builds
+# Netlify handles deployment automatically on push to main branch
