@@ -28,57 +28,75 @@ exports.handler = async (event, context) => {
         if (!admin.apps.length) {
             console.log('Initializing Firebase Admin SDK...');
 
-            if (!process.env.FIREBASE_PROJECT_ID || !process.env.FIREBASE_CLIENT_EMAIL || !process.env.FIREBASE_PRIVATE_KEY) {
-                console.error('Firebase environment variables are missing');
-                return {
-                    statusCode: 500,
-                    headers,
-                    body: JSON.stringify({
-                        success: false,
-                        error: 'Server configuration error: Firebase credentials missing'
-                    })
-                };
+            // Priority 1: Use full JSON object from FIREBASE_SERVICE_ACCOUNT
+            if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+                try {
+                    console.log('Using FIREBASE_SERVICE_ACCOUNT JSON object...');
+                    const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+                    admin.initializeApp({
+                        credential: admin.credential.cert(serviceAccount)
+                    });
+                    console.log('Firebase Admin initialized successfully via JSON');
+                } catch (jsonError) {
+                    console.error('Failed to parse FIREBASE_SERVICE_ACCOUNT JSON:', jsonError);
+                    // Continue to legacy method as fallback
+                }
             }
 
-            try {
-                const pkg = process.env.FIREBASE_PRIVATE_KEY;
-                if (!pkg) throw new Error('FIREBASE_PRIVATE_KEY is not defined');
+            // Priority 2: Legacy individual env vars (Only if not initialized yet)
+            if (!admin.apps.length) {
+                if (!process.env.FIREBASE_PROJECT_ID || !process.env.FIREBASE_CLIENT_EMAIL || !process.env.FIREBASE_PRIVATE_KEY) {
+                    console.error('Firebase environment variables are missing');
+                    return {
+                        statusCode: 500,
+                        headers,
+                        body: JSON.stringify({
+                            success: false,
+                            error: 'Server configuration error: Firebase credentials missing'
+                        })
+                    };
+                }
 
-                // 1. Extract only the Base64 portion by removing headers and any non-base64 characters
-                // This is the most robust way to handle any environment variable mangling
-                const base64Content = pkg
-                    .replace(/-----BEGIN PRIVATE KEY-----/g, '')
-                    .replace(/-----END PRIVATE KEY-----/g, '')
-                    .replace(/[^A-Za-z0-9+/=]/g, ''); // Removes \n, spaces, quotes, etc.
+                try {
+                    const pkg = process.env.FIREBASE_PRIVATE_KEY;
+                    if (!pkg) throw new Error('FIREBASE_PRIVATE_KEY is not defined');
 
-                // 2. Reconstruct the PEM format correctly (64 chars per line)
-                const formattedKey = [
-                    '-----BEGIN PRIVATE KEY-----',
-                    ...(base64Content.match(/.{1,64}/g) || []),
-                    '-----END PRIVATE KEY-----'
-                ].join('\n');
+                    // 1. Extract only the Base64 portion by removing headers and any non-base64 characters
+                    // This is the most robust way to handle any environment variable mangling
+                    const base64Content = pkg
+                        .replace(/-----BEGIN PRIVATE KEY-----/g, '')
+                        .replace(/-----END PRIVATE KEY-----/g, '')
+                        .replace(/[^A-Za-z0-9+/=]/g, ''); // Removes \n, spaces, quotes, etc.
 
-                console.log('Reconstructed Private Key (Length):', formattedKey.length);
-                console.log('Key Sample (Start):', formattedKey.substring(0, 30));
+                    // 2. Reconstruct the PEM format correctly (64 chars per line)
+                    const formattedKey = [
+                        '-----BEGIN PRIVATE KEY-----',
+                        ...(base64Content.match(/.{1,64}/g) || []),
+                        '-----END PRIVATE KEY-----'
+                    ].join('\n');
 
-                admin.initializeApp({
-                    credential: admin.credential.cert({
-                        projectId: process.env.FIREBASE_PROJECT_ID,
-                        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-                        privateKey: formattedKey
-                    })
-                });
-                console.log('Firebase Admin initialized successfully');
-            } catch (initError) {
-                console.error('Firebase initialization error:', initError);
-                return {
-                    statusCode: 500,
-                    headers,
-                    body: JSON.stringify({
-                        success: false,
-                        error: 'Failed to initialize Firebase: ' + initError.message
-                    })
-                };
+                    console.log('Reconstructed Private Key (Length):', formattedKey.length);
+                    console.log('Key Sample (Start):', formattedKey.substring(0, 30));
+
+                    admin.initializeApp({
+                        credential: admin.credential.cert({
+                            projectId: process.env.FIREBASE_PROJECT_ID,
+                            clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+                            privateKey: formattedKey
+                        })
+                    });
+                    console.log('Firebase Admin initialized via individual env vars');
+                } catch (initError) {
+                    console.error('Firebase initialization error:', initError);
+                    return {
+                        statusCode: 500,
+                        headers,
+                        body: JSON.stringify({
+                            success: false,
+                            error: 'Failed to initialize Firebase: ' + initError.message
+                        })
+                    };
+                }
             }
         }
         const db = admin.firestore();
