@@ -362,18 +362,6 @@ a {
     }
 }
 
-/* Disable Hamburger Animation (Keep as 3 bars) */
-.mobile-menu-btn.active span:nth-child(1) {
-    transform: none !important;
-}
-
-.mobile-menu-btn.active span:nth-child(2) {
-    opacity: 1 !important;
-}
-
-.mobile-menu-btn.active span:nth-child(3) {
-    transform: none !important;
-}
 
 /* Remove table row hover effects specifically */
 tr:hover td {

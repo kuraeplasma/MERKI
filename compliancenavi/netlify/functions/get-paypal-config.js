@@ -6,8 +6,10 @@ exports.handler = async function (event, context) {
             'Access-Control-Allow-Origin': '*' // Adjust for production if needed
         },
         body: JSON.stringify({
-            clientId: process.env.PAYPAL_CLIENT_ID || 'sb', // Default to sandbox if missing
-            planId: process.env.PAYPAL_PLAN_ID || 'P-MOCK_PLAN_ID'
+            clientId: process.env.PAYPAL_CLIENT_ID || 'sb',
+            planIdPro: process.env.PAYPAL_PLAN_ID_PRO || process.env.PAYPAL_PLAN_ID || 'P-PRO-TEST',
+            planIdStandard: process.env.PAYPAL_PLAN_ID_STANDARD || 'P-STANDARD-TEST',
+            planIdLite: process.env.PAYPAL_PLAN_ID_LITE || 'P-LITE-TEST'
         })
     };
 };

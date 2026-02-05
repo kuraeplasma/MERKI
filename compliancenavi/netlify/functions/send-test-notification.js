@@ -1,286 +1,143 @@
 const admin = require('firebase-admin');
 const sgMail = require('@sendgrid/mail');
+const fs = require('fs');
+const path = require('path');
+
+// --- ROBUST ENV LOADER ---
+// Directly reads .env to ensure we get the fresh, fixed variables, ignoring potential Netlify cache.
+function loadEnvLocally() {
+    try {
+        const envPath = path.resolve(process.cwd(), '.env');
+        if (fs.existsSync(envPath)) {
+            const envContent = fs.readFileSync(envPath, 'utf8');
+            envContent.split(/\r?\n/).forEach(line => {
+                const parts = line.split('=');
+                if (parts.length >= 2) {
+                    const key = parts[0].trim();
+                    let value = parts.slice(1).join('=').trim();
+                    // Clean quotes and handle explicit \n literals just in case
+                    value = value.replace(/^["']|["']$/g, '').replace(/\\n/g, '\n');
+                    process.env[key] = value;
+                }
+            });
+            console.log('[LocalDev] .env re-loaded from disk.');
+        }
+    } catch (e) {
+        console.error('[LocalDev] Failed to load .env:', e.message);
+    }
+}
 
 let db;
 
-// Firebase初期化関数
 function initializeFirebase() {
+    loadEnvLocally();
+
     if (admin.apps.length) {
         db = admin.firestore();
         return;
     }
 
-    if (!process.env.FIREBASE_PRIVATE_KEY) {
-        throw new Error('FIREBASE_PRIVATE_KEY が環境変数に設定されていません。');
-    }
-
-    let privateKey = process.env.FIREBASE_PRIVATE_KEY;
-
-    // 1. JSON全体が貼り付けられている場合の救済措置
+    // 0. Try loading from firebase-credentials.json (User provided valid key)
     try {
-        if (privateKey.trim().startsWith('{')) {
-            const config = JSON.parse(privateKey);
-            if (config.private_key) {
-                privateKey = config.private_key;
+        const jsonPath = path.resolve(process.cwd(), 'firebase-credentials.json');
+        if (fs.existsSync(jsonPath)) {
+            const content = fs.readFileSync(jsonPath, 'utf8');
+            // Check if it's the real key, not the placeholder
+            if (content.includes('private_key') && !content.includes('"MESSAGE"')) {
+                const serviceAccount = JSON.parse(content);
+                admin.initializeApp({
+                    credential: admin.credential.cert(serviceAccount)
+                });
+                db = admin.firestore();
+                console.log('[Firebase] Initialized successfully from firebase-credentials.json');
+                return; // Early return if successful
             }
         }
-    } catch (e) { /* JSONではない場合は無視 */ }
-
-    // 2. 引用符の除去
-    privateKey = privateKey.replace(/^["']|["']$/g, '').trim();
-
-    // 3. 改行コード（\n）の変換
-    privateKey = privateKey.replace(/\\n/g, '\n');
-
-    // 4. 改行が全くない場合の補正（ヘッダーとフッターを独立させる）
-    if (!privateKey.includes('\n')) {
-        privateKey = privateKey
-            .replace('-----BEGIN PRIVATE KEY-----', '-----BEGIN PRIVATE KEY-----\n')
-            .replace('-----END PRIVATE KEY-----', '\n-----END PRIVATE KEY-----');
+    } catch (e) {
+        console.error('[Firebase] JSON file load failed, falling back to .env:', e.message);
     }
 
-    // 5. 最終チェック
-    if (!privateKey.includes('-----BEGIN PRIVATE KEY-----')) {
-        throw new Error('秘密鍵の形式が不正です（BEGINヘッダーが見つかりません）。Netlifyの設定を確認してください。');
+    // Fallback to .env logic
+    loadEnvLocally();
+
+    const projectId = process.env.FIREBASE_PROJECT_ID;
+    const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+    const privateKey = process.env.FIREBASE_PRIVATE_KEY;
+
+    if (!projectId || !clientEmail || !privateKey) {
+        throw new Error(`Firebase Config Missing. Project=${!!projectId}, Email=${!!clientEmail}, Key=${!!privateKey}`);
     }
 
-    admin.initializeApp({
-        credential: admin.credential.cert({
-            projectId: process.env.FIREBASE_PROJECT_ID,
-            clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-            privateKey: privateKey
-        })
-    });
-    db = admin.firestore();
+    // Double-check key format. If it still has spaces instead of newlines, fix it in memory.
+    let formattedKey = privateKey;
+    if (!formattedKey.includes('\n') && formattedKey.includes(' ')) {
+        formattedKey = formattedKey.replace(/-----BEGIN PRIVATE KEY----- /, '-----BEGIN PRIVATE KEY-----\n')
+            .replace(/ -----END PRIVATE KEY-----/, '\n-----END PRIVATE KEY-----')
+            .replace(/ /g, '\n');
+    }
+    // Also handle literal \n if present
+    formattedKey = formattedKey.replace(/\\n/g, '\n');
+
+    try {
+        admin.initializeApp({
+            credential: admin.credential.cert({
+                projectId,
+                clientEmail,
+                privateKey: formattedKey
+            })
+        });
+        db = admin.firestore();
+        console.log('[Firebase] Initialized successfully.');
+    } catch (e) {
+        console.error('[Firebase] Init Failed:', e.message);
+        throw e;
+    }
 }
 
-// SendGrid初期化
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-// ダッシュボードURL
 const DASHBOARD_URL = 'https://merki.spacegleam.co.jp/dashboard.html';
-
-// メールテンプレート
-const EMAIL_TEMPLATES = {
-    30: {
-        subject: '【MERKI】{{regulationName}}の期限まで、あと30日です',
-        body: `{{companyName}}
-
-MERKIからのご連絡です。
-
-{{regulationName}}の期限が、約30日後に近づいています。
-
-■ 制度名：{{regulationName}}
-■ 期限日：{{deadlineDate}}
-
-現時点で対応いただく必要はありませんが、
-この時期に一度ご確認いただくことで、
-今後の予定が立てやすくなります。
-
-必要な対応がある場合は、
-ご自身のタイミングでご準備ください。
-
-▼ ダッシュボードはこちらから
-${DASHBOARD_URL}
-
-――
-MERKI
-運営：SpaceGleam株式会社
-https://merki.spacegleam.co.jp`
-    },
-    7: {
-        subject: '【MERKI】{{regulationName}}の期限まで、あと7日です',
-        body: `{{companyName}}
-
-MERKIからのご連絡です。
-
-{{regulationName}}の期限が、1週間後に迫っています。
-
-■ 制度名：{{regulationName}}
-■ 期限日：{{deadlineDate}}
-
-対応が必要な制度の場合は、
-このタイミングで準備状況をご確認ください。
-
-期限直前にも、あらためてお知らせいたします。
-
-▼ ダッシュボードはこちらから
-${DASHBOARD_URL}
-
-――
-MERKI
-運営：SpaceGleam株式会社
-https://merki.spacegleam.co.jp`
-    },
-    1: {
-        subject: '【MERKI】{{regulationName}}の期限は明日です',
-        body: `{{companyName}}
-
-MERKIからのご連絡です。
-
-{{regulationName}}の期限は、明日となっています。
-
-■ 制度名：{{regulationName}}
-■ 期限日：{{deadlineDate}}
-
-すでに対応済みの場合は、
-本メールは読み流していただいて問題ありません。
-
-未対応の場合は、
-お時間の許す範囲でご確認ください。
-
-▼ ダッシュボードはこちらから
-${DASHBOARD_URL}
-
-――
-MERKI
-運営：SpaceGleam株式会社
-https://merki.spacegleam.co.jp`
-    }
+const TEMPLATES = {
+    30: { subject: '【MERKI】{{regName}}の期限まで30日', body: (c, r, d) => `${c}様\n\n${r}の期限が${d}に迫っています。` },
+    7: { subject: '【MERKI】{{regName}}の期限まで7日', body: (c, r, d) => `${c}様\n\n${r}の期限が${d}に迫っています（残り1週間）。` },
+    1: { subject: '【MERKI】{{regName}}の期限は明日', body: (c, r, d) => `${c}様\n\n${r}の期限は明日(${d})です。` }
 };
 
 exports.handler = async function (event, context) {
-    if (event.httpMethod !== 'POST') {
-        return { statusCode: 405, body: 'Method Not Allowed' };
+    const host = event.headers.host || '';
+    if (!host.includes('localhost') && !host.includes('127.0.0.1')) {
+        return { statusCode: 403, body: 'Not local' };
     }
 
     try {
         initializeFirebase();
+        sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');
 
         const { userId, daysType } = JSON.parse(event.body || '{}');
+        if (!userId) throw new Error('userId is missing');
 
-        if (!userId) {
-            return { statusCode: 400, body: JSON.stringify({ error: 'userId is required' }) };
-        }
-
-        // ユーザー情報を取得
         const userDoc = await db.collection('users').doc(userId).get();
-        if (!userDoc.exists) {
-            return { statusCode: 404, body: JSON.stringify({ error: 'User not found' }) };
-        }
+        if (!userDoc.exists) throw new Error('User not found in Firestore');
 
         const userData = userDoc.data();
-        const userEmail = userData.email;
+        if (!userData.email) throw new Error('User has no email');
 
-        // 宛名フォーマット生成
-        let recipientName;
-        const companyType = userData.company_type;
-        const contactName = userData.contact_name || '';
-
-        if (companyType === 'corporation') {
-            const corpName = userData.company_name || '';
-            if (corpName && contactName) {
-                recipientName = `${corpName}様　${contactName}様`;
-            } else if (corpName) {
-                recipientName = `${corpName}様`;
-            } else if (contactName) {
-                recipientName = `${contactName}様`;
-            } else {
-                recipientName = 'お客様';
-            }
-        } else if (companyType === 'sole') {
-            const shopName = userData.shop_name || '';
-            if (shopName && contactName) {
-                recipientName = `${shopName}様　${contactName}様`;
-            } else if (contactName) {
-                recipientName = `${contactName}様`;
-            } else if (shopName) {
-                recipientName = `${shopName}様`;
-            } else {
-                recipientName = 'お客様';
-            }
-        } else {
-            if (contactName) {
-                recipientName = `${contactName}様`;
-            } else if (userData.company_name) {
-                recipientName = `${userData.company_name}様`;
-            } else {
-                recipientName = 'お客様';
-            }
-        }
-
-        const companyName = recipientName;
-
-        if (!userEmail) {
-            return { statusCode: 400, body: JSON.stringify({ error: 'User has no email' }) };
-        }
-
-        // テスト用のサンプル制度
-        const sampleRegulation = '法人税申告';
         const days = parseInt(daysType) || 30;
-
-        // 期限日を計算（テスト用：今日から指定日数後）
+        const template = TEMPLATES[days];
         const deadline = new Date();
         deadline.setDate(deadline.getDate() + days);
+        const deadlineStr = deadline.toLocaleDateString('ja-JP');
 
-        const template = EMAIL_TEMPLATES[days];
-        if (!template) {
-            return { statusCode: 400, body: JSON.stringify({ error: 'Invalid daysType. Use 30, 7, or 1' }) };
-        }
+        const bodyText = template.body(userData.company_name || 'お客様', '法人税申告', deadlineStr);
 
-        // 日付フォーマット
-        const deadlineDate = deadline.toLocaleDateString('ja-JP', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
+        await sgMail.send({
+            to: userData.email,
+            from: 'merki@spacegleam.co.jp',
+            subject: template.subject.replace('{{regName}}', '法人税申告'),
+            text: bodyText
         });
 
-        // テンプレート変数の置換
-        const subject = template.subject
-            .replace(/\{\{regulationName\}\}/g, sampleRegulation);
-
-        const bodyText = template.body
-            .replace(/\{\{companyName\}\}/g, companyName)
-            .replace(/\{\{regulationName\}\}/g, sampleRegulation)
-            .replace(/\{\{deadlineDate\}\}/g, deadlineDate);
-
-        // HTMLボディの作成（リンクを短く見せるため）
-        let bodyHtml = bodyText.replace(/\n/g, '<br>');
-
-        // 重複置換を防ぐため、長いURLから順に、かつ属性内は置換しないように処理
-        // 1. ダッシュボードURLを置換
-        bodyHtml = bodyHtml.split(DASHBOARD_URL).join(`<a href="${DASHBOARD_URL}">${DASHBOARD_URL}</a>`);
-
-        // 2. ルートURLを置換（運営：の直後にあるものだけを対象とする）
-        const rootUrl = 'https://merki.spacegleam.co.jp';
-        const footerLineBefore = '運営：SpaceGleam株式会社<br>';
-        if (bodyHtml.includes(footerLineBefore + rootUrl)) {
-            bodyHtml = bodyHtml.replace(footerLineBefore + rootUrl,
-                footerLineBefore + `<a href="${rootUrl}">${rootUrl}</a>`);
-        }
-
-        const msg = {
-            to: userEmail,
-            from: {
-                email: 'merki@spacegleam.co.jp',
-                name: 'MERKI'
-            },
-            subject: subject,
-            text: bodyText,
-            html: bodyHtml
-        };
-
-        await sgMail.send(msg);
-
-        return {
-            statusCode: 200,
-            body: JSON.stringify({
-                success: true,
-                message: `${days}日前通知テンプレートを ${userEmail} に送信しました`,
-                sentTo: userEmail,
-                companyName: companyName,
-                template: `${days}日前`
-            })
-        };
-
+        return { statusCode: 200, body: JSON.stringify({ success: true, message: `Sent to ${userData.email}` }) };
     } catch (error) {
-        console.error('Error:', error);
-        return {
-            statusCode: 500,
-            body: JSON.stringify({
-                error: 'Failed to send notification',
-                details: error.message
-            })
-        };
+        console.error('Handler Error:', error);
+        return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
     }
 };

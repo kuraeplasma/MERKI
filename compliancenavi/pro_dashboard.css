@@ -1,35 +1,31 @@
 /* Dashboard Layout Styling */
+
 :root {
     --sidebar-width: 280px;
     --sidebar-bg: #ffffff;
     --content-bg: #f8fafc;
 }
 
-body {
-    display: flex;
-    min-height: 100vh;
-    background-color: var(--content-bg);
-}
 
-.dashboard-layout {
-    display: flex;
-    width: 100%;
-}
-
-/* Sidebar Styling */
+/* Ensure sidebar is above everything */
 .sidebar {
-    width: var(--sidebar-width);
-    height: 100vh;
-    background: var(--sidebar-bg);
+    width: var(--sidebar-width) !important;
+    z-index: 10001 !important;
+    /* Higher than style.css header */
+    height: 100vh !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    opacity: 1 !important;
     border-right: 1px solid var(--border-color);
-    position: fixed;
-    left: 0;
-    top: 0;
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
     padding: 2rem 0;
     /* Vertical padding only */
-    display: flex;
+    display: flex !important;
     flex-direction: column;
-    z-index: 2000;
+    z-index: 9999 !important;
+    visibility: visible !important;
 }
 
 .sidebar .logo {
@@ -149,6 +145,24 @@ body {
     stroke-linejoin: round;
 }
 
+/* Logout Button Specifics */
+.logout-btn {
+    color: #ef4444 !important;
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+    background: #fef2f2 !important;
+    color: #dc2626 !important;
+    transform: translateX(4px);
+}
+
+.logout-btn:active {
+    background: #fee2e2 !important;
+    transform: translateX(2px);
+}
+
 /* Content Sections for SPA */
 .content-section {
     display: none;
@@ -163,10 +177,12 @@ body {
 
 /* Main Content Area */
 .main-content {
-    margin-left: var(--sidebar-width);
+    margin-left: var(--sidebar-width) !important;
     flex-grow: 1;
     padding: 0;
-    max-width: calc(100% - var(--sidebar-width));
+    max-width: calc(100% - var(--sidebar-width)) !important;
+    position: relative;
+    z-index: 1;
 }
 
 .content-inner {
@@ -197,24 +213,23 @@ body {
     flex-direction: column;
 }
 
-.stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
-    border-color: #667eea;
-}
 
 .stat-value {
-    font-size: 2.5rem;
+    font-size: 3.5rem;
     font-weight: 900;
-    color: var(--text-primary);
+    color: #6366f1;
+    /* Purple */
+    text-align: center;
     line-height: 1;
     margin-bottom: 0.5rem;
+    width: 100%;
 }
 
 .stat-label {
-    font-size: 0.85rem;
+    font-size: 1rem;
     font-weight: 700;
-    color: var(--text-secondary);
+    color: #334155;
+    /* High Contrast Gray */
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -899,41 +914,58 @@ input:checked+.slider:before {
     z-index: 1;
 }
 
-/* Lite Theme (Light Silver/Gray - lighter than PRO) */
+/* Lite Theme (Platinum Silver - Maximum Visibility) */
 .membership-card.lite {
-    --card-bg: linear-gradient(145deg, #6a6a6a 0%, #7d7d7d 50%, #5a5a5a 100%);
-    --card-border: #c0c0c0;
-    --card-shimmer: rgba(220, 220, 220, 0.5);
-    --card-watermark-bg: linear-gradient(180deg, rgba(220, 220, 220, 0.05) 0%, rgba(220, 220, 220, 0) 100%);
-    --card-accent-glow: rgba(220, 220, 220, 0.4);
-    --card-text-primary: #fff;
-    --card-label-color: #d0d0d0;
+    --card-bg: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #e2e8f0 100%);
+    --card-border: #64748b;
+    --card-shimmer: rgba(0, 0, 0, 0.1);
+    --card-text-metallic: #000;
+    --card-watermark-bg: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0) 100%);
+    --card-accent-glow: rgba(0, 0, 0, 0.1);
+    --card-text-primary: #000;
+    --card-label-color: #475569;
 }
 
 .membership-card.lite .gold-text-metallic,
-.membership-card.lite .card-logo-text {
-    background: linear-gradient(135deg, #e0e0e0 0%, #ffffff 30%, #d0d0d0 60%, #f0f0f0 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+.membership-card.lite .card-logo-text,
+.membership-card.lite .card-value {
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    -webkit-text-fill-color: initial !important;
+    color: #000 !important;
+    font-weight: 900 !important;
+    text-shadow: none !important;
 }
 
-/* LITE theme badge - inherits from CSS variables */
+/* LITE theme badge - Special styling: White bg, Gray border/text */
+.membership-card.lite .plan-badge-responsive {
+    background: #ffffff !important;
+    color: #64748b !important;
+    border: 1.5px solid #64748b !important;
+    text-shadow: none !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+}
 
 .membership-card.lite .progress-ring-svg circle:last-child {
-    stroke: #c0c0c0 !important;
-    filter: drop-shadow(0 0 8px rgba(220, 220, 220, 0.6)) !important;
+    stroke: #64748b !important;
+    filter: drop-shadow(0 0 8px rgba(100, 116, 139, 0.2)) !important;
 }
 
 .membership-card.lite .progress-label {
-    color: #c0c0c0;
+    color: #64748b;
 }
 
-/* Standard Theme (Blue) */
+.membership-card.lite .progress-number {
+    color: #000 !important;
+}
+
+/* Standard Theme (Midnight Sapphire Blue) */
 .membership-card.standard {
-    --card-bg: linear-gradient(145deg, #0a1628 0%, #1e3a5f 50%, #0d2137 100%);
+    --card-bg: linear-gradient(145deg, #051937 0%, #004d7a 100%);
     --card-border: #3b82f6;
     --card-shimmer: rgba(59, 130, 246, 0.5);
+    --card-text-metallic: linear-gradient(135deg, #e3f2fd 0%, #90caf9 30%, #42a5f5 60%, #e3f2fd 100%);
     --card-watermark-bg: linear-gradient(180deg, rgba(59, 130, 246, 0.05) 0%, rgba(59, 130, 246, 0) 100%);
     --card-accent-glow: rgba(59, 130, 246, 0.5);
     --card-text-primary: #fff;
@@ -980,6 +1012,50 @@ input:checked+.slider:before {
     z-index: 10;
     pointer-events: none;
     animation: border-glint 12s infinite linear;
+}
+
+/* Surface Glint Animation (Diagonal sweep across the whole card) */
+.membership-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.03) 40%,
+            rgba(255, 255, 255, 0.4) 50%,
+            rgba(255, 255, 255, 0.03) 60%,
+            rgba(255, 255, 255, 0) 100%);
+    transform: skewX(-25deg);
+    z-index: 5;
+    pointer-events: none;
+    animation: sweep 8s infinite ease-in-out;
+}
+
+/* Enhanced glint for the bright Lite card */
+.membership-card.lite::after {
+    background: linear-gradient(to right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.1) 40%,
+            rgba(255, 255, 255, 0.6) 50%,
+            rgba(255, 255, 255, 0.1) 60%,
+            rgba(255, 255, 255, 0) 100%);
+}
+
+@keyframes sweep {
+    0% {
+        left: -150%;
+    }
+
+    20% {
+        left: 150%;
+    }
+
+    100% {
+        left: 150%;
+    }
 }
 
 @keyframes border-glint {
@@ -1086,7 +1162,7 @@ input:checked+.slider:before {
     margin-bottom: 2rem;
 }
 
-.plan-badge {
+.membership-badge {
     position: absolute;
     top: 2rem;
     right: 3rem;
@@ -1108,6 +1184,8 @@ input:checked+.slider:before {
     gap: clamp(0.5rem, 2vw, 2rem);
     align-items: end;
     width: 100%;
+    /* Ensure left alignment matches header logo */
+    padding-left: 0;
 }
 
 .status-visual {
@@ -1162,8 +1240,8 @@ input:checked+.slider:before {
 /* Progress indicator wrapper */
 .progress-indicator-wrapper {
     position: relative;
-    width: clamp(70px, 20vw, 150px);
-    height: clamp(70px, 20vw, 150px);
+    width: clamp(90px, 25vw, 180px);
+    height: clamp(90px, 25vw, 180px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1181,8 +1259,8 @@ input:checked+.slider:before {
 
 /* Progress ring SVG */
 .progress-ring-svg {
-    width: clamp(62px, 18vw, 130px);
-    height: clamp(62px, 18vw, 130px);
+    width: clamp(80px, 22vw, 160px);
+    height: clamp(80px, 22vw, 160px);
     transform: rotate(-90deg);
     z-index: 1;
 }
@@ -1258,6 +1336,7 @@ input:checked+.slider:before {
     background: rgba(0, 0, 0, 0.6);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     white-space: nowrap;
+    text-shadow: 0 0 8px var(--card-accent-glow);
 }
 
 .status-desc {
@@ -1820,11 +1899,32 @@ input:checked+.slider:before {
     }
 }
 
-/* ========================================
-   Tablet Responsive Styles (768px and below)
-   ======================================== */
-
 @media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        width: 280px !important;
+        box-shadow: 4px 0 25px rgba(0, 0, 0, 0.1) !important;
+        z-index: 10001 !important;
+    }
+
+    .sidebar.active {
+        transform: translateX(0) !important;
+    }
+
+    .mobile-header {
+        display: flex !important;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+        padding-top: 60px !important;
+        max-width: 100% !important;
+    }
 
     /* Content padding */
     .content-inner {
@@ -1890,4 +1990,312 @@ input:checked+.slider:before {
     .pro-plan-card .price {
         font-size: 2rem !important;
     }
+}
+
+/* ========================================
+   Custom Team Member Management Styles
+   ======================================== */
+
+/* Base Styles (Desktop & Tablet) */
+.team-member-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 0.75rem;
+    transition: all 0.2s ease;
+    gap: 1rem;
+}
+
+.team-member-item:hover {
+    border-color: #6366f1;
+    background: #f8fafc;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.05);
+}
+
+.team-member-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.member-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+    font-size: 1rem;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.member-details {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    justify-content: center;
+    min-width: 0;
+}
+
+.member-name {
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+}
+
+.member-role {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+}
+
+.member-status-badge {
+    font-size: 0.75rem;
+    padding: 0.4rem 1rem;
+    border-radius: 30px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-weight: 700;
+}
+
+/* Plan Limit UI */
+.plan-limit-info {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0.25rem;
+}
+
+.plan-limit-bar {
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.plan-limit-progress {
+    height: 100%;
+    background: var(--primary-gradient);
+    border-radius: 4px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.add-member-card {
+    text-align: center;
+    padding: 2rem;
+    border: 2px dashed #cbd5e1;
+    border-radius: 16px;
+    margin-top: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #f8fafc;
+}
+
+.add-member-card:hover {
+    border-color: #6366f1;
+    background: #f0f9ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+}
+
+.add-member-text {
+    color: #475569;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.limit-reached-card {
+    text-align: center;
+    padding: 2rem;
+    background: #f1f5f9;
+    border-radius: 16px;
+    margin-top: 1rem;
+    border: 1px solid #e2e8f0;
+}
+
+/* Responsive Overrides */
+@media (max-width: 640px) {
+    .team-member-item {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        padding: 1.25rem !important;
+        gap: 1rem !important;
+    }
+
+    .team-member-info {
+        width: 100% !important;
+    }
+
+    .member-status-badge {
+        margin-left: 0 !important;
+        align-self: flex-start !important;
+    }
+
+    .member-avatar {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    .member-name {
+        font-size: 0.95rem !important;
+    }
+}
+
+/* ==========================================================================
+   RESTORED PREMIUM CARD DESIGNS (Authentic Backup)
+   ========================================================================== */
+
+.membership-card {
+    --card-bg: linear-gradient(145deg, #0a0a0a 0%, #1a1a1a 100%);
+    --card-border: #d4af37;
+    --card-shimmer: rgba(255, 215, 0, 0.4);
+    --card-text-metallic: linear-gradient(135deg, #fff9c4 0%, #f7ef8a 20%, #d4af37 50%, #b8860b 80%, #ffd700 100%);
+    --card-watermark-bg: linear-gradient(180deg, rgba(212, 175, 55, 0.05) 0%, rgba(212, 175, 55, 0) 100%);
+    --card-accent-glow: rgba(212, 175, 55, 0.4);
+    --card-text-primary: #fff;
+    --card-label-color: rgba(212, 175, 55, 0.7);
+
+    background: var(--card-bg) !important;
+    border-radius: 20px;
+    padding: 3rem;
+    color: var(--card-text-primary);
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        0 30px 60px rgba(0, 0, 0, 0.4),
+        inset 0 0 20px rgba(0, 0, 0, 0.2);
+    margin-bottom: 3.5rem;
+    border: 2px solid var(--card-border) !important;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: 'Inter', sans-serif;
+    z-index: 1;
+}
+
+/* Lite Theme (Platinum Silver - Brushed Metallic Base) */
+.membership-card.lite {
+    --card-bg: linear-gradient(135deg, #e0e0e0 0%, #ffffff 50%, #bdbdbd 100%) !important;
+    --card-border: #9e9e9e !important;
+    --card-shimmer: rgba(255, 255, 255, 0.8) !important;
+    --card-text-metallic: #000 !important;
+    --card-watermark-bg: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0) 100%) !important;
+    --card-accent-glow: rgba(0, 0, 0, 0.1) !important;
+    --card-text-primary: #000 !important;
+    --card-label-color: rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Standard Theme (Midnight Sapphire - Deep Blue Base) */
+.membership-card.standard {
+    --card-bg: linear-gradient(145deg, #051937 0%, #004d7a 100%) !important;
+    --card-border: #64b5f6 !important;
+    --card-shimmer: rgba(100, 181, 246, 0.5) !important;
+    --card-text-metallic: linear-gradient(135deg, #e3f2fd 0%, #90caf9 30%, #42a5f5 60%, #e3f2fd 100%) !important;
+    --card-watermark-bg: linear-gradient(180deg, rgba(100, 181, 246, 0.1) 0%, rgba(100, 181, 246, 0) 100%) !important;
+    --card-accent-glow: rgba(100, 181, 246, 0.5) !important;
+    --card-text-primary: #fff !important;
+    --card-label-color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Elite Shimmer / Border Glint Animation */
+.membership-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 2px;
+    background: linear-gradient(135deg,
+            transparent 0%,
+            transparent 45%,
+            var(--card-shimmer) 50%,
+            transparent 55%,
+            transparent 100%) 0% 0% / 300% 300%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    z-index: 10;
+    pointer-events: none;
+    animation: border-glint 12s infinite linear;
+}
+
+@keyframes border-glint {
+    0% {
+        background-position: 100% 100%;
+    }
+
+    20% {
+        background-position: 0% 0%;
+    }
+
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+.membership-card-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 8rem;
+    font-weight: 900;
+    background: var(--card-watermark-bg) !important;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 25px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.gold-text-metallic {
+    background: var(--card-text-metallic) !important;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    filter: drop-shadow(0 2px 8px var(--card-accent-glow));
+    font-weight: 900;
+}
+
+.plan-badge-responsive {
+    position: absolute;
+    top: 2rem;
+    right: 3rem;
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--card-border) !important;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    border: 1px solid var(--card-border) !important;
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.membership-card.lite .plan-badge-responsive {
+    background: rgba(255, 255, 255, 0.5) !important;
+    color: #444 !important;
+    border-color: #999 !important;
 }

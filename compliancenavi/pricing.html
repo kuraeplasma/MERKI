@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="robots" content="noindex">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>料金プラン - MERKI（メルキ） - 制度期限を見逃さない</title>
+    <title>MERKI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
@@ -13,6 +13,7 @@
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="stylesheet" href="style.css?v=20260128_ULTRA_REFRESH">
     <link rel="stylesheet" href="no-motion.css?v=20260128_ULTRA_REFRESH">
+    <link rel="prefetch" href="index.html">
 
     <!-- Auth Flicker Prevention -->
     <script>
@@ -51,13 +52,21 @@
                 <a href="index.html#compliance-list">対応範囲</a>
                 <a href="pricing.html">料金</a>
                 <a href="index.html#faq">よくある質問</a>
-                <a href="#" id="login-link" class="nav-btn nav-btn-secondary auth-only-out">ログイン</a>
-                <a href="#" id="signup-link" class="nav-btn nav-btn-primary trigger-signup auth-only-out">無料で始める</a>
+                <!-- Logged Out State -->
+                <a href="javascript:void(0)" id="login-link" class="nav-btn nav-btn-secondary auth-only-out"
+                    onclick="document.getElementById('login-modal').style.display='flex'">ログイン</a>
+                <a href="javascript:void(0)" id="signup-link"
+                    class="nav-btn nav-btn-primary trigger-signup auth-only-out"
+                    onclick="document.getElementById('login-modal').style.display='flex'">無料で始める</a>
+
+                <!-- Logged In State (Hidden by default via CSS) -->
+                <a href="dashboard.html" id="dashboard-link" class="nav-btn nav-btn-primary auth-only-in">ダッシュボード</a>
+                <a href="javascript:void(0)" id="logout-link" class="nav-btn nav-btn-secondary auth-only-in">ログアウト</a>
             </nav>
         </div>
     </header>
 
-    <main style="padding-top: 100px;">
+    <main style="padding-top: 110px;">
         <!-- Pricing Section -->
         <section id="pricing" style="background: white; padding: 100px 0;">
             <div class="container">
@@ -107,11 +116,10 @@
 
                         <ul class="plan-features">
                             <li><span>✅</span> 全制度の期限通知　30日・7日・前日</li>
-                            <li><span>👥</span> 最大10ユーザー</li>
+                            <li><span>👥</span> 最大5ユーザー</li>
                             <li><span>📊</span> ダッシュボード閲覧</li>
                             <li><span>⚙️</span> 通知内容編集機能</li>
                             <li><span>🔘</span> 制度ごと通知ON/OFF</li>
-                            <li><span>📩</span> 月初まとめメール</li>
                         </ul>
 
                         <a href="#" class="btn primary-btn trigger-signup">無料で始める</a>
@@ -211,7 +219,7 @@
         }
     </script>
     <script type="module">
-        import { initAuth } from './js/auth.js?v=20260128_LAYOUT_FIX_V7';
+        import { initAuth } from './js/auth.js?v=20260203_DynamicModal';
         initAuth();
     </script>
 </body>

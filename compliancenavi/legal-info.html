@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="MERKI（メルキ）の運営会社、利用規約、プライバシーポリシー、特定商取引法に基づく表記。">
-    <title>法的情報 | MERKI（メルキ）</title>
+    <title>MERKI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20260128_LAYOUT_FIX_V7">
-    <link rel="stylesheet" href="no-motion.css?v=20260128_LAYOUT_FIX_V7">
+    <link rel="stylesheet" href="style.css?v=20260130_responsive">
+    <link rel="stylesheet" href="no-motion.css?v=20260128_ULTRA_REFRESH">
 
     <!-- Auth Flicker Prevention -->
     <script>
@@ -46,8 +46,16 @@
                 <a href="index.html#compliance-list">対応範囲</a>
                 <a href="pricing.html">料金</a>
                 <a href="index.html#faq">よくある質問</a>
-                <a href="#" id="login-link" class="nav-btn nav-btn-secondary auth-only-out">ログイン</a>
-                <a href="#" id="signup-link" class="nav-btn nav-btn-primary trigger-signup auth-only-out">無料で始める</a>
+                <!-- Logged Out State -->
+                <a href="javascript:void(0)" id="login-link" class="nav-btn nav-btn-secondary auth-only-out"
+                    onclick="document.getElementById('login-modal').style.display='flex'">ログイン</a>
+                <a href="javascript:void(0)" id="signup-link"
+                    class="nav-btn nav-btn-primary trigger-signup auth-only-out"
+                    onclick="document.getElementById('login-modal').style.display='flex'">無料で始める</a>
+
+                <!-- Logged In State (Hidden by default via CSS) -->
+                <a href="dashboard.html" id="dashboard-link" class="nav-btn nav-btn-primary auth-only-in">ダッシュボード</a>
+                <a href="javascript:void(0)" id="logout-link" class="nav-btn nav-btn-secondary auth-only-in">ログアウト</a>
             </nav>
         </div>
     </header>
@@ -220,6 +228,10 @@
                 }
             }
         });
+    </script>
+    <script type="module">
+        import { initAuth } from './js/auth.js?v=20260203_DynamicModal';
+        initAuth();
     </script>
 </body>
 

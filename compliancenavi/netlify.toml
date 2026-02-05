@@ -1,5 +1,7 @@
 [build]
+  base = "."
   publish = "."
+  functions = "netlify/functions"
   command = ""
 
 [[redirects]]
@@ -7,12 +9,17 @@
   to = "/index.html"
   status = 200
 
-[functions]
-  node_bundler = "esbuild"
+
 
 [[plugins]]
   package = "@netlify/plugin-functions-install-core"
 
 # Scheduled Functions
 [functions."send-notifications"]
-  schedule = "0 0 * * *"  # 毎日 0:00 UTC (9:00 JST) に実行
+  schedule = "0 0 * * *"
+
+[dev]
+  functions = "netlify/functions"
+  publish = "."
+  port = 8888
+

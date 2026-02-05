@@ -8,7 +8,7 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: 100px;
+    scroll-padding-top: 110px;
     font-size: 20px;
     /* Offset for fixed header */
 }
@@ -64,7 +64,7 @@ header {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-    padding: 1.25rem 0;
+    padding: 1rem 0;
     position: fixed;
     width: 100%;
     top: 0;
@@ -84,7 +84,7 @@ header:hover {
 }
 
 .logo {
-    font-size: 3.2rem;
+    font-size: 2rem;
     font-weight: 900;
     background: var(--primary-gradient);
     -webkit-background-clip: text;
@@ -100,7 +100,7 @@ header:hover {
 }
 
 .logo-img {
-    height: 64px;
+    height: 45px;
     width: auto;
     display: block;
 }
@@ -441,9 +441,23 @@ section {
     margin-bottom: 1.5rem;
     box-shadow: var(--shadow-md);
     transition: all 0.4s;
+    color: white;
+    /* Ensure SVG inherits white */
+}
+
+.card-icon svg {
+    width: 34px;
+    height: 34px;
+    stroke-width: 2.5px;
+    /* Thicker lines as requested */
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 .glass-card:hover .card-icon {
+    transform: scale(1.1) rotate(5deg);
     /* transform: scale(1.1) rotate(5deg); */
     box-shadow: var(--shadow-lg);
 }
@@ -472,9 +486,22 @@ section {
 
 .grid-3 {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
+    /* Forced 3 columns as requested */
     gap: 2.5rem;
     justify-content: center;
+}
+
+@media (max-width: 1024px) {
+    .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Premium Pricing */
@@ -604,7 +631,8 @@ textarea:focus {
 /* Pricing Grid Layout */
 .pricing-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
+    /* Force 3 columns on desktop */
     gap: 2rem;
     align-items: stretch;
     /* Cards same height */
@@ -612,11 +640,24 @@ textarea:focus {
     margin: 0 auto;
 }
 
+@media (max-width: 960px) {
+    .pricing-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .pricing-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* Updated Pricing Card */
 .pricing-card {
     background: var(--card-bg);
     border-radius: 24px;
-    padding: 2.5rem;
+    padding: 5rem 2rem 2.5rem;
+    /* Slightly reduced top padding for better browser balance */
     text-align: center;
     box-shadow: var(--shadow-md);
     border: 1px solid var(--border-color);
@@ -639,10 +680,9 @@ textarea:focus {
     box-shadow: 0 24px 64px rgba(118, 75, 162, 0.5);
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
+    /* Removed margin-top to align cards at top horizontally */
     z-index: 10;
     overflow: visible;
-    /* Card size standardized */
-    margin-top: 0;
 }
 
 .pricing-card.recommended:hover {
@@ -655,7 +695,6 @@ textarea:focus {
 }
 
 .pricing-card.recommended .plan-name,
-.pricing-card.recommended .plan-desc,
 .pricing-card.recommended .plan-description,
 .pricing-card.recommended .price,
 .pricing-card.recommended .price small,
@@ -697,10 +736,12 @@ textarea:focus {
 
 .plan-badge {
     position: absolute;
-    top: -18px;
-    /* Lifted up slightly */
-    left: 50%;
-    transform: translateX(-50%);
+    top: -30px;
+    /* Consistently high enough */
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: fit-content;
     background: #ffffff;
     /* White for premium look on purple */
     color: #764ba2;
@@ -723,17 +764,36 @@ textarea:focus {
     color: var(--text-primary);
 }
 
-.plan-desc {
+.plan-description {
     color: var(--text-secondary);
-    font-size: 0.95rem;
+    font-size: 0.92rem;
+    /* Slightly smaller to fit phrases better */
     margin-bottom: 2rem;
-    height: 40px;
-    /* Align heights */
+    line-height: 1.5;
+    word-break: normal;
+    overflow-wrap: normal;
+    height: 3.5rem;
+    display: block;
+    /* Standard block for more predictable wrap */
+    text-align: center;
+}
+
+.plan-description span {
+    display: inline-block;
+    white-space: nowrap;
+    /* Force phrase to stay together */
 }
 
 .pricing-card .price {
-    font-size: 2.75rem;
+    font-size: 2.5rem;
+    /* Slightly reduced to prevent clipping */
     margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Changed to center for better vertical alignment of currency */
+    white-space: nowrap;
+    gap: 2px;
 }
 
 .pricing-card .price small {
@@ -769,6 +829,29 @@ textarea:focus {
     font-size: 1.2rem;
     width: 24px;
     text-align: center;
+}
+
+/* PayPal Button Centering Fix */
+.paypal-container,
+[id^="paypal-resubscribe-container-"],
+[id^="paypal-button-"] {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
+    overflow: visible !important;
+}
+
+/* Ensure the SDK generated buttons inside also center */
+.paypal-container>div,
+[id^="paypal-resubscribe-container-"]>div,
+[id^="paypal-button-"]>div {
+    width: 100% !important;
+    max-width: 300px;
+    /* Optional: limit width if needed, but centering is primary */
+    margin: 0 auto !important;
 }
 
 /* Remove old single pricing card styles if they conflict, but overrides above should handle it */
@@ -1589,14 +1672,24 @@ tbody tr:hover {
 }
 
 .accordion-header h3 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
+    /* Slighly smaller for better fit */
     font-weight: 700;
     color: var(--text-primary);
     margin: 0;
     display: flex;
-    align-items: center;
-    gap: 1rem;
+    align-items: flex-start;
+    /* Align top for hanging indent */
+    gap: 0.75rem;
     flex: 1;
+    line-height: 1.5;
+}
+
+.accordion-header h3 span {
+    flex-shrink: 0;
+    /* Prevent Q from shrinking */
+    margin-top: 0.1rem;
+    /* Slight optical adjustment */
 }
 
 .accordion-icon {
@@ -1658,12 +1751,15 @@ tbody tr:hover {
 }
 
 /* Mobile Menu Styles */
+/* Mobile Menu Styles - Unified with Dashboard */
 .mobile-menu-btn {
     display: none;
+    /* Flex on mobile */
     flex-direction: column;
-    justify-content: space-between;
-    width: 30px;
-    height: 21px;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
     cursor: pointer;
     position: relative;
     z-index: 6000;
@@ -1671,16 +1767,24 @@ tbody tr:hover {
     background: none;
     outline: none;
     padding: 0;
+    gap: 6px;
     -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    transform: translateZ(0);
+    /* Hardware acceleration to prevent ghosting */
+    backface-visibility: hidden;
 }
 
 .mobile-menu-btn span {
-    width: 100%;
+    display: block;
+    width: 24px;
+    /* Standardize with dashboard */
     height: 3px;
     background-color: #333333;
-    /* Explicit dark color */
     border-radius: 3px;
     transition: all 0.3s ease;
+    will-change: transform, opacity;
 }
 
 @media (max-width: 1024px) {
@@ -1688,12 +1792,10 @@ tbody tr:hover {
         display: flex;
     }
 
-    /* When menu is active, make hamburger button fixed to stay above nav overlay */
+    /* Active state handled by JS toggling class */
     .mobile-menu-btn.active {
-        position: fixed;
-        top: 1.5rem;
-        right: 1.5rem;
         z-index: 6000;
+        /* No position changes to prevent jumping */
     }
 
     .mobile-menu-btn.active span:nth-child(1) {
@@ -1721,6 +1823,19 @@ header nav a:hover {
         color: var(--text-primary) !important;
         display: block;
         padding: 1rem;
+        opacity: 0;
+        /* Hidden by default */
+        transform: translateY(10px);
+        /* Slide effect */
+        transition: opacity 0.1s ease, transform 0.1s ease;
+        /* Disappear fast */
+    }
+
+    header nav.active a {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+        /* Appear slightly after bg */
     }
 
     /* Mobile Nav Drawer - Only for header nav, not sidebar-nav */
@@ -1730,8 +1845,9 @@ header nav a:hover {
         right: 0;
         width: 100%;
         height: 100vh;
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(10px);
+        background: #ffffff;
+        /* Solid background for performance */
+        /* backdrop-filter removed to prevent ghosting/lag */
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -1740,7 +1856,18 @@ header nav a:hover {
         z-index: 5000;
         opacity: 0;
         visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
+        transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+        /* Delay visibility hidden until opacity fades */
+        transform: translateZ(0);
+        /* Hardware acceleration */
+        will-change: opacity, visibility;
+    }
+
+    header nav.active {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.2s ease, visibility 0s linear 0s;
+        /* Instant visibility on open */
     }
 
     header nav.active {
@@ -1748,6 +1875,66 @@ header nav a:hover {
         visibility: visible;
     }
 }
+
+/* --- Dashboard Screenshots Section --- */
+.dashboard-screenshots-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 4rem;
+    perspective: 1000px;
+}
+
+.dashboard-screenshot-wrapper {
+    flex: 1;
+    min-width: 300px;
+    max-width: 600px;
+    background: transparent;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-screenshot-wrapper:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.dashboard-screenshot-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 16px;
+}
+
+.screenshot-caption {
+    width: 100%;
+    background: transparent;
+    color: var(--text-primary);
+    padding: 1.5rem 1rem 0;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+
+@media (max-width: 768px) {
+    .dashboard-screenshots-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .dashboard-screenshot-wrapper {
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+}
+
 
 @media (max-width: 768px) {
     .hero-title {
@@ -1771,6 +1958,10 @@ header nav a:hover {
 
     .logo {
         font-size: 1.5rem;
+    }
+
+    .logo-img {
+        height: 32px;
     }
 
     .responsive-hero-desc {
@@ -1866,209 +2057,12 @@ header nav a:hover {
     margin-bottom: 0;
 }
 
-/* Dashboard Preview Component (Landing Page) - Redesigned for No-Scroll */
-.dashboard-preview {
-    width: 100%;
-    background: #ffffff;
-    border-radius: 20px;
-    display: flex;
-    overflow: hidden;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
-    border: 1px solid var(--border-color);
-    text-align: left;
-}
-
-.preview-sidebar {
-    width: 200px;
-    background: white;
-    border-right: 1px solid var(--border-color);
-    padding: 1.5rem 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    flex-shrink: 0;
-}
-
-.preview-logo {
-    background: var(--primary-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 900;
-    font-size: 1.25rem;
-    margin-bottom: 2rem;
-    padding: 0 1rem;
-    letter-spacing: -0.5px;
-}
-
-.preview-nav-item {
-    padding: 0.65rem 0.75rem;
-    border-radius: 10px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    white-space: nowrap;
-}
-
-.preview-nav-item.active {
-    background: var(--primary-gradient);
-    color: white !important;
-}
-
-.preview-icon {
-    width: 18px;
-    height: 18px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: currentColor;
-}
-
-.preview-icon svg {
-    width: 100%;
-    height: 100%;
-    stroke-width: 2px;
-    stroke: currentColor;
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-.preview-main {
-    flex: 1;
-    padding: 2.5rem;
-    background: #ffffff;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    max-width: calc(100% - 200px);
-}
-
-.preview-header {
-    font-size: 1.75rem;
-    font-weight: 900;
-    margin-bottom: 0.5rem;
-    color: var(--text-primary);
-    letter-spacing: -0.5px;
-}
-
-.preview-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-}
-
-.preview-stat-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 16px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-}
-
-.preview-stat-val {
-    font-size: 2rem;
-    font-weight: 900;
-    color: var(--text-primary);
-    line-height: 1;
-    margin-bottom: 0.5rem;
-}
-
-.preview-stat-label {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    font-weight: 700;
-}
-
-.preview-list {
-    background: white;
-    border-radius: 16px;
-    padding: 1.5rem;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-}
-
-.preview-list-header {
-    font-size: 1.1rem;
-    font-weight: 800;
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--text-primary);
-}
-
-.preview-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 0;
-    border-bottom: 1px solid #f1f5f9;
-}
-
-.preview-item:last-child {
-    border-bottom: none;
-}
-
-.preview-item-info {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.preview-item-name {
-    font-weight: 700;
-    color: var(--text-primary);
-    font-size: 0.95rem;
-}
-
-.preview-item-date {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-}
-
-.preview-badge {
-    padding: 0.4rem 0.75rem;
-    border-radius: 100px;
-    font-size: 0.7rem;
-    font-weight: 800;
-    background: #fee2e2;
-    color: #ef4444;
-}
-
-@media (max-width: 1024px) {
-    .dashboard-preview {
-        flex-direction: column;
-    }
-
-    .preview-sidebar {
-        width: 100%;
-        flex-direction: row;
-        overflow-x: auto;
-        padding: 0.75rem;
-        height: auto;
-        border-right: none;
-        border-bottom: 1px solid var(--border-color);
-    }
-
-    .preview-main {
-        max-width: 100%;
-        padding: 1.5rem;
-    }
-}
-
-@media (max-width: 640px) {
-    .preview-stats {
-        grid-template-columns: 1fr;
-    }
-}
 
 /* ========================================
    Additional Mobile Responsive (480px)
    ======================================== */
 @media (max-width: 480px) {
+
     /* Container padding */
     .container {
         padding: 0 1rem !important;
@@ -2093,10 +2087,34 @@ header nav a:hover {
         font-size: 0.95rem !important;
     }
 
-    /* Glass card mobile */
-    .glass-card {
+    /* Glass card mobile - Features Section Only */
+    .grid-3>.glass-card {
         padding: 1.5rem !important;
         border-radius: 16px !important;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        column-gap: 1rem;
+    }
+
+    .grid-3>.glass-card .card-icon {
+        margin-bottom: 0 !important;
+        grid-row: 1;
+        grid-column: 1;
+    }
+
+    .grid-3>.glass-card .card-title {
+        margin-bottom: 0 !important;
+        grid-row: 1;
+        grid-column: 2;
+        text-align: left;
+    }
+
+    .grid-3>.glass-card .card-desc {
+        grid-row: 2;
+        grid-column: 1 / -1;
+        margin-top: 1rem;
+        text-align: left;
     }
 
     /* Buttons */
@@ -2116,12 +2134,17 @@ header nav a:hover {
 
     /* Pricing card */
     .pricing-card {
-        padding: 2rem 1.5rem !important;
+        padding: 5.5rem 1.5rem 2rem !important;
+        /* Maximized top padding for badge clearance */
         border-radius: 20px !important;
     }
 
     .pricing-card .price {
         font-size: 2.5rem !important;
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+        white-space: nowrap;
     }
 
     .pricing-card h3 {
@@ -2154,6 +2177,12 @@ header nav a:hover {
     /* Section padding */
     section {
         padding: 60px 0 !important;
+    }
+
+    /* Hero Padding Adjustment for Mobile */
+    .hero {
+        padding-top: 140px !important;
+        padding-bottom: 80px !important;
     }
 
     /* Card icon */
@@ -2195,10 +2224,161 @@ header nav a:hover {
     }
 
     .pricing-card {
-        padding: 1.5rem 1rem !important;
+        padding: 5.5rem 1.5rem 2rem !important;
+        /* Maximized top padding for badge clearance */
     }
 
     .pricing-card .price {
         font-size: 2rem !important;
     }
+}
+
+/* --- Animations for Engagement --- */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: opacity, transform;
+}
+
+.fade-in-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+/* Stagger delays */
+.delay-100 {
+    transition-delay: 100ms;
+}
+
+.delay-200 {
+    transition-delay: 200ms;
+}
+
+.delay-300 {
+    transition-delay: 300ms;
+}
+
+
+
+@keyframes pulse-soft {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+    }
+
+    70% {
+        transform: scale(1.02);
+        box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+}
+
+.pulse-badge {
+    animation: pulse-soft 3s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.shimmer-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.shimmer-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+    transform: skewX(-20deg);
+    animation: shine 4s infinite linear;
+    /* Changed name to shine to avoid conflict or generic naming */
+}
+
+@keyframes shine {
+    0% {
+        left: -100%;
+    }
+
+    20% {
+        left: 100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+/* --- Feature Card PC Layout (Icon side-by-side) --- */
+.grid-3>.glass-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 1.5rem;
+    align-items: center;
+    padding: 2.5rem;
+}
+
+.grid-3>.glass-card .card-icon {
+    grid-row: 1;
+    grid-column: 1;
+    margin-bottom: 0;
+}
+
+.grid-3>.glass-card .card-title {
+    grid-row: 1;
+    grid-column: 2;
+    margin-bottom: 0;
+    align-self: center;
+    text-align: left;
+    font-size: 1.3rem;
+}
+
+.grid-3>.glass-card .card-desc {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    margin-top: 1.5rem;
+    text-align: left;
+}
+
+/* --- Section Header Icons (Flat Design) --- */
+.section-icon {
+    width: 32px;
+    height: 32px;
+    stroke: #667eea;
+    /* Fixed undefined variable */
+    stroke-width: 2.5;
+    fill: none;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+
+.tab-btn .section-icon {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    margin-right: 0.5rem;
 }
