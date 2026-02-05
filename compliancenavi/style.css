@@ -1474,19 +1474,12 @@ tbody tr:hover {
     }
 }
 
-/* Legal Info Tabs */
+/* Enhanced Tabs Layout (Optimized for Large Screens) */
 .tabs-container {
-    max-width: 900px;
-    margin: 0 auto 2rem;
-    padding: 0 1rem;
-}
-
-
-/* Enhanced Tabs */
-.tabs-container {
-    max-width: 900px;
+    max-width: 1100px;
+    /* Expanded to prevent wrapping on 27-inch monitors */
     margin: 0 auto 3rem;
-    padding: 0 1rem;
+    padding: 0 1.5rem;
 }
 
 .tabs-header {

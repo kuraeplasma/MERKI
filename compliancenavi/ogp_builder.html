@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MERKI OGP Builder</title>
+    <!-- Use Google Fonts to ensure Inter is loaded correctly -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            /* Exact brand colors from style.css */
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --dark-bg: #0f172a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* Standard Twitter Card size */
+            width: 1200px;
+            height: 630px;
+            background: var(--dark-bg);
+            /* Brand Font */
+            font-family: 'Inter', sans-serif;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Hero-style background overlay */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--primary-gradient);
+            opacity: 0.95;
+            z-index: 1;
+        }
+
+        /* Subtle grid pattern for premium feel */
+        body::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 2;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            width: 900px;
+            /* Reduced further to ensure plenty of side margin for versatility */
+            height: 530px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 30px;
+            /* Slightly adjusted for better balance within narrower width */
+            align-items: center;
+        }
+
+        .left {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            /* Reduced from 20px as requested */
+            margin-bottom: 25px;
+        }
+
+        .logo-img {
+            height: 85px;
+            width: auto;
+            display: block;
+        }
+
+        .logo-text {
+            font-size: 4rem;
+            font-weight: 900;
+            background: white;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -3px;
+            /* Tighter letter spacing to match site */
+            line-height: 1;
+        }
+
+        .headline {
+            font-size: 4.5rem;
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .subtext {
+            font-size: 1.7rem;
+            line-height: 1.7;
+            opacity: 0.98;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .right {
+            /* Premium Glassmorphism Card as seen on the site */
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(25px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 45px;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .price-label {
+            font-size: 1.6rem;
+            opacity: 0.9;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .price-value {
+            font-size: 5.5rem;
+            font-weight: 900;
+            text-align: center;
+            line-height: 1;
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+            gap: 5px;
+            margin-bottom: 5px;
+        }
+
+        .price-unit {
+            font-size: 1.8rem;
+            opacity: 0.8;
+            font-weight: 600;
+        }
+
+        .trial-badge {
+            background: white;
+            color: #764ba2;
+            padding: 15px 20px;
+            border-radius: 30px;
+            font-weight: 900;
+            font-size: 1.3rem;
+            /* Slightly reduced to fit in one line comfortably */
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            white-space: nowrap;
+            /* Prevent ugly line breaks */
+        }
+
+        .points {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .point {
+            font-size: 1.3rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div class="left">
+            <div class="logo-area">
+                <!-- Using the ACTUAL logo from the site -->
+                <img src="merki_logo_transparent.png" class="logo-img" alt="MERKI Logo">
+                <span class="logo-text">MERKI</span>
+            </div>
+            <h1 class="headline">期限管理は<br>任せていい。</h1>
+            <p class="subtext">
+                日々の事業運営を、継続的に支える<br>
+                制度期限の通知サービス
+            </p>
+        </div>
+        <div class="right">
+            <p class="price-label">月額たった</p>
+            <div class="price-value">¥980<span class="price-unit">/月</span></div>
+            <div class="trial-badge">🎁 30日間無料トライアル</div>
+            <div class="points">
+                <div class="point">🟢 安心① 無料｜30日間無料</div>
+                <div class="point">🟢 安心② 解約｜いつでもOK</div>
+                <div class="point">🟢 安心③ 放置｜設定後は不要</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
