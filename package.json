@@ -1,44 +1,10 @@
 {
-    "name": "xdraft",
-    "productName": "X Draft",
+    "name": "merki-web",
     "version": "1.0.0",
-    "description": "Imagine boldly, structure clearly.",
-    "main": "main.js",
+    "description": "MERKI: Compliance deadline management service",
     "scripts": {
-        "start": "electron .",
-        "build": "electron-builder",
-        "build:app": "electron-builder"
+        "start": "cd compliancenavi && npx netlify dev"
     },
     "author": "SpaceGleam",
-    "license": "Commercial",
-    "dependencies": {
-        "axios": "^1.6.0",
-        "crc-32": "^1.2.2",
-        "firebase-admin": "^11.11.1",
-        "nodemailer": "^6.9.0"
-    },
-    "devDependencies": {
-        "electron": "^28.1.0",
-        "electron-builder": "^24.9.1"
-    },
-    "build": {
-        "appId": "com.spacegleam.xdraft",
-        "productName": "X Draft",
-        "directories": {
-            "output": "dist"
-        },
-        "win": {
-            "target": "nsis",
-            "icon": "new_logo.png"
-        },
-        "mac": {
-            "target": "dmg",
-            "icon": "new_logo.png"
-        },
-        "nsis": {
-            "oneClick": false,
-            "perMachine": false,
-            "allowToChangeInstallationDirectory": true
-        }
-    }
+    "license": "Commercial"
 }
