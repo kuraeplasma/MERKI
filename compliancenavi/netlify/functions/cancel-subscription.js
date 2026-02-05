@@ -45,6 +45,19 @@ exports.handler = async (event, context) => {
             };
         }
 
+        // Check environment variables
+        if (!process.env.PAYPAL_CLIENT_ID || !process.env.PAYPAL_CLIENT_SECRET) {
+            console.error('PayPal credentials not configured');
+            return {
+                statusCode: 500,
+                headers,
+                body: JSON.stringify({
+                    success: false,
+                    error: 'PayPal credentials not configured. Please contact support.'
+                })
+            };
+        }
+
         // Get PayPal access token
         const auth = Buffer.from(
             `${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_CLIENT_SECRET}`
@@ -58,6 +71,19 @@ exports.handler = async (event, context) => {
             },
             body: 'grant_type=client_credentials'
         });
+
+        if (!tokenResponse.ok) {
+            const errorText = await tokenResponse.text();
+            console.error('PayPal token error:', errorText);
+            return {
+                statusCode: 500,
+                headers,
+                body: JSON.stringify({
+                    success: false,
+                    error: 'Failed to authenticate with PayPal'
+                })
+            };
+        }
 
         const tokenData = await tokenResponse.json();
         const accessToken = tokenData.access_token;
@@ -78,7 +104,16 @@ exports.handler = async (event, context) => {
         );
 
         if (!cancelResponse.ok) {
-            throw new Error('PayPal cancellation failed');
+            const errorText = await cancelResponse.text();
+            console.error('PayPal cancel error:', errorText);
+            return {
+                statusCode: 500,
+                headers,
+                body: JSON.stringify({
+                    success: false,
+                    error: 'Failed to cancel subscription with PayPal'
+                })
+            };
         }
 
         // Update Firestore - find user by subscription_id
@@ -108,7 +143,7 @@ exports.handler = async (event, context) => {
             headers,
             body: JSON.stringify({
                 success: false,
-                error: error.message
+                error: error.message || 'Internal server error'
             })
         };
     }
