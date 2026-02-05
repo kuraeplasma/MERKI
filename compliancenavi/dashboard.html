@@ -1377,7 +1377,7 @@
                 ],
                 pro: [
                     { icon: '🔔', title: '30日・7日・前日通知', text: '3段階のリマインドで、見落としを完全に防ぎます。' },
-                    { icon: '👥', title: '最大10ユーザー', text: '大規模なチームでも円滑な共有が可能です。' },
+                    { icon: '👥', title: '最大5ユーザー', text: '5名までのチームで円滑な共有が可能です。' },
                     { icon: '⚙️', title: '通知内容のカスタマイズ', text: '通知メッセージの文面を制度ごとに変更可能です。' },
                     { icon: '✅', title: '個別通知のON/OFF', text: '優先度に応じたきめ細かい通知設定が可能です。' }
                 ]
@@ -1683,7 +1683,7 @@
             const user = auth.currentUser;
 
             // Define Limits
-            const PLAN_LIMITS = { 'lite': 1, 'standard': 3, 'pro': 10 };
+            const PLAN_LIMITS = { 'lite': 1, 'standard': 3, 'pro': 5 };
             let userPlan = userData.plan || 'lite';
 
             // --- DEBUG: FAKE PLAN FOR LOCAL TESTING ---
