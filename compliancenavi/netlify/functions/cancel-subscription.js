@@ -41,33 +41,31 @@ exports.handler = async (event, context) => {
             }
 
             try {
-                let pkg = process.env.FIREBASE_PRIVATE_KEY;
-                if (!pkg) throw new Error('FIREBASE_PRIVATE_KEY is not defined in environment variables');
+                const pkg = process.env.FIREBASE_PRIVATE_KEY;
+                if (!pkg) throw new Error('FIREBASE_PRIVATE_KEY is not defined');
 
-                // 1. Remove wrapping quotes and fix escaped newlines
-                let privateKey = pkg.trim().replace(/^["']+|["']+$/g, '').replace(/\\n/g, '\n');
+                // 1. Extract only the Base64 portion by removing headers and any non-base64 characters
+                // This is the most robust way to handle any environment variable mangling
+                const base64Content = pkg
+                    .replace(/-----BEGIN PRIVATE KEY-----/g, '')
+                    .replace(/-----END PRIVATE KEY-----/g, '')
+                    .replace(/[^A-Za-z0-9+/=]/g, ''); // Removes \n, spaces, quotes, etc.
 
-                // 2. Standardize newlines and trim each line (CRITICAL for ASN.1)
-                // Many times hidden spaces at the end of lines cause the DER parsing error
-                privateKey = privateKey
-                    .split('\n')
-                    .map(line => line.trim())
-                    .filter(line => line.length > 0)
-                    .join('\n');
+                // 2. Reconstruct the PEM format correctly (64 chars per line)
+                const formattedKey = [
+                    '-----BEGIN PRIVATE KEY-----',
+                    ...(base64Content.match(/.{1,64}/g) || []),
+                    '-----END PRIVATE KEY-----'
+                ].join('\n');
 
-                // 3. Ensure proper PEM headers
-                if (!privateKey.includes('-----BEGIN PRIVATE KEY-----')) {
-                    privateKey = `-----BEGIN PRIVATE KEY-----\n${privateKey}\n-----END PRIVATE KEY-----`;
-                }
-
-                console.log('Final Private Key Structure Check - Lines:', privateKey.split('\n').length);
-                console.log('Headers found:', privateKey.startsWith('-----BEGIN') && privateKey.endsWith('-----'));
+                console.log('Reconstructed Private Key (Length):', formattedKey.length);
+                console.log('Key Sample (Start):', formattedKey.substring(0, 30));
 
                 admin.initializeApp({
                     credential: admin.credential.cert({
                         projectId: process.env.FIREBASE_PROJECT_ID,
                         clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-                        privateKey: privateKey
+                        privateKey: formattedKey
                     })
                 });
                 console.log('Firebase Admin initialized successfully');
