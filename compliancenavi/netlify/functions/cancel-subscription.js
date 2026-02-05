@@ -41,8 +41,14 @@ exports.handler = async (event, context) => {
             }
 
             try {
-                // Parse private key correctly
-                const privateKey = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n');
+                // Parse private key correctly and robustly
+                let privateKey = process.env.FIREBASE_PRIVATE_KEY;
+
+                // Remove accidental quotes, handle literal \n, and trim whitespace
+                privateKey = privateKey
+                    .replace(/^"|"$/g, '') // Remove wrapping double quotes
+                    .replace(/\\n/g, '\n')  // Replace literal \n with actual newlines
+                    .trim();                // Remove leading/trailing whitespace
 
                 admin.initializeApp({
                     credential: admin.credential.cert({
