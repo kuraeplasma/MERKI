@@ -11,8 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="icon" type="image/png" href="logo.png">
-    <link rel="stylesheet" href="style.css?v=20260130_responsive">
-    <link rel="stylesheet" href="pro_dashboard.css?v=20260130_responsive">
+    <link rel="stylesheet" href="style.css?v=20260203_final_v13">
+    <link rel="stylesheet" href="pro_dashboard.css?v=20260203_final_v13">
     <link rel="stylesheet" href="no-motion.css?v=20260128_ULTRA_REFRESH">
 
     <!-- Auth Flicker Prevention -->
@@ -56,7 +56,7 @@
     </header>
 
     <main style="padding-top: 120px; padding-bottom: 80px;">
-        <div class="container" style="max-width: 900px;">
+        <div class="container" style="max-width: 1200px;">
 
             <!-- Current Plan Card -->
             <div class="glass-card fade-in-up" style="margin-bottom: 3rem;">
@@ -84,37 +84,59 @@
                 <div id="action-buttons"></div>
             </div>
 
-            <!-- Pricing Info -->
-            <div class="pricing-card fade-in-up">
-                <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-primary);">
-                    💎 プレミアムプラン
-                </h3>
-                <div class="price">¥980<small style="font-size: 1.5rem; font-weight: 600;">/月</small></div>
-                <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.05rem;">
-                    30日間の無料トライアル付き
-                </p>
+            <!-- Pricing Info (Grid) -->
+            <div class="pricing-grid fade-in-up">
+                <!-- Pro Plan (Recommended) -->
+                <div class="pricing-card recommended">
+                    <div class="plan-badge">推奨プラン</div>
+                    <h3 class="plan-name">Pro</h3>
+                    <div class="price">¥4,980<small>/月</small></div>
+                    <p class="plan-description"><span>覚えておくことから、</span><span>解放されたい方に</span></p>
 
-                <ul style="list-style: none; text-align: left; margin-bottom: 2.5rem;">
-                    <li
-                        style="padding: 1rem 0; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 1rem;">
-                        <span style="color: #10b981; font-size: 1.5rem; font-weight: 800;">✓</span>
-                        <span style="color: var(--text-primary); font-weight: 600;">制度期限の自動計算</span>
-                    </li>
-                    <li
-                        style="padding: 1rem 0; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 1rem;">
-                        <span style="color: #10b981; font-size: 1.5rem; font-weight: 800;">✓</span>
-                        <span style="color: var(--text-primary); font-weight: 600;">メール通知（30日前・7日前・前日）</span>
-                    </li>
-                    <li
-                        style="padding: 1rem 0; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 1rem;">
-                        <span style="color: #10b981; font-size: 1.5rem; font-weight: 800;">✓</span>
-                        <span style="color: var(--text-primary); font-weight: 600;">業種・規模別の制度管理</span>
-                    </li>
-                    <li style="padding: 1rem 0; display: flex; align-items: center; gap: 1rem;">
-                        <span style="color: #10b981; font-size: 1.5rem; font-weight: 800;">✓</span>
-                        <span style="color: var(--text-primary); font-weight: 600;">いつでもキャンセル可能</span>
-                    </li>
-                </ul>
+                    <ul class="plan-features">
+                        <li><span>✅</span> 全制度の期限通知　30日・7日・前日</li>
+                        <li><span>👥</span> 最大5ユーザー</li>
+                        <li><span>📊</span> ダッシュボード閲覧</li>
+                        <li><span>⚙️</span> 通知内容編集機能</li>
+                        <li><span>🔘</span> 制度ごと通知ON/OFF</li>
+                        <li><span>📩</span> 月初まとめメール</li>
+                    </ul>
+
+                    <div id="paypal-button-pro" class="paypal-container" style="margin-top: auto; padding-top: 1.5rem;">
+                    </div>
+                </div>
+
+                <!-- Standard Plan -->
+                <div class="pricing-card">
+                    <h3 class="plan-name">Standard</h3>
+                    <div class="price">¥1,980<small>/月</small></div>
+                    <p class="plan-description"><span>税理士・担当者と、</span><span>安心して共有したい方に</span></p>
+
+                    <ul class="plan-features">
+                        <li><span>✅</span> 全制度の期限通知　7日前＋前日</li>
+                        <li><span>👥</span> 最大3ユーザー</li>
+                        <li><span>📊</span> ダッシュボード閲覧</li>
+                    </ul>
+
+                    <div id="paypal-button-standard" class="paypal-container"
+                        style="margin-top: auto; padding-top: 1.5rem;"></div>
+                </div>
+
+                <!-- Lite Plan -->
+                <div class="pricing-card">
+                    <h3 class="plan-name">Lite</h3>
+                    <div class="price">¥980<small>/月</small></div>
+                    <p class="plan-description"><span>前日に知らせてくれれば</span><br><span>十分、という方に</span></p>
+
+                    <ul class="plan-features">
+                        <li><span>✅</span> 全制度の期限通知　前日のみ</li>
+                        <li><span>👥</span> 1ユーザー</li>
+                        <li><span>📊</span> ダッシュボード閲覧</li>
+                    </ul>
+
+                    <div id="paypal-button-lite" class="paypal-container"
+                        style="margin-top: auto; padding-top: 1.5rem;"></div>
+                </div>
             </div>
         </div>
     </main>
@@ -131,8 +153,13 @@
         import { signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
         // PayPal Configuration (Dynamic)
-        let PAYPAL_PLAN_ID = '';
-        let PAYPAL_CLIENT_ID = '';
+        // PayPal Configuration (Dynamic)
+        let PAYPAL_CLIENT_ID = 'sb';
+        let PAYPAL_PLAN_IDS = {
+            pro: 'P-PRO-TEST',
+            standard: 'P-STANDARD-TEST',
+            lite: 'P-LITE-TEST'
+        };
 
         // 認証チェック
         onAuthStateChanged(auth, async (user) => {
@@ -151,8 +178,12 @@
                     const configResponse = await fetch('/.netlify/functions/get-paypal-config');
                     const config = await configResponse.json();
                     PAYPAL_CLIENT_ID = config.clientId;
-                    PAYPAL_PLAN_ID = config.planId;
-                    console.log("PayPal config loaded successfully");
+                    PAYPAL_PLAN_IDS = {
+                        pro: config.planIdPro,
+                        standard: config.planIdStandard,
+                        lite: config.planIdLite
+                    };
+                    console.log("PayPal config loaded successfully", PAYPAL_PLAN_IDS);
                 } catch (configError) {
                     console.error("Failed to fetch PayPal config:", configError);
                     // フォールバック（ローカル開発用など）
@@ -195,7 +226,7 @@
             let themeClass = '';
             let badgeText = 'PRO';
             let planName = 'プレミアム';
-            let price = '¥980';
+            let price = '¥4,980';
 
             if (plan === 'lite') {
                 themeClass = 'lite';
@@ -289,12 +320,11 @@
                 </div>
             `;
 
-            if (status === 'trial') {
-                actionsEl.innerHTML = `
-                    <div id="paypal-button-container" style="margin-top: 2rem;"></div>
-                `;
+            if (status === 'trial' || status === 'canceled') {
                 loadPayPalSDK(() => {
-                    renderPayPalButton(user);
+                    renderPayPalButton('paypal-button-pro', PAYPAL_PLAN_IDS.pro, 'pro', user);
+                    renderPayPalButton('paypal-button-standard', PAYPAL_PLAN_IDS.standard, 'standard', user);
+                    renderPayPalButton('paypal-button-lite', PAYPAL_PLAN_IDS.lite, 'lite', user);
                 });
             } else if (status === 'active') {
                 actionsEl.innerHTML = `
@@ -306,13 +336,6 @@
                     if (confirm('本当にキャンセルしますか?')) {
                         cancelSubscription(userData.subscription_id);
                     }
-                });
-            } else if (status === 'canceled') {
-                actionsEl.innerHTML = `
-                    <div id="paypal-button-container" style="margin-top: 2rem;"></div>
-                `;
-                loadPayPalSDK(() => {
-                    renderPayPalButton(user);
                 });
             }
         }
@@ -334,7 +357,10 @@
         }
 
         // Render PayPal Subscription Button
-        function renderPayPalButton(user) {
+        function renderPayPalButton(containerId, planId, planName, user) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
             paypal.Buttons({
                 style: {
                     shape: 'rect',
@@ -344,7 +370,7 @@
                 },
                 createSubscription: function (data, actions) {
                     return actions.subscription.create({
-                        'plan_id': PAYPAL_PLAN_ID,
+                        'plan_id': planId,
                         'custom_id': user.uid,
                         'subscriber': {
                             'email_address': user.email
@@ -358,17 +384,20 @@
                     await setDoc(doc(db, 'users', user.uid), {
                         subscription_id: data.subscriptionID,
                         subscription_status: 'active',
-                        subscription_start_date: new Date()
+                        subscription_plan: planName, // Save plan name
+                        plan: planName, // redundancy for transition
+                        subscription_start_date: new Date(),
+                        updated_at: new Date()
                     }, { merge: true });
 
-                    alert('サブスクリプション登録が完了しました!');
+                    alert(planName.toUpperCase() + 'プランへの登録が完了しました!');
                     location.reload();
                 },
                 onError: function (err) {
                     console.error('PayPal Error:', err);
                     alert('サブスクリプション登録に失敗しました。');
                 }
-            }).render('#paypal-button-container');
+            }).render('#' + containerId);
         }
 
         // サブスクリプションキャンセル

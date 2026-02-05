@@ -4,7 +4,26 @@ service cloud.firestore {
     
     // ユーザーデータ
     match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      // 自分のデータ、または自分がオーナーであるデータの読み取りを許可
+      allow read: if request.auth != null && (
+        request.auth.uid == userId || 
+        resource.data.owner_uid == request.auth.uid
+      );
+      // 書き込みは本人のみ
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // 招待状
+    match /invitations/{email} {
+      // 作成: オーナーIDが自分と一致する場合のみ
+      allow create: if request.auth != null && request.resource.data.owner_uid == request.auth.uid;
+      // 更新/削除: 元のドキュメントのオーナーIDが自分と一致する場合のみ
+      allow update, delete: if request.auth != null && resource.data.owner_uid == request.auth.uid;
+      // 読み取り: オーナー、または招待された本人（メールアドレス一致）
+      allow read: if request.auth != null && (
+        resource.data.owner_uid == request.auth.uid || 
+        request.auth.token.email == email
+      );
     }
     
     // 制度マスタ（全員読み取り可、管理者のみ書き込み可）
