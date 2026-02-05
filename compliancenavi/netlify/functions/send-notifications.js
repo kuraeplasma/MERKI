@@ -220,11 +220,34 @@ exports.handler = async function (event, context) {
             // 各制度の期限をチェック
             for (const reg of applicableRegulations) {
                 try {
+                    // 1. 制度ON/OFFチェック（Proプラン限定設定）
+                    // userData.disabled_regulations 配列に制度IDが含まれていればスキップ
+                    const disabledRegs = userData.disabled_regulations || [];
+                    if (disabledRegs.includes(reg.id)) {
+                        console.log(`Skipping disabled regulation ${reg.id} for user ${userDoc.id}`);
+                        continue;
+                    }
+
                     const deadline = calculateDeadline(reg, userData);
                     const daysUntilDeadline = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
 
-                    // 30日前、7日前、1日前（前日）に通知
-                    if (daysUntilDeadline === 30 || daysUntilDeadline === 7 || daysUntilDeadline === 1) {
+                    // 2. プラン別の通知タイミング制御
+                    // Pro/Trial: 30, 7, 1日前
+                    // Standard: 7, 1日前
+                    // Lite: 1日前のみ
+                    const userPlan = userData.subscription_plan || userData.plan || 'pro';
+                    const isTrial = userData.subscription_status === 'trial';
+
+                    let shouldNotifyThisDay = false;
+                    if (userPlan === 'pro' || isTrial) {
+                        shouldNotifyThisDay = [30, 7, 1].includes(daysUntilDeadline);
+                    } else if (userPlan === 'standard') {
+                        shouldNotifyThisDay = [7, 1].includes(daysUntilDeadline);
+                    } else if (userPlan === 'lite') {
+                        shouldNotifyThisDay = (daysUntilDeadline === 1);
+                    }
+
+                    if (shouldNotifyThisDay) {
                         // 重複チェック
                         const notificationId = `${userDoc.id}_${reg.id}_${deadline.getTime()}_${daysUntilDeadline}days`;
                         const existingNotification = await db.collection('notifications')

@@ -1222,7 +1222,9 @@
                                             <td>${item.daysUntil}日</td>
                                             <td style="text-align:center;" onclick="event.stopPropagation()">
                                                 <label class="switch" ${restrictionAttr}>
-                                                    <input type="checkbox" checked ${!isPro ? 'disabled' : ''}>
+                                                    <input type="checkbox" 
+                                                        ${window.currentUserData?.disabled_regulations?.includes(item.id) ? '' : 'checked'} 
+                                                        ${!isPro ? 'disabled' : `onchange="handleNotificationToggle('${item.id}', this.checked)"`}>
                                                     <span class="slider" ${!isPro ? 'style="opacity: 0.5; cursor: not-allowed;"' : ''}></span>
                                                 </label>
                                             </td>
@@ -2044,6 +2046,46 @@
                 e.target.value = v;
             };
         }
+
+        // --- Notification Logic ---
+        window.handleNotificationToggle = async (regId, isChecked) => {
+            if (!auth.currentUser) return;
+
+            try {
+                const userRef = doc(db, 'users', auth.currentUser.uid);
+                const disabledRegs = window.currentUserData?.disabled_regulations || [];
+
+                let newDisabledRegs;
+                if (!isChecked) {
+                    // OFF（無効化）された場合、配列に追加
+                    if (!disabledRegs.includes(regId)) {
+                        newDisabledRegs = [...disabledRegs, regId];
+                    } else {
+                        newDisabledRegs = disabledRegs;
+                    }
+                } else {
+                    // ON（有効化）された場合、配列から削除
+                    newDisabledRegs = disabledRegs.filter(id => id !== regId);
+                }
+
+                await setDoc(userRef, {
+                    disabled_regulations: newDisabledRegs,
+                    updated_at: serverTimestamp()
+                }, { merge: true });
+
+                // ローカルデータを更新
+                if (window.currentUserData) {
+                    window.currentUserData.disabled_regulations = newDisabledRegs;
+                }
+
+                console.log(`Notification for ${regId} set to ${isChecked ? 'ON' : 'OFF'}`);
+            } catch (error) {
+                console.error("Failed to toggle notification:", error);
+                alert("設定の保存に失敗しました。");
+                // UIを元に戻す（再描画が確実）
+                updateDashboardUI(window.currentUserData);
+            }
+        };
     </script>
 
 
