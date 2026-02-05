@@ -138,7 +138,7 @@ exports.handler = async function (event, context) {
         const roleName = role === 'admin' ? '管理者' : role === 'editor' ? '編集者' : '閲覧者';
 
         // Strict Production URL (No dynamic host to avoid long Netlify URLs)
-        const inviteLink = `https://merki.jp/dashboard.html?email=${encodeURIComponent(email)}`;
+        const inviteLink = `https://merki.spacegleam.co.jp/dashboard.html?email=${encodeURIComponent(email)}`;
 
         const msg = {
             to: email,
@@ -170,7 +170,7 @@ MERKI（メルキ）
 日々の事業運営を支える制度期限の通知サービス
 
 運営：SpaceGleam株式会社
-https://merki.jp
+https://merki.spacegleam.co.jp
 ――――――――――――――
             `,
             trackingSettings: {

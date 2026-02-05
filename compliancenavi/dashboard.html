@@ -1229,7 +1229,11 @@
                                                 </label>
                                             </td>
                                             <td onclick="event.stopPropagation()">
-                                                <button class="edit-btn" ${restrictionAttr} ${!isPro ? 'style="background: #e2e8f0; color: #94a3b8; border-color: #cbd5e1;"' : ''}>編集</button>
+                                                <button class="edit-btn" 
+                                                    ${restrictionAttr} 
+                                                    ${!isPro ? 'style="background: #e2e8f0; color: #94a3b8; border-color: #cbd5e1;"' : `onclick="openEditModal('${item.id}', '${item.title}')"`}>
+                                                    編集
+                                                </button>
                                             </td>
                                         </tr>
                                     `}).join('')}
@@ -1914,6 +1918,9 @@
                 try {
                     const response = await fetch('/.netlify/functions/send-invite', {
                         method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
                         body: JSON.stringify({
                             email: email,
                             role: role,
