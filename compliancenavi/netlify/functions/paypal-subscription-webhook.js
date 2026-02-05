@@ -28,10 +28,21 @@ exports.handler = async function (event, context) {
         // サブスクリプション有効化
         if (eventType === 'BILLING.SUBSCRIPTION.ACTIVATED') {
             const subscriptionId = body.resource.id;
+            const planId = body.resource.plan_id;
             const subscriberEmail = body.resource.subscriber?.email_address;
 
             if (!subscriberEmail) {
                 return { statusCode: 400, body: 'No subscriber email' };
+            }
+
+            // プランの判定
+            let planLevel = 'lite'; // デフォルト
+            if (planId === process.env.PAYPAL_PLAN_ID_PRO) {
+                planLevel = 'pro';
+            } else if (planId === process.env.PAYPAL_PLAN_ID_STANDARD) {
+                planLevel = 'standard';
+            } else if (planId === process.env.PAYPAL_PLAN_ID_LITE) {
+                planLevel = 'lite';
             }
 
             // ユーザー検索
@@ -43,15 +54,16 @@ exports.handler = async function (event, context) {
                 return { statusCode: 404, body: 'User not found' };
             }
 
-            // ステータス更新
+            // ステータスとプランを更新
             const userDoc = snapshot.docs[0];
             await userDoc.ref.update({
                 subscription_status: 'active',
                 subscription_id: subscriptionId,
+                plan: planLevel,
                 updated_at: admin.firestore.FieldValue.serverTimestamp()
             });
 
-            console.log('Subscription activated for:', subscriberEmail);
+            console.log(`Subscription activated for: ${subscriberEmail} (Plan: ${planLevel})`);
 
             // ウェルカムメール送信
             await sendWelcomeEmail(subscriberEmail);
@@ -124,7 +136,7 @@ MERKIにご登録いただき、ありがとうございます。
 3. 期限の30日前・7日前・前日にメール通知
 
 ■ マイページ
-https://compliancenavi.spacegleam.co.jp/dashboard.html
+https://merki.spacegleam.co.jp/dashboard.html
 
 ご不明な点がございましたら、このメールに返信してください。
 

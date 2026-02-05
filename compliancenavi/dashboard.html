@@ -5,14 +5,45 @@
     <meta charset="UTF-8">
     <meta name="robots" content="noindex">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ダッシュボード - MERKI</title>
+    <title>MERKI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20260201_mobile_card_fix_v13_script_inject">
-    <link rel="stylesheet" href="pro_dashboard.css?v=20260201_mobile_card_fix_v13_script_inject">
-    <!-- <link rel="stylesheet" href="no-motion.css?v=20260128_perfect_gold"> -->
+    <link rel="stylesheet" href="style.css?v=20260204_Restored">
+    <link rel="stylesheet" href="pro_dashboard.css?v=20260205_CardStyles">
+    <style>
+        .delete-member-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .delete-member-btn:hover {
+            background: #fef2f2;
+            color: #ef4444;
+        }
+
+        .grid-2-custom {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2-custom {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="no-motion.css?v=20260204_RestoredTable">
     <link rel="icon" type="image/png" href="logo.png">
 </head>
 
@@ -33,7 +64,7 @@
     <div class="dashboard-layout">
         <!-- CRM-style Sidebar -->
         <aside class="sidebar" id="sidebar">
-            <a href="index.html" class="logo">
+            <a href="#" class="logo" style="pointer-events: none; cursor: default;">
                 <span>MERKI管理</span>
             </a>
             <nav class="sidebar-nav">
@@ -93,8 +124,7 @@
                 </a>
 
                 <div style="padding: 1rem 0.75rem; border-top: 1px solid var(--border-color); margin-top: auto;">
-                    <a href="#" id="logout-btn-side" class="nav-item"
-                        style="color: #ef4444; background: none; box-shadow: none;">
+                    <a href="#" id="logout-btn-side" class="nav-item logout-btn">
                         <span class="nav-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
@@ -115,22 +145,26 @@
                 <!-- Section: Dashboard -->
                 <div id="section-dashboard" class="content-section active">
                     <!-- Stats Grid -->
-                    <div class="grid-3" style="margin-bottom: 3rem;">
+                    <div class="grid-2-custom" style="margin-bottom: 3rem;">
                         <div class="stat-card">
-                            <span class="stat-icon-wrapper"
-                                style="background: rgba(102, 126, 234, 0.1); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; margin-bottom: 1rem;">
-                                <span style="font-size:1.2rem;">📋</span>
-                            </span>
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1rem;">
+                                <span class="stat-icon-wrapper"
+                                    style="background: rgba(102, 126, 234, 0.1); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px;">
+                                    <span style="font-size:1.2rem;">📋</span>
+                                </span>
+                                <div class="stat-label" style="font-size: 1rem; margin-bottom: 0;">該当制度</div>
+                            </div>
                             <div class="stat-value" id="total-regulations">0</div>
-                            <div class="stat-label">該当制度</div>
                         </div>
                         <div class="stat-card">
-                            <span class="stat-icon-wrapper"
-                                style="background: rgba(245, 158, 11, 0.1); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; margin-bottom: 1rem;">
-                                <span style="font-size:1.2rem;">🔔</span>
-                            </span>
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1rem;">
+                                <span class="stat-icon-wrapper"
+                                    style="background: rgba(245, 158, 11, 0.1); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px;">
+                                    <span style="font-size:1.2rem;">🔔</span>
+                                </span>
+                                <div class="stat-label" style="font-size: 1rem; margin-bottom: 0;">30日内の期限</div>
+                            </div>
                             <div class="stat-value" id="upcoming-count">0</div>
-                            <div class="stat-label">30日内の期限</div>
                         </div>
                     </div>
 
@@ -503,27 +537,15 @@
 
                 <!-- Section: Team (New) -->
                 <div id="section-team" class="content-section">
-
                     <div class="glass-card fade-in-up">
+                        <div id="team-status-header"
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                            <h3 style="margin: 0;">チームメンバー管理</h3>
+                            <span id="team-limit-badge" class="badge"
+                                style="background: #e2e8f0; color: #475569;">取得中...</span>
+                        </div>
                         <div id="team-list">
-                            <div class="team-member-item"
-                                style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: #f8fafc; border-radius: 12px; border: 1px solid var(--border-color);">
-                                <div style="display: flex; align-items: center; gap: 12px;">
-                                    <div
-                                        style="width: 40px; height: 40px; background: var(--primary-gradient); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800;">
-                                        主</div>
-                                    <div>
-                                        <p style="font-weight: 700; color: var(--text-primary); margin: 0;">あなた（オーナー）
-                                        </p>
-                                        <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;">全権限</p>
-                                    </div>
-                                </div>
-                                <span class="badge badge-info" style="font-size: 0.7rem;">アクティブ</span>
-                            </div>
-                            <div id="add-member-btn"
-                                style="text-align: center; padding: 2rem; border: 2px dashed var(--border-color); border-radius: 16px; margin-top: 1rem; cursor: pointer;">
-                                <p style="color: var(--text-secondary); font-weight: 600; margin: 0;">+ チームメンバーを追加</p>
-                            </div>
+                            <!-- Helper function will render this -->
                         </div>
                     </div>
                 </div>
@@ -559,7 +581,7 @@
                 <!-- Section: Profile -->
                 <div id="section-profile" class="content-section">
 
-                    <div class="glass-card no-hover" style="max-width: 800px;">
+                    <div class="glass-card no-hover" style="max-width: 1100px;">
                         <form id="profile-form">
                             <div class="form-group-pro">
                                 <label class="label-pro-fixed">🏢 会社名・屋号</label>
@@ -623,7 +645,7 @@
                 </div>
 
                 <!-- Section: Subscription -->
-                <div id="section-subscription" class="content-section">
+                <div id="section-subscription" class="content-section" style="max-width: 1100px; margin: 0 auto;">
                     <div class="membership-dashboard fade-in-up">
                         <!-- Single Membership Card -->
                         <div class="membership-card">
@@ -635,7 +657,7 @@
                                 <h2 class="gold-text-metallic"
                                     style="font-family: 'OCR A Std', 'Courier New', monospace; letter-spacing: 6px; font-size: 1.8rem; margin: 0; line-height: 1;">
                                     MERKI</h2>
-                                <div class="plan-badge"
+                                <div class="membership-badge"
                                     style="position: static; border: 1.5px solid var(--card-border); color: var(--card-border); padding: 0.5rem 1.4rem; border-radius: 4px; font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; background: rgba(0,0,0,0.6); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
                                     PRO</div>
                             </div>
@@ -868,7 +890,16 @@
             // Load saved templates or use defaults
             window.editingTemplates = {};
             [30, 7, 1].forEach(days => {
-                const savedNote = localStorage.getItem(`template_${id}_${days}_note`);
+                let savedNote = null;
+                // Check Global User Data first (Firestore)
+                if (window.currentUserData && window.currentUserData.custom_templates && window.currentUserData.custom_templates[id] && window.currentUserData.custom_templates[id][days]) {
+                    savedNote = window.currentUserData.custom_templates[id][days].note;
+                }
+                // Fallback to LocalStorage (Legacy) - Optional: Remove if fully migrating
+                if (!savedNote) {
+                    savedNote = localStorage.getItem(`template_${id}_${days}_note`);
+                }
+
                 window.editingTemplates[days] = {
                     note: savedNote !== null ? savedNote : DEFAULT_TEMPLATES[days].note
                 };
@@ -994,38 +1025,85 @@
                     // Save current tab first
                     saveCurrentTemplate();
 
-                    // Save all templates to localStorage (note only)
-                    const id = window.currentEditingId;
-                    [30, 7, 1].forEach(days => {
-                        localStorage.setItem(`template_${id}_${days}_note`, window.editingTemplates[days].note);
-                    });
+                    if (window.saveTemplateToFirestore) {
+                        saveEditBtn.disabled = true;
+                        saveEditBtn.textContent = '保存中...';
+                        const id = window.currentEditingId;
+                        const dataToSave = {};
+                        [30, 7, 1].forEach(days => {
+                            dataToSave[days] = window.editingTemplates[days];
+                        });
 
-                    alert('保存しました');
-                    closeEditModal();
+                        window.saveTemplateToFirestore(id, dataToSave)
+                            .then(() => {
+                                alert('保存しました');
+                                closeEditModal();
+                            })
+                            .catch((err) => {
+                                alert('保存エラー: ' + err.message);
+                            })
+                            .finally(() => {
+                                saveEditBtn.disabled = false;
+                                saveEditBtn.textContent = '保存';
+                            });
+                    } else {
+                        // Fallback
+                        alert('保存機能が読み込まれていません。リロードしてください。');
+                    }
+
                 };
             }
         });
     </script>
 
     <script type="module">
-        import { auth, db, onAuthStateChanged } from './js/firebase-config.js?v=20260128_perfect_gold';
-        import { doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { auth, db, onAuthStateChanged } from './js/firebase-config.js?v=20260203_final_v13';
+        import { doc, getDoc, setDoc, getDocs, collection, query, where, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-        import { COMPLIANCE_ITEMS, getApplicableCompliances, calculateDeadline } from './js/compliance-logic.js?v=20260128_perfect_gold';
+        import { checkInvitation, showWelcomeNotification } from './js/auth.js?v=20260203_final_v13';
+        import { COMPLIANCE_ITEMS, getApplicableCompliances, calculateDeadline } from './js/compliance-logic.js?v=20260203_final_v13';
 
         let currentUserData = null;
+        let PAYPAL_CLIENT_ID = 'sb';
+        let PAYPAL_PLAN_IDS = {
+            pro: 'P-PRO-TEST',
+            standard: 'P-STANDARD-TEST',
+            lite: 'P-LITE-TEST'
+        };
+        // Mock deletion tracker (Persistent)
+        window.mockDeletedIds = JSON.parse(localStorage.getItem('mockDeletedIds') || '[]');
 
         // --- Auth & Data Loading ---
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
-                window.location.href = 'index.html';
+                // If not logged in, redirect to index with current search params (invitation info)
+                window.location.href = 'index.html' + window.location.search;
                 return;
+            }
+
+            // Check for invitations and join team if needed
+            await checkInvitation(user);
+
+            // Fetch PayPal Config
+            try {
+                const configResponse = await fetch('/.netlify/functions/get-paypal-config');
+                const config = await configResponse.json();
+                PAYPAL_CLIENT_ID = config.clientId;
+                PAYPAL_PLAN_IDS = {
+                    pro: config.planIdPro,
+                    standard: config.planIdStandard,
+                    lite: config.planIdLite
+                };
+            } catch (e) {
+                console.error("PayPal config load failed:", e);
             }
 
             try {
                 const userDoc = await getDoc(doc(db, 'users', user.uid));
                 if (userDoc.exists()) {
                     currentUserData = userDoc.data();
+
+                    window.currentUserData = currentUserData; // Expose global
                     if (!currentUserData.company_type) {
                         showSection('profile');
                     }
@@ -1040,9 +1118,27 @@
             }
         });
 
+        // --- Global Save Function ---
+        window.saveTemplateToFirestore = async (regulationId, templatesData) => {
+            const user = auth.currentUser;
+            if (!user) throw new Error("Not logged in");
+
+            const updateData = {};
+            // dot notation for nested update: custom_templates.REG_ID = { 30: {...}, 7: {...} }
+            updateData[`custom_templates.${regulationId}`] = templatesData;
+
+            await setDoc(doc(db, 'users', user.uid), updateData, { merge: true });
+
+            // Update local cache immediately
+            if (!window.currentUserData.custom_templates) window.currentUserData.custom_templates = {};
+            window.currentUserData.custom_templates[regulationId] = templatesData;
+        };
+
+
         // --- Dashboard Logic ---
         function updateDashboardUI(userData) {
-            renderCompliances(userData);
+            try { renderCompliances(userData); } catch (e) { console.error("Compliances Error:", e); }
+            try { renderTeamSection(userData); } catch (e) { console.error("Team Error:", e); }
         }
 
         async function renderCompliances(userData) {
@@ -1153,21 +1249,64 @@
 
         document.getElementById('profile-form').onsubmit = async (e) => {
             e.preventDefault();
-            const user = auth.currentUser;
-            const incDateStr = document.getElementById('incorporation-date').value.replace(/\//g, '');
-            const incDate = new Date(incDateStr.substring(0, 4), parseInt(incDateStr.substring(4, 6)) - 1, incDateStr.substring(6, 8));
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '保存中...';
 
-            await setDoc(doc(db, 'users', user.uid), {
-                company_name: document.getElementById('company-name').value,
-                company_type: document.getElementById('company-type').value,
-                industry: document.getElementById('industry').value,
-                employee_size: document.getElementById('employee-size').value,
-                fiscal_month: parseInt(document.getElementById('fiscal-month').value),
-                incorporation_date: incDate,
-                updated_at: serverTimestamp()
-            }, { merge: true });
-            alert('プロフィールを保存しました');
-            location.reload();
+            try {
+                const user = auth.currentUser;
+                const incDateValue = document.getElementById('incorporation-date').value;
+
+                // Validate Date (Simple check)
+                let incDate = new Date();
+                if (incDateValue) {
+                    // Try parsing "YYYY/MM/DD" or "YYYY-MM-DD"
+                    const cleanDate = incDateValue.replace(/\//g, '-');
+                    const parsed = new Date(cleanDate);
+                    if (!isNaN(parsed.getTime())) {
+                        incDate = parsed;
+                    } else {
+                        throw new Error("設立年月日の形式が正しくありません (例: 2024/01/01)");
+                    }
+                }
+
+                await setDoc(doc(db, 'users', user.uid), {
+                    company_name: document.getElementById('company-name').value,
+                    company_type: document.getElementById('company-type').value,
+                    industry: document.getElementById('industry').value,
+                    employee_size: document.getElementById('employee-size').value,
+                    fiscal_month: parseInt(document.getElementById('fiscal-month').value),
+                    incorporation_date: incDate,
+                    updated_at: serverTimestamp()
+                }, { merge: true });
+
+                // Update local state without reload
+                if (!currentUserData) currentUserData = {};
+                currentUserData.company_name = document.getElementById('company-name').value;
+                currentUserData.company_type = document.getElementById('company-type').value;
+                currentUserData.industry = document.getElementById('industry').value;
+                currentUserData.employee_size = document.getElementById('employee-size').value;
+                currentUserData.fiscal_month = parseInt(document.getElementById('fiscal-month').value);
+                currentUserData.incorporation_date = { toDate: () => incDate };
+
+                updateDashboardUI(currentUserData); // Re-calculate deadlines based on new profile
+
+                alert('プロフィールを保存しました。');
+
+                // Navigate to home section or reload to refresh full state
+                // Assuming 'home' is the default section or reloading to trigger logic
+                // showSection('home'); // This might not exist based on snippet
+                // Reload is safer to ensure all "Profile Check" logic passes
+                window.location.reload();
+
+            } catch (error) {
+                console.error("Profile Save Error:", error);
+                alert('保存エラー: ' + error.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
         };
 
         // --- Subscription Logic ---
@@ -1192,14 +1331,21 @@
             const validThru = (expDate.getMonth() + 1).toString().padStart(2, '0') + '/' + expDate.getFullYear().toString().slice(-2);
 
             // Determine card theme based on plan
-            const plan = userData.plan || 'pro'; // 'lite', 'standard', 'pro' - default to pro for trial users
+            let plan = userData.plan || 'pro'; // 'lite', 'standard', 'pro' - default to pro for trial users
+
+            // Auto-Downgrade Logic: Determine Effective Plan
+            // If trial expired, treat as 'lite'
+            if (status === 'trial' && trialDaysLeft <= 0) {
+                plan = 'lite';
+            }
+
             const cardThemeClass = plan === 'pro' ? '' : plan; // pro uses default (no class), others use .lite or .standard
             const planBadgeText = plan === 'pro' ? 'PRO' : (plan === 'standard' ? 'STANDARD' : 'LITE');
             const isProPlan = plan === 'pro';
             const showTrialInfo = isProPlan && status === 'trial'; // PROプランかつトライアル中のみ残り日数表示
 
             container.innerHTML = `
-                <div class="membership-dashboard fade-in-up">
+                <div class="membership-dashboard">
                     <div class="membership-card ${cardThemeClass}">
                         <div class="membership-card-watermark">MERKI</div>
 
@@ -1226,7 +1372,7 @@
                                 ` : ''}
 
                                 <div>
-                                    <div class="card-label">CARD MEMBER</div>
+                                    <div class="card-label">MERKI MEMBER</div>
                                     <div class="card-value card-member-name">${userData.company_name || 'VIP MEMBER'}</div>
                                 </div>
                             </div>
@@ -1311,8 +1457,8 @@
                 </div >
                 `;
 
-            // Show cancel button for active subscriptions
-            if (status === 'active') {
+            // Show cancel button for active or trial users
+            if (status === 'active' || status === 'trial') {
                 setTimeout(() => {
                     const cancelSection = document.getElementById('cancel-subscription-section');
                     const cancelBtn = document.getElementById('cancel-subscription-btn');
@@ -1334,7 +1480,65 @@
             }
 
             if (status === 'trial') {
-                loadPayPalSDK(() => renderPayPalButton(user));
+                loadPayPalSDK(() => renderPayPalButton('paypal-button-container', PAYPAL_PLAN_IDS.pro, 'pro', user));
+            }
+
+            // Show Resubscribe Options for Cancelled Users
+            if (status === 'cancelled') {
+                const container = document.getElementById('cancel-subscription-section'); // Reuse or create new
+                const resubscribeHtml = `
+                    <div id="resubscribe-section" style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color); width: 100%; max-width: 1100px; margin-left: auto; margin-right: auto;">
+                        <div style="text-align: center; margin-bottom: 3rem;">
+                            <h3 style="font-size: 1.5rem; font-weight: 800; color: var(--text-primary); margin-bottom: 1rem;">プランの再開・変更</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                                サブスクリプションは現在停止中です。<br>
+                                再度MERKIの機能を利用するには、プランを選択してください。
+                            </p>
+                            <a href="pricing.html" target="_blank" style="color: #6366f1; text-decoration: underline; font-weight: 600;">➡ 各プランの詳細・機能比較はこちら（料金ページ）</a>
+                        </div>
+
+                        <div class="pricing-grid">
+                            <!-- Pro Plan -->
+                            <div class="pricing-card recommended" style="margin-top:0;">
+                                <div class="plan-badge">推奨プラン</div>
+                                <h3 class="plan-name">Pro</h3>
+                                <div class="price">¥4,980<small>/月</small></div>
+                                <p class="plan-description"><span>覚えておくことから、</span><span>解放されたい方に</span></p>
+                                <div id="paypal-resubscribe-container-pro" style="margin-top: auto; padding-top: 2rem;"></div>
+                            </div>
+
+                            <!-- Standard Plan -->
+                            <div class="pricing-card">
+                                <h3 class="plan-name">Standard</h3>
+                                <div class="price">¥1,980<small>/月</small></div>
+                                <p class="plan-description"><span>税理士・担当者と、</span><span>安心して共有したい方に</span></p>
+                                <div id="paypal-resubscribe-container-standard" style="margin-top: auto; padding-top: 2rem;"></div>
+                            </div>
+
+                            <!-- Lite Plan -->
+                            <div class="pricing-card">
+                                <h3 class="plan-name">Lite</h3>
+                                <div class="price">¥980<small>/月</small></div>
+                                <p class="plan-description"><span>前日に知らせてくれれば</span><br><span>十分、という方に</span></p>
+                                <div id="paypal-resubscribe-container-lite" style="margin-top: auto; padding-top: 2rem;"></div>
+                            </div>
+                        </div>
+                    </div>
+                 `;
+
+                // Append to section-subscription
+                const subSection = document.getElementById('section-subscription');
+                // Create valid HTML element
+                const div = document.createElement('div');
+                div.innerHTML = resubscribeHtml;
+                subSection.querySelector('.membership-dashboard').appendChild(div);
+
+                // Render PayPal Buttons immediately
+                loadPayPalSDK(() => {
+                    renderPayPalButton('paypal-resubscribe-container-pro', PAYPAL_PLAN_IDS.pro, 'pro', user);
+                    renderPayPalButton('paypal-resubscribe-container-standard', PAYPAL_PLAN_IDS.standard, 'standard', user);
+                    renderPayPalButton('paypal-resubscribe-container-lite', PAYPAL_PLAN_IDS.lite, 'lite', user);
+                });
             }
         }
 
@@ -1350,6 +1554,20 @@
             }
 
             try {
+                // Special handling for trial users (no subscription_id)
+                if (userData.subscription_status === 'trial' || !userData.subscription_id) {
+                    // Update DB directly for trial cancellation
+                    await setDoc(doc(db, 'users', user.uid), {
+                        subscription_status: 'cancelled',
+                        canceled_at: serverTimestamp(),
+                        updated_at: serverTimestamp()
+                    }, { merge: true });
+
+                    alert('トライアル期間中の解約を受け付けました。\nサービスは期間終了までご利用いただけます。');
+                    location.reload();
+                    return;
+                }
+
                 const response = await fetch('/.netlify/functions/cancel-subscription', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1377,32 +1595,256 @@
         function loadPayPalSDK(callback) {
             if (window.paypal) return callback();
             const s = document.createElement('script');
-            s.src = "https://www.paypal.com/sdk/js?client-id=sb&vault=true&intent=subscription";
+            s.src = `https://www.paypal.com/sdk/js?client-id=${PAYPAL_CLIENT_ID}&vault=true&intent=subscription`;
             s.onload = callback;
             document.head.appendChild(s);
         }
 
-        function renderPayPalButton(user) {
+        function renderPayPalButton(containerId, planId, planName, user) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
             paypal.Buttons({
                 style: { shape: 'rect', color: 'blue', layout: 'vertical', label: 'subscribe' },
-                createSubscription: (data, actions) => actions.subscription.create({ 'plan_id': 'P-TEST', 'custom_id': user.uid }),
+                createSubscription: (data, actions) => actions.subscription.create({
+                    'plan_id': planId,
+                    'custom_id': user.uid,
+                    'subscriber': { 'email_address': user.email }
+                }),
                 onApprove: async (data, actions) => {
-                    await setDoc(doc(db, 'users', user.uid), { subscription_id: data.subscriptionID, subscription_status: 'active' }, { merge: true });
-                    alert('アップグレード完了！');
+                    await setDoc(doc(db, 'users', user.uid), {
+                        subscription_id: data.subscriptionID,
+                        subscription_status: 'active',
+                        subscription_plan: planName,
+                        plan: planName, // redundancy
+                        subscription_start_date: new Date(),
+                        updated_at: serverTimestamp()
+                    }, { merge: true });
+                    alert(planName.toUpperCase() + 'プランの契約が完了しました！');
                     location.reload();
+                },
+                onError: (err) => {
+                    console.error('PayPal Error:', err);
+                    alert('エラーが発生しました。しばらくしてから再度お試しください。');
                 }
-            }).render('#paypal-button-container');
+            }).render('#' + containerId);
         }
 
         // --- Modal Logic ---
-        const closeEditModal = () => document.getElementById('edit-modal').style.display = 'none';
-        document.getElementById('close-modal-x').onclick = closeEditModal;
-        document.getElementById('close-edit-modal').onclick = closeEditModal;
-        document.getElementById('save-edit-btn').onclick = () => {
-            localStorage.setItem(`custom_msg_${window.currentEditingId} `, document.getElementById('edit-custom-message').value);
-            alert('保存しました');
-            closeEditModal();
+        // --- Modal Logic ---
+        const closeEditModal = () => {
+            const m = document.getElementById('edit-modal');
+            if (m) m.style.display = 'none';
         };
+
+        const closeModalX = document.getElementById('close-modal-x');
+        if (closeModalX) closeModalX.onclick = closeEditModal;
+
+        const closeEditBtn = document.getElementById('close-edit-modal');
+        if (closeEditBtn) closeEditBtn.onclick = closeEditModal;
+
+        // --- Team Logic ---
+        async function renderTeamSection(userData) {
+            const teamListEl = document.getElementById('team-list');
+            const limitBadgeEl = document.getElementById('team-limit-badge');
+            const user = auth.currentUser;
+
+            // Define Limits
+            const PLAN_LIMITS = { 'lite': 1, 'standard': 3, 'pro': 5 };
+            let userPlan = userData.plan || 'lite';
+
+            // Trial Override: Always treat as Pro during 30-day trial
+            if (userData.subscription_status === 'trial') {
+                // Calculate trial days (assumes 30 days from updated_at if trial)
+                let trialDaysLeft = 30;
+                if (userData.updated_at) {
+                    const updatedDate = userData.updated_at.toDate();
+                    const now = new Date();
+                    const diffTime = now - updatedDate;
+                    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                    trialDaysLeft = Math.max(0, 30 - diffDays);
+                }
+
+                if (trialDaysLeft > 0) {
+                    userPlan = 'pro';
+                } else {
+                    userPlan = 'lite';
+                }
+            }
+
+            const maxMembers = PLAN_LIMITS[userPlan] || 1;
+
+            const isOwner = userData.owner_uid === undefined || userData.owner_uid === user.uid;
+            const isAdmin = userData.role === 'admin';
+
+            if (teamListEl) {
+                teamListEl.innerHTML = '<p style="text-align:center; padding:2rem; color:#94a3b8;">読み込み中...</p>';
+            }
+
+            try {
+                // 1. Fetch Active Members (users with owner_uid == current uid)
+                const membersQ = query(collection(db, 'users'), where('owner_uid', '==', user.uid));
+                const membersSnap = await getDocs(membersQ);
+
+                // 2. Fetch Pending Invitations
+                const invitesQ = query(collection(db, 'invitations'), where('owner_uid', '==', user.uid));
+                const invitesSnap = await getDocs(invitesQ);
+
+                // Count logic: Owner (1) + Members (excluding self if queried) + Invites
+                // FIX: Filter out locally deleted IDs from the count!
+                let currentCount = 1; // Start with Owner
+                membersSnap.forEach(doc => {
+                    if (doc.id !== user.uid && !window.mockDeletedIds.includes(doc.id)) {
+                        currentCount++;
+                    }
+                });
+
+                let inviteCount = 0;
+                invitesSnap.forEach(doc => {
+                    if (!window.mockDeletedIds.includes(doc.id)) {
+                        inviteCount++;
+                    }
+                });
+                currentCount += inviteCount;
+
+                const remainingSlots = Math.max(0, maxMembers - currentCount);
+                const percent = Math.min(100, (currentCount / maxMembers) * 100);
+
+                // Update Header Badge
+                if (limitBadgeEl) {
+                    limitBadgeEl.textContent = `${currentCount}/${maxMembers}名`;
+                    limitBadgeEl.className = currentCount > maxMembers ? 'badge badge-danger' : 'badge badge-info'; // Warning if over
+                    limitBadgeEl.style.background = currentCount > maxMembers ? '#fef2f2' : '#f0f9ff';
+                    limitBadgeEl.style.color = currentCount > maxMembers ? '#ef4444' : '#0ea5e9';
+                }
+
+                let html = '';
+
+                // Plan Limit Visual
+                const planName = userPlan === 'lite' ? 'ライトプラン' : userPlan === 'standard' ? 'スタンダード' : 'プロ';
+                const planLabel = userData.subscription_status === 'trial' ? `${planName}（無料トライアル）` : planName;
+
+                html += `
+                    <div style="margin-bottom: 2rem;">
+                        <div class="plan-limit-info">
+                            <span>利用状況（${planLabel}）</span>
+                            <span>${remainingSlots === 0 ? '追加枠なし' : 'あと' + remainingSlots + '名追加可能'}</span>
+                        </div>
+                        <div class="plan-limit-bar">
+                            <div class="plan-limit-progress" style="width: ${percent}%; ${currentCount > maxMembers ? 'background: #ef4444;' : ''}"></div>
+                        </div>
+                    </div>
+                `;
+
+                // Owner Card (Always Visible)
+                const ownerName = userData.contact_name || userData.company_name || 'あなた';
+                html += `
+                    <div class="team-member-item">
+                        <div class="team-member-info">
+                            <div class="member-avatar" style="background: var(--primary-gradient); color: white;">主</div>
+                            <div class="member-details">
+                                <span class="member-name">${ownerName}（オーナー）</span>
+                                <span class="member-role">全権限</span>
+                            </div>
+                        </div>
+                        <div class="member-status-badge" style="background: #3b82f6; color: white;">アクティブ</div>
+                    </div>
+                `;
+
+                // Render Active Members
+                membersSnap.forEach(docSnap => {
+                    const m = docSnap.data();
+                    if (docSnap.id === user.uid) return; // Skip owner if already rendered
+                    if (window.mockDeletedIds.includes(docSnap.id)) return; // Skip locally deleted
+
+                    const name = m.contact_name || m.email;
+                    const roleLabel = m.role === 'admin' ? '管理者' : m.role === 'editor' ? '編集者' : '閲覧者';
+
+                    // Only show delete button for owners or admins (and admins can't delete owners)
+                    const canDelete = isOwner || (isAdmin && m.role !== 'admin');
+
+                    html += `
+                        <div class="team-member-item">
+                            <div class="team-member-info">
+                                <div class="member-avatar" style="background: #e2e8f0; color: #64748b;">${name.charAt(0).toUpperCase()}</div>
+                                <div class="member-details">
+                                    <span class="member-name">${name}</span>
+                                    <span class="member-role">${m.email}</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div class="member-status-badge" style="background: #dcfce7; color: #166534; font-weight: 700;">${roleLabel}</div>
+                                ${canDelete ? `
+                                    <button onclick="handleRemoveMember('${docSnap.id}', '${name}')" class="delete-member-btn" title="メンバーを削除">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2M10 11v6m4-11v6"/></svg>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                // Render Pending Invitations
+                invitesSnap.forEach(docSnap => {
+                    if (window.mockDeletedIds.includes(docSnap.id)) return; // Skip locally deleted
+                    const iv = docSnap.data();
+                    const email = docSnap.id;
+                    const roleLabel = iv.role === 'admin' ? '管理者' : iv.role === 'editor' ? '編集者' : '閲覧者';
+
+                    const canDelete = isOwner || isAdmin;
+
+                    html += `
+                        <div class="team-member-item" style="border-style: dashed; border-color: #f59e0b; background: #fffbeb;">
+                            <div class="team-member-info" style="opacity: 0.8;">
+                                <div class="member-avatar" style="background: #fef3c7; color: #d97706;">✉️</div>
+                                <div class="member-details">
+                                    <span class="member-name">招待中: ${email}</span>
+                                    <span class="member-role">${roleLabel}</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div class="member-status-badge" style="background: #fef3c7; color: #b45309; font-weight: 700;">送信済み</div>
+                                ${canDelete ? `
+                                    <button onclick="handleCancelInvitation('${email}')" class="delete-member-btn" title="招待をキャンセル" style="color: #d97706;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                // Add Member Button (Only if slots available)
+                if (currentCount < maxMembers) {
+                    html += `
+                        <div class="add-member-card" onclick="document.getElementById('add-member-modal').style.display='flex'">
+                            <span class="add-member-text">+ チームメンバーを追加</span>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="limit-reached-card">
+                            <p style="color: #64748b; font-weight: 600; margin: 0; font-size: 0.9rem;">
+                                プランの上限（${maxMembers}名）に達しています
+                            </p>
+                            <a onclick="showSection('subscription')" style="color: #6366f1; font-size: 0.85rem; text-decoration: underline; cursor: pointer; display: block; margin-top: 5px;">
+                                上位プランへ変更
+                            </a>
+                        </div>
+                    `;
+                }
+
+                if (teamListEl) {
+                    teamListEl.innerHTML = html;
+                }
+
+            } catch (e) {
+                console.error("Team Render Error:", e);
+                if (teamListEl) {
+                    teamListEl.innerHTML = '<p style="color:#ef4444; text-align:center; padding:1rem;">読み込みエラーが発生しました。<br>権限設定を確認してください。</p>';
+                }
+            }
+        }
 
         // --- Team Member Logic ---
         const addMemberBtn = document.getElementById('add-member-btn');
@@ -1412,12 +1854,12 @@
 
         if (addMemberBtn) {
             addMemberBtn.onclick = () => {
-                addMemberModal.style.display = 'flex';
+                if (addMemberModal) addMemberModal.style.display = 'flex';
             };
         }
         if (closeAddMemberX) {
             closeAddMemberX.onclick = () => {
-                addMemberModal.style.display = 'none';
+                if (addMemberModal) addMemberModal.style.display = 'none';
             };
         }
 
@@ -1431,6 +1873,7 @@
 
                 const email = document.getElementById('invite-email').value;
                 const role = document.getElementById('invite-role').value;
+                const user = auth.currentUser;
 
                 try {
                     const response = await fetch('/.netlify/functions/send-invite', {
@@ -1438,35 +1881,24 @@
                         body: JSON.stringify({
                             email: email,
                             role: role,
-                            senderName: currentUserData?.name || 'オーナー',
-                            senderEmail: auth.currentUser?.email || ''
+                            senderName: currentUserData?.contact_name || currentUserData?.company_name || 'オーナー',
+                            senderEmail: user.email,
+                            senderUid: user.uid
                         })
                     });
 
-                    if (!response.ok) throw new Error('Failed to send email');
+                    const result = await response.json();
 
-                    const teamList = document.getElementById('team-list');
-                    const newMemberHTML = `
-                < div class="team-member-item" style = "display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: #fff; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 1rem;" >
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <div style="width: 40px; height: 40px; background: #e2e8f0; border-radius: 50%; color: #64748b; display: flex; align-items: center; justify-content: center; font-weight: 800;">
-                                ${email.charAt(0).toUpperCase()}</div>
-                            <div>
-                                <p style="font-weight: 700; color: var(--text-primary); margin: 0;">${email}</p>
-                                <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;">招待中 - ${role === 'admin' ? '管理者' : role === 'editor' ? '編集者' : '閲覧者'}</p>
-                            </div>
-                        </div>
-                        <span class="badge badge-warning" style="font-size: 0.7rem; background: #fff7ed; color: #c2410c; padding: 2px 8px; border-radius: 6px;">招待中</span>
-                    </div > `;
+                    if (!response.ok) throw new Error(result.error || 'Failed to send email');
 
-                    addMemberBtn.insertAdjacentHTML('beforebegin', newMemberHTML);
                     alert(`${email} に招待状を送信しました`);
-                    addMemberModal.style.display = 'none';
+                    if (addMemberModal) addMemberModal.style.display = 'none';
                     inviteForm.reset();
+                    renderTeamSection(currentUserData); // Refresh List
 
                 } catch (error) {
                     console.error(error);
-                    alert('招待メールの送信に失敗しました。時間をおいて再試行してください。');
+                    alert('エラー: ' + error.message);
                 } finally {
                     btn.disabled = false;
                     btn.textContent = originalText;
@@ -1474,12 +1906,96 @@
             };
         }
 
-        const logoutBtnSide = document.getElementById('logout-btn-side');
-        if (logoutBtnSide) {
-            logoutBtnSide.onclick = async () => {
-                await signOut(auth);
-                window.location.href = 'index.html';
-            };
+        // --- Removal Handlers ---
+        window.handleRemoveMember = async (targetUid, name) => {
+            if (!confirm(`${name} さんをチームから削除しますか？\n（削除後はライトプランとして独立します）`)) return;
+
+            await performRemoval({
+                requesterUid: auth.currentUser.uid,
+                targetUid: targetUid,
+                type: 'member'
+            });
+        };
+
+        window.handleCancelInvitation = async (email) => {
+            if (!confirm(`${email} への招待をキャンセルしますか？`)) return;
+
+            await performRemoval({
+                requesterUid: auth.currentUser.uid,
+                targetEmail: email,
+                type: 'invitation'
+            });
+        };
+
+        async function performRemoval(payload) {
+            // --- MOCK FOR LOCALHOST ---
+            if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+                console.warn('MOCK: Deleting member/invite locally (server function unavailable on port 8000)');
+
+                // Add to local ignore list (Persistent)
+                const targetId = payload.targetUid || payload.targetEmail;
+                if (targetId) {
+                    window.mockDeletedIds.push(targetId);
+                    localStorage.setItem('mockDeletedIds', JSON.stringify(window.mockDeletedIds));
+                }
+
+                await new Promise(r => setTimeout(r, 600)); // Simulate delay
+                alert('【ローカル動作】削除完了しました（本番環境ではAPIが呼ばれます）');
+
+                // Refresh UI without reload
+                renderTeamSection(currentUserData);
+                return;
+            }
+
+            try {
+                const response = await fetch('/.netlify/functions/remove-team-member', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || '削除に失敗しました');
+
+                alert('削除完了しました');
+                renderTeamSection(currentUserData); // Refresh the list without reload
+            } catch (error) {
+                console.error(error);
+                alert('エラー: ' + error.message);
+            }
+        }
+
+        // Explicitly wait for DOM and attach listener safely
+        const initLogout = () => {
+            const logoutBtnSide = document.getElementById('logout-btn-side');
+            console.log("Logout Button Element:", logoutBtnSide);
+
+            if (logoutBtnSide) {
+                // Remove old listeners by cloning (nuclear option) to ensure clean slate if needed, 
+                // but standard onclick assignment overwrites property. using addEventListener is better.
+                logoutBtnSide.onclick = async (e) => {
+                    e.preventDefault();
+                    console.log("Logout clicked");
+                    // alert("ログアウトボタンが押されました。処理を開始します。"); // Debug Alert
+
+                    try {
+                        await signOut(auth);
+                        console.log("SignOut success");
+                        alert("ログアウトしました。トップページへ戻ります。");
+                        window.location.href = 'index.html';
+                    } catch (err) {
+                        console.error("Logout Error:", err);
+                        alert("ログアウトエラー: " + err.message);
+                    }
+                };
+            } else {
+                console.error("Logout button not found in DOM");
+            }
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initLogout);
+        } else {
+            initLogout();
         }
 
         // Date input helper
@@ -1496,72 +2012,8 @@
         }
     </script>
 
-    <!-- TEMPORARY TEST BUTTONS FOR EMAIL NOTIFICATION -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (document.getElementById('test-email-container')) return;
 
-            const container = document.createElement('div');
-            container.id = 'test-email-container';
-            container.style.cssText = 'position:fixed; bottom:20px; right:20px; z-index:99999; display:flex; flex-direction:column; gap:10px; align-items:flex-end;';
-
-            const createBtn = (days, label, color) => {
-                const btn = document.createElement('button');
-                btn.innerHTML = label;
-                btn.style.cssText = `padding:12px 20px; background:${color}; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.2); font-family:sans-serif; transition: transform 0.2s; min-width:200px;`;
-
-                btn.onmouseover = () => btn.style.transform = 'scale(1.05)';
-                btn.onmouseout = () => btn.style.transform = 'scale(1)';
-
-                btn.onclick = async () => {
-                    if (!confirm(`【テスト実行】\n通知タイプ: ${days}日前\n\nこの内容でテストメールを送信しますか？`)) return;
-
-                    const originalText = btn.innerHTML;
-                    btn.disabled = true;
-                    btn.innerHTML = '送信中... ⏳';
-                    const originalBg = btn.style.background;
-                    btn.style.background = '#666';
-
-                    try {
-                        const res = await fetch('/.netlify/functions/send-test-notification', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ userId: 's1DL232yuVRjkuwTh8wJM8mZIn52', daysType: days })
-                        });
-
-                        const data = await res.json();
-
-                        if (res.ok) {
-                            alert(`✅ ${days}日前通知：送信成功！\n\n(kuraeplasma@gmail.com) の受信トレイを確認してください。`);
-                            btn.innerHTML = '✅ 送信完了';
-                            btn.style.background = '#10b981';
-                        } else {
-                            const errorMsg = data.details ? `${data.error}\n詳細: ${data.details}` : (data.error || '不明なエラー');
-                            alert('❌ エラー: ' + errorMsg);
-                            btn.innerHTML = '❌ エラー';
-                            btn.style.background = '#f43f5e';
-                        }
-                    } catch (e) {
-                        alert('❌ 通信エラー: ' + e.message);
-                        btn.innerHTML = '❌ 失敗';
-                    } finally {
-                        setTimeout(() => {
-                            btn.disabled = false;
-                            btn.innerHTML = originalText;
-                            btn.style.background = originalBg;
-                        }, 3000);
-                    }
-                };
-                return btn;
-            };
-
-            container.appendChild(createBtn(30, '📩 送信テスト (30日前)', '#ef4444'));
-            container.appendChild(createBtn(7, '📩 送信テスト (7日前)', '#f59e0b'));
-            container.appendChild(createBtn(1, '📩 送信テスト (1日前)', '#3b82f6'));
-
-            document.body.appendChild(container);
-        });
-    </script>
+    <script src="js/animations.js"></script>
 </body>
 
 </html>

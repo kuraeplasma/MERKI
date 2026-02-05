@@ -18,7 +18,8 @@ const db = admin.firestore();
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // ダッシュボードURL
-const DASHBOARD_URL = 'https://merki.jp/dashboard.html';
+// ダッシュボードURL（本番固定）
+const DASHBOARD_URL = 'https://merki.spacegleam.co.jp/dashboard.html';
 
 // メールテンプレート
 const EMAIL_TEMPLATES = {
@@ -40,13 +41,13 @@ MERKIからのご連絡です。
 必要な対応がある場合は、
 ご自身のタイミングでご準備ください。
 
-▼ 制度の詳細・一覧はこちら
+▼ ダッシュボードはこちら
 ${DASHBOARD_URL}
 
 ――
 MERKI
 運営：SpaceGleam株式会社
-https://merki.jp`
+https://spacegleam.co.jp/`
     },
     7: {
         subject: '【MERKI】{{regulationName}}の期限まで、あと7日です',
@@ -64,13 +65,13 @@ MERKIからのご連絡です。
 
 期限直前にも、あらためてお知らせいたします。
 
-▼ 制度の詳細・一覧はこちら
+▼ ダッシュボードはこちら
 ${DASHBOARD_URL}
 
 ――
 MERKI
 運営：SpaceGleam株式会社
-https://merki.jp`
+https://merki.spacegleam.co.jp`
     },
     1: {
         subject: '【MERKI】{{regulationName}}の期限は明日です',
@@ -89,13 +90,13 @@ MERKIからのご連絡です。
 未対応の場合は、
 お時間の許す範囲でご確認ください。
 
-▼ 制度の詳細・一覧はこちら
+▼ ダッシュボードはこちら
 ${DASHBOARD_URL}
 
 ――
 MERKI
 運営：SpaceGleam株式会社
-https://merki.jp`
+https://merki.spacegleam.co.jp`
     }
 };
 
@@ -237,7 +238,8 @@ exports.handler = async function (event, context) {
                                 companyName,
                                 reg.title,
                                 deadline,
-                                daysUntilDeadline
+                                daysUntilDeadline,
+                                userData // Pass full data to access custom_templates
                             );
 
                             // 通知履歴保存
@@ -365,22 +367,86 @@ function calculateDeadline(item, userData) {
 }
 
 // 通知メール送信（SendGrid）
-async function sendNotificationEmail(toEmail, companyName, regulationName, deadline, daysLeft) {
-    const template = EMAIL_TEMPLATES[daysLeft];
+async function sendNotificationEmail(toEmail, companyName, regulationName, deadline, daysLeft, userData = {}) {
+    // Default Template
+    let template = EMAIL_TEMPLATES[daysLeft];
+
+    // Check for Custom Template in UserData
+    // Structure: userData.custom_templates[regulationId][daysLeft].note
+    // We only allow customizing the "note" part in the dashboard, but here we might store full body or parts.
+    // Based on dashboard.html: window.currentUserData.custom_templates[id][days].note
+
+    // Reconstruct body if custom note exists
+    if (userData.custom_templates) {
+        // Find regulation ID that matches regulationName (Reverse lookup or pass ID)
+        // Optimization: Pass regulationId to this function instead of Name, or find it.
+        // Let's look up the ID from COMPLIANCE_ITEMS based on title 
+        const regItem = COMPLIANCE_ITEMS.find(i => i.title === regulationName);
+        if (regItem && userData.custom_templates[regItem.id] && userData.custom_templates[regItem.id][daysLeft]) {
+            const customNote = userData.custom_templates[regItem.id][daysLeft].note;
+            if (customNote) {
+                // Re-assemble body with custom note
+                // Note: The original template structure in dashboard.html implies the user edits the "main message".
+                // We need to inject this custom note into the body.
+                // Current hardcoded body doesn't easily split. 
+                // STRATEGY: If custom note exists, we use a generic structure swapping the middle part.
+
+                // However, the current dashboard saves "note". 
+                // Let's look at the default templates in this file. They are full strings.
+                // We should probably update the EMAIL_TEMPLATES to be composed of parts if we want to inject, 
+                // OR (Simpler for now) we assume the dashboard saves the *entire* message or we intelligently replace.
+
+                // Let's assume the user wants to replace the main textual content.
+                // Matches format in dashboard.html DEFAULT_TEMPLATES
+
+                const baseIntro = {
+                    30: `{{regulationName}}の期限が、約30日後に近づいています。`,
+                    7: `{{regulationName}}の期限が、1週間後に迫っています。`,
+                    1: `{{regulationName}}の期限は、明日となっています。`
+                }[daysLeft];
+
+                // Construct new body with Custom Note
+                const newBody = `{{companyName}}
+
+MERKIからのご連絡です。
+
+${baseIntro}
+
+■ 制度名：{{regulationName}}
+■ 期限日：{{deadlineDate}}
+
+${customNote}
+
+▼ ダッシュボードはこちら
+${DASHBOARD_URL}
+
+――
+MERKI
+運営：SpaceGleam株式会社
+https://spacegleam.co.jp/`;
+
+                // Override template used
+                template = {
+                    subject: template.subject, // Keep subject same
+                    body: newBody
+                };
+            }
+        }
+    }
 
     if (!template) {
         console.error(`No template found for ${daysLeft} days`);
         return;
     }
 
-    // 日付フォーマット（例: 2026年2月28日）
+    // Date Format
     const deadlineDate = deadline.toLocaleDateString('ja-JP', {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
     });
 
-    // テンプレート変数の置換
+    // Replace Variables
     const subject = template.subject
         .replace(/\{\{regulationName\}\}/g, regulationName);
 
@@ -397,6 +463,11 @@ async function sendNotificationEmail(toEmail, companyName, regulationName, deadl
         },
         subject: subject,
         text: body,
+        trackingSettings: {
+            clickTracking: {
+                enable: false
+            }
+        }
     };
 
     try {
