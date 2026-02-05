@@ -41,14 +41,28 @@ exports.handler = async (event, context) => {
             }
 
             try {
-                // Parse private key correctly and robustly
-                let privateKey = process.env.FIREBASE_PRIVATE_KEY;
+                let pkg = process.env.FIREBASE_PRIVATE_KEY;
+                console.log('Original Private Key Length:', pkg ? pkg.length : 0);
 
-                // Remove accidental quotes, handle literal \n, and trim whitespace
-                privateKey = privateKey
-                    .replace(/^"|"$/g, '') // Remove wrapping double quotes
-                    .replace(/\\n/g, '\n')  // Replace literal \n with actual newlines
-                    .trim();                // Remove leading/trailing whitespace
+                // 1. Remove any outer double or single quotes (multiple times if needed)
+                let privateKey = pkg.replace(/^["']+|["']+$/g, '');
+
+                // 2. Handle literal \n and real newlines
+                // Also handle cases where it's double-escaped (\\n)
+                privateKey = privateKey.replace(/\\n/g, '\n');
+
+                // 3. Final trim
+                privateKey = privateKey.trim();
+
+                // 4. If the key doesn't have headers, it's definitely broken, 
+                // but we can try to wrap it if it looks like raw base64
+                if (!privateKey.includes('-----BEGIN PRIVATE KEY-----')) {
+                    console.log('Warning: Private key headers missing, attempting to wrap...');
+                    privateKey = `-----BEGIN PRIVATE KEY-----\n${privateKey}\n-----END PRIVATE KEY-----`;
+                }
+
+                console.log('Cleaned Private Key First 20 chars:', privateKey.substring(0, 20) + '...');
+                console.log('Cleaned Private Key Last 20 chars: ...' + privateKey.substring(privateKey.length - 20));
 
                 admin.initializeApp({
                     credential: admin.credential.cert({
