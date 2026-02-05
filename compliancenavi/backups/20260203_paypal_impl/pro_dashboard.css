@@ -1,31 +1,35 @@
 /* Dashboard Layout Styling */
-
 :root {
     --sidebar-width: 280px;
     --sidebar-bg: #ffffff;
     --content-bg: #f8fafc;
 }
 
+body {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--content-bg);
+}
 
-/* Ensure sidebar is above everything */
+.dashboard-layout {
+    display: flex;
+    width: 100%;
+}
+
+/* Sidebar Styling */
 .sidebar {
-    width: var(--sidebar-width) !important;
-    z-index: 10001 !important;
-    /* Higher than style.css header */
-    height: 100vh !important;
-    background: #ffffff !important;
-    background-color: #ffffff !important;
-    opacity: 1 !important;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--sidebar-bg);
     border-right: 1px solid var(--border-color);
-    position: fixed !important;
-    left: 0 !important;
-    top: 0 !important;
+    position: fixed;
+    left: 0;
+    top: 0;
     padding: 2rem 0;
     /* Vertical padding only */
-    display: flex !important;
+    display: flex;
     flex-direction: column;
-    z-index: 9999 !important;
-    visibility: visible !important;
+    z-index: 2000;
 }
 
 .sidebar .logo {
@@ -177,12 +181,10 @@
 
 /* Main Content Area */
 .main-content {
-    margin-left: var(--sidebar-width) !important;
+    margin-left: var(--sidebar-width);
     flex-grow: 1;
     padding: 0;
-    max-width: calc(100% - var(--sidebar-width)) !important;
-    position: relative;
-    z-index: 1;
+    max-width: calc(100% - var(--sidebar-width));
 }
 
 .content-inner {
@@ -213,23 +215,24 @@
     flex-direction: column;
 }
 
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+    border-color: #667eea;
+}
 
 .stat-value {
-    font-size: 3.5rem;
+    font-size: 2.5rem;
     font-weight: 900;
-    color: #6366f1;
-    /* Purple */
-    text-align: center;
+    color: var(--text-primary);
     line-height: 1;
     margin-bottom: 0.5rem;
-    width: 100%;
 }
 
 .stat-label {
-    font-size: 1rem;
+    font-size: 0.85rem;
     font-weight: 700;
-    color: #334155;
-    /* High Contrast Gray */
+    color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -914,58 +917,41 @@ input:checked+.slider:before {
     z-index: 1;
 }
 
-/* Lite Theme (Platinum Silver - Maximum Visibility) */
+/* Lite Theme (Light Silver/Gray - lighter than PRO) */
 .membership-card.lite {
-    --card-bg: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #e2e8f0 100%);
-    --card-border: #64748b;
-    --card-shimmer: rgba(0, 0, 0, 0.1);
-    --card-text-metallic: #000;
-    --card-watermark-bg: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0) 100%);
-    --card-accent-glow: rgba(0, 0, 0, 0.1);
-    --card-text-primary: #000;
-    --card-label-color: #475569;
+    --card-bg: linear-gradient(145deg, #6a6a6a 0%, #7d7d7d 50%, #5a5a5a 100%);
+    --card-border: #c0c0c0;
+    --card-shimmer: rgba(220, 220, 220, 0.5);
+    --card-watermark-bg: linear-gradient(180deg, rgba(220, 220, 220, 0.05) 0%, rgba(220, 220, 220, 0) 100%);
+    --card-accent-glow: rgba(220, 220, 220, 0.4);
+    --card-text-primary: #fff;
+    --card-label-color: #d0d0d0;
 }
 
 .membership-card.lite .gold-text-metallic,
-.membership-card.lite .card-logo-text,
-.membership-card.lite .card-value {
-    background: none !important;
-    -webkit-background-clip: unset !important;
-    background-clip: unset !important;
-    -webkit-text-fill-color: initial !important;
-    color: #000 !important;
-    font-weight: 900 !important;
-    text-shadow: none !important;
+.membership-card.lite .card-logo-text {
+    background: linear-gradient(135deg, #e0e0e0 0%, #ffffff 30%, #d0d0d0 60%, #f0f0f0 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-/* LITE theme badge - Special styling: White bg, Gray border/text */
-.membership-card.lite .plan-badge-responsive {
-    background: #ffffff !important;
-    color: #64748b !important;
-    border: 1.5px solid #64748b !important;
-    text-shadow: none !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
-}
+/* LITE theme badge - inherits from CSS variables */
 
 .membership-card.lite .progress-ring-svg circle:last-child {
-    stroke: #64748b !important;
-    filter: drop-shadow(0 0 8px rgba(100, 116, 139, 0.2)) !important;
+    stroke: #c0c0c0 !important;
+    filter: drop-shadow(0 0 8px rgba(220, 220, 220, 0.6)) !important;
 }
 
 .membership-card.lite .progress-label {
-    color: #64748b;
+    color: #c0c0c0;
 }
 
-.membership-card.lite .progress-number {
-    color: #000 !important;
-}
-
-/* Standard Theme (Midnight Sapphire Blue) */
+/* Standard Theme (Blue) */
 .membership-card.standard {
-    --card-bg: linear-gradient(145deg, #051937 0%, #004d7a 100%);
+    --card-bg: linear-gradient(145deg, #0a1628 0%, #1e3a5f 50%, #0d2137 100%);
     --card-border: #3b82f6;
     --card-shimmer: rgba(59, 130, 246, 0.5);
-    --card-text-metallic: linear-gradient(135deg, #e3f2fd 0%, #90caf9 30%, #42a5f5 60%, #e3f2fd 100%);
     --card-watermark-bg: linear-gradient(180deg, rgba(59, 130, 246, 0.05) 0%, rgba(59, 130, 246, 0) 100%);
     --card-accent-glow: rgba(59, 130, 246, 0.5);
     --card-text-primary: #fff;
@@ -1012,50 +998,6 @@ input:checked+.slider:before {
     z-index: 10;
     pointer-events: none;
     animation: border-glint 12s infinite linear;
-}
-
-/* Surface Glint Animation (Diagonal sweep across the whole card) */
-.membership-card::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -150%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to right,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.03) 40%,
-            rgba(255, 255, 255, 0.4) 50%,
-            rgba(255, 255, 255, 0.03) 60%,
-            rgba(255, 255, 255, 0) 100%);
-    transform: skewX(-25deg);
-    z-index: 5;
-    pointer-events: none;
-    animation: sweep 8s infinite ease-in-out;
-}
-
-/* Enhanced glint for the bright Lite card */
-.membership-card.lite::after {
-    background: linear-gradient(to right,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.1) 40%,
-            rgba(255, 255, 255, 0.6) 50%,
-            rgba(255, 255, 255, 0.1) 60%,
-            rgba(255, 255, 255, 0) 100%);
-}
-
-@keyframes sweep {
-    0% {
-        left: -150%;
-    }
-
-    20% {
-        left: 150%;
-    }
-
-    100% {
-        left: 150%;
-    }
 }
 
 @keyframes border-glint {
@@ -1162,7 +1104,7 @@ input:checked+.slider:before {
     margin-bottom: 2rem;
 }
 
-.membership-badge {
+.plan-badge {
     position: absolute;
     top: 2rem;
     right: 3rem;
@@ -1184,8 +1126,6 @@ input:checked+.slider:before {
     gap: clamp(0.5rem, 2vw, 2rem);
     align-items: end;
     width: 100%;
-    /* Ensure left alignment matches header logo */
-    padding-left: 0;
 }
 
 .status-visual {
@@ -1240,8 +1180,8 @@ input:checked+.slider:before {
 /* Progress indicator wrapper */
 .progress-indicator-wrapper {
     position: relative;
-    width: clamp(90px, 25vw, 180px);
-    height: clamp(90px, 25vw, 180px);
+    width: clamp(70px, 20vw, 150px);
+    height: clamp(70px, 20vw, 150px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1259,8 +1199,8 @@ input:checked+.slider:before {
 
 /* Progress ring SVG */
 .progress-ring-svg {
-    width: clamp(80px, 22vw, 160px);
-    height: clamp(80px, 22vw, 160px);
+    width: clamp(62px, 18vw, 130px);
+    height: clamp(62px, 18vw, 130px);
     transform: rotate(-90deg);
     z-index: 1;
 }
@@ -1336,7 +1276,6 @@ input:checked+.slider:before {
     background: rgba(0, 0, 0, 0.6);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     white-space: nowrap;
-    text-shadow: 0 0 8px var(--card-accent-glow);
 }
 
 .status-desc {
@@ -1899,32 +1838,11 @@ input:checked+.slider:before {
     }
 }
 
+/* ========================================
+   Tablet Responsive Styles (768px and below)
+   ======================================== */
+
 @media (max-width: 768px) {
-    .sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        background: #ffffff !important;
-        background-color: #ffffff !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        width: 280px !important;
-        box-shadow: 4px 0 25px rgba(0, 0, 0, 0.1) !important;
-        z-index: 10001 !important;
-    }
-
-    .sidebar.active {
-        transform: translateX(0) !important;
-    }
-
-    .mobile-header {
-        display: flex !important;
-    }
-
-    .main-content {
-        margin-left: 0 !important;
-        padding-top: 60px !important;
-        max-width: 100% !important;
-    }
 
     /* Content padding */
     .content-inner {
@@ -2157,264 +2075,5 @@ input:checked+.slider:before {
 
     .member-name {
         font-size: 0.95rem !important;
-    }
-}
-
-/* ==========================================================================
-   RESTORED PREMIUM CARD DESIGNS (Master Replica - 2026/02/05)
-   ========================================================================== */
-
-.membership-card {
-    --card-bg: #0a0a0a;
-    --card-border: #c5a059;
-    /* Premium Deep Gold */
-    --card-shimmer: rgba(197, 160, 89, 0.4);
-    --card-text-primary: #ffffff;
-    --card-label-color: rgba(255, 255, 255, 0.6);
-    --card-watermark-bg: rgba(197, 160, 89, 0.05);
-    /* Increased slightly for luxury presence */
-    --card-accent-glow: rgba(197, 160, 89, 0.3);
-
-    background: var(--card-bg) !important;
-    border-radius: 20px;
-    padding: 2.5rem;
-    color: var(--card-text-primary);
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    margin-bottom: 3.5rem;
-    border: 1px solid var(--card-border) !important;
-    min-height: 280px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    font-family: 'Inter', sans-serif;
-    z-index: 1;
-}
-
-/* Standard Theme (Deep Sapphire - Master Color) */
-.membership-card.standard {
-    --card-bg: #004274;
-    /* Mastery Blue */
-    --card-border: #0ea5e9;
-    --card-shimmer: rgba(14, 165, 233, 0.2);
-    --card-text-primary: #ffffff;
-    --card-label-color: rgba(255, 255, 255, 0.6);
-    --card-watermark-bg: rgba(14, 165, 233, 0.04);
-    --card-accent-glow: rgba(14, 165, 233, 0.2);
-}
-
-/* Lite Theme (Master Silver/Gray) */
-.membership-card.lite {
-    --card-bg: #e5e7eb;
-    /* Authentic Silver-Gray */
-    --card-border: #9ca3af;
-    --card-shimmer: rgba(0, 0, 0, 0.05);
-    --card-text-primary: #111827;
-    --card-label-color: #4b5563;
-    --card-watermark-bg: rgba(0, 0, 0, 0.04);
-    --card-accent-glow: rgba(0, 0, 0, 0.05);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important;
-}
-
-/* Logo Specific Handling */
-.membership-card .gold-text-metallic {
-    color: var(--card-border) !important;
-    background: none !important;
-    -webkit-text-fill-color: var(--card-border) !important;
-    filter: drop-shadow(0 0 2px var(--card-accent-glow));
-    font-weight: 800;
-    font-family: 'Inter', sans-serif;
-    letter-spacing: 2px;
-}
-
-.membership-card.lite .gold-text-metallic {
-    color: #111827 !important;
-    -webkit-text-fill-color: #111827 !important;
-}
-
-/* Badge Styling (Outline Style) */
-.plan-badge-responsive {
-    position: absolute;
-    top: 2rem;
-    right: 2.5rem;
-    font-weight: 800;
-    font-size: 0.75rem;
-    color: var(--card-border) !important;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    border: 1px solid var(--card-border) !important;
-    padding: 0.5rem 1.25rem;
-    border-radius: 6px;
-    background: transparent !important;
-    z-index: 10;
-}
-
-.membership-card.lite .plan-badge-responsive {
-    color: #4b5563 !important;
-    border-color: #9ca3af !important;
-}
-
-/* Elite Shimmer / Border Glint Animation */
-.membership-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 20px;
-    padding: 1px;
-    background: linear-gradient(135deg,
-            transparent 0%,
-            transparent 45%,
-            var(--card-shimmer) 50%,
-            transparent 55%,
-            transparent 100%) 0% 0% / 300% 300%;
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-    z-index: 10;
-    pointer-events: none;
-    animation: border-glint 12s infinite linear;
-}
-
-@keyframes border-glint {
-    0% {
-        background-position: 100% 100%;
-    }
-
-    20% {
-        background-position: 0% 0%;
-    }
-
-    100% {
-        background-position: 0% 0%;
-    }
-}
-
-.membership-card-watermark {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 11rem;
-    /* Boldly expands across the card */
-    font-weight: 900;
-    color: var(--card-watermark-bg) !important;
-    letter-spacing: 25px;
-    pointer-events: none;
-    z-index: 0;
-    font-family: 'Inter', sans-serif;
-    user-select: none;
-    white-space: nowrap;
-    opacity: 0.8;
-    /* Subtle but clear presence */
-}
-
-.card-header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    z-index: 2;
-}
-
-.card-logo-text {
-    font-size: 1.5rem !important;
-    margin: 0 !important;
-}
-
-.membership-status-grid {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    width: 100%;
-    z-index: 2;
-}
-
-.card-label {
-    text-transform: uppercase;
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    color: var(--card-label-color) !important;
-    margin-bottom: 0.25rem;
-}
-
-.card-value {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--card-text-primary) !important;
-    font-family: 'Inter', sans-serif;
-}
-
-.card-dates {
-    display: flex;
-    gap: 2rem;
-    margin-bottom: 1.5rem;
-}
-
-/* Responsive Overrides for Cards */
-@media (max-width: 768px) {
-    .membership-card {
-        padding: 1.5rem !important;
-        min-height: 220px !important;
-        margin-bottom: 2rem !important;
-    }
-
-    .membership-card-watermark {
-        font-size: 5.5rem !important;
-        /* Impactful size for mobile */
-        letter-spacing: 12px !important;
-        opacity: 0.1 !important;
-    }
-
-    .card-logo-text {
-        font-size: 1.2rem !important;
-    }
-
-    .plan-badge-responsive {
-        top: 1.2rem !important;
-        right: 1.2rem !important;
-        padding: 0.35rem 0.75rem !important;
-        font-size: 0.65rem !important;
-    }
-
-    .card-value {
-        font-size: 1.1rem !important;
-    }
-
-    .card-dates {
-        gap: 1rem !important;
-        margin-bottom: 1rem !important;
-    }
-
-    .card-dates .card-value {
-        font-size: 0.8rem !important;
-    }
-
-    .progress-indicator-wrapper {
-        transform: scale(0.6) !important;
-        margin-right: -25px !important;
-    }
-
-    .membership-status-grid {
-        flex-wrap: wrap !important;
-        gap: 1rem !important;
-        align-items: flex-start !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .membership-card {
-        padding: 1.25rem !important;
-    }
-
-    .card-logo-text {
-        font-size: 1.1rem !important;
-    }
-
-    .plan-badge-responsive {
-        padding: 0.25rem 0.5rem !important;
-        letter-spacing: 1px !important;
     }
 }

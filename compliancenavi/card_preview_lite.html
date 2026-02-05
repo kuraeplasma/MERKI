@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Preview: Lite Plan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Gold Card (Pro - Default) */
+        .membership-card {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            color: white;
+            min-height: 220px;
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .gold-text-metallic {
+            background: linear-gradient(to bottom, #d4af37, #f3e5ab, #d4af37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .membership-card-watermark {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 8rem;
+            font-weight: 900;
+            opacity: 0.1;
+            color: white;
+            z-index: 0;
+            transform: rotate(-15deg);
+        }
+
+        /* Lite Plan - Platinum Silver */
+        .membership-card.lite {
+            background: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%);
+            color: #334155;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .membership-card.lite .gold-text-metallic {
+            background: linear-gradient(to bottom, #475569, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .membership-card.lite .membership-card-watermark {
+            color: rgba(0, 0, 0, 0.05);
+            /* Dark watermark */
+        }
+
+        .card-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .plan-badge-responsive {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .membership-card.lite .plan-badge-responsive {
+            background: rgba(0, 0, 0, 0.05);
+            color: #475569;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .status-main {
+            z-index: 2;
+        }
+
+        .card-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+        <!-- PRO Card -->
+        <div>
+            <h3 style="text-align: center; margin-bottom: 1rem; color: #475569;">PRO Plan</h3>
+            <div class="membership-card">
+                <div class="membership-card-watermark">MERKI</div>
+                <div class="card-header-row">
+                    <h2 class="gold-text-metallic">MERKI</h2>
+                    <div class="plan-badge-responsive">PRO</div>
+                </div>
+                <div class="status-main">
+                    <div style="margin-top: 2rem;">
+                        <div style="font-size: 0.75rem; opacity: 0.7;">MERKI MEMBER</div>
+                        <div class="card-value">株式会社サンプル</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LITE Card -->
+        <div>
+            <h3 style="text-align: center; margin-bottom: 1rem; color: #475569;">LITE Plan (New)</h3>
+            <div class="membership-card lite">
+                <div class="membership-card-watermark">MERKI</div>
+                <div class="card-header-row">
+                    <h2 class="gold-text-metallic">MERKI</h2>
+                    <div class="plan-badge-responsive">LITE</div>
+                </div>
+                <div class="status-main">
+                    <div style="margin-top: 2rem;">
+                        <div style="font-size: 0.75rem; opacity: 0.7;">VIP MEMBER</div>
+                        <div class="card-value">株式会社サンプル</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

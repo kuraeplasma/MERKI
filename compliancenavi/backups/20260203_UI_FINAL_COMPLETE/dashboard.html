@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="robots" content="noindex">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MERKI</title>
+    <title>ダッシュボード - MERKI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20260204_Restored">
-    <link rel="stylesheet" href="pro_dashboard.css?v=20260205_CardStyles">
+    <link rel="stylesheet" href="style.css?v=20260203_final_v13">
+    <link rel="stylesheet" href="pro_dashboard.css?v=20260203_final_v13">
     <style>
         .delete-member-btn {
             background: none;
@@ -30,20 +30,8 @@
             background: #fef2f2;
             color: #ef4444;
         }
-
-        .grid-2-custom {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-        }
-
-        @media (max-width: 768px) {
-            .grid-2-custom {
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
-    <link rel="stylesheet" href="no-motion.css?v=20260204_RestoredTable">
+    <!-- <link rel="stylesheet" href="no-motion.css?v=20260128_perfect_gold"> -->
     <link rel="icon" type="image/png" href="logo.png">
 </head>
 
@@ -145,26 +133,22 @@
                 <!-- Section: Dashboard -->
                 <div id="section-dashboard" class="content-section active">
                     <!-- Stats Grid -->
-                    <div class="grid-2-custom" style="margin-bottom: 3rem;">
+                    <div class="grid-3" style="margin-bottom: 3rem;">
                         <div class="stat-card">
-                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1rem;">
-                                <span class="stat-icon-wrapper"
-                                    style="background: rgba(102, 126, 234, 0.1); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px;">
-                                    <span style="font-size:1.2rem;">📋</span>
-                                </span>
-                                <div class="stat-label" style="font-size: 1rem; margin-bottom: 0;">該当制度</div>
-                            </div>
+                            <span class="stat-icon-wrapper"
+                                style="background: rgba(102, 126, 234, 0.1); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; margin-bottom: 1rem;">
+                                <span style="font-size:1.2rem;">📋</span>
+                            </span>
                             <div class="stat-value" id="total-regulations">0</div>
+                            <div class="stat-label">該当制度</div>
                         </div>
                         <div class="stat-card">
-                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1rem;">
-                                <span class="stat-icon-wrapper"
-                                    style="background: rgba(245, 158, 11, 0.1); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px;">
-                                    <span style="font-size:1.2rem;">🔔</span>
-                                </span>
-                                <div class="stat-label" style="font-size: 1rem; margin-bottom: 0;">30日内の期限</div>
-                            </div>
+                            <span class="stat-icon-wrapper"
+                                style="background: rgba(245, 158, 11, 0.1); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; margin-bottom: 1rem;">
+                                <span style="font-size:1.2rem;">🔔</span>
+                            </span>
                             <div class="stat-value" id="upcoming-count">0</div>
+                            <div class="stat-label">30日内の期限</div>
                         </div>
                     </div>
 
@@ -1070,8 +1054,6 @@
             standard: 'P-STANDARD-TEST',
             lite: 'P-LITE-TEST'
         };
-        // Mock deletion tracker (Persistent)
-        window.mockDeletedIds = JSON.parse(localStorage.getItem('mockDeletedIds') || '[]');
 
         // --- Auth & Data Loading ---
         onAuthStateChanged(auth, async (user) => {
@@ -1102,7 +1084,6 @@
                 const userDoc = await getDoc(doc(db, 'users', user.uid));
                 if (userDoc.exists()) {
                     currentUserData = userDoc.data();
-
                     window.currentUserData = currentUserData; // Expose global
                     if (!currentUserData.company_type) {
                         showSection('profile');
@@ -1137,8 +1118,8 @@
 
         // --- Dashboard Logic ---
         function updateDashboardUI(userData) {
-            try { renderCompliances(userData); } catch (e) { console.error("Compliances Error:", e); }
-            try { renderTeamSection(userData); } catch (e) { console.error("Team Error:", e); }
+            renderCompliances(userData);
+            renderTeamSection(userData);
         }
 
         async function renderCompliances(userData) {
@@ -1209,28 +1190,22 @@
                                     <tr><th>制度名</th><th>期限</th><th>残日数</th><th style="text-align:center;">通知</th><th>操作</th></tr>
                                 </thead>
                                 <tbody>
-                                    ${group.items.map(item => {
-                    const isPro = window.currentUserData?.plan === 'pro' || (window.currentUserData?.subscription_status === 'trial' && !localStorage.getItem('merki_test_plan'));
-
-                    // Helper for click restriction
-                    const restrictionAttr = !isPro ? `onclick="event.stopPropagation(); if(confirm('【Proプラン専用機能】\\n\\nこの機能（通知内容の編集・制度別ON/OFF）を使うにはプロプランにアップグレードしてください。\\n\\n料金ページへ移動しますか？')) window.location.href='pricing.html';"` : '';
-
-                    return `
+                                    ${group.items.map(item => `
                                         <tr onclick="if(window.innerWidth<=1024) this.classList.toggle('expanded')">
                                             <td style="font-weight: 700;">${item.title}</td>
                                             <td>${item.deadline.toLocaleDateString('ja-JP')}</td>
                                             <td>${item.daysUntil}日</td>
                                             <td style="text-align:center;" onclick="event.stopPropagation()">
-                                                <label class="switch" ${restrictionAttr}>
-                                                    <input type="checkbox" checked ${!isPro ? 'disabled' : ''}>
-                                                    <span class="slider" ${!isPro ? 'style="opacity: 0.5; cursor: not-allowed;"' : ''}></span>
+                                                <label class="switch">
+                                                    <input type="checkbox" checked>
+                                                    <span class="slider"></span>
                                                 </label>
                                             </td>
                                             <td onclick="event.stopPropagation()">
-                                                <button class="edit-btn" ${restrictionAttr} ${!isPro ? 'style="background: #e2e8f0; color: #94a3b8; border-color: #cbd5e1;"' : ''}>編集</button>
+                                                <button class="edit-btn" onclick="openEditModal('${item.id}', '${item.title}')">編集</button>
                                             </td>
                                         </tr>
-                                    `}).join('')}
+                                    `).join('')}
                                 </tbody>
                             </table>
                         </div>
@@ -1255,64 +1230,21 @@
 
         document.getElementById('profile-form').onsubmit = async (e) => {
             e.preventDefault();
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerHTML;
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '保存中...';
+            const user = auth.currentUser;
+            const incDateStr = document.getElementById('incorporation-date').value.replace(/\//g, '');
+            const incDate = new Date(incDateStr.substring(0, 4), parseInt(incDateStr.substring(4, 6)) - 1, incDateStr.substring(6, 8));
 
-            try {
-                const user = auth.currentUser;
-                const incDateValue = document.getElementById('incorporation-date').value;
-
-                // Validate Date (Simple check)
-                let incDate = new Date();
-                if (incDateValue) {
-                    // Try parsing "YYYY/MM/DD" or "YYYY-MM-DD"
-                    const cleanDate = incDateValue.replace(/\//g, '-');
-                    const parsed = new Date(cleanDate);
-                    if (!isNaN(parsed.getTime())) {
-                        incDate = parsed;
-                    } else {
-                        throw new Error("設立年月日の形式が正しくありません (例: 2024/01/01)");
-                    }
-                }
-
-                await setDoc(doc(db, 'users', user.uid), {
-                    company_name: document.getElementById('company-name').value,
-                    company_type: document.getElementById('company-type').value,
-                    industry: document.getElementById('industry').value,
-                    employee_size: document.getElementById('employee-size').value,
-                    fiscal_month: parseInt(document.getElementById('fiscal-month').value),
-                    incorporation_date: incDate,
-                    updated_at: serverTimestamp()
-                }, { merge: true });
-
-                // Update local state without reload
-                if (!currentUserData) currentUserData = {};
-                currentUserData.company_name = document.getElementById('company-name').value;
-                currentUserData.company_type = document.getElementById('company-type').value;
-                currentUserData.industry = document.getElementById('industry').value;
-                currentUserData.employee_size = document.getElementById('employee-size').value;
-                currentUserData.fiscal_month = parseInt(document.getElementById('fiscal-month').value);
-                currentUserData.incorporation_date = { toDate: () => incDate };
-
-                updateDashboardUI(currentUserData); // Re-calculate deadlines based on new profile
-
-                alert('プロフィールを保存しました。');
-
-                // Navigate to home section or reload to refresh full state
-                // Assuming 'home' is the default section or reloading to trigger logic
-                // showSection('home'); // This might not exist based on snippet
-                // Reload is safer to ensure all "Profile Check" logic passes
-                window.location.reload();
-
-            } catch (error) {
-                console.error("Profile Save Error:", error);
-                alert('保存エラー: ' + error.message);
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnText;
-            }
+            await setDoc(doc(db, 'users', user.uid), {
+                company_name: document.getElementById('company-name').value,
+                company_type: document.getElementById('company-type').value,
+                industry: document.getElementById('industry').value,
+                employee_size: document.getElementById('employee-size').value,
+                fiscal_month: parseInt(document.getElementById('fiscal-month').value),
+                incorporation_date: incDate,
+                updated_at: serverTimestamp()
+            }, { merge: true });
+            alert('プロフィールを保存しました');
+            location.reload();
         };
 
         // --- Subscription Logic ---
@@ -1337,86 +1269,48 @@
             const validThru = (expDate.getMonth() + 1).toString().padStart(2, '0') + '/' + expDate.getFullYear().toString().slice(-2);
 
             // Determine card theme based on plan
-            let plan = userData.plan || 'pro';
-
-            // --- DEBUG: FAKE PLAN FOR LOCAL TESTING ---
-            // localStorage.setItem('merki_test_plan', 'lite') をブラウザコンソールで実行するとライトプランになります
-            const testPlan = localStorage.getItem('merki_test_plan');
-            if (testPlan && (location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
-                console.log('DEBUG: Faking active plan as:', testPlan);
-                plan = testPlan;
-            }
-
-            // Auto-Downgrade Logic: Determine Effective Plan
-            if (status === 'trial' && trialDaysLeft <= 0) {
-                plan = 'lite';
-            }
-
-            const cardThemeClass = plan === 'pro' ? '' : plan;
+            const plan = userData.plan || 'pro'; // 'lite', 'standard', 'pro' - default to pro for trial users
+            const cardThemeClass = plan === 'pro' ? '' : plan; // pro uses default (no class), others use .lite or .standard
             const planBadgeText = plan === 'pro' ? 'PRO' : (plan === 'standard' ? 'STANDARD' : 'LITE');
             const isProPlan = plan === 'pro';
-            const isStandardPlan = plan === 'standard';
-            const isLitePlan = plan === 'lite';
-            const showTrialInfo = isProPlan && status === 'trial';
-
-            // Benefits data based on plan
-            const BENEFITS = {
-                lite: [
-                    { icon: '🔔', title: '前日通知のみ', text: '期限の1日前にリマインドを送信します。' },
-                    { icon: '👥', title: '1ユーザー', text: 'オーナー様のみご利用可能です。' },
-                    { icon: '📊', title: 'ダッシュボード閲覧', text: '最新の制度期限を一目で把握できます。' },
-                    { icon: '✅', title: '個別通知のON/OFF', text: '制度ごとに通知の有無を制御できます。' }
-                ],
-                standard: [
-                    { icon: '🔔', title: '7日前・前日通知', text: '余裕を持って対応できるよう2回通知します。' },
-                    { icon: '👥', title: '最大3ユーザー', text: 'メンバーを2名まで追加可能です。' },
-                    { icon: '📊', title: 'ダッシュボード閲覧', text: '多角的な視点で期限を管理できます。' },
-                    { icon: '✅', title: '個別通知のON/OFF', text: '制度ごとに通知の有無を制御できます。' }
-                ],
-                pro: [
-                    { icon: '🔔', title: '30日・7日・前日通知', text: '3段階のリマインドで、見落としを完全に防ぎます。' },
-                    { icon: '👥', title: '最大10ユーザー', text: '大規模なチームでも円滑な共有が可能です。' },
-                    { icon: '⚙️', title: '通知内容のカスタマイズ', text: '通知メッセージの文面を制度ごとに変更可能です。' },
-                    { icon: '✅', title: '個別通知のON/OFF', text: '優先度に応じたきめ細かい通知設定が可能です。' }
-                ]
-            };
-
-            const currentBenefits = BENEFITS[plan] || BENEFITS.pro;
+            const showTrialInfo = isProPlan && status === 'trial'; // PROプランかつトライアル中のみ残り日数表示
 
             container.innerHTML = `
-                <div class="membership-dashboard">
+                <div class="membership-dashboard fade-in-up">
                     <div class="membership-card ${cardThemeClass}">
                         <div class="membership-card-watermark">MERKI</div>
 
+                        <!-- Top Branding -->
                         <div class="card-header-row">
-                            <div class="gold-text-metallic card-logo-text">MERKI</div>
+                            <h2 class="gold-text-metallic card-logo-text">MERKI</h2>
                             <div class="plan-badge-responsive">${planBadgeText}</div>
                         </div>
 
-                        <div class="membership-status-grid">
+                        <!-- Main Content Grid -->
+                        <div class="membership-status-grid" style="z-index: 2;">
                             <div class="status-main">
                                 ${showTrialInfo ? `
                                 <div class="card-dates">
                                     <div>
                                         <div class="card-label">MEMBER SINCE</div>
-                                        <div class="card-value" style="font-size: 0.9rem;">${memberSince}</div>
+                                        <div class="card-value">${memberSince}</div>
                                     </div>
                                     <div>
                                         <div class="card-label">VALID THRU</div>
-                                        <div class="card-value" style="font-size: 0.9rem;">${validThru}</div>
+                                        <div class="card-value">${validThru}</div>
                                     </div>
                                 </div>
                                 ` : ''}
 
                                 <div>
-                                    <div class="card-label">MERKI MEMBER</div>
+                                    <div class="card-label">CARD MEMBER</div>
                                     <div class="card-value card-member-name">${userData.company_name || 'VIP MEMBER'}</div>
                                 </div>
                             </div>
 
                             ${showTrialInfo ? `
-                            <div class="status-visual" style="margin-bottom: -10px;">
-                                <div class="progress-indicator-wrapper" style="transform: scale(0.7); transform-origin: bottom right;">
+                            <div class="status-visual">
+                                <div class="progress-indicator-wrapper">
                                     <div class="progress-ring-bg"></div>
                                     <svg viewBox="0 0 140 140" class="progress-ring-svg">
                                         <circle cx="70" cy="70" r="62" style="fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 4;"></circle>
@@ -1436,15 +1330,34 @@
                     <div class="benefits-section">
                         <h3><span style="font-size: 1.5rem;">✨</span> 解放されているプレミアム機能</h3>
                         <div class="benefits-grid">
-                            ${currentBenefits.map(b => `
-                                <div class="benefit-item">
-                                    <div class="benefit-icon">${b.icon}</div>
-                                    <div class="benefit-info">
-                                        <h4>${b.title}</h4>
-                                        <p>${b.text}</p>
-                                    </div>
+                            <div class="benefit-item">
+                                <div class="benefit-icon">🔔</div>
+                                <div class="benefit-info">
+                                    <h4>各制度の期限通知</h4>
+                                    <p>30日、7日、前日のタイミングで自動リマインドを送信します。</p>
                                 </div>
-                            `).join('')}
+                            </div>
+                            <div class="benefit-item">
+                                <div class="benefit-icon">👥</div>
+                                <div class="benefit-info">
+                                    <h4>チーム管理機能</h4>
+                                    <p>最大10名のメンバーを招待し、管理画面を共有できます。</p>
+                                </div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="benefit-icon">⚙️</div>
+                                <div class="benefit-info">
+                                    <h4>通知内容のカスタマイズ</h4>
+                                    <p>通知されるメッセージの文面を制度ごとに自由に変更可能です。</p>
+                                </div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="benefit-icon">✅</div>
+                                <div class="benefit-info">
+                                    <h4>個別通知のON/OFF</h4>
+                                    <p>ご自身の状況に合わせ、制度ごとに通知の有無を制御できます。</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -1498,7 +1411,7 @@
             }
 
             if (status === 'trial') {
-                loadPayPalSDK(() => renderPayPalButton('paypal-button-container', PAYPAL_PLAN_IDS.pro, 'pro', user));
+                loadPayPalSDK(() => renderPayPalButton(user));
             }
 
             // Show Resubscribe Options for Cancelled Users
@@ -1562,10 +1475,6 @@
 
         // Handle subscription cancellation
         async function handleCancelSubscription(userData, user) {
-            console.log('handleCancelSubscription called');
-            console.log('User data:', userData);
-            console.log('Subscription ID:', userData.subscription_id);
-
             const confirmed = confirm('本当にサブスクリプションを解約しますか？\n\n解約しても現在の請求期間終了まではサービスをご利用いただけます。');
             if (!confirmed) return;
 
@@ -1578,7 +1487,6 @@
             try {
                 // Special handling for trial users (no subscription_id)
                 if (userData.subscription_status === 'trial' || !userData.subscription_id) {
-                    console.log('Handling trial/no-id cancellation');
                     // Update DB directly for trial cancellation
                     await setDoc(doc(db, 'users', user.uid), {
                         subscription_status: 'cancelled',
@@ -1591,31 +1499,23 @@
                     return;
                 }
 
-                console.log('Fetching cancel-subscription function with ID:', userData.subscription_id);
                 const response = await fetch('/.netlify/functions/cancel-subscription', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ subscriptionId: userData.subscription_id })
                 });
 
-                console.log('Response status:', response.status);
                 const result = await response.json();
-                console.log('Response data:', result);
 
                 if (result.success) {
                     alert('サブスクリプションを解約しました。現在の請求期間終了まではサービスをご利用いただけます。');
                     location.reload();
                 } else {
-                    console.error('Cancellation failed:', result);
-                    alert('解約に失敗しました。\n\n内容: ' + (result.error || '不明なエラー') + '\n\nサポートにお問い合わせください。');
-                    if (cancelBtn) {
-                        cancelBtn.disabled = false;
-                        cancelBtn.textContent = 'サブスクリプションを解約する';
-                    }
+                    throw new Error(result.error || '解約に失敗しました');
                 }
             } catch (error) {
                 console.error('Cancel error:', error);
-                alert('解約処理で重大なエラーが発生しました: ' + error.message + '\n\nブラウザのコンソールログを確認してください。');
+                alert('解約処理でエラーが発生しました: ' + error.message);
                 if (cancelBtn) {
                     cancelBtn.disabled = false;
                     cancelBtn.textContent = 'サブスクリプションを解約する';
@@ -1674,6 +1574,18 @@
         const closeEditBtn = document.getElementById('close-edit-modal');
         if (closeEditBtn) closeEditBtn.onclick = closeEditModal;
 
+        const saveEditBtn = document.getElementById('save-edit-btn');
+        if (saveEditBtn) {
+            saveEditBtn.onclick = () => {
+                const txt = document.getElementById('edit-custom-message');
+                if (txt && window.currentEditingId) {
+                    localStorage.setItem(`custom_msg_${window.currentEditingId} `, txt.value);
+                }
+                alert('保存しました');
+                closeEditModal();
+            };
+        }
+
         // --- Team Logic ---
         async function renderTeamSection(userData) {
             const teamListEl = document.getElementById('team-list');
@@ -1681,29 +1593,12 @@
             const user = auth.currentUser;
 
             // Define Limits
-            const PLAN_LIMITS = { 'lite': 1, 'standard': 3, 'pro': 10 };
+            const PLAN_LIMITS = { 'lite': 1, 'standard': 3, 'pro': 5 };
             let userPlan = userData.plan || 'lite';
 
-            // --- DEBUG: FAKE PLAN FOR LOCAL TESTING ---
-            const testPlan = localStorage.getItem('merki_test_plan');
-            if (testPlan && (location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
-                userPlan = testPlan;
-            } else if (userData.subscription_status === 'trial') {
-                // Calculate trial days (assumes 30 days from updated_at if trial)
-                let trialDaysLeft = 30;
-                if (userData.updated_at) {
-                    const updatedDate = userData.updated_at.toDate();
-                    const now = new Date();
-                    const diffTime = now - updatedDate;
-                    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-                    trialDaysLeft = Math.max(0, 30 - diffDays);
-                }
-
-                if (trialDaysLeft > 0) {
-                    userPlan = 'pro';
-                } else {
-                    userPlan = 'lite';
-                }
+            // Trial Override: Always treat as Pro during 30-day trial
+            if (userData.subscription_status === 'trial') {
+                userPlan = 'pro';
             }
 
             const maxMembers = PLAN_LIMITS[userPlan] || 1;
@@ -1725,21 +1620,11 @@
                 const invitesSnap = await getDocs(invitesQ);
 
                 // Count logic: Owner (1) + Members (excluding self if queried) + Invites
-                // FIX: Filter out locally deleted IDs from the count!
                 let currentCount = 1; // Start with Owner
                 membersSnap.forEach(doc => {
-                    if (doc.id !== user.uid && !window.mockDeletedIds.includes(doc.id)) {
-                        currentCount++;
-                    }
+                    if (doc.id !== user.uid) currentCount++;
                 });
-
-                let inviteCount = 0;
-                invitesSnap.forEach(doc => {
-                    if (!window.mockDeletedIds.includes(doc.id)) {
-                        inviteCount++;
-                    }
-                });
-                currentCount += inviteCount;
+                currentCount += invitesSnap.size;
 
                 const remainingSlots = Math.max(0, maxMembers - currentCount);
                 const percent = Math.min(100, (currentCount / maxMembers) * 100);
@@ -1789,7 +1674,6 @@
                 membersSnap.forEach(docSnap => {
                     const m = docSnap.data();
                     if (docSnap.id === user.uid) return; // Skip owner if already rendered
-                    if (window.mockDeletedIds.includes(docSnap.id)) return; // Skip locally deleted
 
                     const name = m.contact_name || m.email;
                     const roleLabel = m.role === 'admin' ? '管理者' : m.role === 'editor' ? '編集者' : '閲覧者';
@@ -1820,7 +1704,6 @@
 
                 // Render Pending Invitations
                 invitesSnap.forEach(docSnap => {
-                    if (window.mockDeletedIds.includes(docSnap.id)) return; // Skip locally deleted
                     const iv = docSnap.data();
                     const email = docSnap.id;
                     const roleLabel = iv.role === 'admin' ? '管理者' : iv.role === 'editor' ? '編集者' : '閲覧者';
@@ -1962,29 +1845,9 @@
         };
 
         async function performRemoval(payload) {
-            // --- MOCK FOR LOCALHOST ---
-            if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-                console.warn('MOCK: Deleting member/invite locally (server function unavailable on port 8000)');
-
-                // Add to local ignore list (Persistent)
-                const targetId = payload.targetUid || payload.targetEmail;
-                if (targetId) {
-                    window.mockDeletedIds.push(targetId);
-                    localStorage.setItem('mockDeletedIds', JSON.stringify(window.mockDeletedIds));
-                }
-
-                await new Promise(r => setTimeout(r, 600)); // Simulate delay
-                alert('【ローカル動作】削除完了しました（本番環境ではAPIが呼ばれます）');
-
-                // Refresh UI without reload
-                renderTeamSection(currentUserData);
-                return;
-            }
-
             try {
                 const response = await fetch('/.netlify/functions/remove-team-member', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
                 const result = await response.json();
@@ -2046,8 +1909,72 @@
         }
     </script>
 
+    <!-- TEMPORARY TEST BUTTONS FOR EMAIL NOTIFICATION -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (document.getElementById('test-email-container')) return;
 
-    <script src="js/animations.js"></script>
+            const container = document.createElement('div');
+            container.id = 'test-email-container';
+            container.style.cssText = 'position:fixed; bottom:20px; right:20px; z-index:99999; display:flex; flex-direction:column; gap:10px; align-items:flex-end;';
+
+            const createBtn = (days, label, color) => {
+                const btn = document.createElement('button');
+                btn.innerHTML = label;
+                btn.style.cssText = `padding:12px 20px; background:${color}; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.2); font-family:sans-serif; transition: transform 0.2s; min-width:200px;`;
+
+                btn.onmouseover = () => btn.style.transform = 'scale(1.05)';
+                btn.onmouseout = () => btn.style.transform = 'scale(1)';
+
+                btn.onclick = async () => {
+                    if (!confirm(`【テスト実行】\n通知タイプ: ${days}日前\n\nこの内容でテストメールを送信しますか？`)) return;
+
+                    const originalText = btn.innerHTML;
+                    btn.disabled = true;
+                    btn.innerHTML = '送信中... ⏳';
+                    const originalBg = btn.style.background;
+                    btn.style.background = '#666';
+
+                    try {
+                        const res = await fetch('/.netlify/functions/send-test-notification', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ userId: 's1DL232yuVRjkuwTh8wJM8mZIn52', daysType: days })
+                        });
+
+                        const data = await res.json();
+
+                        if (res.ok) {
+                            alert(`✅ ${days}日前通知：送信成功！\n\n(kuraeplasma@gmail.com) の受信トレイを確認してください。`);
+                            btn.innerHTML = '✅ 送信完了';
+                            btn.style.background = '#10b981';
+                        } else {
+                            const errorMsg = data.details ? `${data.error}\n詳細: ${data.details}` : (data.error || '不明なエラー');
+                            alert('❌ エラー: ' + errorMsg);
+                            btn.innerHTML = '❌ エラー';
+                            btn.style.background = '#f43f5e';
+                        }
+                    } catch (e) {
+                        alert('❌ 通信エラー: ' + e.message);
+                        btn.innerHTML = '❌ 失敗';
+                    } finally {
+                        setTimeout(() => {
+                            btn.disabled = false;
+                            btn.innerHTML = originalText;
+                            btn.style.background = originalBg;
+                        }, 3000);
+                    }
+                };
+                return btn;
+            };
+
+            container.appendChild(createBtn(30, '📩 送信テスト (30日前)', '#ef4444'));
+            container.appendChild(createBtn(7, '📩 送信テスト (7日前)', '#f59e0b'));
+            container.appendChild(createBtn(1, '📩 送信テスト (1日前)', '#3b82f6'));
+
+            document.body.appendChild(container);
+        });
+    </script>
 </body>
 
 </html>

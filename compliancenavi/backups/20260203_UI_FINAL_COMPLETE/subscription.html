@@ -95,7 +95,7 @@
 
                     <ul class="plan-features">
                         <li><span>✅</span> 全制度の期限通知　30日・7日・前日</li>
-                        <li><span>👥</span> 最大10ユーザー</li>
+                        <li><span>👥</span> 最大5ユーザー</li>
                         <li><span>📊</span> ダッシュボード閲覧</li>
                         <li><span>⚙️</span> 通知内容編集機能</li>
                         <li><span>🔘</span> 制度ごと通知ON/OFF</li>
@@ -247,48 +247,57 @@
             // Render Card UI
             detailsEl.innerHTML = `
                 <div class="membership-dashboard">
-                    <div class="membership-card ${themeClass}" style="margin: 0 auto 2rem auto; width: 100%; max-width: 500px; aspect-ratio: 1.58/1; height: auto; display: flex; flex-direction: column; justify-content: space-between;">
-                        <div class="membership-card-watermark">MERKI</div>
+                    <div class="membership-card ${themeClass}" style="margin: 0 auto 2rem auto; width: 100%; max-width: 500px; aspect-ratio: 1.58/1; height: auto;">
+                        <div class="membership-card-watermark" style="font-size: 5rem;">MERKI</div>
                         
-                        <div class="card-header-row">
-                            <div class="gold-text-metallic card-logo-text">MERKI</div>
-                            <div class="plan-badge-responsive">${badgeText}</div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; z-index: 2; width: 100%;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <div class="gold-logo-mask" style="width: 32px; height: 32px;"></div>
+                                <h2 class="gold-text-metallic" style="font-family: 'OCR A Std', 'Courier New', monospace; letter-spacing: 4px; font-size: 1.4rem; margin: 0; line-height: 1;">MERKI</h2>
+                            </div>
+                            <div class="plan-badge" style="position: static; border: 1.5px solid var(--card-border); color: var(--card-border); padding: 0.4rem 1rem; border-radius: 4px; font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; background: rgba(0,0,0,0.6);">${badgeText}</div>
                         </div>
-
-                        <div class="membership-status-grid">
+                        
+                        <div class="membership-status-grid" style="z-index: 2; gap: 1rem;">
                             <div class="status-main">
-                                <div class="card-dates">
+                                <div style="display: flex; gap: 2rem; align-items: flex-end; margin-bottom: 2rem;">
                                     <div>
                                         <div class="card-label">MEMBER SINCE</div>
-                                        <div class="card-value" style="font-size: 0.9rem;">${memberSince}</div>
+                                        <div class="card-value" style="font-size: 1rem;">${memberSince}</div>
                                     </div>
                                     <div>
                                         <div class="card-label">VALID THRU</div>
-                                        <div class="card-value" style="font-size: 0.9rem;">${validThru}</div>
+                                        <div class="card-value" style="font-size: 1rem;">${validThru}</div>
                                     </div>
                                 </div>
                                 <div>
-                                    <div class="card-label">MERKI MEMBER</div>
-                                    <div class="card-value card-member-name">${userData.company_name || 'VIP MEMBER'}</div>
+                                    <div class="card-label">CARD MEMBER</div>
+                                    <div class="card-value" style="font-size: 1.3rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">${userData.company_name || 'VIP MEMBER'}</div>
                                 </div>
                             </div>
-
-                            ${status === 'trial' ? `
-                            <div class="status-visual" style="margin-bottom: -10px;">
-                                <div class="progress-indicator-wrapper" style="transform: scale(0.6); transform-origin: bottom right;">
-                                    <div class="progress-ring-bg"></div>
-                                    <svg viewBox="0 0 140 140" class="progress-ring-svg">
-                                        <circle cx="70" cy="70" r="62" style="fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 4;"></circle>
-                                        <circle cx="70" cy="70" r="62" style="fill: none; stroke: var(--card-border); stroke-width: 10; stroke-linecap: round; stroke-dasharray: 390; stroke-dashoffset: ${390 * (1 - trialDaysLeft / 30)}; filter: drop-shadow(0 0 8px var(--card-accent-glow)); transition: stroke-dashoffset 2s ease-out;"></circle>
-                                    </svg>
-                                    <div class="progress-text">
-                                        <span class="progress-label">残り</span>
-                                        <span class="progress-number">${trialDaysLeft}</span>
-                                        <span class="progress-unit">日</span>
+                            
+                            <div class="status-visual" style="display: flex; justify-content: center; align-items: center;">
+                                ${status === 'trial' ? `
+                                    <div class="progress-indicator-wrapper" style="position: relative; width: 110px; height: 110px; display: flex; justify-content: center; align-items: center;">
+                                        <div style="position: absolute; inset: 0; border: 1.5px solid var(--card-accent-glow); border-radius: 50%; background: rgba(0,0,0,0.5);"></div>
+                                        <svg viewBox="0 0 140 140" style="width: 100px; height: 100px; transform: rotate(-90deg); z-index: 1;">
+                                            <circle cx="70" cy="70" r="62" style="fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 4;"></circle>
+                                            <circle cx="70" cy="70" r="62" 
+                                                style="fill: none; stroke: var(--card-border); stroke-width: 10; stroke-linecap: round; stroke-dasharray: 390; stroke-dashoffset: ${390 * (1 - trialDaysLeft / 30)}; transition: stroke-dashoffset 2s ease-out;"></circle>
+                                        </svg>
+                                        <div style="position: absolute; z-index: 2; text-align: center; width: 100%;">
+                                            <span style="font-size: 0.6rem; color: var(--card-border); font-weight: 800; display: block; margin-bottom: -0.2rem;">残り</span>
+                                            <span style="color: var(--card-text-primary); font-weight: 900; font-size: 2.2rem; line-height: 1; display: block;">${trialDaysLeft}</span>
+                                            <span style="font-size: 0.7rem; color: var(--card-text-primary); font-weight: 800; display: block; margin-top: -0.1rem;">日</span>
+                                        </div>
                                     </div>
-                                </div>
+                                ` : `
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 4rem; filter: drop-shadow(0 0 20px var(--card-accent-glow)); margin-bottom: 0.5rem;">💎</div>
+                                        <div style="font-weight: 900; color: var(--card-border); letter-spacing: 2px; font-size: 0.7rem;">ULTIMATE</div>
+                                    </div>
+                                `}
                             </div>
-                            ` : ''}
                         </div>
                     </div>
 
@@ -324,19 +333,6 @@
                     </button>
                 `;
                 document.getElementById('cancel-btn').addEventListener('click', () => {
-                    // デバッグ情報を追加
-                    console.log('Cancel button clicked');
-                    console.log('User data:', userData);
-                    console.log('Subscription ID:', userData.subscription_id);
-
-                    if (!userData.subscription_id) {
-                        alert('エラー: サブスクリプションIDが見つかりません。\n\nデバッグ情報:\n' +
-                            'Status: ' + (userData.subscription_status || 'なし') + '\n' +
-                            'Plan: ' + (userData.subscription_plan || userData.plan || 'なし') + '\n\n' +
-                            'サポートにお問い合わせください。');
-                        return;
-                    }
-
                     if (confirm('本当にキャンセルしますか?')) {
                         cancelSubscription(userData.subscription_id);
                     }
@@ -383,14 +379,6 @@
                 },
                 onApprove: async function (data, actions) {
                     console.log('Subscription approved:', data);
-                    console.log('Saving subscription ID to Firestore:', data.subscriptionID);
-
-                    // Validate subscription ID
-                    if (!data.subscriptionID || !data.subscriptionID.startsWith('I-')) {
-                        console.error('Invalid subscription ID:', data.subscriptionID);
-                        alert('エラー: 無効なサブスクリプションIDです。サポートにお問い合わせください。');
-                        return;
-                    }
 
                     // Update Firestore
                     await setDoc(doc(db, 'users', user.uid), {
@@ -402,7 +390,6 @@
                         updated_at: new Date()
                     }, { merge: true });
 
-                    console.log('Subscription ID saved successfully:', data.subscriptionID);
                     alert(planName.toUpperCase() + 'プランへの登録が完了しました!');
                     location.reload();
                 },
@@ -415,8 +402,6 @@
 
         // サブスクリプションキャンセル
         async function cancelSubscription(subscriptionId) {
-            console.log('cancelSubscription called with ID:', subscriptionId);
-
             try {
                 const response = await fetch('/.netlify/functions/cancel-subscription', {
                     method: 'POST',
@@ -424,20 +409,17 @@
                     body: JSON.stringify({ subscriptionId })
                 });
 
-                console.log('Response status:', response.status);
                 const result = await response.json();
-                console.log('Response data:', result);
 
                 if (result.success) {
                     alert('サブスクリプションをキャンセルしました。');
                     location.reload();
                 } else {
-                    console.error('Cancellation failed:', result);
-                    alert('キャンセルに失敗しました。\n\nエラー: ' + (result.error || '不明なエラー') + '\n\nサポートにお問い合わせください。');
+                    alert('キャンセルに失敗しました: ' + result.error);
                 }
             } catch (error) {
                 console.error('Cancel error:', error);
-                alert('キャンセル処理でエラーが発生しました。\n\nエラー: ' + error.message + '\n\nインターネット接続を確認してください。');
+                alert('キャンセル処理でエラーが発生しました。');
             }
         }
 

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MERKI - Post-Contract Standardized Designs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-page: #0f172a;
+            --pro-gold: linear-gradient(135deg, #fff9c4 0%, #f7ef8a 20%, #d4af37 50%, #b8860b 80%, #ffd700 100%);
+            --std-blue: linear-gradient(135deg, #e3f2fd 0%, #90caf9 30%, #42a5f5 60%, #e3f2fd 100%);
+            --card-accent-pro: #d4af37;
+            --card-accent-std: #3b82f6;
+            --card-accent-lite: #000;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 4rem 2rem;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .card-preview-block {
+            text-align: center;
+        }
+
+        .label {
+            font-weight: 900;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            display: block;
+        }
+
+        /* --- THE CARDS --- */
+        .membership-card {
+            aspect-ratio: 1.58 / 1;
+            width: 100%;
+            border-radius: 20px;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: left;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            border: 2px solid transparent;
+            box-sizing: border-box;
+            z-index: 1;
+        }
+
+        .membership-card-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8rem;
+            font-weight: 900;
+            letter-spacing: 25px;
+            opacity: 0.05;
+            z-index: 0;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .card-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .logo-text {
+            font-family: 'OCR A Std', monospace;
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+            margin: 0;
+        }
+
+        .plan-badge-responsive {
+            border: 1.5px solid currentColor;
+            padding: 0.5rem 1.4rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            white-space: nowrap;
+        }
+
+        .membership-status-grid {
+            z-index: 2;
+        }
+
+        .card-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .card-value {
+            font-family: 'OCR A Std', monospace;
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* --- THEMES --- */
+
+        /* PRO */
+        .card-pro {
+            background: linear-gradient(145deg, #0a0a0a 0%, #1a1a1a 100%);
+            border-color: var(--card-accent-pro);
+            color: white;
+        }
+
+        .card-pro .logo-text {
+            background: var(--pro-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card-pro .plan-badge-responsive {
+            color: var(--card-accent-pro);
+            text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+        }
+
+        .card-pro .card-label {
+            color: var(--card-accent-pro);
+        }
+
+        /* STANDARD */
+        .card-standard {
+            background: linear-gradient(145deg, #051937 0%, #004d7a 100%);
+            border-color: var(--card-accent-std);
+            color: white;
+        }
+
+        .card-standard .logo-text {
+            background: var(--std-blue);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card-standard .plan-badge-responsive {
+            color: var(--card-accent-std);
+            text-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+        }
+
+        .card-standard .card-label {
+            color: #93c5fd;
+        }
+
+        /* LITE */
+        .card-lite {
+            background: linear-gradient(135deg, #e0e0e0 0%, #ffffff 50%, #bdbdbd 100%);
+            border-color: #9e9e9e;
+            color: #000;
+        }
+
+        .card-lite .logo-text {
+            color: #000;
+        }
+
+        .card-lite .plan-badge-responsive {
+            color: #000;
+            border-color: #000;
+            background: transparent;
+            text-shadow: none;
+            box-shadow: none;
+        }
+
+        .card-lite .card-label {
+            color: #64748b;
+        }
+
+        .card-lite .card-value {
+            color: #000;
+            text-shadow: none;
+        }
+
+        .card-lite .membership-card-watermark {
+            color: #000;
+            opacity: 0.05;
+        }
+
+        /* Glint Animation */
+        .membership-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 40%, rgba(255, 255, 255, 0.1) 45%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 55%, transparent 60%);
+            background-size: 300% 300%;
+            animation: glint 8s infinite linear;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        @keyframes glint {
+            0% {
+                background-position: 100% 100%;
+            }
+
+            20% {
+                background-position: 0% 0%;
+            }
+
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="margin-bottom: 4rem;">MERKI - Active Plan Designs (Post-Contract)</h1>
+
+    <div class="gallery">
+        <!-- PRO -->
+        <div class="card-preview-block">
+            <span class="label" style="color: #d4af37;">PRO Plan (Active)</span>
+            <div class="membership-card card-pro">
+                <div class="membership-card-watermark">MERKI</div>
+                <div class="card-header-row">
+                    <h2 class="logo-text">MERKI</h2>
+                    <div class="plan-badge-responsive">PRO</div>
+                </div>
+                <div class="membership-status-grid">
+                    <div class="status-main">
+                        <div class="card-label">CARD MEMBER</div>
+                        <div class="card-value">Space Gleam 株式会社</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STANDARD -->
+        <div class="card-preview-block">
+            <span class="label" style="color: #3b82f6;">STANDARD Plan (Active)</span>
+            <div class="membership-card card-standard">
+                <div class="membership-card-watermark">MERKI</div>
+                <div class="card-header-row">
+                    <h2 class="logo-text">MERKI</h2>
+                    <div class="plan-badge-responsive">STANDARD</div>
+                </div>
+                <div class="membership-status-grid">
+                    <div class="status-main">
+                        <div class="card-label">CARD MEMBER</div>
+                        <div class="card-value">Space Gleam 株式会社</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LITE -->
+        <div class="card-preview-block">
+            <span class="label" style="color: #64748b;">LITE Plan (Active)</span>
+            <div class="membership-card card-lite">
+                <div class="membership-card-watermark">MERKI</div>
+                <div class="card-header-row">
+                    <h2 class="logo-text">MERKI</h2>
+                    <div class="plan-badge-responsive">LITE</div>
+                </div>
+                <div class="membership-status-grid">
+                    <div class="status-main">
+                        <div class="card-label">CARD MEMBER</div>
+                        <div class="card-value">Space Gleam 株式会社</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
