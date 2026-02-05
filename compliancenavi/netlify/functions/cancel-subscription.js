@@ -1,18 +1,5 @@
 const admin = require('firebase-admin');
 
-// Initialize Firebase Admin (if not already initialized)
-if (!admin.apps.length) {
-    admin.initializeApp({
-        credential: admin.credential.cert({
-            projectId: process.env.FIREBASE_PROJECT_ID,
-            clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-            privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n')
-        })
-    });
-}
-
-const db = admin.firestore();
-
 exports.handler = async (event, context) => {
     // CORS headers
     const headers = {
@@ -34,8 +21,66 @@ exports.handler = async (event, context) => {
         };
     }
 
+    console.log('Cancel subscription function triggered');
+
     try {
-        const { subscriptionId } = JSON.parse(event.body);
+        // --- 1. Initialize Firebase Admin ---
+        if (!admin.apps.length) {
+            console.log('Initializing Firebase Admin SDK...');
+
+            if (!process.env.FIREBASE_PROJECT_ID || !process.env.FIREBASE_CLIENT_EMAIL || !process.env.FIREBASE_PRIVATE_KEY) {
+                console.error('Firebase environment variables are missing');
+                return {
+                    statusCode: 500,
+                    headers,
+                    body: JSON.stringify({
+                        success: false,
+                        error: 'Server configuration error: Firebase credentials missing'
+                    })
+                };
+            }
+
+            try {
+                // Parse private key correctly
+                const privateKey = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n');
+
+                admin.initializeApp({
+                    credential: admin.credential.cert({
+                        projectId: process.env.FIREBASE_PROJECT_ID,
+                        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+                        privateKey: privateKey
+                    })
+                });
+                console.log('Firebase Admin initialized successfully');
+            } catch (initError) {
+                console.error('Firebase initialization error:', initError);
+                return {
+                    statusCode: 500,
+                    headers,
+                    body: JSON.stringify({
+                        success: false,
+                        error: 'Failed to initialize Firebase: ' + initError.message
+                    })
+                };
+            }
+        }
+        const db = admin.firestore();
+
+        // --- 2. Prepare Payload ---
+        let body;
+        try {
+            body = JSON.parse(event.body);
+        } catch (e) {
+            console.error('Invalid JSON in body');
+            return {
+                statusCode: 400,
+                headers,
+                body: JSON.stringify({ error: 'Invalid JSON' })
+            };
+        }
+
+        const { subscriptionId } = body;
+        console.log('Request for subscriptionId:', subscriptionId);
 
         if (!subscriptionId) {
             return {
@@ -45,7 +90,7 @@ exports.handler = async (event, context) => {
             };
         }
 
-        // Check environment variables
+        // --- 3. PayPal Authentication ---
         if (!process.env.PAYPAL_CLIENT_ID || !process.env.PAYPAL_CLIENT_SECRET) {
             console.error('PayPal credentials not configured');
             return {
@@ -53,12 +98,12 @@ exports.handler = async (event, context) => {
                 headers,
                 body: JSON.stringify({
                     success: false,
-                    error: 'PayPal credentials not configured. Please contact support.'
+                    error: 'PayPal credentials not configured'
                 })
             };
         }
 
-        // Get PayPal access token
+        console.log('Fetching PayPal access token...');
         const auth = Buffer.from(
             `${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_CLIENT_SECRET}`
         ).toString('base64');
@@ -80,15 +125,17 @@ exports.handler = async (event, context) => {
                 headers,
                 body: JSON.stringify({
                     success: false,
-                    error: 'Failed to authenticate with PayPal'
+                    error: 'Failed to authenticate with PayPal: ' + errorText
                 })
             };
         }
 
         const tokenData = await tokenResponse.json();
         const accessToken = tokenData.access_token;
+        console.log('PayPal access token obtained');
 
-        // Cancel subscription via PayPal API
+        // --- 4. Cancel Subscription with PayPal ---
+        console.log('Calling PayPal Cancel API...');
         const cancelResponse = await fetch(
             `https://api-m.paypal.com/v1/billing/subscriptions/${subscriptionId}/cancel`,
             {
@@ -104,19 +151,29 @@ exports.handler = async (event, context) => {
         );
 
         if (!cancelResponse.ok) {
-            const errorText = await cancelResponse.text();
+            const errorData = await cancelResponse.json().catch(() => ({}));
+            const errorText = JSON.stringify(errorData);
             console.error('PayPal cancel error:', errorText);
-            return {
-                statusCode: 500,
-                headers,
-                body: JSON.stringify({
-                    success: false,
-                    error: 'Failed to cancel subscription with PayPal'
-                })
-            };
+
+            // Note: If already cancelled, treat as success or handle gracefully
+            if (errorData.name === 'RESOURCE_NOT_FOUND' || errorData.message?.includes('already canceled')) {
+                console.log('Subscription was already cancelled or not found, continuing to Firestore update');
+            } else {
+                return {
+                    statusCode: cancelResponse.status || 500,
+                    headers,
+                    body: JSON.stringify({
+                        success: false,
+                        error: 'PayPal API Error: ' + (errorData.message || 'Failed to cancel subscription')
+                    })
+                };
+            }
+        } else {
+            console.log('PayPal cancellation successful');
         }
 
-        // Update Firestore - find user by subscription_id
+        // --- 5. Update Firestore ---
+        console.log('Updating Firestore for subscriptionId:', subscriptionId);
         const usersSnapshot = await db.collection('users')
             .where('subscription_id', '==', subscriptionId)
             .limit(1)
@@ -125,9 +182,13 @@ exports.handler = async (event, context) => {
         if (!usersSnapshot.empty) {
             const userDoc = usersSnapshot.docs[0];
             await userDoc.ref.update({
-                subscription_status: 'canceled',
-                subscription_canceled_date: admin.firestore.FieldValue.serverTimestamp()
+                subscription_status: 'cancelled',
+                canceled_at: admin.firestore.FieldValue.serverTimestamp(),
+                updated_at: admin.firestore.FieldValue.serverTimestamp()
             });
+            console.log('Firestore updated for user:', userDoc.id);
+        } else {
+            console.warn('User document not found for subscriptionId:', subscriptionId);
         }
 
         return {
@@ -137,13 +198,13 @@ exports.handler = async (event, context) => {
         };
 
     } catch (error) {
-        console.error('Cancel subscription error:', error);
+        console.error('Internal Function Error:', error);
         return {
             statusCode: 500,
             headers,
             body: JSON.stringify({
                 success: false,
-                error: error.message || 'Internal server error'
+                error: 'Internal server error: ' + error.message
             })
         };
     }

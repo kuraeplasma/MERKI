@@ -1544,6 +1544,10 @@
 
         // Handle subscription cancellation
         async function handleCancelSubscription(userData, user) {
+            console.log('handleCancelSubscription called');
+            console.log('User data:', userData);
+            console.log('Subscription ID:', userData.subscription_id);
+
             const confirmed = confirm('本当にサブスクリプションを解約しますか？\n\n解約しても現在の請求期間終了まではサービスをご利用いただけます。');
             if (!confirmed) return;
 
@@ -1556,6 +1560,7 @@
             try {
                 // Special handling for trial users (no subscription_id)
                 if (userData.subscription_status === 'trial' || !userData.subscription_id) {
+                    console.log('Handling trial/no-id cancellation');
                     // Update DB directly for trial cancellation
                     await setDoc(doc(db, 'users', user.uid), {
                         subscription_status: 'cancelled',
@@ -1568,23 +1573,31 @@
                     return;
                 }
 
+                console.log('Fetching cancel-subscription function with ID:', userData.subscription_id);
                 const response = await fetch('/.netlify/functions/cancel-subscription', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ subscriptionId: userData.subscription_id })
                 });
 
+                console.log('Response status:', response.status);
                 const result = await response.json();
+                console.log('Response data:', result);
 
                 if (result.success) {
                     alert('サブスクリプションを解約しました。現在の請求期間終了まではサービスをご利用いただけます。');
                     location.reload();
                 } else {
-                    throw new Error(result.error || '解約に失敗しました');
+                    console.error('Cancellation failed:', result);
+                    alert('解約に失敗しました。\n\n内容: ' + (result.error || '不明なエラー') + '\n\nサポートにお問い合わせください。');
+                    if (cancelBtn) {
+                        cancelBtn.disabled = false;
+                        cancelBtn.textContent = 'サブスクリプションを解約する';
+                    }
                 }
             } catch (error) {
                 console.error('Cancel error:', error);
-                alert('解約処理でエラーが発生しました: ' + error.message);
+                alert('解約処理で重大なエラーが発生しました: ' + error.message + '\n\nブラウザのコンソールログを確認してください。');
                 if (cancelBtn) {
                     cancelBtn.disabled = false;
                     cancelBtn.textContent = 'サブスクリプションを解約する';
