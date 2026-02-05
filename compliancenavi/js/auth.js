@@ -302,8 +302,10 @@ export function initAuth() {
                 };
             }
 
-            // Invitation logic for index.html
-            await checkInvitation(user);
+            // Invitation logic for index.html - Run in background (non-blocking)
+            checkInvitation(user).catch(err => {
+                console.error('Background invitation check failed:', err);
+            });
 
             // Redirect to dashboard if logged in and on index with invite params
             const urlParams = new URLSearchParams(window.location.search);
