@@ -42,27 +42,26 @@ exports.handler = async (event, context) => {
 
             try {
                 let pkg = process.env.FIREBASE_PRIVATE_KEY;
-                console.log('Original Private Key Length:', pkg ? pkg.length : 0);
+                if (!pkg) throw new Error('FIREBASE_PRIVATE_KEY is not defined in environment variables');
 
-                // 1. Remove any outer double or single quotes (multiple times if needed)
-                let privateKey = pkg.replace(/^["']+|["']+$/g, '');
+                // 1. Remove wrapping quotes and fix escaped newlines
+                let privateKey = pkg.trim().replace(/^["']+|["']+$/g, '').replace(/\\n/g, '\n');
 
-                // 2. Handle literal \n and real newlines
-                // Also handle cases where it's double-escaped (\\n)
-                privateKey = privateKey.replace(/\\n/g, '\n');
+                // 2. Standardize newlines and trim each line (CRITICAL for ASN.1)
+                // Many times hidden spaces at the end of lines cause the DER parsing error
+                privateKey = privateKey
+                    .split('\n')
+                    .map(line => line.trim())
+                    .filter(line => line.length > 0)
+                    .join('\n');
 
-                // 3. Final trim
-                privateKey = privateKey.trim();
-
-                // 4. If the key doesn't have headers, it's definitely broken, 
-                // but we can try to wrap it if it looks like raw base64
+                // 3. Ensure proper PEM headers
                 if (!privateKey.includes('-----BEGIN PRIVATE KEY-----')) {
-                    console.log('Warning: Private key headers missing, attempting to wrap...');
                     privateKey = `-----BEGIN PRIVATE KEY-----\n${privateKey}\n-----END PRIVATE KEY-----`;
                 }
 
-                console.log('Cleaned Private Key First 20 chars:', privateKey.substring(0, 20) + '...');
-                console.log('Cleaned Private Key Last 20 chars: ...' + privateKey.substring(privateKey.length - 20));
+                console.log('Final Private Key Structure Check - Lines:', privateKey.split('\n').length);
+                console.log('Headers found:', privateKey.startsWith('-----BEGIN') && privateKey.endsWith('-----'));
 
                 admin.initializeApp({
                     credential: admin.credential.cert({
