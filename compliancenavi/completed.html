@@ -64,20 +64,7 @@
         </div>
     </footer>
 
-    <!-- Script to ensure auth state is synced if needed, mainly for header styling -->
-    <script type="module">
-        import { auth, onAuthStateChanged } from './js/firebase-config.js?v=20260206_CompletionPage';
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                document.body.classList.add('auth-logged-in');
-                document.body.classList.remove('auth-logged-out');
-            } else {
-                // If for some reason they aren't logged in (e.g. direct access), redirect to login
-                window.location.href = 'index.html';
-            }
-        });
-    </script>
 
 </body>
 
