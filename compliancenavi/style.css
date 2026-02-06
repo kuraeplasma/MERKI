@@ -1843,7 +1843,8 @@ header nav a:hover {
         /* backdrop-filter removed to prevent ghosting/lag */
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
+        padding-top: 120px;
         align-items: center;
         gap: 0.5rem;
         z-index: 5000;
