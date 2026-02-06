@@ -1,4 +1,4 @@
-import { auth, db, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, analytics, logEvent } from './firebase-config.js?v=20260127_26';
+import { auth, db, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, analytics, logEvent } from './firebase-config.js?v=20260206_AnalyticsEnabled';
 import { doc, setDoc, getDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
 // --- Shared Invitation Helpers (Exported) ---

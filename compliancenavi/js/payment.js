@@ -1,4 +1,4 @@
-import { db, collection, addDoc, ORDERS_COLLECTION, getDoc, doc, PRODUCTS_COLLECTION, auth, analytics, logEvent } from './firebase-config.js?v=20260127_26';
+import { db, collection, addDoc, ORDERS_COLLECTION, getDoc, doc, PRODUCTS_COLLECTION, auth, analytics, logEvent } from './firebase-config.js?v=20260206_AnalyticsEnabled';
 
 // Configuration
 const PRODUCT_ID = 'xdraft_license'; // CRITICAL: This ID must exist in Firestore "products" collection
