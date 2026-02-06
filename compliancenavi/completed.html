@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登録完了 | MERKI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="style.css?v=20260206_CompletionPage">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Tag (gtag.js) - Analytics & Ads -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MC8HQSR938"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-MC8HQSR938');
+    </script>
+</head>
+
+<body class="auth-logged-in">
+
+    <!-- Header (Simplified) -->
+    <header>
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <img src="merki_logo_perfect_hd.png" alt="MERKI Logo" class="logo-img">
+                <span style="font-family: 'Inter', sans-serif;">MERKI</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main style="display: flex; align-items: center; justify-content: center; min-height: 80vh; padding-top: 100px;">
+        <div class="container">
+            <div class="glass-card" style="max-width: 600px; margin: 0 auto; text-align: center; padding: 4rem 2rem;">
+                <div style="font-size: 5rem; margin-bottom: 1rem;">🎉</div>
+                <h1 class="section-title"
+                    style="font-size: 2.5rem; margin-bottom: 1.5rem; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">
+                    登録ありがとうございます
+                </h1>
+                <p class="section-subtitle" style="margin-bottom: 3rem; color: var(--text-secondary);">
+                    アカウントの作成が完了しました。<br>
+                    30日間の無料トライアルがスタートしています。<br>
+                    まずはダッシュボードで、あなたの法人の期限を確認しましょう。
+                </p>
+
+                <a href="dashboard.html" class="btn primary-btn"
+                    style="padding: 1.25rem 3rem; font-size: 1.2rem; border-radius: 50px;">
+                    ダッシュボードへ移動 →
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p style="text-align: center; opacity: 0.7;">&copy; 2026 SPACE GLEAM. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Script to ensure auth state is synced if needed, mainly for header styling -->
+    <script type="module">
+        import { auth, onAuthStateChanged } from './js/firebase-config.js?v=20260206_CompletionPage';
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.body.classList.add('auth-logged-in');
+                document.body.classList.remove('auth-logged-out');
+            } else {
+                // If for some reason they aren't logged in (e.g. direct access), redirect to login
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+
+</body>
+
+</html>

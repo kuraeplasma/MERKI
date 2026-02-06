@@ -124,25 +124,7 @@ async function saveOrder(details) {
 }
 
 async function showDownloadUI(container) {
-    // Retrieve download URL from product (re-fetch to be safe or use cached)
-    const docRef = doc(db, PRODUCTS_COLLECTION, PRODUCT_ID);
-    const snap = await getDoc(docRef);
-    let downloadUrl = "#";
-
-    if (snap.exists()) {
-        downloadUrl = snap.data().downloadUrl || "#";
-    }
-
-    container.innerHTML = `
-        <div style="text-align:center; padding: 20px; background: #f0fdf4; border: 1px solid #22c55e; border-radius: 8px;">
-            <h3 style="color: #15803d; margin-bottom: 10px;">Thank you for your purchase!</h3>
-            <p style="margin-bottom: 20px;">決済が完了しました。</p>
-            <a href="${downloadUrl}" class="btn primary-btn" target="_blank" style="text-decoration:none;">
-                ダウンロード開始
-            </a>
-            <p style="margin-top: 10px; font-size: 0.9em; color: #64748b;">
-                ※ ダウンロードが開始されない場合は、<a href="${downloadUrl}" target="_blank">こちら</a>をクリックしてください。
-            </p>
-        </div>
-    `;
+    // Redirect to Purchase Completion Page for Ad Conversion Tracking
+    console.log("Redirecting to purchase_completed.html...");
+    window.location.href = 'purchase_completed.html';
 }

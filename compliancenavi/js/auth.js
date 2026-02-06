@@ -349,7 +349,11 @@ export function initAuth() {
 
             // Redirect to dashboard explicitly if needed
             if (window.location.pathname.includes('index.html') || window.location.pathname === '/' || window.location.pathname === '') {
-                window.location.href = 'dashboard.html' + window.location.search;
+                if (isLoginMode) {
+                    window.location.href = 'dashboard.html' + window.location.search;
+                } else {
+                    window.location.href = 'completed.html' + window.location.search;
+                }
             }
         } catch (error) {
             console.error(error);
