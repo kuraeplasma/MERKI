@@ -1,4 +1,4 @@
-import { db, collection, addDoc, ORDERS_COLLECTION, getDoc, doc, PRODUCTS_COLLECTION, auth } from './firebase-config.js?v=20260127_26';
+import { db, collection, addDoc, ORDERS_COLLECTION, getDoc, doc, PRODUCTS_COLLECTION, auth, analytics, logEvent } from './firebase-config.js?v=20260127_26';
 
 // Configuration
 const PRODUCT_ID = 'xdraft_license'; // CRITICAL: This ID must exist in Firestore "products" collection
@@ -53,6 +53,23 @@ export function initPayment(containerId) {
             try {
                 const details = await actions.order.capture();
                 console.log("Payment Successful:", details);
+
+                // Track Purchase Event
+                try {
+                    const paidAmount = details.purchase_units[0].amount.value;
+                    logEvent(analytics, 'purchase', {
+                        transaction_id: details.id,
+                        value: paidAmount,
+                        currency: 'JPY',
+                        items: [{
+                            item_id: PRODUCT_ID,
+                            item_name: 'X Draft License',
+                            price: paidAmount
+                        }]
+                    });
+                } catch (e) {
+                    console.error("Analytics Error:", e);
+                }
 
                 // Show processing UI
                 container.innerHTML = '<p>Processing payment... checking license...</p>';
