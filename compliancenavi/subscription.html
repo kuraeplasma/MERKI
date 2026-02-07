@@ -148,7 +148,7 @@
     </footer>
 
     <script type="module">
-        import { auth, db, onAuthStateChanged } from './js/firebase-config.js?v=20260128_ULTRA_REFRESH';
+        import { auth, db, onAuthStateChanged, analytics, logEvent } from './js/firebase-config.js?v=20260207_ButtonFix';
         import { doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
@@ -403,6 +403,25 @@
                     }, { merge: true });
 
                     console.log('Subscription ID saved successfully:', data.subscriptionID);
+
+                    // Track subscription event in Google Analytics
+                    try {
+                        logEvent(analytics, 'purchase', {
+                            transaction_id: data.subscriptionID,
+                            value: planName === 'pro' ? 4980 : (planName === 'standard' ? 1980 : 980),
+                            currency: 'JPY',
+                            items: [{
+                                item_id: `subscription_${planName}`,
+                                item_name: `MERKI ${planName.toUpperCase()} Plan`,
+                                item_category: 'subscription',
+                                price: planName === 'pro' ? 4980 : (planName === 'standard' ? 1980 : 980)
+                            }]
+                        });
+                        console.log(`GA4 purchase event tracked for ${planName} plan`);
+                    } catch (e) {
+                        console.error('Analytics tracking error:', e);
+                    }
+
                     alert(planName.toUpperCase() + 'プランへの登録が完了しました!');
                     location.reload();
                 },
