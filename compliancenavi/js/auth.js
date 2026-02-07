@@ -340,10 +340,10 @@ export function initAuth() {
         try {
             if (isLoginMode) {
                 await signInWithEmailAndPassword(auth, email, password);
-                logEvent(analytics, 'login', { method: 'email' });
+                // logEvent(analytics, 'login', { method: 'email' });
             } else {
                 await createUserWithEmailAndPassword(auth, email, password);
-                logEvent(analytics, 'sign_up', { method: 'email' });
+                // logEvent(analytics, 'sign_up', { method: 'email' });
             }
             closeModal();
 
