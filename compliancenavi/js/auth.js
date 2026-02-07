@@ -1,4 +1,4 @@
-import { auth, db, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, analytics } from './firebase-config.js?v=20260207_ButtonFix';
+import { auth, db, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, analytics, logEvent } from './firebase-config.js?v=20260207_ButtonFix';
 import { doc, setDoc, getDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
 // --- Shared Invitation Helpers (Exported) ---
@@ -340,10 +340,10 @@ export function initAuth() {
         try {
             if (isLoginMode) {
                 await signInWithEmailAndPassword(auth, email, password);
-                // logEvent(analytics, 'login', { method: 'email' });
+                logEvent(analytics, 'login', { method: 'email' });
             } else {
                 await createUserWithEmailAndPassword(auth, email, password);
-                // logEvent(analytics, 'sign_up', { method: 'email' });
+                logEvent(analytics, 'sign_up', { method: 'email' });
             }
             closeModal();
 
