@@ -56,4 +56,7 @@ export {
     updateEmail
 };
 
-console.log('Firebase initialized successfully v20260127_26');
+// Export Analytics functions
+export { logEvent } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+
+console.log('Firebase initialized successfully v20260207_ButtonFix_LogEvent');
