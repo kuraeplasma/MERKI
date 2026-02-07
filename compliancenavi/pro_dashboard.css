@@ -670,7 +670,8 @@ select.input-pro {
 
     .sidebar {
         left: -100% !important;
-        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: left 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        will-change: left;
         width: 85% !important;
         max-width: 320px;
         box-shadow: 20px 0 60px rgba(0, 0, 0, 0.1);
