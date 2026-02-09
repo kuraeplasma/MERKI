@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 2048px;
+            width: 2048px;
+            background: transparent;
+        }
+
+        .logo-container {
+            width: 2048px;
+            height: 2048px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        svg {
+            width: 1800px;
+            /* Leave some padding */
+            height: 1800px;
+        }
+
+        /* index.html のロゴスタイルを再現 */
+        .logo-shape {
+            fill: url(#logoGradient);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="logo-container">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <path class="logo-shape" d="M50,50 L50,0 A50,50 0 1,1 14.64,14.64 Z" />
+        </svg>
+    </div>
+</body>
+
+</html>

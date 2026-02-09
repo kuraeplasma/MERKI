@@ -433,6 +433,9 @@ export function getApplicableCompliances(userData) {
  */
 export function calculateDeadline(item, userData) {
     const now = new Date();
+    // 今日の0時0分0秒を取得（日付比較用）
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
     const currentYear = now.getFullYear();
     const currentMonth = now.getMonth() + 1;
 
@@ -452,8 +455,8 @@ export function calculateDeadline(item, userData) {
 
         const deadline = new Date(deadlineYear, deadlineMonth - 1, 1);
 
-        // 過去の日付の場合は翌年
-        if (deadline < now) {
+        // 過去の日付（昨日以前）の場合は翌年
+        if (deadline < today) {
             deadline.setFullYear(deadlineYear + 1);
         }
 
@@ -464,7 +467,7 @@ export function calculateDeadline(item, userData) {
         if (item.deadline_rule === '末日') {
             // 月末の場合
             let deadline = new Date(currentYear, currentMonth, 0); // 当月末日
-            if (deadline < now) {
+            if (deadline < today) {
                 deadline = new Date(currentYear, currentMonth + 1, 0); // 翌月末日
             }
             return deadline;
@@ -472,8 +475,8 @@ export function calculateDeadline(item, userData) {
             const day = parseInt(item.deadline_rule);
             let deadline = new Date(currentYear, currentMonth - 1, day);
 
-            // 過去の日付の場合は翌月
-            if (deadline < now) {
+            // 過去の日付（昨日以前）の場合は翌月
+            if (deadline < today) {
                 deadline = new Date(currentYear, currentMonth, day);
             }
 
@@ -485,8 +488,8 @@ export function calculateDeadline(item, userData) {
         const month = parseInt(item.deadline_rule);
         let deadline = new Date(currentYear, month - 1, 1);
 
-        // 過去の日付の場合は翌年
-        if (deadline < now) {
+        // 過去の日付（昨日以前）の場合は翌年
+        if (deadline < today) {
             deadline.setFullYear(currentYear + 1);
         }
 

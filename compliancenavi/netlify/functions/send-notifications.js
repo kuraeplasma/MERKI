@@ -46,8 +46,7 @@ ${DASHBOARD_URL}
 
 ――
 MERKI
-運営：SpaceGleam株式会社
-https://spacegleam.co.jp/`
+https://merki.spacegleam.co.jp/`
     },
     7: {
         subject: '【MERKI】{{regulationName}}の期限まで、あと7日です',
@@ -70,8 +69,7 @@ ${DASHBOARD_URL}
 
 ――
 MERKI
-運営：SpaceGleam株式会社
-https://merki.spacegleam.co.jp`
+https://merki.spacegleam.co.jp/`
     },
     1: {
         subject: '【MERKI】{{regulationName}}の期限は明日です',
@@ -95,8 +93,7 @@ ${DASHBOARD_URL}
 
 ――
 MERKI
-運営：SpaceGleam株式会社
-https://merki.spacegleam.co.jp`
+https://merki.spacegleam.co.jp/`
     }
 };
 
@@ -144,7 +141,10 @@ exports.handler = async function (event, context) {
         }
 
         const now = new Date();
-        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        // JST変換 (UTC+9)
+        const jstOffset = 9 * 60;
+        const jstNow = new Date(now.getTime() + (now.getTimezoneOffset() + jstOffset) * 60000);
+        const today = new Date(jstNow.getFullYear(), jstNow.getMonth(), jstNow.getDate());
 
         // アクティブユーザー取得（active または trial）
         const usersSnapshot = await db.collection('users')
@@ -238,6 +238,16 @@ exports.handler = async function (event, context) {
                     const userPlan = userData.subscription_plan || userData.plan || 'pro';
                     const isTrial = userData.subscription_status === 'trial';
 
+                    // 通知時間設定 (日数: 時)
+                    // 30日前 -> 11:00
+                    // 7日前 -> 10:00
+                    // 1日前 -> 9:00
+                    const NOTIFICATION_TIMES = {
+                        30: 11,
+                        7: 10,
+                        1: 9
+                    };
+
                     let shouldNotifyThisDay = false;
                     if (userPlan === 'pro' || isTrial) {
                         shouldNotifyThisDay = [30, 7, 1].includes(daysUntilDeadline);
@@ -247,7 +257,17 @@ exports.handler = async function (event, context) {
                         shouldNotifyThisDay = (daysUntilDeadline === 1);
                     }
 
+                    // 時間チェック
                     if (shouldNotifyThisDay) {
+                        const currentHour = jstNow.getHours();
+                        const targetHour = NOTIFICATION_TIMES[daysUntilDeadline] || 9; // デフォルト9時
+
+                        // 時間が一致しない場合はスキップ (ローカルテスト用環境変数がある場合は無視)
+                        if (currentHour !== targetHour && !process.env.IGNORE_NOTIFICATION_TIME) {
+                            // console.log(`Skipping ${reg.title} for ${userEmail}: Current ${currentHour}h != Target ${targetHour}h`);
+                            continue;
+                        }
+
                         // 重複チェック
                         const notificationId = `${userDoc.id}_${reg.id}_${deadline.getTime()}_${daysUntilDeadline}days`;
                         const existingNotification = await db.collection('notifications')
@@ -330,8 +350,16 @@ function getApplicableCompliances(userData) {
 // 期限計算
 function calculateDeadline(item, userData) {
     const now = new Date();
-    const currentYear = now.getFullYear();
-    const currentMonth = now.getMonth() + 1;
+
+    // JST変換 (UTC+9)
+    const jstOffset = 9 * 60;
+    const jstNow = new Date(now.getTime() + (now.getTimezoneOffset() + jstOffset) * 60000);
+
+    // JSTでの「今日」の00:00:00
+    const today = new Date(jstNow.getFullYear(), jstNow.getMonth(), jstNow.getDate());
+
+    const currentYear = jstNow.getFullYear();
+    const currentMonth = jstNow.getMonth() + 1;
 
     if (item.deadline_type === 'relative') {
         // 決算月ベース（例：決算月+2ヶ月）
@@ -348,7 +376,8 @@ function calculateDeadline(item, userData) {
 
         const deadline = new Date(deadlineYear, deadlineMonth - 1, 1);
 
-        if (deadline < now) {
+        // 過去の日付（昨日以前）の場合は翌年
+        if (deadline < today) {
             deadline.setFullYear(deadlineYear + 1);
         }
 
@@ -357,7 +386,7 @@ function calculateDeadline(item, userData) {
     } else if (item.deadline_type === 'monthly') {
         if (item.deadline_rule === '末日') {
             let deadline = new Date(currentYear, currentMonth, 0);
-            if (deadline < now) {
+            if (deadline < today) {
                 deadline = new Date(currentYear, currentMonth + 1, 0);
             }
             return deadline;
@@ -365,7 +394,7 @@ function calculateDeadline(item, userData) {
             const day = parseInt(item.deadline_rule);
             let deadline = new Date(currentYear, currentMonth - 1, day);
 
-            if (deadline < now) {
+            if (deadline < today) {
                 deadline = new Date(currentYear, currentMonth, day);
             }
 
@@ -376,7 +405,7 @@ function calculateDeadline(item, userData) {
         const month = parseInt(item.deadline_rule);
         let deadline = new Date(currentYear, month - 1, 1);
 
-        if (deadline < now) {
+        if (deadline < today) {
             deadline.setFullYear(currentYear + 1);
         }
 
@@ -446,7 +475,7 @@ ${DASHBOARD_URL}
 ――
 MERKI
 運営：SpaceGleam株式会社
-https://spacegleam.co.jp/`;
+https://merki.spacegleam.co.jp/`;
 
                 // Override template used
                 template = {
