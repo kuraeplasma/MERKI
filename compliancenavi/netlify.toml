@@ -13,10 +13,6 @@
 [[plugins]]
   package = "@netlify/plugin-functions-install-core"
 
-# Scheduled Functions
-[functions."send-notifications"]
-  schedule = "0 * * * *"
-
 [dev]
   functions = "netlify/functions"
   publish = "."
