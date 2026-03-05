@@ -188,12 +188,17 @@ exports.handler = async (event, context) => {
         if (!cancelResponse.ok) {
             const errorData = await cancelResponse.json().catch(() => ({}));
             const errorText = JSON.stringify(errorData);
-            console.error('PayPal cancel error:', errorText);
+            console.error('PayPal cancel error details:', errorText);
 
-            // Note: If already cancelled, treat as success or handle gracefully
-            if (errorData.name === 'RESOURCE_NOT_FOUND' || errorData.message?.includes('already canceled')) {
-                console.log('Subscription was already cancelled or not found, continuing to Firestore update');
+            // Important: Handle specific cases where we should still proceed with Firestore update
+            const isAlreadyCancelled = errorData.name === 'RESOURCE_NOT_FOUND' ||
+                (errorData.message && errorData.message.toLowerCase().includes('already canceled')) ||
+                (errorData.details && errorData.details.some(d => d.issue && d.issue.toLowerCase().includes('already_cancelled')));
+
+            if (isAlreadyCancelled) {
+                console.log('Subscription was already cancelled on PayPal side. Proceeding to sync Firestore state.');
             } else {
+                console.error('Abort: PayPal cancellation failed and it is not a "already cancelled" state.');
                 return {
                     statusCode: cancelResponse.status || 500,
                     headers,
@@ -204,7 +209,7 @@ exports.handler = async (event, context) => {
                 };
             }
         } else {
-            console.log('PayPal cancellation successful');
+            console.log('PayPal cancellation API call returned 204/200 Success');
         }
 
         // --- 5. Update Firestore ---

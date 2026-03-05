@@ -241,8 +241,8 @@
             }
 
             // Update Header Status
-            statusEl.innerHTML = status === 'active' ? '✨ 有料プラン(アクティブ)' : (status === 'canceled' ? '⚠️ キャンセル済み' : '🎁 無料トライアル中');
-            statusEl.style.color = status === 'active' ? '#10b981' : (status === 'canceled' ? '#ef4444' : 'inherit');
+            statusEl.innerHTML = status === 'active' ? '✨ 有料プラン(アクティブ)' : (status === 'cancelled' ? '⚠️ キャンセル済み' : '🎁 無料トライアル中');
+            statusEl.style.color = status === 'active' ? '#10b981' : (status === 'cancelled' ? '#ef4444' : 'inherit');
 
             // Render Card UI
             detailsEl.innerHTML = `
@@ -299,8 +299,8 @@
                         </div>
                         <div>
                             <p style="color: var(--text-secondary); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.25rem;">ステータス</p>
-                            <p style="color: ${status === 'active' ? '#10b981' : (status === 'canceled' ? '#ef4444' : 'var(--text-primary)')}; font-size: 1.1rem; font-weight: 800;">
-                                ${status === 'active' ? 'アクティブ' : (status === 'canceled' ? '終了済み' : 'トライアル中')}
+                            <p style="color: ${status === 'active' ? '#10b981' : (status === 'cancelled' ? '#ef4444' : 'var(--text-primary)')}; font-size: 1.1rem; font-weight: 800;">
+                                ${status === 'active' ? 'アクティブ' : (status === 'cancelled' ? '終了済み' : 'トライアル中')}
                             </p>
                         </div>
                         <div>
@@ -311,7 +311,7 @@
                 </div>
             `;
 
-            if (status === 'trial' || status === 'canceled') {
+            if (status === 'trial' || status === 'cancelled') {
                 loadPayPalSDK(() => {
                     renderPayPalButton('paypal-button-pro', PAYPAL_PLAN_IDS.pro, 'pro', user);
                     renderPayPalButton('paypal-button-standard', PAYPAL_PLAN_IDS.standard, 'standard', user);
