@@ -58,31 +58,28 @@ exports.handler = async (event, context) => {
                 }
 
                 try {
-                    const pkg = process.env.FIREBASE_PRIVATE_KEY;
-                    if (!pkg) throw new Error('FIREBASE_PRIVATE_KEY is not defined');
+                    let privateKey = process.env.FIREBASE_PRIVATE_KEY;
+                    if (!privateKey) throw new Error('FIREBASE_PRIVATE_KEY is not defined');
 
-                    // 1. Extract only the Base64 portion by removing headers and any non-base64 characters
-                    // This is the most robust way to handle any environment variable mangling
-                    const base64Content = pkg
-                        .replace(/-----BEGIN PRIVATE KEY-----/g, '')
-                        .replace(/-----END PRIVATE KEY-----/g, '')
-                        .replace(/[^A-Za-z0-9+/=]/g, ''); // Removes \n, spaces, quotes, etc.
+                    // Standard way to handle Firebase private key in environment variables (Netlify/Vercel)
+                    if (privateKey.includes('\\n')) {
+                        privateKey = privateKey.replace(/\\n/g, '\n');
+                    } else if (!privateKey.includes('\n')) {
+                        // If it's just a long string without any newlines or escaped newlines, 
+                        // it might need PEM headers if they are missing, but let's assume standard format for now.
+                        // Most users provide it with \n or escaped \n.
+                    }
 
-                    // 2. Reconstruct the PEM format correctly (64 chars per line)
-                    const formattedKey = [
-                        '-----BEGIN PRIVATE KEY-----',
-                        ...(base64Content.match(/.{1,64}/g) || []),
-                        '-----END PRIVATE KEY-----'
-                    ].join('\n');
-
-                    console.log('Reconstructed Private Key (Length):', formattedKey.length);
-                    console.log('Key Sample (Start):', formattedKey.substring(0, 30));
+                    // Remove possible surrounding quotes
+                    if (privateKey.startsWith('"') && privateKey.endsWith('"')) {
+                        privateKey = privateKey.substring(1, privateKey.length - 1);
+                    }
 
                     admin.initializeApp({
                         credential: admin.credential.cert({
                             projectId: process.env.FIREBASE_PROJECT_ID,
                             clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-                            privateKey: formattedKey
+                            privateKey: privateKey
                         })
                     });
                     console.log('Firebase Admin initialized via individual env vars');
