@@ -61,39 +61,43 @@ exports.handler = async (event, context) => {
                     let privateKey = process.env.FIREBASE_PRIVATE_KEY;
                     if (!privateKey) throw new Error('FIREBASE_PRIVATE_KEY is not defined');
 
-                    // Robust processing:
-                    // 1. Resolve literal "\n" strings to real newlines
-                    // 2. Trim whitespace and handle possible surrounding quotes
-                    let processedKey = privateKey.replace(/\\n/g, '\n').trim();
-
-                    // Remove quotes if the entire string was wrapped (common in Netlify/CI)
-                    if ((processedKey.startsWith('"') && processedKey.endsWith('"')) ||
-                        (processedKey.startsWith("'") && processedKey.endsWith("'"))) {
-                        processedKey = processedKey.substring(1, processedKey.length - 1).trim();
-                        // Re-resolve in case newlines were inside quotes and escaped again
-                        processedKey = processedKey.replace(/\\n/g, '\n');
+                    // Clean the key: remove quotes, handle escaped newlines, and trim
+                    privateKey = privateKey.trim();
+                    if (privateKey.startsWith('"') && privateKey.endsWith('"')) {
+                        privateKey = privateKey.substring(1, privateKey.length - 1).trim();
                     }
+                    if (privateKey.startsWith("'") && privateKey.endsWith("'")) {
+                        privateKey = privateKey.substring(1, privateKey.length - 1).trim();
+                    }
+                    privateKey = privateKey.replace(/\\n/g, '\n');
 
-                    // Masked logging to verify format without leaking secrets
-                    const keyBrief = processedKey.replace(/\n/g, '[NL]');
-                    console.log(`Private Key Debug: Length=${processedKey.length}, Starts='${keyBrief.substring(0, 40)}...', Ends='...${keyBrief.substring(keyBrief.length - 20)}'`);
-
+                    console.log('Attempting Firebase Admin initialization with individual vars...');
                     admin.initializeApp({
                         credential: admin.credential.cert({
                             projectId: process.env.FIREBASE_PROJECT_ID,
                             clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-                            privateKey: processedKey
+                            privateKey: privateKey
                         })
                     });
-                    console.log('Firebase Admin initialized via individual env vars');
+                    console.log('Firebase Admin initialized successfully');
                 } catch (initError) {
-                    console.error('Firebase initialization error:', initError);
+                    console.error('Firebase initialization error details:', initError);
+
+                    // Create a more informative error message for the user to help debug
+                    let debugInfo = `Error: ${initError.message}`;
+                    if (process.env.FIREBASE_PRIVATE_KEY) {
+                        const rawKey = process.env.FIREBASE_PRIVATE_KEY;
+                        debugInfo += ` (Key length: ${rawKey.length})`;
+                        if (rawKey.includes('\\n')) debugInfo += " (Contains escaped newlines)";
+                        if (rawKey.includes('\n')) debugInfo += " (Contains literal newlines)";
+                    }
+
                     return {
                         statusCode: 500,
                         headers,
                         body: JSON.stringify({
                             success: false,
-                            error: 'Failed to initialize Firebase: ' + initError.message
+                            error: 'Failed to initialize Firebase: ' + debugInfo
                         })
                     };
                 }
