@@ -172,8 +172,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // === Dynamic Volumetric Light Shafts Effect ===
-    const lightCanvas = document.getElementById('hero-light-shafts');
-    if (lightCanvas) {
+    const initLightShafts = (canvasId) => {
+        const lightCanvas = document.getElementById(canvasId);
+        if (!lightCanvas) return;
+
         const ctx = lightCanvas.getContext('2d');
         const container = lightCanvas.parentElement;
 
@@ -238,5 +240,8 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         animate();
-    }
+    };
+
+    initLightShafts('hero-light-shafts');
+    initLightShafts('problem-light-shafts');
 });

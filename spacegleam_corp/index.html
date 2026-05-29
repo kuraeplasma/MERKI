@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=restore-problem-v48-20260530">
+    <link rel="stylesheet" href="style.css?v=problem-animation-v49-20260530">
     <link rel="icon" type="image/png" href="favicon.png">
 
     <meta property="og:title" content="SPACE GLEAM | AI MVP開発・SaaS開発・業務システム開発">
@@ -154,6 +154,12 @@
         </section>
 
         <section id="problem" class="section problem-section">
+            <!-- 全画面背景ビジュアル -->
+            <div class="problem-bg-visual">
+                <img src="hero_visual_dark.png?v=restore-problem-v48-20260530" alt="" aria-hidden="true" loading="lazy">
+                <canvas id="problem-light-shafts" style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; mix-blend-mode: screen;"></canvas>
+            </div>
+
             <div class="container problem-container reveal">
                 <div class="problem-left">
                     <p class="eyebrow-accent">PROBLEM</p>
@@ -511,7 +517,7 @@
         window.SPACEGLEAM_RECAPTCHA_SITE_KEY = '';
         window.SPACEGLEAM_BOOKING_URL = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ1w2wZgoCu0AzkJ8ZLLZQsYNjIX2bReoBaR5ZI9ibFR9JCUXhPROO8wRSQL9aYq1PXIxyFSpnHP';
     </script>
-    <script src="script.js?v=restore-problem-v48-20260530"></script>
+    <script src="script.js?v=problem-animation-v49-20260530"></script>
 </body>
 
 </html>

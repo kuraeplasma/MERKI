@@ -1217,17 +1217,19 @@ select {
     border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Background image of stairs on the right */
-.problem-section::before {
-    content: "";
+/* Full width background visual for PROBLEM section */
+.problem-bg-visual {
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 50%;
-    height: 100%;
-    background: url('hero_visual_dark.png?v=doorway-fixed-v42-20260530') no-repeat right center / cover;
+    inset: 0;
     z-index: 1;
     pointer-events: none;
+}
+
+.problem-bg-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 1.0;
 }
 
 /* Dark gradient fade from left to right to blend background image */
@@ -1346,8 +1348,7 @@ select {
 
 /* Responsive for problem section */
 @media (max-width: 900px) {
-    .problem-section::before {
-        width: 100%;
+    .problem-bg-visual img {
         opacity: 0.25;
     }
     .problem-section::after {
