@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPACE GLEAM | AI MVP開発・SaaS開発・業務システム開発</title>
+    <meta name="description" content="SPACE GLEAMは、AI MVP開発、SaaS構築、業務システム開発を短期間で支援する開発パートナーです。要件整理からプロトタイプ、初期リリースまで対応します。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=high-fidelity-design-v45-20260530">
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <meta property="og:title" content="SPACE GLEAM | AI MVP開発・SaaS開発・業務システム開発">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://spacegleam.co.jp/">
+    <meta property="og:image" content="https://spacegleam.co.jp/ogp.png">
+    <meta property="og:site_name" content="SPACE GLEAM">
+    <meta property="og:description" content="AI活用・SaaS開発・業務システム構築を短期間で支援する開発パートナー。要件整理から初期リリースまで対応します。">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "SPACE GLEAM",
+            "url": "https://spacegleam.co.jp/",
+            "logo": "https://spacegleam.co.jp/favicon.png",
+            "description": "AI MVP開発、SaaS開発、業務システム開発を支援する開発スタジオ",
+            "sameAs": [
+                "https://merki.spacegleam.co.jp",
+                "https://xdraft.spacegleam.co.jp"
+            ],
+            "makesOffer": [
+                {
+                    "@type": "Offer",
+                    "name": "AI MVP開発",
+                    "priceCurrency": "JPY",
+                    "price": "250000"
+                },
+                {
+                    "@type": "Offer",
+                    "name": "SaaS開発",
+                    "priceCurrency": "JPY",
+                    "price": "500000"
+                }
+            ]
+        }
+    </script>
+</head>
+
+<body>
+    <div class="site-bg" aria-hidden="true"></div>
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="#hero" class="brand" aria-label="SPACE GLEAM ホーム">
+                <span class="brand-name">SPACE GLEAM</span>
+                <span class="brand-sub">AI MVP Development Studio</span>
+            </a>
+
+            <button class="nav-toggle" type="button" aria-label="メニューを開く" aria-controls="global-nav" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav id="global-nav" class="nav" aria-label="グローバルナビゲーション">
+                <a href="#services">MVP開発</a>
+                <a href="#pricing">料金</a>
+                <a href="#works">実績</a>
+                <a href="#process">開発の流れ</a>
+                <a href="#faq">FAQ</a>
+            </nav>
+
+            <div class="header-ctas">
+                <a href="#contact" class="header-btn-download">資料ダウンロード</a>
+                <a href="#contact" class="header-cta">無料相談する<span class="arrow">→</span></a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="hero">
+            <!-- 全画面背景ビジュアル -->
+            <div class="hero-bg-visual">
+                <img src="hero_visual_dark.png?v=high-fidelity-design-v45-20260530" alt="" aria-hidden="true" fetchpriority="high">
+                <canvas id="hero-light-shafts" style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; mix-blend-mode: screen;"></canvas>
+                <div class="hero-bg-overlay"></div>
+            </div>
+
+            <div class="container hero-container">
+                <div class="hero-grid">
+                    <!-- 左カラム -->
+                    <div class="hero-copy reveal is-visible">
+                        <h1><span class="nowrap">アイデアを、</span><br><span class="nowrap">最短距離で</span><span class="nowrap">事業にする。</span></h1>
+                        <p class="hero-lead">
+                            SPACE GLEAMは, AIを活用したMVP開発・業務システム構築を通じて, アイデアを素早く価値に変える開発パートナーです。
+                            要件整理からプロトタイプ構築, 初期リリースまで伴走します。
+                        </p>
+                        <div class="hero-actions">
+                            <a href="#contact" class="btn btn-primary">無料で相談する<span class="arrow">→</span></a>
+                            <a href="#services" class="btn btn-secondary">サービスを見る</a>
+                        </div>
+                    </div>
+
+                    <!-- 右カラム (ビジュアルスペース) -->
+                    <div class="hero-interactive-wrapper reveal is-visible">
+                    </div>
+                </div>
+
+                <!-- 技術スタックロゴ (最下部) -->
+                <div class="hero-tech-stack reveal is-visible">
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/nextdotjs.svg" alt="" class="tech-icon" loading="lazy">
+                        <span class="tech-label">Next.js</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/supabase.svg" alt="" class="tech-icon" loading="lazy">
+                        <span class="tech-label">Supabase</span>
+                    </div>
+
+                    <div class="tech-item">
+                        <img src="chatgpt.svg" alt="" class="tech-icon" loading="lazy">
+                        <span class="tech-label">ChatGPT</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/claude.svg" alt="" class="tech-icon" loading="lazy">
+                        <span class="tech-label">Claude</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/googlegemini.svg" alt="" class="tech-icon" loading="lazy">
+                        <span class="tech-label">Gemini</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/stripe.svg" alt="" class="tech-icon" loading="lazy">
+                        <span class="tech-label">Stripe</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/tailwindcss.svg" alt="" class="tech-icon" loading="lazy">
+                        <span class="tech-label">Tailwind CSS</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/vercel.svg" alt="" class="tech-icon" loading="lazy">
+                        <span class="tech-label">Vercel</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/amazonaws.svg" alt="" class="tech-icon" loading="lazy">
+                        <span class="tech-label">AWS</span>
+                    </div>
+                    <span class="tech-dots">...</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="problem" class="section problem-section">
+            <div class="container problem-container reveal">
+                <div class="problem-left">
+                    <p class="eyebrow-accent">PROBLEM</p>
+                    <h2 class="problem-title">その開発、<br>本当に必要な機能から<br>作れていますか？</h2>
+                    <p class="problem-lead">
+                        多くの企業が、アイデアの停滞や非効率な開発プロセスにより、<br>事業成長のボトルネックに直面しています。
+                    </p>
+                    
+                    <div class="problem-checklist-area">
+                        <div class="problem-checklist-title">
+                            こんな状態で<br>止まっていませんか？
+                        </div>
+                        <ul class="problem-checklist">
+                            <li><span class="checkbox"></span>アイデアはあるが何をすればいいかわからない</li>
+                            <li><span class="checkbox"></span>開発会社の見積もりが高い</li>
+                            <li><span class="checkbox"></span>AIを活用したいが進め方がわからない</li>
+                            <li><span class="checkbox"></span>社内業務を効率化したい</li>
+                            <li><span class="checkbox"></span>まずは小さく市場検証したい</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="problem-footer-box">
+                        <div class="problem-footer-left">
+                            3つ以上当てはまるなら、<br>作る前の設計が不足しています。
+                        </div>
+                        <div class="problem-footer-right">
+                            SpaceGleamは、<br>開発会社ではなく、<br>事業設計から支援します。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="section services-section">
+            <div class="container services-container reveal">
+                <div class="services-header">
+                    <div class="services-header-left">
+                        <p class="eyebrow-accent">SERVICES</p>
+                        <h2 class="services-title">小さく作って、<br>早く検証する。</h2>
+                    </div>
+                    <div class="services-header-right">
+                        <p class="services-lead">
+                            事業仮説を整理し、必要な機能だけに絞って、<br>実際に触れるプロダクトへ落とし込みます。
+                        </p>
+                        <a href="#contact" class="view-services-link">VIEW SERVICES <span class="arrow">→</span></a>
+                    </div>
+                </div>
+
+                <!-- 5 Steps Process -->
+                <div class="steps-flow">
+                    <div class="step-flow-item">
+                        <div class="step-number">01</div>
+                        <div class="step-name">仮説整理</div>
+                        <div class="step-img-wrapper">
+                            <img src="sketch_hypothesis.png" alt="仮説整理" loading="lazy">
+                        </div>
+                        <p class="step-desc">課題の本質を見極め、<br>事業仮説を設計します。</p>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    
+                    <div class="step-flow-item">
+                        <div class="step-number">02</div>
+                        <div class="step-name">MVP設計</div>
+                        <div class="step-img-wrapper">
+                            <img src="sketch_mvp_design.png" alt="MVP設計" loading="lazy">
+                        </div>
+                        <p class="step-desc">最小限の機能に絞り、<br>検証可能な形に設計します。</p>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    
+                    <div class="step-flow-item">
+                        <div class="step-number">03</div>
+                        <div class="step-name">開発</div>
+                        <div class="step-img-wrapper">
+                            <img src="sketch_development.png" alt="開発" loading="lazy">
+                        </div>
+                        <p class="step-desc">スピーディに開発し、<br>すぐに試せるプロダクトへ。</p>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    
+                    <div class="step-flow-item">
+                        <div class="step-number">04</div>
+                        <div class="step-name">検証</div>
+                        <div class="step-img-wrapper">
+                            <img src="sketch_validation.png" alt="検証" loading="lazy">
+                        </div>
+                        <p class="step-desc">データとユーザーの反応から、<br>仮説を検証します。</p>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    
+                    <div class="step-flow-item">
+                        <div class="step-number">05</div>
+                        <div class="step-name">改善・拡張</div>
+                        <div class="step-img-wrapper">
+                            <img src="sketch_growth.png" alt="改善・拡張" loading="lazy">
+                        </div>
+                        <p class="step-desc">検証結果をもとに、<br>改善し、成長へつなげます。</p>
+                    </div>
+                </div>
+
+                <!-- 3 Service Columns -->
+                <div class="service-cards-v2">
+                    <!-- Left brush decoration -->
+                    <div class="brush-deco brush-left" aria-hidden="true"></div>
+                    
+                    <article class="service-card-v2">
+                        <div class="service-card-num">01</div>
+                        <h3>AI MVP開発</h3>
+                        <p class="service-card-desc">
+                            事業アイデアを最小限の機能に絞り、<br>短期間で形にします。
+                        </p>
+                        <ul class="service-features">
+                            <li>・ ログイン</li>
+                            <li>・ 管理画面</li>
+                            <li>・ AI機能</li>
+                            <li>・ 決済</li>
+                            <li>・ DB / LP など</li>
+                        </ul>
+                    </article>
+                    
+                    <article class="service-card-v2">
+                        <div class="service-card-num">02</div>
+                        <h3>業務システム開発</h3>
+                        <p class="service-card-desc">
+                            現場の手作業や属人化したフローを、<br>使いやすい社内ツールへ置き換えます。
+                        </p>
+                        <ul class="service-features">
+                            <li>・ 顧客管理</li>
+                            <li>・ 申請管理</li>
+                            <li>・ 通知機能</li>
+                            <li>・ レポート</li>
+                            <li>・ 社内ツール など</li>
+                        </ul>
+                    </article>
+                    
+                    <article class="service-card-v2">
+                        <div class="service-card-num">03</div>
+                        <h3>AI導入支援</h3>
+                        <p class="service-card-desc">
+                            AIで何を置き換えるべきかを整理し、<br>実装可能なロードマップを作ります。
+                        </p>
+                        <ul class="service-features">
+                            <li>・ 業務分析</li>
+                            <li>・ AI導入設計</li>
+                            <li>・ 要件整理</li>
+                            <li>・ ロードマップ作成</li>
+                        </ul>
+                    </article>
+                    
+                    <!-- Right brush decoration -->
+                    <div class="brush-deco brush-right" aria-hidden="true"></div>
+                </div>
+            </div>
+        </section>
+        <section id="pricing" class="section section-muted">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <p class="eyebrow">Pricing</p>
+                    <h2>検証に必要な最小構成から始められます</h2>
+                </div>
+                <div class="pricing-grid">
+                    <article class="price-card reveal">
+                        <h3>Lite</h3>
+                        <p class="price">25万円〜</p>
+                        <ul>
+                            <li>要件整理</li>
+                            <li>プロトタイプ</li>
+                            <li>画面設計</li>
+                        </ul>
+                    </article>
+                    <article class="price-card featured reveal">
+                        <span class="recommend">おすすめ</span>
+                        <h3>Standard</h3>
+                        <p class="price">50万円〜</p>
+                        <ul>
+                            <li>MVP開発</li>
+                            <li>初期リリース</li>
+                            <li>AI機能</li>
+                        </ul>
+                    </article>
+                    <article class="price-card reveal">
+                        <h3>Growth</h3>
+                        <p class="price">100万円〜</p>
+                        <ul>
+                            <li>SaaS構築</li>
+                            <li>決済機能</li>
+                            <li>管理機能</li>
+                            <li>改善支援</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <p class="eyebrow">Strength</p>
+                    <h2>事業視点で考える開発パートナー</h2>
+                </div>
+                <div class="strength-grid">
+                    <article class="strength-card reveal"><h3>自社SaaS運営経験</h3><p>作って終わりではなく、運用で必要になる導線や改善まで見据えます。</p></article>
+                    <article class="strength-card reveal"><h3>AI活用による高速開発</h3><p>設計、実装、検証の各工程にAIを活用し、初期検証までの距離を縮めます。</p></article>
+                    <article class="strength-card reveal"><h3>要件整理から対応</h3><p>仕様が固まっていない段階から、作るべきものを一緒に整理します。</p></article>
+                    <article class="strength-card reveal"><h3>マーケティング視点も考慮</h3><p>機能だけでなく、誰にどう届けるかまでプロダクト設計に反映します。</p></article>
+                    <article class="strength-card reveal"><h3>小規模から相談可能</h3><p>まずは小さな検証単位で始め、反応を見ながら改善できます。</p></article>
+                </div>
+            </div>
+        </section>
+
+        <section id="works" class="section section-muted">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <p class="eyebrow">Works</p>
+                    <h2>自社プロダクト開発で得た知見</h2>
+                </div>
+                <div class="works-grid">
+                    <article class="work-card reveal">
+                        <span class="work-logo">D</span>
+                        <h3>DIFFsense</h3>
+                        <p>契約書の差分確認や修正案作成を支援するAI契約レビューSaaS。</p>
+                        <span>AI分析 / 契約管理 / 業務SaaS</span>
+                    </article>
+                    <article class="work-card reveal">
+                        <span class="work-logo">M</span>
+                        <h3>MERKI</h3>
+                        <p>法律・制度の期限管理を自動化する通知サービス。</p>
+                        <a href="https://merki.spacegleam.co.jp" target="_blank" rel="noopener noreferrer">サイトを見る</a>
+                    </article>
+                    <article class="work-card reveal">
+                        <span class="work-logo">S</span>
+                        <h3>Snackdrop</h3>
+                        <p>デジタルデータやテンプレートを販売するプロダクト基盤。</p>
+                        <span>EC / コンテンツ販売</span>
+                    </article>
+                    <article class="work-card reveal">
+                        <span class="work-logo">X</span>
+                        <h3>XDraft</h3>
+                        <p>アイデア整理・構造化を効率化するデジタルツール。</p>
+                        <a href="https://xdraft.spacegleam.co.jp" target="_blank" rel="noopener noreferrer">サイトを見る</a>
+                    </article>
+                    <article class="work-card reveal">
+                        <span class="work-logo">+</span>
+                        <h3>その他プロダクト</h3>
+                        <p>LP、管理画面、通知システム、決済導線などの実装知見を蓄積しています。</p>
+                        <span>Prototype / Launch / Growth</span>
+                    </article>
+                </div>
+            </div>
+        </section>
+        <section id="contact" class="section contact-section">
+            <div class="container">
+                <div class="contact-heading reveal">
+                    <p class="eyebrow">Contact</p>
+                    <h2><span style="display: inline-block;">まずは、お気軽に</span><span style="display: inline-block;">ご相談ください。</span></h2>
+                    <p>まだ仕様が決まっていなくても問題ありません。</p>
+                    <div style="margin: 20px 0; font-weight: 700; line-height: 1.8; color: #111827; font-size: 1.1rem;">
+                        「こんなサービスを作りたい」<br>
+                        「AIを活用できないか相談したい」<br>
+                        「業務を効率化したい」
+                    </div>
+                    <p>そんな段階からご相談いただけます。</p>
+                    <p style="margin-top: 14px;">ご相談内容をもとに、実現方法や開発の進め方、概算費用についてご案内いたします。</p>
+                </div>
+
+                <div class="contact-panel reveal">
+                    <form class="contact-form" name="ai-mvp-contact" method="POST" novalidate>
+                        <input type="hidden" name="recaptcha-token" value="">
+                        <p class="hidden-field">
+                            <label>入力しないでください <input name="website" tabindex="-1" autocomplete="off"></label>
+                        </p>
+                        <label>
+                            <span>会社名</span>
+                            <input type="text" name="company" autocomplete="organization" placeholder="例）株式会社SPACE GLEAM">
+                        </label>
+                        <label>
+                            <span>お名前</span>
+                            <input type="text" name="name" autocomplete="name" placeholder="例）山田 太郎" required>
+                        </label>
+                        <label>
+                            <span>メールアドレス</span>
+                            <input type="email" name="email" autocomplete="email" placeholder="例）your@email.com" required>
+                        </label>
+                        <label>
+                            <span>予算感<em>任意</em></span>
+                            <select name="budget">
+                                <option value="">選択してください</option>
+                                <option>25万円〜50万円</option>
+                                <option>50万円〜100万円</option>
+                                <option>100万円以上</option>
+                                <option>未定</option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>希望納期<em>任意</em></span>
+                            <select name="deadline">
+                                <option value="">選択してください</option>
+                                <option>2週間以内</option>
+                                <option>1ヶ月以内</option>
+                                <option>2〜3ヶ月以内</option>
+                                <option>未定</option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>どのようにSPACE GLEAMを知りましたか？<em>任意</em></span>
+                            <select name="referrer">
+                                <option value="">選択してください</option>
+                                <option>Google検索</option>
+                                <option>SNS</option>
+                                <option>紹介</option>
+                                <option>自社プロダクト</option>
+                                <option>その他</option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>相談内容</span>
+                            <textarea name="message" rows="5" placeholder="どのようなことを検討していますか？&#10;できるだけ具体的にご記入ください。" required></textarea>
+                        </label>
+                        <label class="privacy-check">
+                            <input type="checkbox" name="privacy" required>
+                            <span><a href="privacy.html" target="_blank" rel="noopener noreferrer">プライバシーポリシー</a>に同意します</span>
+                        </label>
+                        <p class="contact-form-status" role="status" aria-live="polite"></p>
+                        <button class="btn btn-primary form-submit" type="submit">送信する</button>
+                        <p class="form-note">送信いただいた内容をもとに、1〜2営業日以内にご連絡します。</p>
+                    </form>
+                    <div class="form-success" tabindex="-1" hidden>
+                        <h3>お問い合わせありがとうございます</h3>
+                        <p>内容を確認し、通常1〜2営業日以内にご連絡します。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <a href="#contact" class="mobile-fixed-cta">無料相談する</a>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <a href="#hero" class="brand">
+                <span class="brand-name">SPACE GLEAM</span>
+                <span class="brand-sub">AI MVP Development Studio</span>
+            </a>
+            <nav class="footer-links" aria-label="フッターナビゲーション">
+                <a href="company.html">会社概要</a>
+                <a href="terms.html">利用規約</a>
+                <a href="privacy.html">プライバシーポリシー</a>
+                <a href="legal.html">特商法表記</a>
+                <a href="#contact">お問い合わせ</a>
+            </nav>
+            <p>&copy; 2026 SPACE GLEAM. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.SPACEGLEAM_RECAPTCHA_SITE_KEY = '';
+        window.SPACEGLEAM_BOOKING_URL = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ1w2wZgoCu0AzkJ8ZLLZQsYNjIX2bReoBaR5ZI9ibFR9JCUXhPROO8wRSQL9aYq1PXIxyFSpnHP';
+    </script>
+    <script src="script.js?v=high-fidelity-design-v45-20260530"></script>
+</body>
+
+</html>
