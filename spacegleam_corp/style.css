@@ -111,11 +111,11 @@ select {
     display: inline-flex;
     flex-direction: column;
     gap: 2px;
-    line-height: 1.1;
+    line-height: 1;
 }
 
 .brand-name {
-    font-size: 1.38rem;
+    font-size: clamp(1.45rem, 4vw, 1.85rem);
     font-weight: 800;
     letter-spacing: .08em;
 }
