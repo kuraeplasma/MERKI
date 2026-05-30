@@ -7,6 +7,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const formStatus = document.querySelector('.contact-form-status');
     const recaptchaSiteKey = window.SPACEGLEAM_RECAPTCHA_SITE_KEY;
 
+    // --- Booking Polish Setup ---
+    const contactMethodGroup = document.getElementById('contact-method-group');
+    const bookingSchedulerContainer = document.getElementById('booking-scheduler-container');
+    const bookingIframe = document.getElementById('booking-iframe');
+    const bookingUrl = window.SPACEGLEAM_BOOKING_URL || '';
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const isBookingPolish = urlParams.get('v') === 'booking-polish';
+
+    if (isBookingPolish && contactMethodGroup) {
+        contactMethodGroup.style.display = 'grid';
+    }
+
     if (recaptchaSiteKey) {
         const recaptchaScript = document.createElement('script');
         recaptchaScript.src = `https://www.google.com/recaptcha/api.js?render=${encodeURIComponent(recaptchaSiteKey)}`;
@@ -93,6 +106,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const referrer = String(formData.get('referrer') || '').trim();
             const message = String(formData.get('message') || '').trim();
 
+            let meetingPref = 'text';
+            if (isBookingPolish) {
+                meetingPref = String(formData.get('meeting_pref') || 'schedule');
+            }
+
             const payload = {
                 company: String(formData.get('company') || '').trim(),
                 name: String(formData.get('name') || '').trim(),
@@ -108,8 +126,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 ].join('\n'),
                 budget,
                 deadline,
-                meeting: 'フォームのみで相談',
-                bookingUrl: '',
+                meeting: isBookingPolish && meetingPref === 'schedule' ? '日程調整をする' : 'フォームのみで相談',
+                bookingUrl: isBookingPolish && meetingPref === 'schedule' ? bookingUrl : '',
                 referrer,
                 website: String(formData.get('website') || '').trim(),
                 recaptchaToken: String(formData.get('recaptcha-token') || '').trim(),
@@ -158,6 +176,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 contactForm.reset();
                 contactForm.classList.add('is-submitted');
                 setFormStatus('');
+
+                if (isBookingPolish && meetingPref === 'schedule' && bookingUrl && bookingIframe && bookingSchedulerContainer) {
+                    bookingIframe.src = bookingUrl;
+                    bookingSchedulerContainer.style.display = 'flex';
+                } else if (bookingSchedulerContainer) {
+                    bookingSchedulerContainer.style.display = 'none';
+                }
+
                 formSuccess.hidden = false;
                 formSuccess.focus();
             } catch (_) {
@@ -244,4 +270,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initLightShafts('hero-light-shafts');
     initLightShafts('problem-light-shafts');
+
+    // --- FAQ Accordion ---
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const trigger = item.querySelector('.faq-trigger');
+        const content = item.querySelector('.faq-content');
+
+        trigger.addEventListener('click', () => {
+            const isActive = item.classList.contains('is-active');
+
+            // Close all other items
+            faqItems.forEach(otherItem => {
+                if (otherItem !== item && otherItem.classList.contains('is-active')) {
+                    otherItem.classList.remove('is-active');
+                    otherItem.querySelector('.faq-content').style.maxHeight = null;
+                    otherItem.querySelector('.faq-trigger').setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            if (isActive) {
+                item.classList.remove('is-active');
+                content.style.maxHeight = null;
+                trigger.setAttribute('aria-expanded', 'false');
+            } else {
+                item.classList.add('is-active');
+                content.style.maxHeight = content.scrollHeight + 'px';
+                trigger.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+
+    // Initialize default active FAQ item
+    const activeFaqItem = document.querySelector('.faq-item.is-active');
+    if (activeFaqItem) {
+        const activeContent = activeFaqItem.querySelector('.faq-content');
+        if (activeContent) {
+            activeContent.style.maxHeight = activeContent.scrollHeight + 'px';
+        }
+    }
+
+    window.addEventListener('resize', () => {
+        const activeFaq = document.querySelector('.faq-item.is-active .faq-content');
+        if (activeFaq) {
+            activeFaq.style.maxHeight = activeFaq.scrollHeight + 'px';
+        }
+    });
 });

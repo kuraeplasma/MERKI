@@ -11,7 +11,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=company-alignment-fix-20260531">
     <link rel="icon" type="image/png" href="favicon.png">
 
     <!-- OGP Settings -->
@@ -24,7 +24,7 @@
     <meta name="twitter:card" content="summary_large_image" />
 </head>
 
-<body>
+<body class="light-theme company-page-body">
 
     <div class="background-globes">
         <div class="globe globe-1"></div>
@@ -41,70 +41,149 @@
         </div>
     </header>
 
-    <main class="page-content">
+    <main class="company-main-content">
         <div class="container">
-            <div class="page-header">
-                <a href="index.html" class="back-link">&larr; トップに戻る</a>
-                <h1 class="page-title">会社概要</h1>
-            </div>
-
-            <div class="glass-card table-card">
-                <table class="data-table">
-                    <tr>
-                        <th>会社名</th>
-                        <td>SpaceGleam株式会社</td>
-                    </tr>
-                    <tr>
-                        <th>設立</th>
-                        <td>2018年10月5日</td>
-                    </tr>
-                    <tr>
-                        <th>代表取締役</th>
-                        <td>湯本 拓</td>
-                    </tr>
-                    <tr>
-                        <th>所在地</th>
-                        <td>
-                            〒107-0061<br>東京都港区北青山1丁目3番1号 アールキューブ青山3階
-                            <div style="margin-top: 15px; border: 1px solid rgba(255,255,255,0.2);">
-                                <iframe width="100%" height="300" frameborder="0"
-                                    style="border:0; display: block; filter: grayscale(100%) invert(92%) contrast(83%);"
-                                    src="https://maps.google.com/maps?q=東京都港区北青山1丁目3番1号+アールキューブ青山3階&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                                    allowfullscreen title="Google Map">
-                                </iframe>
+            <div class="company-grid-v2">
+                <!-- Left Column -->
+                <div class="company-left-col">
+                    <div class="company-header-v2">
+                        <p class="eyebrow">COMPANY</p>
+                        <p class="company-sub-title-v2">会社概要</p>
+                    </div>
+                    
+                    <h1 class="company-heading-v2">事業の可能性を、<br class="pc-only">最短距離で形に。</h1>
+                    <p class="company-lead-text">AIとテクノロジーの力で、価値あるプロダクトをスピーディに届けます。</p>
+                    
+                    <!-- Modern Tech Workspace Visual for Conversion -->
+                    <div class="company-main-visual" aria-hidden="true">
+                        <img src="company_conversion.png" alt="Modern Tech Workspace">
+                    </div>
+                </div>
+                
+                <!-- Right Column -->
+                <div class="company-right-col">
+                    <div class="company-details-table">
+                        <div class="company-info-row">
+                            <div class="company-info-label">会社名</div>
+                            <div class="company-info-value">SpaceGleam株式会社</div>
+                        </div>
+                        <div class="company-info-row">
+                            <div class="company-info-label">設立</div>
+                            <div class="company-info-value">2018年10月5日</div>
+                        </div>
+                        <div class="company-info-row">
+                            <div class="company-info-label">代表取締役</div>
+                            <div class="company-info-value">湯本 拓</div>
+                        </div>
+                        <div class="company-info-row">
+                            <div class="company-info-label">所在地</div>
+                            <div class="company-info-value">
+                                〒107-0061<br>
+                                東京都港区北青山1丁目3番1号 アールキューブ青山3階
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>事業内容</th>
-                        <td>
-                            ・デジタルコンテンツの企画・制作・販売<br>
-                            ・Webサービスの開発・運営<br>
-                            ・ソフトウェア開発<br>
-                            ・アパレル製品の企画・販売
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>お問い合わせ</th>
-                        <td>
-                            <a href="mailto:contact@spacegleam.co.jp" class="text-link">contact@spacegleam.co.jp</a>
-                        </td>
-                    </tr>
-                </table>
+                        </div>
+                        <div class="company-info-row">
+                            <div class="company-info-label">事業内容</div>
+                            <div class="company-info-value">
+                                <ul>
+                                    <li>デジタルコンテンツの企画・制作・販売</li>
+                                    <li>Webサービスの開発・運営</li>
+                                    <li>ソフトウェア開発</li>
+                                    <li>アパレル製品の企画・販売</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="index.html#contact" class="company-contact-banner">
+                        <div class="company-contact-left">
+                            <div class="company-contact-icon">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                    <polyline points="22,6 12,13 2,6"/>
+                                </svg>
+                            </div>
+                            <div class="company-contact-text">
+                                <p class="company-contact-sub">お気軽にお問い合わせください</p>
+                                <p class="company-contact-main">ご相談・お見積り・ご質問はこちら</p>
+                                <p class="company-contact-email">contact@spacegleam.co.jp</p>
+                            </div>
+                        </div>
+                        <div class="company-contact-arrow">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 12H19M19 12L13 6M19 12L13 18"/>
+                            </svg>
+                        </div>
+                    </a>
+                </div>
             </div>
-
-
         </div>
     </main>
 
     <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 SPACE GLEAM. All Rights Reserved.</p>
-            <div class="footer-links">
-                <a href="terms.html">利用規約</a> |
-                <a href="privacy.html">プライバシーポリシー</a> |
-                <a href="legal.html">特定商取引法に基づく表記</a> |
+        <div class="container footer-top">
+            <!-- Brand Column -->
+            <div class="footer-brand-col">
+                <a href="index.html" class="footer-logo">SPACE GLEAM</a>
+                <div class="footer-logo-line"></div>
+                <p class="footer-tagline">アイデアを、<br class="pc-only">最短距離で事業にする。</p>
+            </div>
+
+            <!-- Links Grid -->
+            <div class="footer-nav-grid">
+                <!-- Column 1: SERVICE -->
+                <div class="footer-nav-col">
+                    <h4><a href="index.html#services">SERVICE</a></h4>
+                    <ul>
+                        <li><a href="index.html#services">AI MVP開発</a></li>
+                        <li><a href="index.html#services">業務システム開発</a></li>
+                        <li><a href="index.html#services">AI導入支援</a></li>
+                        <li><a href="index.html#works">その他プロダクト</a></li>
+                    </ul>
+                </div>
+                <!-- Column 2: WORKS -->
+                <div class="footer-nav-col">
+                    <h4><a href="index.html#works">WORKS</a></h4>
+                    <ul>
+                        <li><a href="index.html#works">開発事例</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Vertical Divider -->
+            <div class="footer-vertical-line"></div>
+
+            <!-- CTA Column -->
+            <div class="footer-cta-col">
+                <p class="footer-cta-sub">まずは、小さく作って検証する。</p>
+                <a href="index.html#contact" class="works-cta-btn-v2">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                    無料で相談してみる
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H19M19 12L13 6M19 12L13 18"/></svg>
+                </a>
+                <p class="footer-cta-note">オンライン相談OK / 所要時間：約30分</p>
+            </div>
+        </div>
+
+        <div class="footer-horizontal-line"></div>
+
+        <div class="container footer-bottom">
+            <p class="footer-copyright">&copy; 2026 SPACE GLEAM. All Rights Reserved.</p>
+            <div class="footer-bottom-links">
                 <a href="company.html">会社概要</a>
+                <span class="divider">|</span>
+                <a href="terms.html">利用規約</a>
+                <span class="divider">|</span>
+                <a href="privacy.html">プライバシーポリシー</a>
+                <span class="divider">|</span>
+                <a href="legal.html">特定商取引法に基づく表記</a>
+            </div>
+            <div class="footer-socials">
+                <span class="follow-us">FOLLOW US</span>
+                <a href="https://x.com/SPACEGLEAMTOKYO" target="_blank" rel="noopener noreferrer" class="social-link x-link">X</a>
             </div>
         </div>
     </footer>
