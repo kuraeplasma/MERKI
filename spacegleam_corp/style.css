@@ -1488,6 +1488,18 @@ select {
         gap: 36px;
     }
 
+    .hero-copy {
+        text-align: center;
+    }
+
+    .hero-lead {
+        margin-inline: auto;
+    }
+
+    .hero-actions {
+        justify-content: center;
+    }
+
     .hero-visual {
         aspect-ratio: 16 / 10;
         min-height: auto;
