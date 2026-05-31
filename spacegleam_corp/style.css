@@ -22,7 +22,7 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: 96px;
+    scroll-padding-top: 76px;
 }
 
 body {
@@ -106,7 +106,7 @@ select {
     grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: 28px;
-    min-height: 78px;
+    min-height: 60px;
 }
 
 .brand {
@@ -225,14 +225,10 @@ select {
 
 .nav-toggle {
     display: none;
-    width: 44px;
-    height: 44px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 50%;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
     color: var(--text);
     align-items: center;
     justify-content: center;
@@ -245,14 +241,11 @@ select {
 }
 
 .nav-toggle:hover {
-    border-color: rgba(110, 168, 255, 0.5);
-    background: linear-gradient(135deg, rgba(110, 168, 255, 0.1), rgba(139, 124, 255, 0.05));
-    box-shadow: 0 4px 20px rgba(110, 168, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     transform: translateY(-1px);
 }
 
 .nav-toggle:active {
-    transform: translateY(0) scale(0.96);
+    transform: translateY(0) scale(0.92);
 }
 
 .nav-toggle span {
@@ -1478,7 +1471,7 @@ select {
 
     .header-inner {
         grid-template-columns: auto auto;
-        min-height: 70px;
+        min-height: 54px;
     }
 
     .nav-toggle {
@@ -1488,7 +1481,7 @@ select {
 
     .nav {
         position: fixed;
-        top: 70px;
+        top: 54px;
         left: 14px;
         right: 14px;
         display: grid;
