@@ -22,7 +22,7 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: 76px;
+    scroll-padding-top: 68px;
 }
 
 body {
@@ -106,7 +106,7 @@ select {
     grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: 28px;
-    min-height: 60px;
+    min-height: 52px;
 }
 
 .brand {
@@ -172,6 +172,13 @@ select {
 .btn-primary:hover {
     transform: translateY(-2px);
     background: rgba(255, 255, 255, .9);
+}
+
+.header-cta {
+    min-height: 38px;
+    padding: 0 16px;
+    font-size: 0.85rem;
+    border-radius: 4px;
 }
 
 .header-ctas {
@@ -256,27 +263,11 @@ select {
     border-radius: 99px;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
                 opacity 0.3s ease, 
-                width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                transform-origin 0.3s cubic-bezier(0.4, 0, 0.2, 1),
                 background-color 0.3s ease;
 }
 
-.nav-toggle span:nth-child(1) {
-    width: 18px;
-}
-
-.nav-toggle span:nth-child(2) {
-    width: 12px;
-    transform: translateX(3px);
-}
-
-.nav-toggle span:nth-child(3) {
-    width: 18px;
-}
-
-.nav-toggle:hover span:nth-child(2) {
-    width: 18px;
-    transform: translateX(0);
+.nav-toggle:hover span {
+    background-color: var(--accent);
 }
 
 .nav-toggle.is-open span:nth-child(1) {
@@ -284,12 +275,15 @@ select {
 }
 
 .nav-toggle.is-open span:nth-child(2) {
-    width: 0;
     opacity: 0;
 }
 
 .nav-toggle.is-open span:nth-child(3) {
     transform: translateY(-6.5px) rotate(-45deg);
+}
+
+.nav-toggle.is-open:hover span {
+    background-color: #ffffff;
 }
 
 .hero {
@@ -1469,7 +1463,7 @@ select {
 
     .header-inner {
         grid-template-columns: auto auto;
-        min-height: 54px;
+        min-height: 48px;
     }
 
     .nav-toggle {
@@ -1479,7 +1473,7 @@ select {
 
     .nav {
         position: fixed;
-        top: 60px;
+        top: 54px;
         left: 16px;
         right: 16px;
         display: grid;
