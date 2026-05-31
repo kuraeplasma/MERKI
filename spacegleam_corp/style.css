@@ -225,38 +225,80 @@ select {
 
 .nav-toggle {
     display: none;
-    width: 42px;
-    height: 42px;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    background: rgba(255, 255, 255, .04);
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     color: var(--text);
     align-items: center;
     justify-content: center;
     flex-direction: column;
     gap: 5px;
     cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0;
+    z-index: 1010;
+}
+
+.nav-toggle:hover {
+    border-color: rgba(110, 168, 255, 0.5);
+    background: linear-gradient(135deg, rgba(110, 168, 255, 0.1), rgba(139, 124, 255, 0.05));
+    box-shadow: 0 4px 20px rgba(110, 168, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.nav-toggle:active {
+    transform: translateY(0) scale(0.96);
 }
 
 .nav-toggle span {
     display: block;
     width: 18px;
-    height: 2px;
-    background: currentColor;
-    border-radius: 2px;
-    transition: transform .22s ease, opacity .22s ease;
+    height: 1.5px;
+    background: #ffffff;
+    border-radius: 99px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.3s ease, 
+                width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                transform-origin 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.3s ease;
+}
+
+.nav-toggle span:nth-child(1) {
+    width: 18px;
+}
+
+.nav-toggle span:nth-child(2) {
+    width: 12px;
+    transform: translateX(3px);
+}
+
+.nav-toggle span:nth-child(3) {
+    width: 18px;
+}
+
+.nav-toggle:hover span:nth-child(2) {
+    width: 18px;
+    transform: translateX(0);
 }
 
 .nav-toggle.is-open span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
+    transform: translateY(6.5px) rotate(45deg);
+    background-color: var(--accent);
 }
 
 .nav-toggle.is-open span:nth-child(2) {
+    width: 0;
     opacity: 0;
 }
 
 .nav-toggle.is-open span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
+    transform: translateY(-6.5px) rotate(-45deg);
+    background-color: var(--accent);
 }
 
 .hero {
