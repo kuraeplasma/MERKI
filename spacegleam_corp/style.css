@@ -3027,6 +3027,8 @@ select {
 
     .strength-stat-num-v2 {
         font-size: 2rem;
+        white-space: nowrap;
+        flex-shrink: 0;
     }
 
     .strength-cards-v2 {
