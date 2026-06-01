@@ -1857,10 +1857,9 @@ select {
 }
 
 .services-header {
-    display: grid;
-    grid-template-columns: 1.1fr 1.3fr;
-    gap: 60px;
-    align-items: start;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     margin-bottom: 72px;
 }
 
@@ -1874,6 +1873,7 @@ select {
     line-height: 1.28;
     font-weight: 800;
     letter-spacing: -0.01em;
+    margin-bottom: 24px;
 }
 
 .services-header-right {
@@ -2055,8 +2055,6 @@ select {
 /* Responsive for services section */
 @media (max-width: 900px) {
     .services-header {
-        grid-template-columns: 1fr;
-        gap: 24px;
         margin-bottom: 48px;
     }
     .steps-flow {
