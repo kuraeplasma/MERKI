@@ -1,5 +1,6 @@
 'use strict';
 
+const crypto = require('crypto');
 const RESEND_API_URL = 'https://api.resend.com/broadcasts';
 const RESEND_BASE_URL = 'https://api.resend.com';
 const FROM_EMAIL = process.env.MAIL_FROM || 'SPACE GLEAM <noreply@send.spacegleam.co.jp>';
@@ -34,6 +35,17 @@ function escapeHtml(value) {
         '"': '&quot;',
         "'": '&#39;'
     }[char]));
+}
+
+function signEmail(email) {
+    const secret = clean(process.env.BLOG_NOTIFY_SECRET, 240);
+    return crypto.createHmac('sha256', secret).update(email).digest('hex');
+}
+
+function unsubscribeUrlFor(email) {
+    if (!email) return '{{{RESEND_UNSUBSCRIBE_URL}}}';
+    const normalized = clean(email, 180).toLowerCase();
+    return `https://spacegleam.co.jp/.netlify/functions/blog-unsubscribe?email=${encodeURIComponent(normalized)}&token=${signEmail(normalized)}`;
 }
 
 async function resendGet(path, apiKey) {
@@ -77,7 +89,7 @@ async function getBlogSegmentId(apiKey) {
     return createResult.id;
 }
 
-function articleEmailHtml(post) {
+function articleEmailHtml(post, recipientEmail) {
     const title = escapeHtml(post.title);
     const excerpt = escapeHtml(post.excerpt || 'SPACE GLEAM Blogで新しい記事を公開しました。');
     const category = escapeHtml(post.category || 'Blog');
@@ -91,6 +103,7 @@ function articleEmailHtml(post) {
             '<li style="margin:0 0 8px;">運営から得られる実践知</li>'
         ].join('');
     const closing = escapeHtml(post.closing || '記事では、実践から得た考え方と次に活かせるポイントを解説しています。');
+    const unsubscribeUrl = unsubscribeUrlFor(recipientEmail);
 
     return `<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
 <body style="margin:0;padding:0;background:#f5f6f7;font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',Arial,sans-serif;color:#111;">
@@ -105,18 +118,17 @@ function articleEmailHtml(post) {
 <p style="margin:28px 0 14px;color:#333941;line-height:1.9;font-size:15px;">主なポイントは</p>
 <ul style="margin:0;padding-left:1.2em;color:#333941;line-height:1.8;font-size:15px;">${pointList}</ul>
 <p style="margin:24px 0 0;color:#333941;line-height:1.95;font-size:15px;">${closing}</p>
-<p style="margin:30px 0 8px;color:#111;font-size:15px;font-weight:800;">続きを読む</p>
-<p style="margin:0 0 20px;color:#111;font-size:18px;">↓</p>
-<a href="${url}" style="color:#111;font-weight:800;line-height:1.8;word-break:break-all;">${url}</a>
+<a href="${url}" style="display:inline-block;margin-top:30px;padding:15px 22px;background:#111;color:#fff;text-decoration:none;border-radius:8px;font-weight:800;line-height:1.4;">続きを読む →</a>
+<p style="margin:18px 0 0;color:#6b7280;font-size:12px;line-height:1.7;word-break:break-all;">${url}</p>
 </td></tr>
-<tr><td style="padding:20px 42px;background:#f8f8f8;color:#747b82;font-size:12px;line-height:1.7;">SPACE GLEAM Blog<br>配信停止はこちら: {{{RESEND_UNSUBSCRIBE_URL}}}</td></tr>
+<tr><td style="padding:20px 42px;background:#f8f8f8;color:#747b82;font-size:12px;line-height:1.7;">SPACE GLEAM Blog<br><a href="${unsubscribeUrl}" style="color:#747b82;">配信停止はこちら</a></td></tr>
 </table>
 </td></tr>
 </table>
 </body></html>`;
 }
 
-function articleEmailText(post) {
+function articleEmailText(post, recipientEmail) {
     const points = Array.isArray(post.points) && post.points.length
         ? post.points
         : ['自社サービス運営', 'AI時代のプロダクトづくり', '運営から得られる実践知'];
@@ -136,7 +148,10 @@ ${post.closing || '記事では、実践から得た考え方と次に活かせ�
 
 続きを読む
 ↓
-${post.url}`;
+${post.url}
+
+配信停止はこちら
+${unsubscribeUrlFor(recipientEmail)}`;
 }
 
 exports.handler = async (event) => {
@@ -175,8 +190,8 @@ exports.handler = async (event) => {
                 from: FROM_EMAIL,
                 to: [testEmail],
                 subject: `【新着記事】${post.title}`,
-                html: articleEmailHtml(post),
-                text: articleEmailText(post)
+                html: articleEmailHtml(post, testEmail),
+                text: articleEmailText(post, testEmail)
             }, apiKey);
             const result = await response.json().catch(() => null);
             if (!response.ok || result?.error) {
