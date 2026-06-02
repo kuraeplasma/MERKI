@@ -122,8 +122,14 @@ function page() {
                     </label>
                     <label>公開日<input name="date" type="date" required></label>
                     <label>予約公開日時<input name="publishAt" type="datetime-local" required></label>
-                    <label>画像URL<input name="imageUrl" type="url" placeholder="https://spacegleam.co.jp/ogp.png"></label>
-                    <label>画像アップロード<input name="imageFile" type="file" accept="image/*" data-image-file></label>
+                    <div class="blog-editor-image-field">
+                        <span>画像</span>
+                        <button class="blog-editor-image-dropzone" type="button" data-image-dropzone>
+                            画像をここに貼り付け、またはクリックして選択
+                        </button>
+                        <input name="imageFile" type="file" accept="image/*" data-image-file hidden>
+                        <button class="blog-editor-image-clear" type="button" data-clear-image>画像を削除</button>
+                    </div>
                     <div class="blog-editor-image-preview" data-image-preview aria-hidden="true"></div>
                     <label>概要<textarea name="description" rows="3" required>AIを使ってMVP開発を始める前に決めるべき、検証仮説、初期機能、運用設計の考え方を整理します。</textarea></label>
                     <label>本文<textarea name="body" rows="12" required>AIを使うと、MVPの初期実装はかなり速くなります。

@@ -6535,6 +6535,48 @@ body.blog-page-body .header-cta:hover {
     font-weight: 800;
 }
 
+.blog-editor-image-field {
+    display: grid;
+    gap: 8px;
+    color: #333333;
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.blog-editor-image-dropzone {
+    min-height: 92px;
+    padding: 18px;
+    color: #4b5563;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.72), transparent 42%),
+        #f7f7f8;
+    border: 1px dashed rgba(0, 0, 0, 0.22);
+    border-radius: 8px;
+    font: inherit;
+    font-weight: 800;
+    text-align: center;
+    cursor: pointer;
+}
+
+.blog-editor-image-dropzone.is-dragging {
+    color: #111111;
+    background: #ffffff;
+    border-color: #111111;
+}
+
+.blog-editor-image-clear {
+    width: fit-content;
+    padding: 9px 12px;
+    color: #555555;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    font: inherit;
+    font-size: 0.86rem;
+    font-weight: 800;
+    cursor: pointer;
+}
+
 .blog-editor-form input,
 .blog-editor-form select,
 .blog-editor-form textarea,

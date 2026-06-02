@@ -8,6 +8,7 @@
     const publishStatus = document.querySelector('[data-publish-status]');
     const draftList = document.querySelector('[data-draft-list]');
     const imageFileInput = document.querySelector('[data-image-file]');
+    const imageDropzone = document.querySelector('[data-image-dropzone]');
     const imagePreview = document.querySelector('[data-image-preview]');
     const dateInput = form?.elements.date;
     const publishInput = form?.elements.publishAt;
@@ -91,7 +92,7 @@
         data.slug = slugify(data.slug || data.title);
         data.description = String(data.description || '').trim();
         data.body = String(data.body || '').trim();
-        data.imageUrl = String(data.imageUrl || '').trim() || uploadedImageData;
+        data.imageUrl = uploadedImageData;
         data.status = data.status || 'draft';
         data.publishAt = data.publishAt || localDateTime;
         data.date = data.date || yyyyMmDd;
@@ -126,19 +127,34 @@
 
     const fillForm = (draft) => {
         if (!draft || !form) return;
-        ['status', 'title', 'slug', 'category', 'date', 'publishAt', 'imageUrl', 'description', 'body'].forEach((key) => {
+        ['status', 'title', 'slug', 'category', 'date', 'publishAt', 'description', 'body'].forEach((key) => {
             if (form.elements[key] && draft[key] !== undefined) form.elements[key].value = draft[key];
         });
-        uploadedImageData = draft.uploadedImageData || '';
+        uploadedImageData = draft.uploadedImageData || draft.imageUrl || '';
         updateImagePreview();
         build();
     };
 
     const updateImagePreview = () => {
         if (!imagePreview) return;
-        const url = String(form?.elements.imageUrl?.value || '').trim() || uploadedImageData;
+        const url = uploadedImageData;
         imagePreview.style.backgroundImage = url ? `url("${url}")` : '';
         imagePreview.toggleAttribute('aria-hidden', !url);
+        if (imageDropzone) {
+            imageDropzone.textContent = url ? '画像を変更する' : '画像をここに貼り付け、またはクリックして選択';
+        }
+    };
+
+    const setImageFile = (file) => {
+        if (!file || !file.type.startsWith('image/')) return;
+
+        const reader = new FileReader();
+        reader.addEventListener('load', () => {
+            uploadedImageData = String(reader.result || '');
+            updateImagePreview();
+            build();
+        });
+        reader.readAsDataURL(file);
     };
 
     const build = () => {
@@ -251,13 +267,41 @@ ${notifyOutput.value}
             return;
         }
 
-        const reader = new FileReader();
-        reader.addEventListener('load', () => {
-            uploadedImageData = String(reader.result || '');
-            updateImagePreview();
-            build();
-        });
-        reader.readAsDataURL(file);
+        setImageFile(file);
+    });
+
+    imageDropzone?.addEventListener('click', () => {
+        imageFileInput?.click();
+    });
+
+    imageDropzone?.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        imageDropzone.classList.add('is-dragging');
+    });
+
+    imageDropzone?.addEventListener('dragleave', () => {
+        imageDropzone.classList.remove('is-dragging');
+    });
+
+    imageDropzone?.addEventListener('drop', (event) => {
+        event.preventDefault();
+        imageDropzone.classList.remove('is-dragging');
+        setImageFile(event.dataTransfer?.files?.[0]);
+    });
+
+    window.addEventListener('paste', (event) => {
+        const file = Array.from(event.clipboardData?.items || [])
+            .find((item) => item.type.startsWith('image/'))
+            ?.getAsFile();
+        if (!file) return;
+        setImageFile(file);
+    });
+
+    document.querySelector('[data-clear-image]')?.addEventListener('click', () => {
+        uploadedImageData = '';
+        if (imageFileInput) imageFileInput.value = '';
+        updateImagePreview();
+        build();
     });
 
     draftList?.addEventListener('change', () => {
