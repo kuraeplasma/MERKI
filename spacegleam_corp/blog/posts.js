@@ -7,7 +7,6 @@ window.SPACEGLEAM_BLOG_POSTS = [
         category: 'Product',
         description: 'SPACE GLEAMが自社サービスを作り続ける理由と、運営から得られる知見、AI時代のプロダクトづくりへの考え方を紹介します。',
         excerpt: 'SPACE GLEAMは単なる開発会社ではなく、自社サービスを企画・開発・運営しながら、作る、運営する、改善するサイクルを続けています。',
-        thumbnail: '../ai_future_vision.png',
         url: 'https://spacegleam.co.jp/blog/why-space-gleam-builds-own-services/'
     }
 ];
