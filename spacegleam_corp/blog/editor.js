@@ -5,6 +5,7 @@
     const notifyOutput = document.querySelector('[data-notify-output]');
     const notifySecretInput = document.querySelector('[data-notify-secret]');
     const notifyStatus = document.querySelector('[data-notify-status]');
+    const publishStatus = document.querySelector('[data-publish-status]');
     const draftList = document.querySelector('[data-draft-list]');
     const imageFileInput = document.querySelector('[data-image-file]');
     const imagePreview = document.querySelector('[data-image-preview]');
@@ -31,11 +32,52 @@
 
     const escapeJs = (value) => String(value || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
 
+    const titleSlugWords = [
+        ['AI', 'ai'],
+        ['ＭＶＰ', 'mvp'],
+        ['MVP', 'mvp'],
+        ['SaaS', 'saas'],
+        ['サービス', 'service'],
+        ['開発', 'development'],
+        ['運営', 'operation'],
+        ['事業', 'business'],
+        ['プロダクト', 'product'],
+        ['自社', 'own'],
+        ['生成', 'generative'],
+        ['導入', 'implementation'],
+        ['改善', 'improvement'],
+        ['設計', 'design'],
+        ['検証', 'validation'],
+        ['未来', 'future'],
+        ['最初', 'first'],
+        ['決める', 'decisions'],
+        ['作る', 'build'],
+        ['続ける', 'continue']
+    ];
+
     const slugify = (value) => String(value || '')
         .trim()
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-+|-+$/g, '');
+
+    const randomSlug = (prefix = 'post') => {
+        const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+        const id = Math.random().toString(36).slice(2, 8);
+        return `${prefix}-${date}-${id}`;
+    };
+
+    const slugFromTitle = (title) => {
+        const ascii = slugify(title);
+        if (ascii) return ascii;
+
+        const words = titleSlugWords
+            .filter(([source]) => String(title || '').includes(source))
+            .map(([, slug]) => slug);
+        const unique = [...new Set(words)];
+        if (unique.length) return `${unique.slice(0, 5).join('-')}-${Math.random().toString(36).slice(2, 6)}`;
+        return randomSlug('blog');
+    };
 
     const getDrafts = () => JSON.parse(window.localStorage.getItem(draftsKey) || '[]');
 
@@ -167,6 +209,29 @@ ${bodyHtml}
         notifyOutput.value = JSON.stringify(notifyPayload, null, 2);
     };
 
+    const createPublishPackage = () => {
+        const data = getFormData();
+        return `この記事を本番公開してください。
+
+公開状態: ${data.status}
+記事URL: https://spacegleam.co.jp/blog/${data.slug}/
+記事HTMLの保存先: spacegleam_corp/blog/${data.slug}/index.html
+posts.jsへの追加先: spacegleam_corp/blog/posts.js
+
+予約投稿の場合は publishAt の時刻まで一覧に表示されないようにしてください。
+公開後、必要なら以下の配信用JSONで購読者へ通知してください。
+
+--- posts.js 追記用 ---
+${postOutput.value}
+
+--- 記事HTML ---
+${htmlOutput.value}
+
+--- 配信用JSON ---
+${notifyOutput.value}
+`;
+    };
+
     form?.addEventListener('submit', (event) => {
         event.preventDefault();
         build();
@@ -220,6 +285,24 @@ ${bodyHtml}
     document.querySelector('[data-copy-post]')?.addEventListener('click', () => navigator.clipboard?.writeText(postOutput.value));
     document.querySelector('[data-copy-html]')?.addEventListener('click', () => navigator.clipboard?.writeText(htmlOutput.value));
     document.querySelector('[data-copy-notify]')?.addEventListener('click', () => navigator.clipboard?.writeText(notifyOutput.value));
+    document.querySelector('[data-copy-publish-package]')?.addEventListener('click', async () => {
+        try {
+            await navigator.clipboard.writeText(createPublishPackage());
+            publishStatus.textContent = '公開準備をコピーしました。Codexに貼って公開依頼してください。';
+            publishStatus.dataset.state = 'success';
+        } catch (_) {
+            publishStatus.textContent = 'コピーできませんでした。手動出力を開いてコピーしてください。';
+            publishStatus.dataset.state = 'error';
+        }
+    });
+    document.querySelector('[data-slug-from-title]')?.addEventListener('click', () => {
+        form.elements.slug.value = slugFromTitle(form.elements.title.value);
+        build();
+    });
+    document.querySelector('[data-slug-random]')?.addEventListener('click', () => {
+        form.elements.slug.value = randomSlug('blog');
+        build();
+    });
     document.querySelector('[data-send-notify]')?.addEventListener('click', async (event) => {
         const button = event.currentTarget;
         const secret = notifySecretInput?.value.trim();
