@@ -5821,8 +5821,9 @@ body.blog-page-body .header-cta:hover {
     height: 68px;
     border-radius: 4px;
     background:
-        linear-gradient(135deg, rgba(255,255,255,0.74), transparent 42%),
-        linear-gradient(145deg, #d4d8dd, #f7f7f8);
+        repeating-radial-gradient(ellipse at 62% 58%, rgba(0, 0, 0, 0.12) 0 1px, transparent 1px 14px),
+        radial-gradient(circle at 63% 55%, rgba(255, 255, 255, 0.96), transparent 11%),
+        linear-gradient(145deg, #f7f8f9, #eef1f4 54%, #ffffff);
     overflow: hidden;
 }
 
