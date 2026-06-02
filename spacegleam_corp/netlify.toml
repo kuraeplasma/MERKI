@@ -4,10 +4,16 @@
   functions = "netlify/functions"
 
 [[redirects]]
-  from = "/*"
+  from = "https://admin.spacegleam.co.jp/*"
   to = "/.netlify/functions/blog-admin"
   status = 200
-  conditions = { Host = ["admin.spacegleam.co.jp"] }
+  force = true
+
+[[redirects]]
+  from = "http://admin.spacegleam.co.jp/*"
+  to = "/.netlify/functions/blog-admin"
+  status = 200
+  force = true
 
 [[redirects]]
   from = "/blog/editor.html"
