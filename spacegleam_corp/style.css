@@ -6194,6 +6194,10 @@ body.blog-page-body .header-cta:hover {
     stroke: none;
 }
 
+.article-share .is-mail svg path {
+    stroke-width: 1.45;
+}
+
 .article-share .is-x {
     color: #ffffff;
     background: #000000;
