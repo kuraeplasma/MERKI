@@ -103,7 +103,7 @@
         if (!form) return;
         const data = getFormData();
         const publishAt = `${data.publishAt}:00+09:00`;
-        const imageMeta = data.imageUrl || 'https://spacegleam.co.jp/ogp.png';
+        const imageMeta = 'https://spacegleam.co.jp/blog-ogp.png';
         const bodyHtml = renderBody(data.body);
         const imageHtml = data.imageUrl
             ? `\n            <figure class="article-cover"><img src="${escapeHtml(data.imageUrl)}" alt=""></figure>`
@@ -135,7 +135,12 @@
     <meta property="og:url" content="https://spacegleam.co.jp/blog/${data.slug}/">
     <meta property="og:site_name" content="SPACE GLEAM">
     <meta property="og:image" content="${escapeHtml(imageMeta)}">
+    <meta property="og:image:secure_url" content="${escapeHtml(imageMeta)}">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1536">
+    <meta property="og:image:height" content="1024">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="${escapeHtml(imageMeta)}">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"${data.title.replace(/"/g, '\\"')}","description":"${data.description.replace(/"/g, '\\"')}","datePublished":"${data.date}","dateModified":"${data.date}","author":{"@type":"Organization","name":"SPACE GLEAM"},"publisher":{"@type":"Organization","name":"SPACE GLEAM","logo":{"@type":"ImageObject","url":"https://spacegleam.co.jp/favicon.png"}},"mainEntityOfPage":"https://spacegleam.co.jp/blog/${data.slug}/","image":"${imageMeta}","articleSection":"${data.category}"}</script>
 </head>
 <body class="blog-page-body" data-article-slug="${data.slug}">
