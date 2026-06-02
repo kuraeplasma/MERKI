@@ -1,7 +1,7 @@
 (function () {
     const allPosts = window.SPACEGLEAM_BLOG_POSTS || [];
     const now = Date.now();
-    const posts = allPosts.filter((post) => !post.publishAt || new Date(post.publishAt).getTime() <= now);
+    const posts = allPosts.filter((post) => post.status !== 'draft' && (!post.publishAt || new Date(post.publishAt).getTime() <= now));
     const listRoot = document.querySelector('[data-blog-list]');
     const featuredRoot = document.querySelector('[data-featured-list]');
     const popularRoot = document.querySelector('[data-popular-list]');

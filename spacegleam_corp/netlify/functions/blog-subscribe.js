@@ -3,7 +3,8 @@
 const RESEND_API_URL = 'https://api.resend.com';
 const FROM_EMAIL = process.env.MAIL_FROM || 'SPACE GLEAM <noreply@send.spacegleam.co.jp>';
 const ADMIN_EMAIL = process.env.CONTACT_NOTIFY_EMAIL || 'contact@spacegleam.co.jp';
-const BLOG_AUDIENCE_ID = process.env.RESEND_BLOG_AUDIENCE_ID || process.env.RESEND_AUDIENCE_ID || '';
+const BLOG_SEGMENT_ID = process.env.RESEND_BLOG_SEGMENT_ID || '';
+const BLOG_SEGMENT_NAME = process.env.RESEND_BLOG_SEGMENT_NAME || 'SPACE GLEAM Blog Subscribers';
 const BASIC_EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function json(statusCode, body) {
@@ -70,18 +71,55 @@ async function resend(path, payload, apiKey) {
     });
 }
 
+async function resendGet(path, apiKey) {
+    return fetch(`${RESEND_API_URL}${path}`, {
+        headers: {
+            Authorization: `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+        }
+    });
+}
+
+async function getBlogSegmentId(apiKey) {
+    if (BLOG_SEGMENT_ID) return BLOG_SEGMENT_ID;
+
+    const listResponse = await resendGet('/segments', apiKey);
+    const listResult = await listResponse.json().catch(() => null);
+    if (!listResponse.ok || listResult?.error) {
+        throw new Error(listResult?.error?.message || 'Failed to list segments');
+    }
+
+    const existing = (listResult?.data || []).find((segment) => segment.name === BLOG_SEGMENT_NAME);
+    if (existing?.id) return existing.id;
+
+    const createResponse = await resend('/segments', { name: BLOG_SEGMENT_NAME }, apiKey);
+    const createResult = await createResponse.json().catch(() => null);
+    if (!createResponse.ok || createResult?.error || !createResult?.id) {
+        throw new Error(createResult?.error?.message || 'Failed to create segment');
+    }
+
+    return createResult.id;
+}
+
 async function addContact(email, apiKey) {
-    if (!BLOG_AUDIENCE_ID) return true;
+    const segmentId = await getBlogSegmentId(apiKey);
 
     const contactPayload = {
         email,
         unsubscribed: false,
-        first_name: '',
-        last_name: ''
+        properties: {
+            source: 'spacegleam-blog',
+            registered_at: new Date().toISOString()
+        },
+        segments: [{ id: segmentId }]
     };
 
-    const contactResponse = await resend(`/audiences/${encodeURIComponent(BLOG_AUDIENCE_ID)}/contacts`, contactPayload, apiKey);
-    return contactResponse.ok || contactResponse.status === 409;
+    const contactResponse = await resend('/contacts', contactPayload, apiKey);
+    if (contactResponse.ok) return true;
+    if (contactResponse.status !== 409) return false;
+
+    const segmentResponse = await resend(`/contacts/${encodeURIComponent(email)}/segments/${encodeURIComponent(segmentId)}`, {}, apiKey);
+    return segmentResponse.ok || segmentResponse.status === 409;
 }
 
 exports.handler = async (event) => {

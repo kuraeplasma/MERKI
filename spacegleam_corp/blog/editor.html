@@ -1,88 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex,nofollow">
-    <title>Blog Editor | SPACE GLEAM Local</title>
-    <link rel="icon" href="../favicon.png">
-    <link rel="stylesheet" href="../style.css?v=blog-editor-20260602">
+    <meta http-equiv="refresh" content="0; url=/.netlify/functions/blog-admin">
+    <title>Blog Admin | SPACE GLEAM</title>
 </head>
-
-<body class="blog-page-body">
-    <header class="header">
-        <div class="container header-inner">
-            <a href="../index.html" class="brand" aria-label="SPACE GLEAM ホーム">
-                <span class="brand-name">SPACE GLEAM</span>
-            </a>
-            <nav class="nav" aria-label="ローカルブログ管理">
-                <a href="./">Blog</a>
-                <a href="../index.html">Home</a>
-            </nav>
-            <div class="header-ctas">
-                <a href="../index.html#contact" class="header-cta">無料相談する<span class="arrow">→</span></a>
-            </div>
-        </div>
-    </header>
-
-    <main class="blog-main">
-        <div class="container">
-            <section class="blog-hero">
-                <p class="blog-eyebrow">Local Editor</p>
-                <h1>ブログ記事を作成する。</h1>
-                <p>ローカル専用の投稿作成ページです。入力内容から記事HTMLと `posts.js` 追記用データを生成します。</p>
-            </section>
-
-            <section class="blog-editor-layout">
-                <form class="blog-editor-form" data-blog-editor>
-                    <label>タイトル<input name="title" type="text" value="AI時代のMVP開発で最初に決めること" required></label>
-                    <label>スラッグ<input name="slug" type="text" value="ai-mvp-first-decisions" required></label>
-                    <label>カテゴリ
-                        <select name="category">
-                            <option>Development</option>
-                            <option>AI</option>
-                            <option>SaaS</option>
-                            <option>Business</option>
-                            <option>Product</option>
-                        </select>
-                    </label>
-                    <label>公開日<input name="date" type="date" required></label>
-                    <label>予約公開日時<input name="publishAt" type="datetime-local" required></label>
-                    <label>概要<textarea name="description" rows="3" required>AIを使ってMVP開発を始める前に決めるべき、検証仮説、初期機能、運用設計の考え方を整理します。</textarea></label>
-                    <label>本文<textarea name="body" rows="12" required>AIを使うと、MVPの初期実装はかなり速くなります。
-
-ただし、最初に決めるべきことは技術選定ではありません。誰のどんな課題を、どの順番で検証するかです。
-
-## 最初に決めること
-
-最初に決めるべきなのは、成功条件、初期ユーザー、検証する業務フローです。
-
-## 作りすぎない設計
-
-AIで開発速度が上がるほど、作りすぎのリスクも上がります。最初は検証に必要な機能だけに絞ることが重要です。
-
-## 運用まで含めて考える
-
-MVPは公開して終わりではありません。問い合わせ、ログ、改善要望を受け取る仕組みまで設計しておくと、次の改善が速くなります。</textarea></label>
-                    <button class="header-cta blog-editor-submit" type="submit">生成する<span class="arrow">→</span></button>
-                </form>
-
-                <div class="blog-editor-output">
-                    <div class="blog-editor-actions">
-                        <button type="button" data-copy-post>posts.js用をコピー</button>
-                        <button type="button" data-copy-html>記事HTMLをコピー</button>
-                        <button type="button" data-copy-notify>配信用JSONをコピー</button>
-                    </div>
-                    <label>posts.js 追記用<textarea data-post-output rows="12" readonly></textarea></label>
-                    <label>記事HTML<textarea data-html-output rows="18" readonly></textarea></label>
-                    <label>公開後メール配信用JSON<textarea data-notify-output rows="8" readonly></textarea></label>
-                </div>
-            </section>
-        </div>
-    </main>
-
-    <script src="editor.js"></script>
+<body>
+    <p><a href="/.netlify/functions/blog-admin">Blog Admin</a></p>
 </body>
-
 </html>

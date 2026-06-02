@@ -6,3 +6,5 @@ package-lock.json
 
 # Local Netlify folder
 .netlify
+BLOG_NOTIFY_SECRET.local.txt
+BLOG_ADMIN_PASSWORD.local.txt

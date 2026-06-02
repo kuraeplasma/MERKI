@@ -1,8 +1,10 @@
 'use strict';
 
 const RESEND_API_URL = 'https://api.resend.com/broadcasts';
+const RESEND_BASE_URL = 'https://api.resend.com';
 const FROM_EMAIL = process.env.MAIL_FROM || 'SPACE GLEAM <noreply@send.spacegleam.co.jp>';
 const BLOG_SEGMENT_ID = process.env.RESEND_BLOG_SEGMENT_ID || '';
+const BLOG_SEGMENT_NAME = process.env.RESEND_BLOG_SEGMENT_NAME || 'SPACE GLEAM Blog Subscribers';
 
 function json(statusCode, body) {
     return {
@@ -32,6 +34,47 @@ function escapeHtml(value) {
         '"': '&quot;',
         "'": '&#39;'
     }[char]));
+}
+
+async function resendGet(path, apiKey) {
+    return fetch(`${RESEND_BASE_URL}${path}`, {
+        headers: {
+            Authorization: `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+        }
+    });
+}
+
+async function resendPost(path, payload, apiKey) {
+    return fetch(`${RESEND_BASE_URL}${path}`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    });
+}
+
+async function getBlogSegmentId(apiKey) {
+    if (BLOG_SEGMENT_ID) return BLOG_SEGMENT_ID;
+
+    const listResponse = await resendGet('/segments', apiKey);
+    const listResult = await listResponse.json().catch(() => null);
+    if (!listResponse.ok || listResult?.error) {
+        throw new Error(listResult?.error?.message || 'Failed to list segments');
+    }
+
+    const existing = (listResult?.data || []).find((segment) => segment.name === BLOG_SEGMENT_NAME);
+    if (existing?.id) return existing.id;
+
+    const createResponse = await resendPost('/segments', { name: BLOG_SEGMENT_NAME }, apiKey);
+    const createResult = await createResponse.json().catch(() => null);
+    if (!createResponse.ok || createResult?.error || !createResult?.id) {
+        throw new Error(createResult?.error?.message || 'Failed to create segment');
+    }
+
+    return createResult.id;
 }
 
 function articleEmailHtml(post) {
@@ -72,8 +115,8 @@ exports.handler = async (event) => {
     }
 
     const apiKey = clean(process.env.RESEND_API_KEY, 240);
-    if (!apiKey || !BLOG_SEGMENT_ID) {
-        return json(500, { success: false, message: 'RESEND_API_KEY と RESEND_BLOG_SEGMENT_ID を設定してください。' });
+    if (!apiKey) {
+        return json(500, { success: false, message: 'RESEND_API_KEY を設定してください。' });
     }
 
     try {
@@ -89,6 +132,7 @@ exports.handler = async (event) => {
             return json(400, { success: false, message: 'title と url が必要です。' });
         }
 
+        const segmentId = await getBlogSegmentId(apiKey);
         const response = await fetch(RESEND_API_URL, {
             method: 'POST',
             headers: {
@@ -96,7 +140,7 @@ exports.handler = async (event) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                segmentId: BLOG_SEGMENT_ID,
+                segmentId,
                 from: FROM_EMAIL,
                 subject: `【SPACE GLEAM Blog】${post.title}`,
                 html: articleEmailHtml(post),
@@ -113,6 +157,7 @@ exports.handler = async (event) => {
 
         return json(200, { success: true, message: 'ブログ更新メールを配信しました。', id: result?.id });
     } catch (error) {
+        console.error('blog-publish-notify failed', error);
         return json(500, { success: false, message: '配信に失敗しました。' });
     }
 };
