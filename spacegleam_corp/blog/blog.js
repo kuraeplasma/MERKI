@@ -37,10 +37,22 @@
 
     const compactDate = (value) => formatDate(value).replace(/年|月/g, '.').replace('日', '');
 
+    const createThumbnail = (post, className) => {
+        if (!post.thumbnail) {
+            return `<div class="${className}" aria-hidden="true"></div>`;
+        }
+
+        return `
+            <div class="${className}">
+                <img src="${escapeHtml(post.thumbnail)}" alt="" loading="lazy">
+            </div>
+        `;
+    };
+
     const createFeaturedCard = (post, index) => `
         <article class="blog-featured-card ${index === 0 ? 'is-primary' : ''}">
             <a href="${postHref(post)}" aria-label="${escapeHtml(post.title)}を読む">
-                <div class="blog-card-art" aria-hidden="true"></div>
+                ${createThumbnail(post, 'blog-card-art')}
                 <div class="blog-featured-body">
                     <div class="blog-card-meta">
                         <time datetime="${escapeHtml(post.date)}">${compactDate(post.date)}</time>
@@ -57,7 +69,7 @@
     const createLatestRow = (post) => `
         <article class="blog-latest-row">
             <a href="${postHref(post)}" aria-label="${escapeHtml(post.title)}を読む">
-                <div class="blog-latest-thumb" aria-hidden="true"></div>
+                ${createThumbnail(post, 'blog-latest-thumb')}
                 <time datetime="${escapeHtml(post.date)}">${compactDate(post.date)}</time>
                 <span>${escapeHtml(post.category)}</span>
                 <h2>${escapeHtml(post.title)}</h2>
