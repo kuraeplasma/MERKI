@@ -3,7 +3,6 @@
     const postOutput = document.querySelector('[data-post-output]');
     const htmlOutput = document.querySelector('[data-html-output]');
     const notifyOutput = document.querySelector('[data-notify-output]');
-    const notifySecretInput = document.querySelector('[data-notify-secret]');
     const notifyStatus = document.querySelector('[data-notify-status]');
     const publishStatus = document.querySelector('[data-publish-status]');
     const draftList = document.querySelector('[data-draft-list]');
@@ -12,7 +11,6 @@
     const imagePreview = document.querySelector('[data-image-preview]');
     const dateInput = form?.elements.date;
     const publishInput = form?.elements.publishAt;
-    const notifySecretKey = 'spacegleam_blog_notify_secret';
     const draftsKey = 'spacegleam_blog_drafts';
     let uploadedImageData = '';
 
@@ -21,7 +19,6 @@
     const localDateTime = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
     if (dateInput) dateInput.value = yyyyMmDd;
     if (publishInput) publishInput.value = localDateTime;
-    if (notifySecretInput) notifySecretInput.value = window.localStorage.getItem(notifySecretKey) || '';
 
     const escapeHtml = (value) => String(value || '').replace(/[&<>"']/g, (char) => ({
         '&': '&amp;',
@@ -349,13 +346,6 @@ ${notifyOutput.value}
     });
     document.querySelector('[data-send-notify]')?.addEventListener('click', async (event) => {
         const button = event.currentTarget;
-        const secret = notifySecretInput?.value.trim();
-        if (!secret) {
-            notifyStatus.textContent = '通知用シークレットを入力してください。';
-            notifyStatus.dataset.state = 'error';
-            return;
-        }
-
         let payload;
         try {
             payload = JSON.parse(notifyOutput.value || '{}');
@@ -370,13 +360,9 @@ ${notifyOutput.value}
         notifyStatus.dataset.state = 'pending';
 
         try {
-            window.localStorage.setItem(notifySecretKey, secret);
-            const response = await fetch('https://spacegleam.co.jp/.netlify/functions/blog-publish-notify', {
+            const response = await fetch('/.netlify/functions/blog-admin', {
                 method: 'POST',
-                headers: {
-                    Authorization: `Bearer ${secret}`,
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
             const result = await response.json().catch(() => ({}));

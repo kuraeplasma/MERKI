@@ -6740,15 +6740,19 @@ body.blog-page-body .header-cta:hover {
     border-radius: 8px;
 }
 
-.blog-editor-notify input {
-    width: 100%;
-    padding: 13px 14px;
+.blog-editor-notify h2 {
+    margin: 0;
     color: #111111;
-    background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    font: inherit;
-    outline: none;
+    font-size: 1.08rem;
+    line-height: 1.45;
+    letter-spacing: 0;
+}
+
+.blog-editor-notify > p {
+    margin: 0;
+    color: #4b5563;
+    font-size: 0.92rem;
+    line-height: 1.7;
 }
 
 .blog-editor-notify button {
