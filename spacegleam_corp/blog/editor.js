@@ -89,7 +89,7 @@ ${bodyHtml}
         <div class="article-cta"><div><strong>AIシステム開発のご相談はこちら</strong><p>AI MVP、SaaS、業務システムの初期設計からご相談いただけます。</p></div><a href="../../index.html#contact">問い合わせる</a></div>
         <section class="related-section"><h2>関連記事</h2><div class="related-grid" data-related-posts></div></section>
     </div></main>
-    <script src="../../script.js"></script><script src="../posts.js"></script><script src="../blog.js"></script>
+    <script src="../../script.js"></script><script src="../posts.js"></script><script src="../blog.js?v=20260602-subscribe-fix"></script>
 </body>
 </html>`;
 

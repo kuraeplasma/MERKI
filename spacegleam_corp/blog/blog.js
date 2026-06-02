@@ -267,17 +267,22 @@
                 setNewsletterStatus(form, result.message || '登録しました。', 'success');
                 form.reset();
             } catch (error) {
-                try {
-                    const key = 'spacegleam_blog_subscribers';
-                    const saved = JSON.parse(window.localStorage.getItem(key) || '[]');
-                    if (!saved.includes(email)) {
-                        saved.push(email);
-                        window.localStorage.setItem(key, JSON.stringify(saved));
+                const isLocal = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(window.location.hostname);
+                if (isLocal) {
+                    try {
+                        const key = 'spacegleam_blog_subscribers';
+                        const saved = JSON.parse(window.localStorage.getItem(key) || '[]');
+                        if (!saved.includes(email)) {
+                            saved.push(email);
+                            window.localStorage.setItem(key, JSON.stringify(saved));
+                        }
+                        setNewsletterStatus(form, 'ローカルで登録しました。', 'success');
+                        form.reset();
+                    } catch (_) {
+                        setNewsletterStatus(form, error.message || '登録に失敗しました。', 'error');
                     }
-                    setNewsletterStatus(form, 'ローカルで登録しました。本番では公開後にメール配信へ接続されます。', 'success');
-                    form.reset();
-                } catch (_) {
-                    setNewsletterStatus(form, error.message || '登録に失敗しました。', 'error');
+                } else {
+                    setNewsletterStatus(form, error.message || '登録に失敗しました。時間をおいて再度お試しください。', 'error');
                 }
             } finally {
                 button.disabled = false;

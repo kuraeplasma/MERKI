@@ -3,7 +3,7 @@
 const RESEND_API_URL = 'https://api.resend.com';
 const FROM_EMAIL = process.env.MAIL_FROM || 'SPACE GLEAM <noreply@send.spacegleam.co.jp>';
 const ADMIN_EMAIL = process.env.CONTACT_NOTIFY_EMAIL || 'contact@spacegleam.co.jp';
-const BLOG_SEGMENT_ID = process.env.RESEND_BLOG_SEGMENT_ID || '';
+const BLOG_AUDIENCE_ID = process.env.RESEND_BLOG_AUDIENCE_ID || process.env.RESEND_AUDIENCE_ID || '';
 const BASIC_EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function json(statusCode, body) {
@@ -70,6 +70,20 @@ async function resend(path, payload, apiKey) {
     });
 }
 
+async function addContact(email, apiKey) {
+    if (!BLOG_AUDIENCE_ID) return true;
+
+    const contactPayload = {
+        email,
+        unsubscribed: false,
+        first_name: '',
+        last_name: ''
+    };
+
+    const contactResponse = await resend(`/audiences/${encodeURIComponent(BLOG_AUDIENCE_ID)}/contacts`, contactPayload, apiKey);
+    return contactResponse.ok || contactResponse.status === 409;
+}
+
 exports.handler = async (event) => {
     if (event.httpMethod === 'OPTIONS') return json(204, {});
     if (event.httpMethod !== 'POST') return json(405, { success: false, message: 'Method Not Allowed' });
@@ -88,21 +102,8 @@ exports.handler = async (event) => {
             return json(500, { success: false, message: 'メール配信設定が未完了です。' });
         }
 
-        const contactPayload = {
-            email,
-            unsubscribed: false,
-            properties: {
-                source: 'spacegleam-blog',
-                registered_at: new Date().toISOString()
-            }
-        };
-
-        if (BLOG_SEGMENT_ID) {
-            contactPayload.segments = [{ id: BLOG_SEGMENT_ID }];
-        }
-
-        const contactResponse = await resend('/contacts', contactPayload, apiKey);
-        if (!contactResponse.ok && contactResponse.status !== 409) {
+        const contactSaved = await addContact(email, apiKey);
+        if (!contactSaved) {
             return json(500, { success: false, message: '登録に失敗しました。時間をおいて再度お試しください。' });
         }
 
@@ -124,6 +125,7 @@ exports.handler = async (event) => {
 
         return json(200, { success: true, message: '登録しました。確認メールをお送りしました。' });
     } catch (error) {
+        console.error('blog-subscribe failed', error);
         return json(500, { success: false, message: '登録に失敗しました。時間をおいて再度お試しください。' });
     }
 };
