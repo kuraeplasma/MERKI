@@ -6182,7 +6182,16 @@ body.blog-page-body .header-cta:hover {
 }
 
 .article-share svg path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.article-share .is-x svg path {
     fill: currentColor;
+    stroke: none;
 }
 
 .article-share .is-x {
