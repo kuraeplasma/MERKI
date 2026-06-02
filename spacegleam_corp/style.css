@@ -6452,6 +6452,30 @@ body.blog-page-body .header-cta:hover {
     align-items: start;
 }
 
+.blog-admin-guide {
+    max-width: 900px;
+    margin-bottom: 36px;
+    padding-top: 12px;
+}
+
+.blog-admin-guide h1 {
+    margin: 0 0 16px;
+    color: #111111;
+    font-size: 1.55rem;
+    line-height: 1.35;
+    letter-spacing: 0;
+}
+
+.blog-admin-guide ol {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding-left: 1.35em;
+    color: #4b5563;
+    font-size: 0.96rem;
+    line-height: 1.8;
+}
+
 .blog-editor-form,
 .blog-editor-output {
     display: grid;
@@ -6548,6 +6572,26 @@ body.blog-page-body .header-cta:hover {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+}
+
+.blog-editor-help {
+    display: grid;
+    gap: 8px;
+    padding: 16px 18px;
+    color: #4b5563;
+    background: #f7f7f8;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    font-size: 0.92rem;
+    line-height: 1.7;
+}
+
+.blog-editor-help p {
+    margin: 0;
+}
+
+.blog-editor-help strong {
+    color: #111111;
 }
 
 .blog-editor-actions button {
