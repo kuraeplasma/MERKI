@@ -82,26 +82,61 @@ function articleEmailHtml(post) {
     const excerpt = escapeHtml(post.excerpt || 'SPACE GLEAM Blogで新しい記事を公開しました。');
     const category = escapeHtml(post.category || 'Blog');
     const url = escapeHtml(post.url);
+    const points = Array.isArray(post.points) ? post.points.map((point) => escapeHtml(point)).filter(Boolean) : [];
+    const pointList = points.length
+        ? points.map((point) => `<li style="margin:0 0 8px;">${point}</li>`).join('')
+        : [
+            '<li style="margin:0 0 8px;">自社サービス運営</li>',
+            '<li style="margin:0 0 8px;">AI時代のプロダクトづくり</li>',
+            '<li style="margin:0 0 8px;">運営から得られる実践知</li>'
+        ].join('');
+    const closing = escapeHtml(post.closing || '記事では、実践から得た考え方と次に活かせるポイントを解説しています。');
 
     return `<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#050505;font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',Arial,sans-serif;color:#111;">
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#050505;padding:32px 14px;">
+<body style="margin:0;padding:0;background:#f5f6f7;font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',Arial,sans-serif;color:#111;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f6f7;padding:32px 14px;">
 <tr><td align="center">
-<table width="640" cellpadding="0" cellspacing="0" style="max-width:640px;width:100%;background:#fff;border-radius:18px;overflow:hidden;border:1px solid #242424;">
-<tr><td style="padding:42px;background:linear-gradient(135deg,#050505,#151515);color:#fff;">
-<p style="margin:0 0 18px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#b8bec5;">SPACE GLEAM BLOG / ${category}</p>
-<h1 style="margin:0;font-size:30px;line-height:1.45;letter-spacing:0;">${title}</h1>
-<p style="margin:20px 0 0;color:#d1d5d9;line-height:1.9;font-size:15px;">${excerpt}</p>
-</td></tr>
-<tr><td style="padding:34px 42px;">
-<p style="margin:0;color:#333941;line-height:1.9;font-size:15px;">新しい記事を公開しました。自社サービス運営、AI開発、事業づくりの実践から得た内容をまとめています。</p>
-<a href="${url}" style="display:inline-block;margin-top:28px;padding:14px 20px;background:#111;color:#fff;text-decoration:none;border-radius:8px;font-weight:800;">記事を読む →</a>
+<table width="640" cellpadding="0" cellspacing="0" style="max-width:640px;width:100%;background:#fff;border-radius:14px;overflow:hidden;border:1px solid #e5e7eb;">
+<tr><td style="padding:38px 42px;">
+<p style="margin:0 0 28px;font-size:13px;letter-spacing:.08em;color:#6b7280;font-weight:800;">【新着記事】</p>
+<p style="margin:0 0 14px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8a9099;">SPACE GLEAM BLOG / ${category}</p>
+<h1 style="margin:0;font-size:28px;line-height:1.45;letter-spacing:0;color:#111;">${title}</h1>
+<p style="margin:26px 0 0;color:#333941;line-height:1.95;font-size:16px;">${excerpt}</p>
+<p style="margin:28px 0 14px;color:#333941;line-height:1.9;font-size:15px;">主なポイントは</p>
+<ul style="margin:0;padding-left:1.2em;color:#333941;line-height:1.8;font-size:15px;">${pointList}</ul>
+<p style="margin:24px 0 0;color:#333941;line-height:1.95;font-size:15px;">${closing}</p>
+<p style="margin:30px 0 8px;color:#111;font-size:15px;font-weight:800;">続きを読む</p>
+<p style="margin:0 0 20px;color:#111;font-size:18px;">↓</p>
+<a href="${url}" style="color:#111;font-weight:800;line-height:1.8;word-break:break-all;">${url}</a>
 </td></tr>
 <tr><td style="padding:20px 42px;background:#f8f8f8;color:#747b82;font-size:12px;line-height:1.7;">SPACE GLEAM Blog<br>配信停止はこちら: {{{RESEND_UNSUBSCRIBE_URL}}}</td></tr>
 </table>
 </td></tr>
 </table>
 </body></html>`;
+}
+
+function articleEmailText(post) {
+    const points = Array.isArray(post.points) && post.points.length
+        ? post.points
+        : ['自社サービス運営', 'AI時代のプロダクトづくり', '運営から得られる実践知'];
+    return `【新着記事】
+
+${post.title}
+
+${post.excerpt || 'SPACE GLEAM Blogで新しい記事を公開しました。'}
+
+主なポイントは
+
+${points.map((point) => `・${point}`).join('\n')}
+
+です。
+
+${post.closing || '記事では、実践から得た考え方と次に活かせるポイントを解説しています。'}
+
+続きを読む
+↓
+${post.url}`;
 }
 
 exports.handler = async (event) => {
@@ -125,11 +160,29 @@ exports.handler = async (event) => {
             title: clean(body.title, 180),
             excerpt: clean(body.excerpt, 500),
             category: clean(body.category, 80),
-            url: clean(body.url, 500)
+            url: clean(body.url, 500),
+            points: Array.isArray(body.points) ? body.points.map((point) => clean(point, 120)).filter(Boolean).slice(0, 6) : [],
+            closing: clean(body.closing, 300)
         };
+        const testEmail = clean(body.testEmail, 180).toLowerCase();
 
         if (!post.title || !post.url) {
             return json(400, { success: false, message: 'title と url が必要です。' });
+        }
+
+        if (testEmail) {
+            const response = await resendPost('/emails', {
+                from: FROM_EMAIL,
+                to: [testEmail],
+                subject: `【新着記事】${post.title}`,
+                html: articleEmailHtml(post),
+                text: articleEmailText(post)
+            }, apiKey);
+            const result = await response.json().catch(() => null);
+            if (!response.ok || result?.error) {
+                return json(500, { success: false, message: 'テスト送信に失敗しました。', detail: result?.error || null });
+            }
+            return json(200, { success: true, message: 'テストメールを送信しました。', id: result?.id });
         }
 
         const segmentId = await getBlogSegmentId(apiKey);
@@ -144,7 +197,7 @@ exports.handler = async (event) => {
                 from: FROM_EMAIL,
                 subject: `【SPACE GLEAM Blog】${post.title}`,
                 html: articleEmailHtml(post),
-                text: `${post.title}\n\n${post.excerpt}\n\n${post.url}`,
+                text: articleEmailText(post),
                 name: `blog-${Date.now()}`,
                 send: true
             })
