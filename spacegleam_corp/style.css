@@ -5924,7 +5924,7 @@ body.blog-page-body .header-cta:hover {
 
 .blog-mail-cta h2 {
     color: #111111;
-    font-size: clamp(2.35rem, 4vw, 4.25rem);
+    font-size: clamp(1.95rem, 3.05vw, 3.1rem);
     font-weight: 500;
     line-height: 1.28;
     letter-spacing: 0;
@@ -5942,7 +5942,7 @@ body.blog-page-body .header-cta:hover {
     align-self: center;
     justify-self: end;
     width: min(100%, 520px);
-    margin-top: 96px;
+    margin-top: 72px;
     padding: 22px;
     background: rgba(255, 255, 255, 0.64);
     border: 1px solid rgba(0, 0, 0, 0.11);
