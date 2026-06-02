@@ -6489,6 +6489,27 @@ body.blog-page-body .header-cta:hover {
     align-items: end;
 }
 
+.blog-editor-draft-note,
+.blog-editor-draft-status {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: #667085;
+    font-size: 0.86rem;
+    line-height: 1.7;
+}
+
+.blog-editor-draft-status {
+    min-height: 1.4em;
+}
+
+.blog-editor-draft-status[data-state="success"] {
+    color: #137333;
+}
+
+.blog-editor-draft-status[data-state="error"] {
+    color: #b3261e;
+}
+
 .blog-editor-draft-actions {
     display: flex;
     gap: 8px;

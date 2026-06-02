@@ -6,6 +6,7 @@
     const notifyStatus = document.querySelector('[data-notify-status]');
     const publishStatus = document.querySelector('[data-publish-status]');
     const draftList = document.querySelector('[data-draft-list]');
+    const draftStatus = document.querySelector('[data-draft-status]');
     const imageFileInput = document.querySelector('[data-image-file]');
     const imageDropzone = document.querySelector('[data-image-dropzone]');
     const imagePreview = document.querySelector('[data-image-preview]');
@@ -83,6 +84,12 @@
         window.localStorage.setItem(draftsKey, JSON.stringify(drafts));
     };
 
+    const setDraftStatus = (message, state = '') => {
+        if (!draftStatus) return;
+        draftStatus.textContent = message;
+        draftStatus.dataset.state = state;
+    };
+
     const getFormData = () => {
         const data = Object.fromEntries(new FormData(form).entries());
         data.title = String(data.title || '').trim();
@@ -130,6 +137,7 @@
         uploadedImageData = draft.uploadedImageData || draft.imageUrl || '';
         updateImagePreview();
         build();
+        setDraftStatus(`「${draft.title || '無題'}」を読み込みました。編集できます。`, 'success');
     };
 
     const updateImagePreview = () => {
@@ -314,6 +322,7 @@ ${notifyOutput.value}
         setDrafts(drafts);
         refreshDraftList();
         if (draftList) draftList.value = id;
+        setDraftStatus(`下書きを保存しました。この端末のブラウザに保存されています。`, 'success');
     });
 
     document.querySelector('[data-delete-draft]')?.addEventListener('click', () => {
@@ -321,6 +330,7 @@ ${notifyOutput.value}
         setDrafts(getDrafts().filter((item) => item.id !== draftList.value));
         draftList.value = '';
         refreshDraftList();
+        setDraftStatus('下書きを削除しました。', 'success');
     });
 
     document.querySelector('[data-copy-post]')?.addEventListener('click', () => navigator.clipboard?.writeText(postOutput.value));

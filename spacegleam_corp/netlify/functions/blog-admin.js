@@ -96,6 +96,8 @@ function page() {
                             <button type="button" data-save-draft>下書き保存</button>
                             <button type="button" data-delete-draft>削除</button>
                         </div>
+                        <p class="blog-editor-draft-note">下書きはこの端末のブラウザ内に保存されます。一覧から選ぶと再編集できます。</p>
+                        <p class="blog-editor-draft-status" data-draft-status aria-live="polite"></p>
                     </div>
                     <label>状態
                         <select name="status">
@@ -148,7 +150,7 @@ AIで開発速度が上がるほど、作りすぎのリスクも上がります
 ## 運用まで含めて考える
 
 MVPは公開して終わりではありません。問い合わせ、ログ、改善要望を受け取る仕組みまで設計しておくと、次の改善が速くなります。</textarea></label>
-                    <button class="header-cta blog-editor-submit" type="submit">生成する<span class="arrow">→</span></button>
+                    <button class="header-cta blog-editor-submit" type="submit">プレビュー更新<span class="arrow">→</span></button>
                 </form>
 
                 <div class="blog-editor-output">
