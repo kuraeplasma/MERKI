@@ -33,7 +33,7 @@
         "'": '&#039;'
     }[char]));
 
-    const postHref = (post) => `${escapeHtml(post.slug)}/`;
+    const postHref = (post) => `/blog/${escapeHtml(post.slug)}/`;
 
     const compactDate = (value) => formatDate(value).replace(/年|月/g, '.').replace('日', '');
 
@@ -185,7 +185,7 @@
             .slice(0, 3);
 
         relatedRoot.innerHTML = related.map((post) => `
-            <a class="related-card" href="../${escapeHtml(post.slug)}/">
+            <a class="related-card" href="/blog/${escapeHtml(post.slug)}/">
                 <span>${escapeHtml(post.category)}</span>
                 <strong>${escapeHtml(post.title)}</strong>
                 <small>${formatDate(post.date)}</small>

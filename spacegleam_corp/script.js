@@ -7,6 +7,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const formStatus = document.querySelector('.contact-form-status');
     const recaptchaSiteKey = window.SPACEGLEAM_RECAPTCHA_SITE_KEY;
 
+    // --- Local Server Route Helper ---
+    // If running on a local static server like Python http.server,
+    // ensure /blog automatically rewrites to /blog/ (with trailing slash)
+    // so relative resources inside the blog page resolve correctly.
+    const isLocalSimpleServer = (
+        (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') &&
+        window.location.port !== '8888' // 8888 is default Netlify Dev port, which handles redirects
+    );
+
+    if (isLocalSimpleServer) {
+        document.querySelectorAll('a[href^="/"]').forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === '/blog' || href.startsWith('/blog#') || href.startsWith('/blog?')) {
+                link.setAttribute('href', href.replace('/blog', '/blog/'));
+            }
+        });
+    }
+
     // --- Booking Polish Setup ---
     const contactMethodGroup = document.getElementById('contact-method-group');
     const bookingSchedulerContainer = document.getElementById('booking-scheduler-container');
