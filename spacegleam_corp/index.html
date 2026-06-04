@@ -170,65 +170,8 @@
                         </div>
                     </div>
 
-                    <!-- 右カラム (AI開発診断カード) -->
-                    <div class="hero-interactive-wrapper reveal is-visible">
-                        <div class="diag-card" id="diagCard">
-                            <span class="diag-card__eyebrow">AI開発診断</span>
-                            <h2 class="diag-card__title">アイデアを、<br>最短距離でカタチに。</h2>
-                            <p class="diag-card__sub">アイデアや要件をもとに、最適な開発の進め方や技術選定、優先すべきポイントを診断します。</p>
-
-                            <p class="diag-card__features-label">診断でわかること</p>
-                            <div class="diag-card__features">
-                                <div class="diag-card__feature">
-                                    <span class="diag-card__feature-ico" aria-hidden="true">
-                                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>
-                                    </span>
-                                    <span class="diag-card__feature-copy">
-                                        <span class="diag-card__feature-title">最適な開発の進め方</span>
-                                        <span class="diag-card__feature-sub">目的に合わせた開発ステップと進め方の提案</span>
-                                    </span>
-                                </div>
-                                <div class="diag-card__feature">
-                                    <span class="diag-card__feature-ico" aria-hidden="true">
-                                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3l9 4.5-9 4.5-9-4.5L12 3z"/><path d="M3 12l9 4.5L21 12"/><path d="M3 16.5L12 21l9-4.5"/></svg>
-                                    </span>
-                                    <span class="diag-card__feature-copy">
-                                        <span class="diag-card__feature-title">必要な機能と優先順位</span>
-                                        <span class="diag-card__feature-sub">実現すべき機能と、優先して取り組むべき項目</span>
-                                    </span>
-                                </div>
-                                <div class="diag-card__feature">
-                                    <span class="diag-card__feature-ico" aria-hidden="true">
-                                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h13M4 12h13M4 18h9"/><circle cx="20" cy="6" r="1.2"/><circle cx="20" cy="12" r="1.2"/><circle cx="17" cy="18" r="1.2"/></svg>
-                                    </span>
-                                    <span class="diag-card__feature-copy">
-                                        <span class="diag-card__feature-title">技術の選択肢と構成案</span>
-                                        <span class="diag-card__feature-sub">最適な技術スタックやシステム構成の方向性</span>
-                                    </span>
-                                </div>
-                                <div class="diag-card__feature">
-                                    <span class="diag-card__feature-ico" aria-hidden="true">
-                                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-                                    </span>
-                                    <span class="diag-card__feature-copy">
-                                        <span class="diag-card__feature-title">費用感と開発期間の目安</span>
-                                        <span class="diag-card__feature-sub">概算の費用感と、リリースまでの期間イメージ</span>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <button type="button" class="diag-card__btn" data-diag-open>
-                                <span class="diag-card__btn-sparkle" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2l1.6 4.4L18 8l-4.4 1.6L12 14l-1.6-4.4L6 8l4.4-1.6L12 2zm6 10l.9 2.4L21 15l-2.1.6L18 18l-.9-2.4L15 15l2.1-.6L18 12zM5 14l.7 1.8L7.5 16.5l-1.8.7L5 19l-.7-1.8L2.5 16.5l1.8-.7L5 14z"/></svg>
-                                </span>
-                                無料で診断をはじめる<span class="arrow">→</span>
-                            </button>
-
-                            <p class="diag-card__note">
-                                <svg class="diag-card__note-ico" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 1 1 8 0v3"/></svg>
-                                ご相談・診断はすべて無料です
-                            </p>
-                        </div>
+                    <!-- 右カラム (ビジュアルスペース / ローカルのみ: AI診断カードが diagnosis.js から挿入されます) -->
+                    <div class="hero-interactive-wrapper reveal is-visible" id="heroInteractiveWrapper">
                     </div>
                 </div>
 
@@ -1232,13 +1175,7 @@
                 </div>
             </div>
         </section>
-        <!-- AI開発診断モーダル -->
-        <div class="diag-modal" id="diagModal" role="dialog" aria-modal="true" aria-labelledby="diagModalTitle" aria-hidden="true">
-            <div class="diag-modal__sheet">
-                <button type="button" class="diag-modal__close" data-diag-close aria-label="閉じる">×</button>
-                <div id="diagModalBody"></div>
-            </div>
-        </div>
+        <!-- AI開発診断モーダル: ローカルのみ diagnosis.js が動的に挿入します -->
     </main>
 
     <a href="#contact" class="mobile-fixed-cta">無料相談する</a>
