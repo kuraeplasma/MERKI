@@ -186,7 +186,21 @@ function repoPath(rel) {
 
 async function publishImmediate(payload) {
     if (!GITHUB_TOKEN) throw new Error('GITHUB_TOKEN env var is not set');
-    const { slug, title, articleHtml, postEntry, date } = payload;
+    const { slug, title, articleHtml, postEntry, date, dryRun } = payload;
+
+    // Dry-run: just verify branch access without committing
+    if (dryRun) {
+        const ref = await getBranchRef();
+        return {
+            dryRun: true,
+            repo: GITHUB_REPO,
+            branch: GITHUB_BRANCH,
+            currentSha: ref.object.sha,
+            subdir: REPO_SUBDIR || '(repo root)',
+            note: 'GitHub auth OK. No commit was made.'
+        };
+    }
+
     if (!slug || !articleHtml || !postEntry) {
         throw new Error('missing required fields: slug, articleHtml, postEntry');
     }
@@ -246,10 +260,16 @@ async function publishScheduled(payload) {
     }
     const { getStore } = netlifyBlobsModule;
     let store;
+    const blobsToken = process.env.NETLIFY_BLOBS_TOKEN || process.env.NETLIFY_AUTH_TOKEN;
+    const blobsSiteID = process.env.NETLIFY_SITE_ID || process.env.SITE_ID;
     try {
-        store = getStore('blog-pending');
+        if (blobsToken && blobsSiteID) {
+            store = getStore({ name: 'blog-pending', siteID: blobsSiteID, token: blobsToken });
+        } else {
+            store = getStore('blog-pending');
+        }
     } catch (e) {
-        throw new Error(`getStore("blog-pending") failed: ${e.message}`);
+        throw new Error(`getStore("blog-pending") failed: ${e.message}. Hint: set NETLIFY_SITE_ID and NETLIFY_BLOBS_TOKEN env vars (Functions scope).`);
     }
     const key = `${payload.publishAt}-${payload.slug}.json`;
     await store.set(key, JSON.stringify(payload));

@@ -10,9 +10,15 @@ exports.handler = async () => {
     let store;
     try {
         const { getStore } = require('@netlify/blobs');
-        store = getStore('blog-pending');
+        const blobsToken = process.env.NETLIFY_BLOBS_TOKEN || process.env.NETLIFY_AUTH_TOKEN;
+        const blobsSiteID = process.env.NETLIFY_SITE_ID || process.env.SITE_ID;
+        if (blobsToken && blobsSiteID) {
+            store = getStore({ name: 'blog-pending', siteID: blobsSiteID, token: blobsToken });
+        } else {
+            store = getStore('blog-pending');
+        }
     } catch (e) {
-        return { statusCode: 500, body: 'Blobs SDK unavailable: ' + e.message };
+        return { statusCode: 500, body: 'Blobs SDK error: ' + e.message };
     }
 
     const now = new Date();
