@@ -5,7 +5,7 @@ const path = require('path');
 
 const ADMIN_USER = process.env.BLOG_ADMIN_USER || 'kurae';
 const ADMIN_PASSWORD = process.env.BLOG_ADMIN_PASSWORD || '';
-const { handler: notifyHandler } = require('./blog-publish-notify');
+const { handler: notifyHandler } = require('../blog-publish-notify');
 
 // Load the admin HTML page from a sibling file. This file is included in the
 // function bundle via the "included_files" entry in netlify.toml.

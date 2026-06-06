@@ -4,7 +4,7 @@
   functions = "netlify/functions"
 
 [functions]
-  included_files = ["netlify/functions/blog-admin.template.html"]
+  included_files = ["netlify/functions/blog-admin/blog-admin.template.html"]
 
 [[redirects]]
   from = "https://admin.spacegleam.co.jp/*"
