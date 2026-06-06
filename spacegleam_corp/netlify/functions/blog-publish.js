@@ -16,6 +16,15 @@ const REPO_SUBDIR = process.env.GITHUB_SITE_SUBDIR || '';
 
 const GH = 'https://api.github.com';
 
+// Try to load @netlify/blobs at module load time so deploy bundling picks it up.
+let netlifyBlobsModule = null;
+let netlifyBlobsLoadError = null;
+try {
+    netlifyBlobsModule = require('@netlify/blobs');
+} catch (e) {
+    netlifyBlobsLoadError = e;
+}
+
 // ---- helpers ---------------------------------------------------------------
 
 function jsonResponse(statusCode, body) {
@@ -229,13 +238,18 @@ async function publishImmediate(payload) {
 }
 
 async function publishScheduled(payload) {
-    // Defer to scheduled function: store in Netlify Blobs
+    if (!netlifyBlobsModule) {
+        const msg = netlifyBlobsLoadError
+            ? `@netlify/blobs failed to load: ${netlifyBlobsLoadError.message}`
+            : '@netlify/blobs SDK is null';
+        throw new Error(msg);
+    }
+    const { getStore } = netlifyBlobsModule;
     let store;
     try {
-        const { getStore } = require('@netlify/blobs');
         store = getStore('blog-pending');
     } catch (e) {
-        throw new Error('Netlify Blobs SDK not available. Add @netlify/blobs to dependencies.');
+        throw new Error(`getStore("blog-pending") failed: ${e.message}`);
     }
     const key = `${payload.publishAt}-${payload.slug}.json`;
     await store.set(key, JSON.stringify(payload));
