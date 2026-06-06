@@ -3,6 +3,9 @@
   command = ""
   functions = "netlify/functions"
 
+[functions]
+  included_files = ["netlify/functions/blog-admin.template.html"]
+
 [[redirects]]
   from = "https://admin.spacegleam.co.jp/*"
   to = "/.netlify/functions/blog-admin"
