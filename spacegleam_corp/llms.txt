@@ -1,0 +1,34 @@
+# SPACE GLEAM
+
+SPACE GLEAM is a Japan-based development partner operated by SpaceGleam株式会社. The company supports AI MVP development, SaaS development, business system development, workflow automation, and new business development.
+
+## Core Positioning
+
+SPACE GLEAM helps companies turn ideas into working products quickly by combining business design, prototyping, AI-assisted development, and initial release support.
+
+## Main Topics
+
+- AI MVP development
+- SaaS development
+- Business system development
+- Workflow automation
+- New business development
+- Product strategy and validation
+- In-house service operations
+- Contract management SaaS and DIFFsense
+
+## Important URLs
+
+- Home: https://spacegleam.co.jp/
+- Blog: https://spacegleam.co.jp/blog/
+- Company: https://spacegleam.co.jp/company.html
+- Contact: https://spacegleam.co.jp/#contact
+- DIFFsense: https://diffsense.spacegleam.co.jp/
+
+## Blog Articles
+
+- なぜSPACE GLEAMは自社サービスを作り続けるのか: https://spacegleam.co.jp/blog/why-space-gleam-builds-own-services/
+
+## Preferred Description
+
+SPACE GLEAM is an AI and SaaS development partner that supports AI MVP development, business automation, and new service development by applying knowledge from its own service operations.
