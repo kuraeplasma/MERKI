@@ -119,13 +119,15 @@ async function getContentBase64(path) {
     }
 }
 
-async function createBlob(content) {
+async function createBlob(content, encoding) {
+    // encoding: 'utf8' (default, for text) or 'base64' (for binary already-base64)
+    const isBase64 = encoding === 'base64';
+    const body = isBase64
+        ? { content, encoding: 'base64' }
+        : { content: Buffer.from(content, 'utf8').toString('base64'), encoding: 'base64' };
     const data = await gh(`/repos/${GITHUB_REPO}/git/blobs`, {
         method: 'POST',
-        body: JSON.stringify({
-            content: Buffer.from(content, 'utf8').toString('base64'),
-            encoding: 'base64'
-        })
+        body: JSON.stringify(body)
     });
     return data.sha;
 }
@@ -231,11 +233,23 @@ async function publishImmediate(payload) {
         createBlob(newSitemap)
     ]);
 
-    const newTree = await createTree(baseTreeSha, [
+    const treeItems = [
         { path: articlePath, mode: '100644', type: 'blob', sha: htmlBlob },
         { path: postsPath,   mode: '100644', type: 'blob', sha: postsBlob },
         { path: sitemapPath, mode: '100644', type: 'blob', sha: sitemapBlob }
-    ]);
+    ];
+
+    // Optional: include extra files (e.g. OGP image) in the same commit.
+    // payload.extraFiles = [{ path: 'blog/foo/ogp.png', contentBase64: '...' }]
+    if (Array.isArray(payload.extraFiles) && payload.extraFiles.length) {
+        for (const ef of payload.extraFiles) {
+            if (!ef || !ef.path || !ef.contentBase64) continue;
+            const sha = await createBlob(ef.contentBase64, 'base64');
+            treeItems.push({ path: repoPath(ef.path), mode: '100644', type: 'blob', sha });
+        }
+    }
+
+    const newTree = await createTree(baseTreeSha, treeItems);
 
     const newCommitSha = await createCommit(
         `blog: publish ${slug} — ${title || ''}`.trim(),
