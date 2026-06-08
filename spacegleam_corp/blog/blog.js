@@ -15,7 +15,7 @@
     const mailForms = document.querySelectorAll('.blog-mail-cta form');
     const heroVideo = document.querySelector('.blog-hero-video');
     const articleSlug = document.body.dataset.articleSlug;
-    const perPage = 3;
+    const perPage = 8;
     let currentPage = 1;
     let query = '';
     let activeCategory = 'All';
@@ -88,14 +88,21 @@
         </a>
     `;
 
-    const createCard = (post) => `
+    const createCard = (post, index) => `
         <article class="blog-card">
-            <div class="blog-card-meta">
-                <time datetime="${escapeHtml(post.date)}">${formatDate(post.date)}</time>
-                <span>${escapeHtml(post.category)}</span>
-            </div>
-            <h2><a href="${postHref(post)}">${escapeHtml(post.title)}</a></h2>
-            <p>${escapeHtml(post.excerpt)}</p>
+            <a class="blog-card-link" href="${postHref(post)}" aria-label="${escapeHtml(post.title)}を読む">
+                <div class="blog-card-image">
+                    ${post.thumbnail ? `<img src="${escapeHtml(post.thumbnail)}" alt="" loading="lazy">` : '<div class="blog-card-image-placeholder" aria-hidden="true"></div>'}
+                    ${index === 0 && currentPage === 1 ? '<span class="blog-card-badge">NEW</span>' : ''}
+                    <time class="blog-card-date" datetime="${escapeHtml(post.date)}">${compactDate(post.date)}</time>
+                </div>
+                <div class="blog-card-body">
+                    <span class="blog-card-tag">${escapeHtml(post.category)}</span>
+                    <h2>${escapeHtml(post.title)}</h2>
+                    <p>${escapeHtml(post.excerpt)}</p>
+                    <span class="blog-card-more">続きを見る<em aria-hidden="true">→</em></span>
+                </div>
+            </a>
         </article>
     `;
 
