@@ -4277,8 +4277,9 @@ body.company-page-body .brand-name {
     width: 100%;
     border-radius: 4px;
     overflow: hidden;
-    margin-top: 40px;
+    margin-top: 32px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    position: relative;
 }
 
 .company-main-visual img {
@@ -4286,6 +4287,50 @@ body.company-page-body .brand-name {
     height: auto;
     object-fit: cover;
     display: block;
+}
+
+/* Overlay text on top of image */
+.company-main-visual.has-overlay img {
+    min-height: 480px;
+    max-height: 640px;
+    height: auto;
+    object-fit: cover;
+}
+
+.company-visual-overlay {
+    position: absolute;
+    inset: 0;
+    padding: 48px 48px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.25) 55%, rgba(0, 0, 0, 0) 100%);
+    color: #ffffff;
+}
+
+.company-visual-overlay .company-header-v2 {
+    margin-bottom: 24px;
+}
+
+.company-visual-overlay .eyebrow,
+.company-visual-overlay .company-sub-title-v2,
+.company-visual-overlay .company-heading-v2,
+.company-visual-overlay .company-lead-text {
+    color: #ffffff;
+}
+
+.company-visual-overlay .company-header-v2 .eyebrow::after {
+    background: #ffffff;
+}
+
+.company-visual-overlay .company-lead-text {
+    color: rgba(255, 255, 255, 0.92);
+    margin-bottom: 0;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.25);
+}
+
+.company-visual-overlay .company-heading-v2 {
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
 }
 
 /* Right Column */
@@ -4377,11 +4422,20 @@ body.company-page-body .brand-name {
     }
     
     .company-main-visual {
-        margin-top: 32px;
+        margin-top: 0;
     }
-    
+
     .company-main-visual img {
         max-height: 360px;
+    }
+
+    .company-main-visual.has-overlay img {
+        min-height: 380px;
+        max-height: 460px;
+    }
+
+    .company-visual-overlay {
+        padding: 32px 28px 28px;
     }
     
     .company-left-col {
