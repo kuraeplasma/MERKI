@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1T9HP3BLMP"></script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-1T9HP3BLMP');</script>
+    <title>なぜDIFFsenseは3日で作れたのか | SPACE GLEAM</title>
+    <meta name="description" content="AI差分比較・管理サービス「DIFFsense」の初期版は、構想からわずか3日で公開されました。なぜ3日という短期間でリリースできたのか、AIによる開発の高速化と、MVP開発における「最初に作るものを絞る」意思決定の重要性を解説します。">
+    <link rel="canonical" href="https://spacegleam.co.jp/blog/how-diffsense-was-built-in-3-days/">
+    <link rel="icon" href="/favicon.png">
+    <link rel="stylesheet" href="/style.css?v=blog-20260602">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="なぜDIFFsenseは3日で作れたのか">
+    <meta property="og:description" content="AI差分比較・管理サービス「DIFFsense」の初期版は、構想からわずか3日で公開されました。なぜ3日という短期間でリリースできたのか、AIによる開発の高速化と、MVP開発における「最初に作るものを絞る」意思決定の重要性を解説します。">
+    <meta property="og:url" content="https://spacegleam.co.jp/blog/how-diffsense-was-built-in-3-days/">
+    <meta property="og:site_name" content="SPACE GLEAM">
+    <meta property="og:image" content="https://spacegleam.co.jp/blog-ogp.png">
+    <meta property="og:image:secure_url" content="https://spacegleam.co.jp/blog-ogp.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1536">
+    <meta property="og:image:height" content="1024">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://spacegleam.co.jp/blog-ogp.png">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "なぜDIFFsenseは3日で作れたのか",
+            "description": "AI差分比較・管理サービス「DIFFsense」の初期版は、構想からわずか3日で公開されました。なぜ3日という短期間でリリースできたのか、AIによる開発の高速化と、MVP開発における「最初に作るものを絞る」意思決定の重要性を解説します。",
+            "datePublished": "2026-06-10",
+            "dateModified": "2026-06-10",
+            "author": {
+                "@type": "Organization",
+                "name": "SPACE GLEAM"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SPACE GLEAM",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://spacegleam.co.jp/favicon.png"
+                }
+            },
+            "mainEntityOfPage": "https://spacegleam.co.jp/blog/how-diffsense-was-built-in-3-days/",
+            "image": "https://spacegleam.co.jp/blog-ogp.png",
+            "articleSection": "Product"
+        }
+    </script>
+</head>
+<body class="blog-page-body" data-article-slug="how-diffsense-was-built-in-3-days">
+    <div class="site-bg" aria-hidden="true"></div>
+    <header class="header"><div class="container header-inner"><a aria-label='SPACE GLEAM ホーム' class='brand' href='/'><span class="brand-name">SPACE GLEAM</span></a><button class="nav-toggle" type="button" aria-label="メニューを開く" aria-controls="global-nav" aria-expanded="false"><span></span><span></span><span></span></button><nav id="global-nav" class="nav" aria-label="グローバルナビゲーション"><a href='/services'>AI プロダクト開発</a><a href='/pricing'>料金</a><a href='/works'>実績</a><a href='/faq'>FAQ</a><a href="/blog/">Blog</a></nav><div class="header-ctas"><a class='header-cta' href='/#contact'>AI開発について相談する<span class="arrow">→</span></a></div></div></header>
+    <main class="blog-main"><div class="container">
+        <article>
+            <header class="article-header"><div class="article-meta"><time datetime="2026-06-10">2026-06-10</time><span class="article-category">Product</span></div><h1>なぜDIFFsenseは3日で作れたのか</h1><p class="article-lead">DIFFsenseは、契約書や利用規約の変更をAIで比較・管理するサービスです。現在では、AI差分比較、AI要約、URL監視、電子署名、通知機能など複数の機能を提供しています。しかし最初からこの形だったわけではありません。実はDIFFsenseの初期版は、構想から公開まで約3日でした。今回は、なぜそれが可能だったのかをお話しします。</p></header>
+            <div class="article-share" aria-label="記事を共有">
+                <button type="button" class="article-share-icon is-x" aria-label="Xでシェア" title="Xでシェア" data-share data-share-title="なぜDIFFsenseは3日で作れたのか" data-share-url="https://spacegleam.co.jp/blog/how-diffsense-was-built-in-3-days/">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.214-6.817-5.966 6.817H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"></path></svg>
+                </button>
+                <a href="mailto:?subject=%E3%81%AA%E3%81%9CDIFFsense%E3%81%AF3%E6%97%A5%E3%81%A7%E4%BD%9C%E3%82%8C%E3%81%9F%E3%81%AE%E3%81%8B&body=https%3A%2F%2Fspacegleam.co.jp%2Fblog%2Fhow-diffsense-was-built-in-3-days%2F" class="article-share-icon is-mail" aria-label="メールでシェア" title="メールでシェア">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm0 2v.4l8 5.15 8-5.15V7H4Zm0 2.78V17h16V9.78l-8 5.15-8-5.15Z"></path></svg>
+                </a>
+                <button type="button" class="article-share-icon" aria-label="URLをコピー" title="URLをコピー" data-copy-url="https://spacegleam.co.jp/blog/how-diffsense-was-built-in-3-days/">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.5A1.5 1.5 0 0 1 10.5 8h8A1.5 1.5 0 0 1 20 9.5v8A1.5 1.5 0 0 1 18.5 19h-8A1.5 1.5 0 0 1 9 17.5v-8Z"></path><path d="M6 15H5.5A1.5 1.5 0 0 1 4 13.5v-8A1.5 1.5 0 0 1 5.5 4h8A1.5 1.5 0 0 1 15 5.5V6"></path></svg>
+                </button>
+            </div>
+            <div class="article-content">
+                <h2>最初から全部作ろうとはしなかった</h2>
+                <p>開発相談を受けると、「将来的にはこうしたい」という機能が数十個出てくることがあります。</p>
+                <p>DIFFsenseも同じでした。</p>
+                <p>当初考えていた機能は、</p>
+                <ul>
+                    <li>差分比較</li>
+                    <li>AI要約</li>
+                    <li>通知</li>
+                    <li>電子署名</li>
+                    <li>ワークフロー</li>
+                    <li>権限管理</li>
+                    <li>承認機能</li>
+                    <li>チーム機能</li>
+                    <li>API連携</li>
+                </ul>
+                <p>などです。</p>
+                <p>しかし最初に作ったのは、<strong>差分比較だけ</strong>でした。</p>
+
+                <h2>最初に証明したかったことは一つ</h2>
+                <p>私たちが最初に確認したかったのは、<strong>「契約書の変更点をAIで分かりやすく比較できるか」</strong>だけでした。</p>
+                <p>つまり、利用者が欲しい価値は「通知」ではなく、<strong>「比較結果」</strong>です。</p>
+                <p>ならば比較機能が成立するかどうかを先に確認すべきでした。</p>
+
+                <h2>AIが変えたのは開発速度</h2>
+                <p>以前なら、画面設計、データベース設計、実装、テストを順番に進めていました。</p>
+                <p>しかし現在は違います。</p>
+                <p>AIを活用することで、UI作成、コード生成、リファクタリング、ドキュメント作成まで大幅に高速化できます。</p>
+                <p>結果として、従来なら数週間かかる作業が数日で進むようになりました。</p>
+
+                <h2>一番時間がかかったのはAIではなかった</h2>
+                <p>意外かもしれませんが、最も時間がかかったのはAI機能ではありません。</p>
+                <p>本当に時間がかかるのは、</p>
+                <ul>
+                    <li>認証</li>
+                    <li>決済</li>
+                    <li>権限管理</li>
+                    <li>データ管理</li>
+                    <li>セキュリティ</li>
+                </ul>
+                <p>です。</p>
+                <p>AIによる差分比較そのものは比較的早く動きました。</p>
+                <p>しかし、実際に運営するサービスとして考えると、AI以外の部分の方が重要になる場面が多くあります。</p>
+
+                <h2>リリース後に分かったこと</h2>
+                <p>サービスは公開して終わりではありません。むしろ公開後の方が学びは多くなります。</p>
+                <p>実際に運営すると、想定していなかった課題が次々と見つかります。</p>
+                <p>例えば、</p>
+                <ul>
+                    <li>ユーザーが迷う画面</li>
+                    <li>分かりにくい文言</li>
+                    <li>想定外のファイル形式</li>
+                    <li>処理速度の問題</li>
+                </ul>
+                <p>などです。</p>
+                <p>これらは開発中には気づけません。利用者がいて初めて見えてきます。</p>
+
+                <h2>だから私たちは早く公開する</h2>
+                <p>DIFFsenseを3日で作れた理由は、特別な技術があったからではありません。最初に作るものを絞ったからです。</p>
+                <p>そして、公開後に改善する前提で考えたからです。</p>
+                <p>今でもDIFFsenseは改善を続けています。</p>
+                <p>もし最初から完璧を目指していたら、おそらく今もリリースできていなかったと思います。</p>
+
+                <h2>AI時代の開発で重要なこと</h2>
+                <p>AIによって開発スピードは大きく向上しました。</p>
+                <p>しかし、重要なのは速く作ることではありません。</p>
+                <p>本当に重要なのは、<strong>「何を最初に作るか」</strong>です。</p>
+                <p>作るべきものを見極められれば、開発は驚くほど早く進みます。</p>
+                <p>逆に方向性を間違えると、どれだけ最新のAIを使っても遠回りになります。</p>
+
+                <h2>おわりに</h2>
+                <p>DIFFsenseは約3日で公開しました。</p>
+                <p>しかし本当に価値があったのは、3日で作れたことではありません。3日で公開し、利用者の反応を見ながら改善を始められたことです。</p>
+                <p>AIによって開発の常識は変わりました。</p>
+                <p>これからは、「いつ完成するか」よりも、<strong>「いつ利用者の声を聞き始めるか」</strong>が重要になるのかもしれません。</p>
+            </div>
+            <div class="article-share article-share-bottom" aria-label="記事を共有">
+                <button type="button" class="article-share-icon is-x" aria-label="Xでシェア" title="Xでシェア" data-share data-share-title="なぜDIFFsenseは3日で作れたのか" data-share-url="https://spacegleam.co.jp/blog/how-diffsense-was-built-in-3-days/">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.214-6.817-5.966 6.817H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"></path></svg>
+                </button>
+                <a href="mailto:?subject=%E3%81%AA%E3%81%9CDIFFsense%E3%81%AF3%E6%97%A5%E3%81%A7%E4%BD%9C%E3%82%8C%E3%81%9F%E3%81%AE%E3%81%8B&body=https%3A%2F%2Fspacegleam.co.jp%2Fblog%2Fhow-diffsense-was-built-in-3-days%2F" class="article-share-icon is-mail" aria-label="メールでシェア" title="メールでシェア">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm0 2v.4l8 5.15 8-5.15V7H4Zm0 2.78V17h16V9.78l-8 5.15-8-5.15Z"></path></svg>
+                </a>
+                <button type="button" class="article-share-icon" aria-label="URLをコピー" title="URLをコピー" data-copy-url="https://spacegleam.co.jp/blog/how-diffsense-was-built-in-3-days/">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.5A1.5 1.5 0 0 1 10.5 8h8A1.5 1.5 0 0 1 20 9.5v8A1.5 1.5 0 0 1 18.5 19h-8A1.5 1.5 0 0 1 9 17.5v-8Z"></path><path d="M6 15H5.5A1.5 1.5 0 0 1 4 13.5v-8A1.5 1.5 0 0 1 5.5 4h8A1.5 1.5 0 0 1 15 5.5V6"></path></svg>
+                </button>
+            </div>
+        </article>
+        <div class="article-cta"><div><strong>AIシステム開発のご相談はこちら</strong><p>AI MVP、SaaS、業務システムの初期設計からご相談いただけます。</p></div><a href='/#contact'>問い合わせる</a></div>
+        <section class="related-section"><h2>関連記事</h2><div class="related-grid" data-related-posts></div></section>
+    </div></main>
+    <script src="/script.js"></script><script src="../posts.js"></script><script src="../blog.js?v=20260608-no-article-hero"></script>
+</body>
+</html>

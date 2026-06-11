@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1T9HP3BLMP"></script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-1T9HP3BLMP');</script>
+    <title>AI開発で一番時間がかかったのはAIではなかった | SPACE GLEAM</title>
+    <meta name="description" content="AIサービス開発において、実は最も時間がかかるのはAIの実装ではありません。複数のAIプロダクトを運営する中で実感した、認証・決済・セキュリティ・UI/UXといった「AI以外の土台部分」の開発の難しさと重要性を解説します。">
+    <link rel="canonical" href="https://spacegleam.co.jp/blog/ai-was-not-the-hardest-part/">
+    <link rel="icon" href="/favicon.png">
+    <link rel="stylesheet" href="/style.css?v=blog-20260602">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="AI開発で一番時間がかかったのはAIではなかった">
+    <meta property="og:description" content="AIサービス開発において、実は最も時間がかかるのはAIの実装ではありません。複数のAIプロダクトを運営する中で実感した、認証・決済・セキュリティ・UI/UXといった「AI以外の土台部分」の開発の難しさと重要性を解説します。">
+    <meta property="og:url" content="https://spacegleam.co.jp/blog/ai-was-not-the-hardest-part/">
+    <meta property="og:site_name" content="SPACE GLEAM">
+    <meta property="og:image" content="https://spacegleam.co.jp/blog-ogp.png">
+    <meta property="og:image:secure_url" content="https://spacegleam.co.jp/blog-ogp.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1536">
+    <meta property="og:image:height" content="1024">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://spacegleam.co.jp/blog-ogp.png">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "AI開発で一番時間がかかったのはAIではなかった",
+            "description": "AIサービス開発において、実は最も時間がかかるのはAIの実装ではありません。複数のAIプロダクトを運営する中で実感した、認証・決済・セキュリティ・UI/UXといった「AI以外の土台部分」の開発の難しさと重要性を解説します。",
+            "datePublished": "2026-06-11",
+            "dateModified": "2026-06-11",
+            "author": {
+                "@type": "Organization",
+                "name": "SPACE GLEAM"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SPACE GLEAM",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://spacegleam.co.jp/favicon.png"
+                }
+            },
+            "mainEntityOfPage": "https://spacegleam.co.jp/blog/ai-was-not-the-hardest-part/",
+            "image": "https://spacegleam.co.jp/blog-ogp.png",
+            "articleSection": "Development"
+        }
+    </script>
+</head>
+<body class="blog-page-body" data-article-slug="ai-was-not-the-hardest-part">
+    <div class="site-bg" aria-hidden="true"></div>
+    <header class="header"><div class="container header-inner"><a aria-label='SPACE GLEAM ホーム' class='brand' href='/'><span class="brand-name">SPACE GLEAM</span></a><button class="nav-toggle" type="button" aria-label="メニューを開く" aria-controls="global-nav" aria-expanded="false"><span></span><span></span><span></span></button><nav id="global-nav" class="nav" aria-label="グローバルナビゲーション"><a href='/services'>AI プロダクト開発</a><a href='/pricing'>料金</a><a href='/works'>実績</a><a href='/faq'>FAQ</a><a href="/blog/">Blog</a></nav><div class="header-ctas"><a class='header-cta' href='/#contact'>AI開発について相談する<span class="arrow">→</span></a></div></div></header>
+    <main class="blog-main"><div class="container">
+        <article>
+            <header class="article-header"><div class="article-meta"><time datetime="2026-06-11">2026-06-11</time><span class="article-category">Development</span></div><h1>AI開発で一番時間がかかったのはAIではなかった</h1><p class="article-lead">AIサービスを作っていると言うと、よく聞かれることがあります。「やっぱりAIの部分が一番大変なんですか？」実は違います。もちろんAIにも難しさはあります。しかし、複数のAIサービスを企画・開発・運営してきた中で感じるのは、AIは意外と早く動くということです。本当に時間がかかるのは別の部分です。今回は、その話をしてみたいと思います。</p></header>
+            <div class="article-share" aria-label="記事を共有">
+                <button type="button" class="article-share-icon is-x" aria-label="Xでシェア" title="Xでシェア" data-share data-share-title="AI開発で一番時間がかかったのはAIではなかった" data-share-url="https://spacegleam.co.jp/blog/ai-was-not-the-hardest-part/">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.214-6.817-5.966 6.817H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"></path></svg>
+                </button>
+                <a href="mailto:?subject=AI%E9%96%8B%E7%99%BA%E3%81%A7%E4%B8%80%E7%95%AA%E6%99%82%E9%96%93%E3%81%8C%E3%81%8B%E3%81%8B%E3%81%A3%E3%81%9F%E3%81%AE%E3%81%AFAI%E3%81%A7%E3%81%AF%E3%81%AA%E3%81%8B%E3%81%A3%E3%81%9F&body=https%3A%2F%2Fspacegleam.co.jp%2Fblog%2Fai-was-not-the-hardest-part%2F" class="article-share-icon is-mail" aria-label="メールでシェア" title="メールでシェア">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm0 2v.4l8 5.15 8-5.15V7H4Zm0 2.78V17h16V9.78l-8 5.15-8-5.15Z"></path></svg>
+                </a>
+                <button type="button" class="article-share-icon" aria-label="URLをコピー" title="URLをコピー" data-copy-url="https://spacegleam.co.jp/blog/ai-was-not-the-hardest-part/">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.5A1.5 1.5 0 0 1 10.5 8h8A1.5 1.5 0 0 1 20 9.5v8A1.5 1.5 0 0 1 18.5 19h-8A1.5 1.5 0 0 1 9 17.5v-8Z"></path><path d="M6 15H5.5A1.5 1.5 0 0 1 4 13.5v-8A1.5 1.5 0 0 1 5.5 4h8A1.5 1.5 0 0 1 15 5.5V6"></path></svg>
+                </button>
+            </div>
+            <div class="article-content">
+                <h2>AIは想像より早く形になる</h2>
+                <p>数年前であれば、AI機能を作ること自体が大きなハードルでした。</p>
+                <p>しかし現在は、OpenAI、Anthropic、Google、その他各種AI APIの進化によって、AI機能そのものは比較的短期間で実装できるようになっています。</p>
+                <p>例えば、</p>
+                <ul>
+                    <li>要約</li>
+                    <li>分類</li>
+                    <li>チャット</li>
+                    <li>文章生成</li>
+                    <li>差分分析</li>
+                </ul>
+                <p>といった機能であれば、数日で動くものを作ることも珍しくありません。</p>
+                <p>実際、DIFFsenseのAI差分比較も初期段階では短期間で形になりました。</p>
+
+                <h2>本当に時間がかかるのは認証</h2>
+                <p>多くのサービスで最初に苦労するのは認証です。</p>
+                <p>例えば、</p>
+                <ul>
+                    <li>メール認証</li>
+                    <li>パスワードリセット</li>
+                    <li>Googleログイン</li>
+                    <li>権限管理</li>
+                </ul>
+                <p>などです。</p>
+                <p>利用者から見ると地味な機能です。</p>
+                <p>しかし、ここが壊れるとサービスそのものが成立しません。</p>
+                <p>AIは動いていても、ログインできなければ誰も使えません。</p>
+
+                <h2>決済はさらに難しい</h2>
+                <p>決済も非常に重要です。</p>
+                <p>利用者からすると、ボタンを押して支払うだけです。</p>
+                <p>しかし裏側では、</p>
+                <ul>
+                    <li>課金</li>
+                    <li>解約</li>
+                    <li>プラン変更</li>
+                    <li>日割り計算</li>
+                    <li>重複決済防止</li>
+                </ul>
+                <p>など多く処理が存在します。</p>
+                <p>AI要約機能を作るより、決済まわりの方が神経を使うこともあります。</p>
+
+                <h2>運営を始めると別の問題が出てくる</h2>
+                <p>さらに難しいのは運営です。</p>
+                <p>リリース前には見えなかった問題が次々に出てきます。</p>
+                <p>例えば、</p>
+                <ul>
+                    <li>想定外のファイル</li>
+                    <li>大量アクセス</li>
+                    <li>エラーパターン</li>
+                    <li>ユーザーの誤操作</li>
+                </ul>
+                <p>などです。</p>
+                <p>開発中は問題なく動いていたのに、公開した瞬間に新しい課題が見つかることも珍しくありません。</p>
+
+                <h2>UI・UXの改善は終わらない</h2>
+                <p>AI開発というと、モデル性能に注目されがちです。</p>
+                <p>しかし実際は、利用者が理解できる形で届ける方が難しいことがあります。</p>
+                <p>どれだけ優秀なAIでも、使い方が分からなければ利用されません。</p>
+                <p>私たちも、ボタンの配置や文言の変更だけで利用率が変わる場面を何度も経験しています。</p>
+
+                <h2>AI開発は「AI以外」がサービスを支えている</h2>
+                <p>ユーザーが見ているのはAIだけではありません。</p>
+                <p>ログインできる、保存できる、支払える、安定して動く、こうした土台があって初めてAI機能が価値を発揮します。</p>
+                <p>実際には、AI部分はサービス全体の一部でしかありません。</p>
+
+                <h2>自社サービスを運営して分かったこと</h2>
+                <p>私たちはDIFFsenseやその他のサービスを自社で運営しています。</p>
+                <p>その中で感じるのは、AI機能の改善よりも、サービス全体の体験改善に時間を使うことの方が多いということです。</p>
+                <p>利用者が本当に求めているのは、高性能なAIそのものではなく、課題が解決されることだからです。</p>
+
+                <h2>AI時代だからこそ重要なこと</h2>
+                <p>AIによって開発スピードは大きく向上しました。</p>
+                <p>しかし、だからこそ差が出るのはAI以外の部分です。</p>
+                <ul>
+                    <li>認証</li>
+                    <li>決済</li>
+                    <li>セキュリティ</li>
+                    <li>運用</li>
+                    <li>UI・UX</li>
+                </ul>
+                <p>これらを含めて設計できるかどうかが、サービスの成否を左右します。</p>
+
+                <h2>おわりに</h2>
+                <p>AI開発で一番時間がかかったのはAIではありませんでした。</p>
+                <p>本当に難しいのは、AIを利用者に届ける仕組みを作ることです。</p>
+                <p>AIが進化するほど、サービス全体の設計や運営の重要性はむしろ高まっていくのかもしれません。</p>
+            </div>
+            <div class="article-share article-share-bottom" aria-label="記事を共有">
+                <button type="button" class="article-share-icon is-x" aria-label="Xでシェア" title="Xでシェア" data-share data-share-title="AI開発で一番時間がかかったのはAIではなかった" data-share-url="https://spacegleam.co.jp/blog/ai-was-not-the-hardest-part/">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.214-6.817-5.966 6.817H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"></path></svg>
+                </button>
+                <a href="mailto:?subject=AI%E9%96%8B%E7%99%BA%E3%81%A7%E4%B8%80%E7%95%AA%E6%99%82%E9%96%93%E3%81%8C%E3%81%8B%E3%81%8B%E3%81%A3%E3%81%9F%E3%81%AE%E3%81%AFAI%E3%81%A7%E3%81%AF%E3%81%AA%E3%81%8B%E3%81%A3%E3%81%9F&body=https%3A%2F%2Fspacegleam.co.jp%2Fblog%2Fai-was-not-the-hardest-part%2F" class="article-share-icon is-mail" aria-label="メールでシェア" title="メールでシェア">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm0 2v.4l8 5.15 8-5.15V7H4Zm0 2.78V17h16V9.78l-8 5.15-8-5.15Z"></path></svg>
+                </a>
+                <button type="button" class="article-share-icon" aria-label="URLをコピー" title="URLをコピー" data-copy-url="https://spacegleam.co.jp/blog/ai-was-not-the-hardest-part/">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.5A1.5 1.5 0 0 1 10.5 8h8A1.5 1.5 0 0 1 20 9.5v8A1.5 1.5 0 0 1 18.5 19h-8A1.5 1.5 0 0 1 9 17.5v-8Z"></path><path d="M6 15H5.5A1.5 1.5 0 0 1 4 13.5v-8A1.5 1.5 0 0 1 5.5 4h8A1.5 1.5 0 0 1 15 5.5V6"></path></svg>
+                </button>
+            </div>
+        </article>
+        <div class="article-cta"><div><strong>AIシステム開発のご相談はこちら</strong><p>AI MVP、SaaS、業務システムの初期設計からご相談いただけます。</p></div><a href='/#contact'>問い合わせる</a></div>
+        <section class="related-section"><h2>関連記事</h2><div class="related-grid" data-related-posts></div></section>
+    </div></main>
+    <script src="/script.js"></script><script src="../posts.js"></script><script src="../blog.js?v=20260608-no-article-hero"></script>
+</body>
+</html>

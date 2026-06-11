@@ -103,14 +103,27 @@
         return data;
     };
 
+    const renderInlineMarkdown = (value) => escapeHtml(value)
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/(^|[^*])\*(?!\s)([^*]+?)\*(?!\*)/g, '$1<em>$2</em>');
+
     const renderBody = (markdown) => markdown
         .split(/\n{2,}/)
         .map((block) => {
             const trimmed = block.trim();
             if (!trimmed) return '';
-            if (trimmed.startsWith('## ')) return `<h2>${escapeHtml(trimmed.slice(3))}</h2>`;
-            if (trimmed.startsWith('### ')) return `<h3>${escapeHtml(trimmed.slice(4))}</h3>`;
-            return `<p>${escapeHtml(trimmed).replace(/\n/g, '<br>')}</p>`;
+            if (trimmed.startsWith('## ')) return `<h2>${renderInlineMarkdown(trimmed.slice(3))}</h2>`;
+            if (trimmed.startsWith('### ')) return `<h3>${renderInlineMarkdown(trimmed.slice(4))}</h3>`;
+            if (/^[-*]\s+/m.test(trimmed)) {
+                const items = trimmed
+                    .split('\n')
+                    .map((line) => line.trim())
+                    .filter((line) => /^[-*]\s+/.test(line))
+                    .map((line) => `<li>${renderInlineMarkdown(line.replace(/^[-*]\s+/, ''))}</li>`)
+                    .join('');
+                return `<ul>${items}</ul>`;
+            }
+            return `<p>${renderInlineMarkdown(trimmed).replace(/\n/g, '<br>')}</p>`;
         })
         .join('\n');
 
@@ -171,16 +184,31 @@
         const imageHtml = data.imageUrl
             ? `\n            <figure class="article-cover"><img src="${escapeHtml(data.imageUrl)}" alt=""></figure>`
             : '';
+        const articleUrl = `https://spacegleam.co.jp/blog/${data.slug}/`;
+        const mailShareUrl = `mailto:?subject=${encodeURIComponent(data.title)}&body=${encodeURIComponent(articleUrl)}`;
+        const shareHtml = `
+            <div class="article-share" aria-label="記事を共有">
+                <button type="button" class="article-share-icon is-x" aria-label="Xでシェア" title="Xでシェア" data-share data-share-title="${escapeHtml(data.title)}" data-share-url="${escapeHtml(articleUrl)}">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.214-6.817-5.966 6.817H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"></path></svg>
+                </button>
+                <a href="${escapeHtml(mailShareUrl)}" class="article-share-icon is-mail" aria-label="メールでシェア" title="メールでシェア">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm0 2v.4l8 5.15 8-5.15V7H4Zm0 2.78V17h16V9.78l-8 5.15-8-5.15Z"></path></svg>
+                </a>
+                <button type="button" class="article-share-icon" aria-label="URLをコピー" title="URLをコピー" data-copy-url="${escapeHtml(articleUrl)}">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.5A1.5 1.5 0 0 1 10.5 8h8A1.5 1.5 0 0 1 20 9.5v8A1.5 1.5 0 0 1 18.5 19h-8A1.5 1.5 0 0 1 9 17.5v-8Z"></path><path d="M6 15H5.5A1.5 1.5 0 0 1 4 13.5v-8A1.5 1.5 0 0 1 5.5 4h8A1.5 1.5 0 0 1 15 5.5V6"></path></svg>
+                </button>
+            </div>`;
+        const bottomShareHtml = shareHtml.replace('article-share"', 'article-share article-share-bottom"');
         const notifyPayload = {
             title: data.title,
             excerpt: data.description,
             category: data.category,
-            url: `https://spacegleam.co.jp/blog/${data.slug}/`
+            url: articleUrl
         };
         const draftNote = data.status === 'draft'
             ? '// 下書きです。公開するまで posts.js に追加しないでください。\n'
             : '';
-        const postEntry = `${draftNote}    {\n        slug: '${data.slug}',\n        title: '${escapeJs(data.title)}',\n        date: '${data.date}',\n        publishAt: '${publishAt}',\n        status: '${data.status}',\n        category: '${data.category}',\n        description: '${escapeJs(data.description)}',\n        excerpt: '${escapeJs(data.description)}',\n        url: 'https://spacegleam.co.jp/blog/${data.slug}/'${data.imageUrl ? `,\n        thumbnail: '${escapeJs(data.imageUrl)}'` : ''}\n    },`;
+        const postEntry = `${draftNote}    {\n        slug: '${data.slug}',\n        title: '${escapeJs(data.title)}',\n        date: '${data.date}',\n        publishAt: '${publishAt}',\n        status: '${data.status}',\n        category: '${data.category}',\n        description: '${escapeJs(data.description)}',\n        excerpt: '${escapeJs(data.description)}',\n        url: '${articleUrl}'${data.imageUrl ? `,\n        thumbnail: '${escapeJs(data.imageUrl)}'` : ''}\n    },`;
 
         const articleHtml = `<!DOCTYPE html>
 <html lang="ja">
@@ -221,9 +249,11 @@
                 <h1>${escapeHtml(data.title)}</h1>
                 <p class="article-lead">${escapeHtml(data.description)}</p>
             </header>${imageHtml}
+${shareHtml}
             <div class="article-content">
 ${bodyHtml}
             </div>
+${bottomShareHtml}
         </article>
         <div class="article-cta"><div><strong>AIシステム開発のご相談はこちら</strong><p>AI MVP、SaaS、業務システムの初期設計からご相談いただけます。</p></div><a href="../../index.html#contact">問い合わせる</a></div>
         <section class="related-section"><h2>関連記事</h2><div class="related-grid" data-related-posts></div></section>
