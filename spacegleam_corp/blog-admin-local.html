@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Blog Admin | SPACE GLEAM</title>
+    <link rel="icon" href="https://spacegleam.co.jp/favicon.png">
+    <link rel="stylesheet" href="https://spacegleam.co.jp/style.css?v=blog-editor-20260602-admin">
+    <style>
+        :root {
+            --admin-bg: #f5f3ef;
+            --admin-ink: #111111;
+            --admin-muted: #62615d;
+            --admin-line: rgba(17, 17, 17, 0.10);
+            --admin-panel: rgba(255, 255, 255, 0.88);
+            --admin-panel-solid: #ffffff;
+            --admin-radius: 8px;
+        }
+
+        body.blog-admin-body {
+            min-height: 100vh;
+            color: var(--admin-ink);
+            background:
+                radial-gradient(circle at 12% 8%, rgba(255,255,255,0.92), transparent 34%),
+                radial-gradient(circle at 82% 0%, rgba(225,218,205,0.75), transparent 32%),
+                linear-gradient(180deg, #faf8f3 0%, var(--admin-bg) 48%, #efebe4 100%);
+        }
+
+        .blog-admin-body .header {
+            background: rgba(250, 248, 243, 0.82);
+            border-bottom: 1px solid var(--admin-line);
+            backdrop-filter: blur(18px);
+        }
+
+        .blog-admin-main {
+            padding: 118px 0 80px;
+        }
+
+        .blog-admin-shell {
+            display: grid;
+            gap: 26px;
+        }
+
+        .blog-admin-hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 24px;
+            align-items: end;
+            padding: 32px;
+            background: rgba(255,255,255,0.58);
+            border: 1px solid var(--admin-line);
+            border-radius: var(--admin-radius);
+            box-shadow: 0 22px 70px rgba(17,17,17,0.08);
+        }
+
+        .blog-admin-kicker {
+            display: inline-flex;
+            width: fit-content;
+            align-items: center;
+            gap: 8px;
+            margin: 0 0 14px;
+            padding: 6px 10px;
+            color: #2d2b27;
+            background: #ffffff;
+            border: 1px solid var(--admin-line);
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .blog-admin-kicker::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background: #32c36c;
+            border-radius: 999px;
+            box-shadow: 0 0 0 5px rgba(50,195,108,0.14);
+        }
+
+        .blog-admin-title {
+            max-width: 760px;
+            margin: 0;
+            color: var(--admin-ink);
+            font-size: clamp(2.2rem, 5vw, 4.7rem);
+            line-height: 0.96;
+            letter-spacing: 0;
+        }
+
+        .blog-admin-lead {
+            max-width: 690px;
+            margin: 18px 0 0;
+            color: var(--admin-muted);
+            font-size: 1rem;
+            line-height: 1.85;
+        }
+
+        .blog-admin-quick {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(150px, 1fr));
+            gap: 10px;
+            min-width: 330px;
+        }
+
+        .blog-admin-stat {
+            padding: 18px;
+            background: #111111;
+            color: #ffffff;
+            border-radius: var(--admin-radius);
+        }
+
+        .blog-admin-stat:nth-child(2) {
+            background: #ffffff;
+            color: var(--admin-ink);
+            border: 1px solid var(--admin-line);
+        }
+
+        .blog-admin-stat span {
+            display: block;
+            margin-bottom: 14px;
+            color: currentColor;
+            opacity: 0.68;
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .blog-admin-stat strong {
+            display: block;
+            font-size: 1.2rem;
+            line-height: 1.35;
+            letter-spacing: 0;
+        }
+
+        .blog-admin-guide {
+            max-width: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .blog-admin-guide h2 {
+            margin: 0 0 14px;
+            font-size: 1rem;
+            letter-spacing: 0;
+        }
+
+        .blog-admin-guide ol {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            padding: 0;
+            list-style: none;
+            counter-reset: admin-step;
+        }
+
+        .blog-admin-guide li {
+            counter-increment: admin-step;
+            min-height: 122px;
+            padding: 18px;
+            color: #4f4d48;
+            background: var(--admin-panel);
+            border: 1px solid var(--admin-line);
+            border-radius: var(--admin-radius);
+            line-height: 1.75;
+        }
+
+        .blog-admin-guide li::before {
+            content: counter(admin-step, decimal-leading-zero);
+            display: block;
+            margin-bottom: 14px;
+            color: #111111;
+            font-size: 0.72rem;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+        }
+
+        .blog-admin-body .blog-editor-layout {
+            grid-template-columns: minmax(430px, 0.86fr) minmax(0, 1.14fr);
+            gap: 18px;
+            align-items: start;
+        }
+
+        .blog-admin-body .blog-editor-form,
+        .blog-admin-body .blog-editor-output {
+            padding: 20px;
+            background: var(--admin-panel-solid);
+            border: 1px solid var(--admin-line);
+            border-radius: var(--admin-radius);
+            box-shadow: 0 18px 52px rgba(17,17,17,0.06);
+        }
+
+        .blog-editor-section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin: 0 0 4px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--admin-line);
+        }
+
+        .blog-editor-section-title h2 {
+            margin: 0;
+            font-size: 1.1rem;
+            letter-spacing: 0;
+        }
+
+        .blog-editor-section-title span {
+            color: var(--admin-muted);
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .blog-admin-body .blog-editor-form label,
+        .blog-admin-body .blog-editor-output label,
+        .blog-admin-body .blog-editor-image-field {
+            color: #24231f;
+            font-size: 0.82rem;
+            letter-spacing: 0.02em;
+        }
+
+        .blog-admin-body .blog-editor-form input,
+        .blog-admin-body .blog-editor-form select,
+        .blog-admin-body .blog-editor-form textarea,
+        .blog-admin-body .blog-editor-output textarea {
+            min-height: 48px;
+            background: #f7f5f0;
+            border: 1px solid rgba(17,17,17,0.09);
+            border-radius: var(--admin-radius);
+            transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+        }
+
+        .blog-admin-body .blog-editor-form input:focus,
+        .blog-admin-body .blog-editor-form select:focus,
+        .blog-admin-body .blog-editor-form textarea:focus,
+        .blog-admin-body .blog-editor-output textarea:focus {
+            background: #ffffff;
+            border-color: rgba(17,17,17,0.34);
+            box-shadow: 0 0 0 4px rgba(17,17,17,0.06);
+        }
+
+        .blog-admin-body .blog-editor-drafts {
+            padding: 14px;
+            background: #f7f5f0;
+            border: 1px solid var(--admin-line);
+            border-radius: var(--admin-radius);
+        }
+
+        .blog-admin-body .blog-editor-draft-actions button,
+        .blog-admin-body .blog-editor-slug-row button,
+        .blog-admin-body .blog-editor-actions button,
+        .blog-admin-body .blog-editor-image-clear {
+            border-radius: var(--admin-radius);
+            background: #ffffff;
+            transition: transform 0.18s ease, border-color 0.18s ease;
+        }
+
+        .blog-admin-body button:hover {
+            transform: translateY(-1px);
+        }
+
+        .blog-admin-body .blog-editor-image-dropzone {
+            min-height: 116px;
+            background:
+                linear-gradient(135deg, rgba(255,255,255,0.72), transparent 44%),
+                #f0ede6;
+            border-radius: var(--admin-radius);
+        }
+
+        .blog-admin-body .blog-editor-image-preview {
+            min-height: 220px;
+            border-radius: var(--admin-radius);
+        }
+
+        .blog-admin-body .blog-editor-submit,
+        .blog-admin-body .blog-editor-publish-panel button,
+        .blog-admin-body .blog-editor-notify button {
+            width: 100%;
+            justify-content: center;
+            min-height: 52px;
+            border-radius: var(--admin-radius);
+        }
+
+        .blog-admin-body .blog-editor-publish-panel,
+        .blog-admin-body .blog-editor-notify,
+        .blog-admin-body .blog-editor-manual-output {
+            border-radius: var(--admin-radius);
+            border-color: var(--admin-line);
+        }
+
+        .blog-admin-body .blog-editor-publish-panel {
+            background:
+                linear-gradient(135deg, rgba(255,255,255,0.88), transparent 44%),
+                #111111;
+            color: #ffffff;
+        }
+
+        .blog-admin-body .blog-editor-publish-panel h2,
+        .blog-admin-body .blog-editor-publish-panel p,
+        .blog-admin-body .blog-editor-publish-panel p[data-state="success"],
+        .blog-admin-body .blog-editor-publish-panel p[data-state="error"] {
+            color: #ffffff;
+        }
+
+        .blog-admin-body .blog-editor-publish-panel p {
+            opacity: 0.74;
+        }
+
+        .blog-admin-body .blog-editor-publish-panel button {
+            color: #111111;
+            background: #ffffff;
+        }
+
+        @media (max-width: 1080px) {
+            .blog-admin-hero,
+            .blog-admin-body .blog-editor-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .blog-admin-quick {
+                min-width: 0;
+            }
+
+            .blog-admin-guide ol {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 640px) {
+            .blog-admin-main {
+                padding-top: 92px;
+            }
+
+            .blog-admin-hero,
+            .blog-admin-body .blog-editor-form,
+            .blog-admin-body .blog-editor-output {
+                padding: 18px;
+            }
+
+            .blog-admin-guide ol,
+            .blog-admin-quick {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* Admin simplified layout overrides */
+        .blog-admin-body .blog-editor-form input,
+        .blog-admin-body .blog-editor-form select,
+        .blog-admin-body .blog-editor-form textarea,
+        .blog-admin-body .blog-editor-manual-output textarea {
+            background: #ffffff !important;
+            color: #111827 !important;
+            border: 1px solid #d1d5db !important;
+        }
+        .blog-admin-body .blog-editor-form input:focus,
+        .blog-admin-body .blog-editor-form select:focus,
+        .blog-admin-body .blog-editor-form textarea:focus,
+        .blog-admin-body .blog-editor-manual-output textarea:focus {
+            background: #ffffff !important;
+            border-color: #111827 !important;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.08);
+        }
+        .blog-admin-body .blog-editor-layout { grid-template-columns: 1fr !important; }
+        .blog-admin-body .header .header-cta {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 14px; font-size: 13px; font-weight: 600;
+            border: 1px solid #111827; background: #111827; color: #fff;
+            border-radius: 999px; cursor: pointer;
+        }
+        .blog-admin-body .header .header-cta-secondary {
+            background: #fff; color: #111827;
+        }
+        .blog-admin-body .header .header-cta:hover { opacity: 0.85; }
+        .blog-admin-body .header [data-admin-toolbar] { display: flex; gap: 8px; }
+        .blog-admin-body .blog-editor-status-bar {
+            display: flex; gap: 16px; flex-wrap: wrap;
+            margin: 8px 0 0; min-height: 0;
+        }
+        .blog-admin-body .blog-editor-status-bar p {
+            margin: 0; font-size: 13px; color: #6b7280;
+        }
+        .blog-admin-body .blog-editor-status-bar p:empty { display: none; }
+        .blog-admin-body .blog-editor-manual-output { margin-top: 20px; }
+        .blog-admin-body .blog-editor-drafts-compact {
+            display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+            padding: 8px 0; border: none; background: transparent;
+        }
+        .blog-admin-body .blog-editor-drafts-compact select { flex: 1; min-width: 200px; }
+        .blog-admin-body .blog-editor-drafts-compact button {
+            padding: 8px 14px; font-size: 13px;
+        }
+        .blog-admin-body .blog-editor-drafts-compact .blog-editor-draft-status {
+            flex-basis: 100%; margin: 0; font-size: 12px; color: #6b7280;
+        }
+        .blog-admin-body .blog-editor-drafts-compact .blog-editor-draft-status:empty { display: none; }
+        .blog-admin-body .blog-editor-date-row {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+        }
+        @media (max-width: 600px) {
+            .blog-admin-body .blog-editor-date-row { grid-template-columns: 1fr; }
+        }
+        .blog-admin-body .blog-editor-draft-list {
+            list-style: none; margin: 6px 0 14px; padding: 0;
+            display: flex; flex-direction: column; gap: 4px;
+            max-height: 180px; overflow-y: auto;
+            border: 1px solid #e5e7eb; border-radius: 8px; background: #fff;
+        }
+        .blog-admin-body .blog-editor-draft-list:empty {
+            display: none;
+        }
+        .blog-admin-body .blog-editor-draft-list li {
+            padding: 8px 12px; cursor: pointer; font-size: 13px;
+            border-bottom: 1px solid #f3f4f6;
+            display: flex; justify-content: space-between; align-items: center; gap: 8px;
+        }
+        .blog-admin-body .blog-editor-draft-list li:last-child { border-bottom: none; }
+        .blog-admin-body .blog-editor-draft-list li:hover { background: #f9fafb; }
+        .blog-admin-body .blog-editor-draft-list li[aria-current="true"] {
+            background: #111827; color: #fff;
+        }
+        .blog-admin-body .blog-editor-draft-list li time {
+            font-size: 11px; opacity: 0.7;
+        }
+        .blog-admin-body .blog-editor-image-actions {
+            display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;
+        }
+        .blog-admin-body .blog-editor-image-actions button {
+            padding: 8px 14px; font-size: 13px;
+        }
+        .blog-admin-body .blog-editor-auto-category {
+            margin: 0 0 6px; font-size: 12px; color: #6b7280;
+        }
+        .blog-admin-body .blog-editor-auto-category strong {
+            color: #111827; font-weight: 600; margin-left: 4px;
+            padding: 2px 8px; border-radius: 999px; background: #f3f4f6;
+        }
+        .blog-admin-body .blog-editor-date-hint {
+            margin: 4px 0 0; font-size: 12px; color: #6b7280;
+        }
+        .blog-admin-body .blog-editor-date-hint strong {
+            color: #111827; font-weight: 600;
+        }
+
+        /* === Unified button system === */
+        .blog-admin-body .blog-editor-form button:not(.blog-editor-image-dropzone),
+        .blog-admin-body .blog-editor-manual-output button,
+        .blog-admin-body .header-cta {
+            display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+            padding: 9px 16px;
+            font-family: inherit;
+            font-size: 13px; font-weight: 500;
+            line-height: 1.2;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            background: #ffffff;
+            color: #111827;
+            cursor: pointer;
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.05s ease;
+            box-shadow: 0 1px 0 rgba(17,24,39,0.04);
+            letter-spacing: 0.01em;
+        }
+        .blog-admin-body .blog-editor-form button:hover:not(.blog-editor-image-dropzone),
+        .blog-admin-body .blog-editor-manual-output button:hover {
+            background: #f9fafb; border-color: #d1d5db;
+        }
+        .blog-admin-body .blog-editor-form button:active:not(.blog-editor-image-dropzone),
+        .blog-admin-body .blog-editor-manual-output button:active {
+            transform: translateY(1px);
+        }
+
+        /* Primary (header main action) */
+        .blog-admin-body .header [data-copy-publish-package],
+        .blog-admin-body .blog-editor-form [data-save-draft] {
+            background: #111827; color: #ffffff; border-color: #111827;
+        }
+        .blog-admin-body .header [data-copy-publish-package]:hover,
+        .blog-admin-body .blog-editor-form [data-save-draft]:hover {
+            background: #1f2937; border-color: #1f2937;
+        }
+
+        /* Secondary (header alt action) */
+        .blog-admin-body .header [data-send-notify] {
+            background: #ffffff; color: #111827; border-color: #d1d5db;
+        }
+        .blog-admin-body .header [data-send-notify]:hover {
+            background: #f9fafb;
+        }
+
+        /* Destructive (delete, clear) */
+        .blog-admin-body .blog-editor-form [data-delete-draft],
+        .blog-admin-body .blog-editor-form [data-clear-image] {
+            color: #b91c1c; border-color: #fecaca; background: #ffffff;
+        }
+        .blog-admin-body .blog-editor-form [data-delete-draft]:hover,
+        .blog-admin-body .blog-editor-form [data-clear-image]:hover {
+            background: #fef2f2; border-color: #fca5a5;
+        }
+
+        /* Preview (subtle accent) */
+        .blog-admin-body .blog-editor-form [data-preview-draft] {
+            color: #1d4ed8; border-color: #bfdbfe;
+        }
+        .blog-admin-body .blog-editor-form [data-preview-draft]:hover {
+            background: #eff6ff; border-color: #93c5fd;
+        }
+
+        /* Generate (accent purple) */
+        .blog-admin-body .blog-editor-form [data-image-generate] {
+            background: linear-gradient(135deg, #6d28d9, #2563eb);
+            color: #ffffff; border-color: transparent;
+            font-weight: 600;
+        }
+        .blog-admin-body .blog-editor-form [data-image-generate]:hover {
+            filter: brightness(1.06);
+        }
+        .blog-admin-body .blog-editor-form [data-image-generate]::before {
+            content: "✦"; font-size: 14px;
+        }
+
+        /* Inline tiny buttons (slug helpers) */
+        .blog-admin-body .blog-editor-form .blog-editor-slug-row button {
+            padding: 7px 12px; font-size: 12px;
+        }
+
+        /* Dropzone visual cleanup */
+        .blog-admin-body .blog-editor-image-dropzone {
+            display: block; width: 100%;
+            padding: 24px 16px;
+            font-size: 13px; color: #6b7280;
+            background: #fafafa;
+            border: 1.5px dashed #d1d5db; border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.15s ease, border-color 0.15s ease;
+        }
+        .blog-admin-body .blog-editor-image-dropzone:hover {
+            background: #f3f4f6; border-color: #9ca3af;
+        }
+
+        /* Manual output copy buttons row */
+        .blog-admin-body .blog-editor-actions {
+            display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;
+        }
+
+        /* === Workspace 2-column layout (sidebar + editor) === */
+        .blog-admin-body .blog-editor-workspace {
+            display: grid;
+            grid-template-columns: 260px minmax(0, 1fr);
+            gap: 24px;
+            align-items: start;
+        }
+        @media (max-width: 900px) {
+            .blog-admin-body .blog-editor-workspace { grid-template-columns: 1fr; }
+        }
+
+        /* Sidebar */
+        .blog-admin-body .blog-editor-sidebar {
+            position: sticky; top: 80px;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 12px 12px 14px;
+            box-shadow: 0 1px 2px rgba(17,24,39,0.04);
+            max-height: calc(100vh - 100px);
+            display: flex; flex-direction: column;
+        }
+        @media (max-width: 900px) {
+            .blog-admin-body .blog-editor-sidebar { position: static; max-height: none; }
+        }
+        .blog-admin-body .blog-editor-sidebar-head {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 4px 4px 10px; margin-bottom: 8px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .blog-admin-body .blog-editor-sidebar-head h2 {
+            margin: 0; font-size: 13px; font-weight: 700;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            color: #6b7280;
+        }
+        .blog-admin-body .blog-editor-new-draft {
+            width: 28px; height: 28px; padding: 0;
+            font-size: 18px; line-height: 1; font-weight: 400;
+            border: 1px solid #e5e7eb; background: #fff; color: #111827;
+            border-radius: 8px; cursor: pointer;
+            transition: background-color 0.15s ease;
+        }
+        .blog-admin-body .blog-editor-new-draft:hover {
+            background: #f3f4f6; border-color: #d1d5db;
+        }
+
+        /* Sidebar list overrides */
+        .blog-admin-body .blog-editor-sidebar .blog-editor-draft-list {
+            max-height: none; border: none; background: transparent;
+            overflow-y: auto; flex: 1; padding: 2px;
+        }
+        .blog-admin-body .blog-editor-sidebar .blog-editor-draft-list li {
+            border-bottom: none; border-radius: 8px; padding: 9px 10px;
+            font-size: 13px; line-height: 1.4;
+            display: block;
+        }
+        .blog-admin-body .blog-editor-sidebar .blog-editor-draft-list li:hover {
+            background: #f3f4f6;
+        }
+        .blog-admin-body .blog-editor-sidebar .blog-editor-draft-list li[aria-current="true"] {
+            background: #111827; color: #fff;
+        }
+        .blog-admin-body .blog-editor-sidebar-empty {
+            margin: 12px 8px; font-size: 12px; color: #9ca3af; text-align: center;
+        }
+
+        /* Toolbar under sidebar (save/preview/delete) above the form */
+        .blog-admin-body .blog-editor-toolbar {
+            display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+            padding: 10px 0 14px;
+            border-bottom: 1px solid #f3f4f6;
+            margin-bottom: 16px;
+        }
+        .blog-admin-body .blog-editor-toolbar .blog-editor-draft-status {
+            margin: 0 0 0 auto; font-size: 12px; color: #6b7280;
+        }
+        .blog-admin-body .blog-editor-toolbar .blog-editor-draft-status:empty { display: none; }
+    </style>
+</head>
+<body class="blog-page-body blog-admin-body">
+    <header class="header">
+        <div class="container header-inner">
+            <span class="brand-name">blogmachine</span>
+            <div class="header-ctas" data-admin-toolbar>
+                <button type="button" data-publish-immediate class="header-cta"
+                    title="今すぐ本番に公開します（GitHubに直接コミット）。">
+                    今すぐ公開
+                </button>
+                <button type="button" data-publish-scheduled class="header-cta header-cta-secondary"
+                    title="予約公開日時に達したら自動で公開します。">
+                    予約公開
+                </button>
+                <button type="button" data-send-notify class="header-cta header-cta-secondary"
+                    title="購読者に新着記事のお知らせメールを送信します。">
+                    通知メールを送信
+                </button>
+                <button type="button" data-copy-publish-package class="header-cta header-cta-secondary"
+                    title="（旧）公開データをクリップボードにコピーします。手動公開用。">
+                    コピー（旧）
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="blog-main blog-admin-main">
+        <div class="container blog-admin-shell">
+            <div class="blog-editor-workspace">
+                <aside class="blog-editor-sidebar" aria-label="下書き">
+                    <div class="blog-editor-sidebar-head">
+                        <h2>下書き</h2>
+                        <button type="button" data-new-draft class="blog-editor-new-draft" title="新規作成">＋</button>
+                    </div>
+                    <ul class="blog-editor-draft-list" data-draft-list-view aria-label="下書き一覧"></ul>
+                    <p class="blog-editor-sidebar-empty" data-draft-empty hidden>まだ下書きがありません</p>
+                </aside>
+
+                <section class="blog-editor-layout">
+                    <form class="blog-editor-form" data-blog-editor>
+                        <select data-draft-list aria-label="下書き(内部)" hidden><option value="">新規作成</option></select>
+                        <div class="blog-editor-toolbar">
+                            <button type="button" data-save-draft>下書き保存</button>
+                            <button type="button" data-preview-draft>プレビュー</button>
+                            <button type="button" data-delete-draft>削除</button>
+                            <p class="blog-editor-draft-status" data-draft-status aria-live="polite"></p>
+                        </div>
+                        <input type="hidden" name="status" value="draft">
+                    <label>タイトル<input name="title" type="text" value="AI時代のMVP開発で最初に決めること" required></label>
+                    <label>スラッグ
+                        <div class="blog-editor-slug-row">
+                            <input name="slug" type="text" value="ai-mvp-first-decisions" required>
+                            <button type="button" data-slug-from-title>タイトルから生成</button>
+                            <button type="button" data-slug-random>ランダム生成</button>
+                        </div>
+                    </label>
+                    <select name="category" hidden data-auto-category>
+                        <option>Development</option>
+                        <option>AI</option>
+                        <option>SaaS</option>
+                        <option>Business</option>
+                        <option>Product</option>
+                    </select>
+                    <p class="blog-editor-auto-category">
+                        カテゴリ（自動判定）: <strong data-auto-category-label>Development</strong>
+                    </p>
+                    <input type="hidden" name="date" data-date-mirror>
+                    <label>予約公開日時<input name="publishAt" type="datetime-local" required></label>
+                    <p class="blog-editor-date-hint">
+                        ※ ブログ上の表示は <strong data-date-display>日付のみ</strong>。時刻は公開タイミングとして使われます。
+                    </p>
+                    <div class="blog-editor-image-field">
+                        <span>画像</span>
+                        <button class="blog-editor-image-dropzone" type="button" data-image-dropzone>
+                            画像をここに貼り付け、またはクリックして選択
+                        </button>
+                        <input name="imageFile" type="file" accept="image/*" data-image-file hidden>
+                        <div class="blog-editor-image-actions">
+                            <button type="button" data-image-generate>幾何学画像を自動生成</button>
+                            <button class="blog-editor-image-clear" type="button" data-clear-image>画像を削除</button>
+                        </div>
+                    </div>
+                    <div class="blog-editor-image-preview" data-image-preview aria-hidden="true"></div>
+                    <label>概要<textarea name="description" rows="3" required>AIを使ってMVP開発を始める前に決めるべき、検証仮説、初期機能、運用設計の考え方を整理します。</textarea></label>
+                    <label>本文<textarea name="body" rows="12" required>AIを使うと、MVPの初期実装はかなり速くなります。
+
+ただし、最初に決めるべきことは技術選定ではありません。誰のどんな課題を、どの順番で検証するかです。
+
+## 最初に決めること
+
+最初に決めるべきなのは、成功条件、初期ユーザー、検証する業務フローです。
+
+## 作りすぎない設計
+
+AIで開発速度が上がるほど、作りすぎのリスクも上がります。最初は検証に必要な機能だけに絞ることが重要です。
+
+## 運用まで含めて考える
+
+MVPは公開して終わりではありません。問い合わせ、ログ、改善要望を受け取る仕組みまで設計しておくと、次の改善が速くなります。</textarea></label>
+                        <button class="header-cta blog-editor-submit" type="submit">プレビュー更新<span class="arrow">→</span></button>
+                    </form>
+
+                    <div class="blog-editor-status-bar" aria-live="polite">
+                        <p data-publish-status></p>
+                        <p data-notify-status></p>
+                    </div>
+                </section>
+            </div><!-- /.blog-editor-workspace -->
+
+            <div class="blog-editor-hidden-outputs" hidden aria-hidden="true">
+                <textarea data-post-output readonly></textarea>
+                <textarea data-html-output readonly></textarea>
+                <textarea data-notify-output readonly></textarea>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://spacegleam.co.jp/blog/editor.js?v=20260606-header-template"></script>
+    <script>
+    // === blogmachine enhancements (overlay on editor.js) =========================
+    (function(){
+      const $ = s => document.querySelector(s);
+      const $$ = s => Array.from(document.querySelectorAll(s));
+
+      // --- (1) Draft list view: mirror hidden <select data-draft-list> as <ul> ---
+      const draftSelect = $('[data-draft-list]');
+      const draftListView = $('[data-draft-list-view]');
+      function syncDraftList() {
+        if (!draftSelect || !draftListView) return;
+        const current = draftSelect.value;
+        draftListView.innerHTML = '';
+        Array.from(draftSelect.options).forEach(opt => {
+          if (!opt.value) return; // skip placeholder
+          const li = document.createElement('li');
+          li.textContent = opt.textContent;
+          li.dataset.value = opt.value;
+          if (opt.value === current) li.setAttribute('aria-current', 'true');
+          li.addEventListener('click', () => {
+            draftSelect.value = opt.value;
+            draftSelect.dispatchEvent(new Event('change', {bubbles:true}));
+            syncDraftList();
+          });
+          draftListView.appendChild(li);
+        });
+      }
+      if (draftSelect) {
+        new MutationObserver(syncDraftList).observe(draftSelect, {childList:true, subtree:true, attributes:true});
+        draftSelect.addEventListener('change', syncDraftList);
+        syncDraftList();
+      }
+
+      // empty-state visibility
+      const draftEmpty = $('[data-draft-empty]');
+      function updateEmpty() {
+        if (!draftEmpty || !draftListView) return;
+        draftEmpty.hidden = draftListView.children.length > 0;
+      }
+      if (draftListView) {
+        new MutationObserver(updateEmpty).observe(draftListView, {childList:true});
+        updateEmpty();
+      }
+
+      // "新規作成" sidebar button → reset select to placeholder and trigger change
+      const newDraftBtn = $('[data-new-draft]');
+      if (newDraftBtn && draftSelect) {
+        newDraftBtn.addEventListener('click', () => {
+          draftSelect.value = '';
+          draftSelect.dispatchEvent(new Event('change', {bubbles:true}));
+          syncDraftList();
+        });
+      }
+
+      // --- (5) Direct publish to production via /blog-publish ---
+      function gatherPayload() {
+        const get = sel => { const el = $(sel); return el ? el.value : ''; };
+        const slug = get('input[name=slug]');
+        const title = get('input[name=title]');
+        const description = get('textarea[name=description]');
+        const publishAt = get('input[name=publishAt]');
+        const date = get('input[name=date]') || (publishAt.split('T')[0] || '');
+        const category = get('select[name=category]') || 'Development';
+        const postEntry = (($('[data-post-output]') || {}).value || '').trim();
+        const articleHtml = (($('[data-html-output]') || {}).value || '').trim();
+        let notifyPayload = null;
+        try { notifyPayload = JSON.parse(($('[data-notify-output]') || {}).value || 'null'); } catch (_){}
+        return { slug, title, description, publishAt, date, category, postEntry, articleHtml, notifyPayload };
+      }
+
+      async function postPublish(payload, mode) {
+        const status = $('[data-publish-status]');
+        if (status) { status.textContent = mode === 'scheduled' ? '予約登録中…' : '公開中…'; status.dataset.state = 'loading'; }
+        try {
+          // Trigger the editor.js to build htmlOutput/postOutput first
+          const form = $('[data-blog-editor]');
+          if (form) form.dispatchEvent(new Event('submit', {bubbles:true, cancelable:true}));
+          // small wait so build() completes
+          await new Promise(r => setTimeout(r, 100));
+          const data = gatherPayload();
+          if (!data.slug || !data.title) throw new Error('スラッグとタイトルは必須です');
+          if (!data.articleHtml || !data.postEntry) throw new Error('記事HTMLまたはposts.js追記用が空です。本文を書いてください。');
+          const res = await fetch('/.netlify/functions/blog-publish', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ ...data, mode })
+          });
+          const json = await res.json().catch(() => ({}));
+          if (!res.ok) throw new Error(json.error || `HTTP ${res.status}`);
+          if (status) {
+            if (mode === 'scheduled') {
+              status.textContent = `予約登録しました（${json.publishAt}）`;
+            } else {
+              status.innerHTML = `公開しました → <a href="${json.commitUrl}" target="_blank" rel="noopener">コミットを見る</a> ／ 数分後に <a href="${json.articleUrl}" target="_blank" rel="noopener">本番記事</a> を確認`;
+            }
+            status.dataset.state = 'success';
+          }
+        } catch (e) {
+          if (status) { status.textContent = '失敗: ' + (e.message || e); status.dataset.state = 'error'; }
+        }
+      }
+
+      const btnImmediate = $('[data-publish-immediate]');
+      if (btnImmediate) btnImmediate.addEventListener('click', () => {
+        if (!confirm('本番に今すぐ公開します。よろしいですか？')) return;
+        postPublish(null, 'immediate');
+      });
+
+      const btnScheduled = $('[data-publish-scheduled]');
+      if (btnScheduled) btnScheduled.addEventListener('click', () => {
+        const pa = ($('input[name=publishAt]') || {}).value;
+        if (!pa) { alert('予約公開日時を入力してください'); return; }
+        if (new Date(pa) <= new Date()) { alert('予約公開日時が過去になっています。未来の日時を指定してください。'); return; }
+        postPublish(null, 'scheduled');
+      });
+
+      // --- (1.5) Auto-derive `date` from publishAt (date portion only) ---
+      const publishAt = $('input[name=publishAt]');
+      const dateMirror = $('[data-date-mirror]');
+      const dateDisplay = $('[data-date-display]');
+      function syncDate() {
+        if (!publishAt) return;
+        const v = publishAt.value || ''; // format: YYYY-MM-DDTHH:MM
+        const datePart = v.split('T')[0] || '';
+        if (dateMirror) dateMirror.value = datePart;
+        if (dateDisplay) {
+          if (datePart) {
+            const [y,m,d] = datePart.split('-');
+            dateDisplay.textContent = `${parseInt(y)}年${parseInt(m)}月${parseInt(d)}日`;
+          } else {
+            dateDisplay.textContent = '日付のみ';
+          }
+        }
+      }
+      if (publishAt) { publishAt.addEventListener('input', syncDate); syncDate(); }
+
+      // --- (2) Auto-category from title/body ---
+      const catSelect = $('[data-auto-category]');
+      const catLabel = $('[data-auto-category-label]');
+      const RULES = [
+        {cat:'AI', keys:['AI','GPT','LLM','機械学習','生成AI','自動化','プロンプト','エージェント']},
+        {cat:'SaaS', keys:['SaaS','サブスク','クラウド','マルチテナント','課金','プラン','B2B']},
+        {cat:'Product', keys:['UI','UX','プロダクト','デザイン','ユーザー体験','プロトタイプ']},
+        {cat:'Business', keys:['事業','営業','経営','マーケ','戦略','ビジネスモデル']},
+        {cat:'Development', keys:['開発','コード','MVP','システム','API','データベース','React','Node']},
+      ];
+      function detectCategory() {
+        const title = ($('input[name=title]') || {}).value || '';
+        const body = ($('textarea[name=body]') || {}).value || '';
+        const desc = ($('textarea[name=description]') || {}).value || '';
+        const text = (title + ' ' + desc + ' ' + body).toLowerCase();
+        let best = 'Development', bestScore = 0;
+        RULES.forEach(r => {
+          const score = r.keys.reduce((s,k) => s + (text.includes(k.toLowerCase()) ? 1 : 0), 0);
+          if (score > bestScore) { bestScore = score; best = r.cat; }
+        });
+        if (catSelect) catSelect.value = best;
+        if (catLabel) catLabel.textContent = best;
+      }
+      ['input[name=title]','textarea[name=body]','textarea[name=description]'].forEach(sel => {
+        const el = $(sel); if (el) el.addEventListener('input', detectCategory);
+      });
+      detectCategory();
+
+      // --- (3) Preview button: open rendered preview matching production blog ---
+      function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+      function mdToHtml(src) {
+        // Mirror blog renderer rules:
+        //  ## heading → <h2>
+        //  - item / * item → <ul><li>
+        //  **bold** → <strong>
+        //  *italic* → <em>
+        //  blank line separates paragraphs
+        const lines = String(src||'').replace(/\r\n?/g,'\n').split('\n');
+        let html = '', inList = false, paraBuf = [];
+        const flushPara = () => { if (paraBuf.length) { html += '<p>' + paraBuf.join('<br>') + '</p>'; paraBuf = []; } };
+        const closeList = () => { if (inList) { html += '</ul>'; inList = false; } };
+        for (let raw of lines) {
+          const line = raw.trim();
+          if (!line) { flushPara(); closeList(); continue; }
+          let m;
+          if (m = line.match(/^##\s+(.+)$/)) { flushPara(); closeList(); html += '<h2>' + esc(m[1]) + '</h2>'; continue; }
+          if (m = line.match(/^#\s+(.+)$/))  { flushPara(); closeList(); html += '<h1>' + esc(m[1]) + '</h1>'; continue; }
+          if (m = line.match(/^[-*]\s+(.+)$/)) {
+            flushPara();
+            if (!inList) { html += '<ul>'; inList = true; }
+            html += '<li>' + inline(m[1]) + '</li>';
+            continue;
+          }
+          closeList();
+          paraBuf.push(inline(line));
+        }
+        flushPara(); closeList();
+        return html;
+        function inline(s){
+          return esc(s)
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            .replace(/(^|[^*])\*(?!\s)([^*]+?)\*(?!\*)/g, '$1<em>$2</em>');
+        }
+      }
+
+      const previewBtn = $('[data-preview-draft]');
+      if (previewBtn) previewBtn.addEventListener('click', () => {
+        const title = ($('input[name=title]') || {}).value || '(無題)';
+        const desc = ($('textarea[name=description]') || {}).value || '';
+        const body = ($('textarea[name=body]') || {}).value || '';
+        const cat = ($('select[name=category]') || {}).value || '';
+        const pubAt = ($('input[name=publishAt]') || {}).value || '';
+        const datePart = (pubAt.split('T')[0]) || '';
+        const dateLabel = datePart
+          ? `${parseInt(datePart.split('-')[0])}年${parseInt(datePart.split('-')[1])}月${parseInt(datePart.split('-')[2])}日`
+          : '';
+        const bodyHtml = mdToHtml(body);
+        const w = window.open('', 'preview', 'width=1100,height=900');
+        w.document.write(`<!doctype html>
+<html lang="ja"><head><meta charset="utf-8">
+<title>プレビュー: ${esc(title)}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://spacegleam.co.jp/style.css?v=diag-top-white-wide-20260605-v25">
+<style>
+  /* preview-only: faint banner showing this is a draft */
+  .preview-banner{position:sticky;top:0;z-index:100;padding:8px 16px;background:#111;color:#fff;font-size:12px;letter-spacing:0.04em;text-align:center;font-family:'Noto Sans JP',sans-serif}
+  body{margin:0}
+</style>
+</head>
+<body class="blog-page-body">
+  <div class="preview-banner">プレビュー（本番と同じスタイルで表示中）— このタブを閉じて戻る</div>
+  <main class="blog-main">
+    <div class="container">
+      <article>
+        <header class="article-header">
+          <div class="article-meta">
+            ${dateLabel ? `<time datetime="${esc(datePart)}">${dateLabel}</time>` : ''}
+            ${cat ? `<span class="article-category">${esc(cat)}</span>` : ''}
+          </div>
+          <h1>${esc(title)}</h1>
+          ${desc ? `<p class="article-lead">${esc(desc)}</p>` : ''}
+        </header>
+        <div class="article-content">${bodyHtml}</div>
+      </article>
+    </div>
+  </main>
+</body></html>`);
+        w.document.close();
+      });
+
+      // --- (4) Geometric image generator (muted palettes, many patterns) ---
+      // Monochrome only — soft, low-contrast grayscale palettes
+      const PALETTES = [
+        // Light grays (very subtle)
+        ['#FAFAFA','#E5E5E5','#C4C4C4','#9E9E9E'],
+        ['#F5F5F5','#E0E0E0','#BDBDBD','#757575'],
+        // Off-white + medium grays
+        ['#F8F8F8','#D8D8D8','#A8A8A8','#6E6E6E'],
+        ['#FBFBFB','#DCDCDC','#B0B0B0','#7A7A7A'],
+        // Warm grays (very slight tint)
+        ['#F6F4F1','#DCD8D2','#A8A29A','#6B6660'],
+        ['#F4F2EF','#D6D2CC','#A39E96','#5F5B55'],
+        // Cool grays (very slight tint)
+        ['#F4F5F6','#D9DBDD','#A6A9AC','#646A70'],
+        ['#F2F4F5','#D4D7DA','#9DA2A6','#5E646A'],
+        // Slightly darker midtones for variation
+        ['#EDEDED','#CFCFCF','#9C9C9C','#5C5C5C'],
+        ['#F0F0F0','#C8C8C8','#8E8E8E','#4F4F4F'],
+        // Deep accent variants
+        ['#F7F7F7','#D2D2D2','#7D7D7D','#2A2A2A'],
+        ['#F9F9F9','#D6D6D6','#8A8A8A','#333333'],
+      ];
+
+      // Pattern catalog — many variants for visual diversity
+      const PATTERNS = [
+        // 1. Bauhaus blocks (large rectangles + circle accent)
+        function bauhaus(ctx, p) {
+          const bands = 3 + Math.floor(Math.random()*3);
+          for (let i=0;i<bands;i++) {
+            ctx.fillStyle = p[1 + (i % (p.length-1))];
+            ctx.globalAlpha = 0.95;
+            ctx.fillRect(0, i*(630/bands), 1200, 630/bands);
+          }
+          // circle on top
+          ctx.fillStyle = p[3];
+          ctx.globalAlpha = 0.9;
+          ctx.beginPath();
+          ctx.arc(300 + Math.random()*600, 315, 120 + Math.random()*100, 0, Math.PI*2);
+          ctx.fill();
+        },
+        // 2. Concentric circles
+        function concentric(ctx, p) {
+          const cx = 200 + Math.random()*800, cy = 100 + Math.random()*430;
+          for (let i=8;i>=1;i--) {
+            ctx.fillStyle = p[1 + (i % (p.length-1))];
+            ctx.globalAlpha = 0.7 + Math.random()*0.25;
+            ctx.beginPath();
+            ctx.arc(cx, cy, i*45, 0, Math.PI*2);
+            ctx.fill();
+          }
+        },
+        // 3. Diagonal stripes
+        function diagStripes(ctx, p) {
+          ctx.save();
+          ctx.translate(600, 315);
+          ctx.rotate(-Math.PI/4);
+          for (let i=-12;i<12;i++) {
+            ctx.fillStyle = p[1 + Math.floor(Math.random()*(p.length-1))];
+            ctx.globalAlpha = 0.7 + Math.random()*0.25;
+            const h = 30 + Math.random()*60;
+            ctx.fillRect(-900, i*90, 1800, h);
+          }
+          ctx.restore();
+        },
+        // 4. Grid of dots
+        function dotGrid(ctx, p) {
+          const cols = 18, rows = 10;
+          for (let y=0;y<rows;y++) for (let x=0;x<cols;x++) {
+            ctx.fillStyle = p[1 + ((x+y) % (p.length-1))];
+            ctx.globalAlpha = 0.4 + Math.random()*0.5;
+            ctx.beginPath();
+            ctx.arc(40 + x*65, 40 + y*63, 8 + Math.random()*16, 0, Math.PI*2);
+            ctx.fill();
+          }
+        },
+        // 5. Stacked semicircles (japanese seigaiha-ish)
+        function semicircles(ctx, p) {
+          for (let y=0;y<5;y++) {
+            for (let x=-1;x<10;x++) {
+              ctx.fillStyle = p[1 + (y % (p.length-1))];
+              ctx.globalAlpha = 0.85;
+              ctx.beginPath();
+              ctx.arc(x*140 + (y%2)*70, y*130 + 60, 80, Math.PI, 0);
+              ctx.fill();
+            }
+          }
+        },
+        // 6. Triangles tessellation
+        function triangles(ctx, p) {
+          const n = 14 + Math.floor(Math.random()*8);
+          for (let i=0;i<n;i++) {
+            ctx.fillStyle = p[1 + Math.floor(Math.random()*(p.length-1))];
+            ctx.globalAlpha = 0.75 + Math.random()*0.2;
+            ctx.beginPath();
+            const x = Math.random()*1200, y = Math.random()*630;
+            const s = 100 + Math.random()*220;
+            const rot = Math.random()*Math.PI*2;
+            ctx.translate(x,y); ctx.rotate(rot);
+            ctx.moveTo(0, -s/2);
+            ctx.lineTo(s/2, s/2);
+            ctx.lineTo(-s/2, s/2);
+            ctx.closePath();
+            ctx.fill();
+            ctx.setTransform(1,0,0,1,0,0);
+          }
+        },
+        // 7. Minimal: single big shape + horizon line
+        function minimalHorizon(ctx, p) {
+          // horizon band
+          ctx.fillStyle = p[1];
+          ctx.fillRect(0, 380, 1200, 250);
+          // sun/moon
+          ctx.fillStyle = p[2];
+          ctx.beginPath();
+          ctx.arc(400 + Math.random()*400, 280 + Math.random()*80, 80 + Math.random()*60, 0, Math.PI*2);
+          ctx.fill();
+        },
+        // 8. Crosshatch lines
+        function crosshatch(ctx, p) {
+          ctx.strokeStyle = p[2];
+          ctx.lineWidth = 3 + Math.random()*4;
+          ctx.globalAlpha = 0.6;
+          for (let i=0;i<40;i++) {
+            ctx.beginPath();
+            ctx.moveTo(Math.random()*1200, 0);
+            ctx.lineTo(Math.random()*1200, 630);
+            ctx.stroke();
+          }
+          ctx.strokeStyle = p[3];
+          for (let i=0;i<25;i++) {
+            ctx.beginPath();
+            ctx.moveTo(0, Math.random()*630);
+            ctx.lineTo(1200, Math.random()*630);
+            ctx.stroke();
+          }
+        },
+        // 9. Quarter circles in corners
+        function quartersCorners(ctx, p) {
+          const corners = [[0,0],[1200,0],[0,630],[1200,630]];
+          corners.forEach((c,i) => {
+            ctx.fillStyle = p[1 + (i % (p.length-1))];
+            ctx.globalAlpha = 0.85;
+            const r = 200 + Math.random()*200;
+            ctx.beginPath();
+            ctx.arc(c[0], c[1], r, 0, Math.PI*2);
+            ctx.fill();
+          });
+          // central small accent
+          ctx.fillStyle = p[3];
+          ctx.globalAlpha = 0.9;
+          ctx.beginPath();
+          ctx.arc(600, 315, 30 + Math.random()*40, 0, Math.PI*2);
+          ctx.fill();
+        },
+        // 10. Vertical bars (newspaper columns)
+        function verticalBars(ctx, p) {
+          const cols = 5 + Math.floor(Math.random()*4);
+          const w = 1200 / cols;
+          for (let i=0;i<cols;i++) {
+            ctx.fillStyle = p[1 + (i % (p.length-1))];
+            ctx.globalAlpha = 0.85 + Math.random()*0.1;
+            const h = 100 + Math.random()*530;
+            ctx.fillRect(i*w + 8, (630-h)/2, w - 16, h);
+          }
+        },
+        // 11. Mixed organic (original style, restrained)
+        function organic(ctx, p) {
+          const layers = 4 + Math.floor(Math.random()*3);
+          for (let i=0;i<layers;i++) {
+            ctx.fillStyle = p[1 + Math.floor(Math.random()*(p.length-1))];
+            ctx.globalAlpha = 0.7 + Math.random()*0.2;
+            const t = Math.random();
+            if (t < 0.5) {
+              ctx.beginPath();
+              ctx.arc(Math.random()*1200, Math.random()*630, 100 + Math.random()*240, 0, Math.PI*2);
+              ctx.fill();
+            } else {
+              const w = 200 + Math.random()*400, h = 100 + Math.random()*300;
+              ctx.save();
+              ctx.translate(Math.random()*1200, Math.random()*630);
+              ctx.rotate((Math.random()-0.5)*Math.PI/3);
+              ctx.fillRect(-w/2,-h/2,w,h);
+              ctx.restore();
+            }
+          }
+        },
+        // 12. Single big circle (minimal poster)
+        function bigCircle(ctx, p) {
+          ctx.fillStyle = p[2];
+          ctx.globalAlpha = 0.95;
+          ctx.beginPath();
+          ctx.arc(600, 315, 220 + Math.random()*60, 0, Math.PI*2);
+          ctx.fill();
+          // small accent
+          ctx.fillStyle = p[3];
+          ctx.globalAlpha = 0.9;
+          ctx.beginPath();
+          ctx.arc(600 + 120 + Math.random()*100, 315 - 80, 30 + Math.random()*20, 0, Math.PI*2);
+          ctx.fill();
+        },
+      ];
+
+      function generateGeometric() {
+        const c = document.createElement('canvas');
+        c.width = 1200; c.height = 630;
+        const ctx = c.getContext('2d');
+        const p = PALETTES[Math.floor(Math.random()*PALETTES.length)];
+        ctx.fillStyle = p[0]; ctx.fillRect(0,0,1200,630);
+        // very subtle vignette
+        const g = ctx.createLinearGradient(0,0,1200,630);
+        g.addColorStop(0, p[0]); g.addColorStop(1, shade(p[0], -3));
+        ctx.fillStyle = g; ctx.fillRect(0,0,1200,630);
+        // Pick a pattern, render at reduced opacity for calm look
+        const pattern = PATTERNS[Math.floor(Math.random()*PATTERNS.length)];
+        ctx.save();
+        ctx.globalAlpha = 0.55;
+        pattern(ctx, p);
+        ctx.restore();
+        // Subtle paper noise
+        ctx.globalAlpha = 0.02;
+        for (let i=0;i<800;i++) {
+          ctx.fillStyle = '#000';
+          ctx.fillRect(Math.random()*1200, Math.random()*630, 1, 1);
+        }
+        ctx.globalAlpha = 1;
+        return c;
+      }
+      function shade(hex, percent) {
+        const n = parseInt(hex.slice(1),16);
+        let r=(n>>16)+percent, g=((n>>8)&0xff)+percent, b=(n&0xff)+percent;
+        r=Math.max(0,Math.min(255,r)); g=Math.max(0,Math.min(255,g)); b=Math.max(0,Math.min(255,b));
+        return '#'+((r<<16)|(g<<8)|b).toString(16).padStart(6,'0');
+      }
+      const genBtn = $('[data-image-generate]');
+      if (genBtn) genBtn.addEventListener('click', () => {
+        const c = generateGeometric();
+        c.toBlob(blob => {
+          const file = new File([blob], 'geo-'+Date.now()+'.png', {type:'image/png'});
+          const input = $('[data-image-file]');
+          if (input) {
+            try {
+              const dt = new DataTransfer();
+              dt.items.add(file);
+              input.files = dt.files;
+              input.dispatchEvent(new Event('change', {bubbles:true}));
+            } catch(e){}
+          }
+          // also force preview
+          const preview = $('[data-image-preview]');
+          if (preview) {
+            preview.style.backgroundImage = 'url("'+c.toDataURL('image/png')+'")';
+            preview.style.backgroundSize = 'cover';
+            preview.style.backgroundPosition = 'center';
+            preview.style.aspectRatio = '1200 / 630';
+            preview.style.borderRadius = '12px';
+            preview.setAttribute('aria-hidden','false');
+          }
+        }, 'image/png');
+      });
+    })();
+    </script>
+</body>
+</html>

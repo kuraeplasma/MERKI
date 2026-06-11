@@ -20,11 +20,13 @@
         rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=diag-top-white-wide-20260605-v25">
     <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="canonical" href="https://spacegleam.co.jp/company">
+    <link rel="preload" as="image" href="company-hero.webp" type="image/webp" fetchpriority="high">
 
     <!-- OGP Settings -->
     <meta property="og:title" content="会社概要 | SPACE GLEAM" />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://spacegleam.co.jp/company.html" />
+    <meta property="og:url" content="https://spacegleam.co.jp/company" />
     <meta property="og:image" content="https://spacegleam.co.jp/ogp.png" />
     <meta property="og:image:secure_url" content="https://spacegleam.co.jp/ogp.png" />
     <meta property="og:image:type" content="image/png" />
@@ -50,26 +52,49 @@
             <a href="index.html" class="brand" aria-label="SPACE GLEAM ホーム">
                 <span class="brand-name">SPACE GLEAM</span>
             </a>
+
+            <button class="nav-toggle" type="button" aria-label="メニューを開く" aria-controls="global-nav" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav id="global-nav" class="nav" aria-label="グローバルナビゲーション">
+                <a href="services.html">AI プロダクト開発</a>
+                <a href="pricing.html">料金</a>
+                <a href="works.html">実績</a>
+                <a href="faq.html">FAQ</a>
+                <a href="blog/">Blog</a>
+            </nav>
+
+            <div class="header-ctas">
+                <a href="contact.html" class="header-cta">AI開発について相談する<span class="arrow">→</span></a>
+            </div>
         </div>
     </header>
 
     <main class="company-main-content">
+        <!-- Full-width hero with overlay text -->
+        <section class="company-hero-fullwidth">
+            <picture>
+                <source srcset="company-hero.webp" type="image/webp">
+                <img src="company-hero.jpg" alt="Modern Tech Workspace" fetchpriority="high" loading="eager" decoding="async">
+            </picture>
+            <div class="company-hero-overlay">
+                <div class="company-hero-inner">
+                    <h1 class="company-heading-v2">事業の可能性を、最短距離で形に。</h1>
+                    <p class="company-lead-text">AIとテクノロジーの力で、価値あるプロダクトをスピーディに届けます。</p>
+                </div>
+            </div>
+        </section>
+
         <div class="container">
             <div class="company-grid-v2">
                 <!-- Left Column -->
                 <div class="company-left-col">
-                    <div class="company-header-v2">
-                        <p class="eyebrow">COMPANY</p>
-                        <p class="company-sub-title-v2">会社概要</p>
-                    </div>
-
-                    <!-- Modern Tech Workspace Visual with Overlay Text -->
-                    <div class="company-main-visual has-overlay">
-                        <img src="pjh-mGf9v3Jee1s-unsplash.jpg" alt="Modern Tech Workspace">
-                        <div class="company-visual-overlay">
-                            <h1 class="company-heading-v2">事業の可能性を、<br class="pc-only">最短距離で形に。</h1>
-                            <p class="company-lead-text">AIとテクノロジーの力で、価値あるプロダクトをスピーディに届けます。</p>
-                        </div>
+                    <div class="page-header">
+                        <a href="index.html" class="back-link">&larr; トップに戻る</a>
+                        <h1 class="page-title">会社概要</h1>
                     </div>
                 </div>
                 
@@ -119,7 +144,7 @@
                             <div class="company-contact-text">
                                 <p class="company-contact-sub">お気軽にお問い合わせください</p>
                                 <p class="company-contact-main">ご相談・お見積り・ご質問はこちら</p>
-                                <p class="company-contact-email">お問い合わせフォームへ</p>
+                                <p class="company-contact-email">AI開発について相談する</p>
                             </div>
                         </div>
                         <div class="company-contact-arrow">
@@ -173,7 +198,7 @@
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
                     </svg>
-                    無料で相談してみる <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H19M19 12L13 6M19 12L13 18"/></svg>
+                    AI開発について相談する <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H19M19 12L13 6M19 12L13 18"/></svg>
                 </a>
                             </div>
         </div>

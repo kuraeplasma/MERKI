@@ -1,0 +1,67 @@
+{
+  "questions": [
+    "product",
+    "stage",
+    "users",
+    "features",
+    "auth",
+    "payment",
+    "schedule"
+  ],
+  "primaryRouting": {
+    "efficiency": {
+      "label": "業務効率化ツール",
+      "pdf": "proposal-01-business-system-deck.pdf"
+    },
+    "chatbot": {
+      "label": "AIチャットボット",
+      "pdf": "proposal-02-ai-chatbot-deck.pdf"
+    },
+    "booking": {
+      "label": "予約システム",
+      "pdf": "proposal-03-booking-system-deck.pdf"
+    },
+    "matching": {
+      "label": "マッチングサービス",
+      "pdf": "proposal-05-matching-service-deck.pdf"
+    },
+    "ec": {
+      "label": "ECサイト",
+      "pdf": "proposal-04-ec-payment-deck.pdf"
+    },
+    "sns": {
+      "label": "SNS運用ツール",
+      "pdf": "proposal-06-sns-ops-deck.pdf"
+    },
+    "other": {
+      "label": "その他",
+      "pdf": "proposal-07-custom-mvp-deck.pdf"
+    }
+  },
+  "modifiers": {
+    "highLoad": {
+      "when": {
+        "users": ["u10kup"]
+      },
+      "note": "本格SaaS・高負荷開発として個別相談を促す"
+    },
+    "largeScope": {
+      "when": {
+        "features": ["f10"]
+      },
+      "note": "10機能程度は段階開発として扱う"
+    },
+    "payment": {
+      "when": {
+        "payment": ["yes"]
+      },
+      "note": "Stripe、返金、決済後メール、注文管理を補足する"
+    },
+    "auth": {
+      "when": {
+        "auth": ["yes"]
+      },
+      "note": "ログイン、権限、管理者設定を補足する"
+    }
+  }
+}

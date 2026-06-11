@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // === Dynamic Volumetric Light Shafts Effect ===
+    // === Cinematic Volumetric Light Shafts (premium feel) ===
     const initLightShafts = (canvasId) => {
         const lightCanvas = document.getElementById(canvasId);
         if (!lightCanvas) return;
@@ -223,67 +223,162 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctx = lightCanvas.getContext('2d');
         const container = lightCanvas.parentElement;
 
-        let width = lightCanvas.width = container.clientWidth;
-        let height = lightCanvas.height = container.clientHeight;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        let width, height;
 
-        const handleResize = () => {
+        const sizeCanvas = () => {
             if (!container) return;
-            width = lightCanvas.width = container.clientWidth;
-            height = lightCanvas.height = container.clientHeight;
+            width = container.clientWidth;
+            height = container.clientHeight;
+            lightCanvas.width = Math.floor(width * dpr);
+            lightCanvas.height = Math.floor(height * dpr);
+            lightCanvas.style.width = width + 'px';
+            lightCanvas.style.height = height + 'px';
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         };
-        window.addEventListener('resize', handleResize);
+        sizeCanvas();
+        window.addEventListener('resize', sizeCanvas);
 
-        // Define multiple light beam layers with unique angles, speeds, and phases for natural overlapping
+        // Multi-layered beams. Each beam carries a *secondary* slow drift on top of the primary one,
+        // and a slight color temperature offset for a richer, warmer sunlight feel.
         const beams = [
-            { baseAngle: Math.PI * 0.5,   angleWidth: 0.18, maxAlpha: 0.12, speed: 0.42, phase: 0.0,  pulseSpeed: 0.45, pulsePhase: 0.0 }, // Center main (more visible)
-            { baseAngle: Math.PI * 0.44,  angleWidth: 0.14, maxAlpha: 0.10, speed: 0.50, phase: 1.5,  pulseSpeed: 0.55, pulsePhase: 2.1 }, // Mid left
-            { baseAngle: Math.PI * 0.56,  angleWidth: 0.16, maxAlpha: 0.10, speed: 0.35, phase: 3.1,  pulseSpeed: 0.38, pulsePhase: 0.8 }, // Mid right
-            { baseAngle: Math.PI * 0.38,  angleWidth: 0.10, maxAlpha: 0.08, speed: 0.65, phase: 4.8,  pulseSpeed: 0.70, pulsePhase: 4.3 }, // Far left sharp beam
-            { baseAngle: Math.PI * 0.62,  angleWidth: 0.11, maxAlpha: 0.08, speed: 0.55, phase: 0.9,  pulseSpeed: 0.62, pulsePhase: 1.7 }, // Far right sharp beam
-            { baseAngle: Math.PI * 0.5,   angleWidth: 0.38, maxAlpha: 0.04, speed: 0.18, phase: 2.5,  pulseSpeed: 0.25, pulsePhase: 3.5 }  // Wide ambient glow
+            { baseAngle: Math.PI * 0.50, angleWidth: 0.22, maxAlpha: 0.14, speed: 0.30, phase: 0.0, pulseSpeed: 0.32, pulsePhase: 0.0, drift2: 0.13, hueShift: 0   },
+            { baseAngle: Math.PI * 0.43, angleWidth: 0.15, maxAlpha: 0.11, speed: 0.38, phase: 1.5, pulseSpeed: 0.41, pulsePhase: 2.1, drift2: 0.09, hueShift: -4  },
+            { baseAngle: Math.PI * 0.57, angleWidth: 0.16, maxAlpha: 0.11, speed: 0.27, phase: 3.1, pulseSpeed: 0.28, pulsePhase: 0.8, drift2: 0.10, hueShift: 3   },
+            { baseAngle: Math.PI * 0.37, angleWidth: 0.10, maxAlpha: 0.08, speed: 0.48, phase: 4.8, pulseSpeed: 0.52, pulsePhase: 4.3, drift2: 0.07, hueShift: -6  },
+            { baseAngle: Math.PI * 0.63, angleWidth: 0.11, maxAlpha: 0.08, speed: 0.42, phase: 0.9, pulseSpeed: 0.47, pulsePhase: 1.7, drift2: 0.08, hueShift: 5   },
+            { baseAngle: Math.PI * 0.50, angleWidth: 0.46, maxAlpha: 0.05, speed: 0.13, phase: 2.5, pulseSpeed: 0.18, pulsePhase: 3.5, drift2: 0.04, hueShift: 0   }
         ];
 
-        const animate = () => {
-            ctx.clearRect(0, 0, width, height);
+        // Dust motes drifting through the beam (rendered with screen blending feel)
+        const motes = [];
+        const moteCount = 38;
+        for (let i = 0; i < moteCount; i++) {
+            motes.push({
+                x: Math.random(),         // 0-1 normalized
+                y: Math.random(),
+                r: 0.4 + Math.random() * 1.3,
+                vx: (Math.random() - 0.5) * 0.012,
+                vy: -0.005 - Math.random() * 0.012,    // mostly drifting upward
+                alpha: 0.05 + Math.random() * 0.20,
+                twinkleSpeed: 0.4 + Math.random() * 1.1,
+                twinklePhase: Math.random() * Math.PI * 2
+            });
+        }
 
-            // Light source origin coordinates aligned to the doorway in the background image
+        // Sunlight color: warm cream-white (mimics ~5500K sunlight scattered through atmosphere)
+        const sunR = 255, sunG = 244, sunB = 220;
+
+        const drawBeam = (beam, time, cx, cy, R) => {
+            // No angle drift — light shafts are fixed; only intensity breathes naturally.
+            const angleCenter = beam.baseAngle;
+            const halfW = beam.angleWidth * 0.5;
+            const a1 = angleCenter - halfW;
+            const a2 = angleCenter + halfW;
+
+            // Triple-LFO opacity pulse — feels alive, never robotic
+            const pulse =
+                0.55 +
+                Math.sin(time * beam.pulseSpeed + beam.pulsePhase) * 0.30 +
+                Math.sin(time * beam.pulseSpeed * 0.41 + beam.pulsePhase * 0.7) * 0.15;
+            const alpha = Math.max(0, beam.maxAlpha * pulse);
+
+            const r = Math.max(0, Math.min(255, sunR + beam.hueShift));
+            const g = Math.max(0, Math.min(255, sunG + Math.floor(beam.hueShift * 0.5)));
+            const b = Math.max(0, Math.min(255, sunB - beam.hueShift));
+
+            // Fade-in at origin (0 alpha at source), peak mid-near, soft falloff to edge.
+            // This removes the crisp "start point" of the shaft.
+            const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, R);
+            grad.addColorStop(0.00, `rgba(${r}, ${g}, ${b}, 0)`);
+            grad.addColorStop(0.06, `rgba(${r}, ${g}, ${b}, ${alpha * 0.30})`);
+            grad.addColorStop(0.18, `rgba(${r}, ${g}, ${b}, ${alpha * 0.85})`);
+            grad.addColorStop(0.35, `rgba(${r}, ${g}, ${b}, ${alpha})`);
+            grad.addColorStop(0.55, `rgba(${r}, ${g}, ${b}, ${alpha * 0.55})`);
+            grad.addColorStop(0.78, `rgba(${r}, ${g}, ${b}, ${alpha * 0.18})`);
+            grad.addColorStop(1.00, `rgba(${r}, ${g}, ${b}, 0)`);
+
+            // Curved wedge for feathered outer edge
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.arc(cx, cy, R, a1, a2);
+            ctx.closePath();
+
+            ctx.fillStyle = grad;
+            ctx.fill();
+        };
+
+        const drawSourceBloom = (cx, cy, time) => {
+            // Subtle, very soft halo. NOT a bright spot at origin — fades in from 0.
+            const breath = 0.85 + Math.sin(time * 0.45) * 0.10 + Math.sin(time * 0.71) * 0.05;
+            const radius = Math.max(width, height) * 0.28 * breath;
+            const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+            // Start fully transparent at the exact origin, very faint mid, fade to nothing.
+            grad.addColorStop(0.00, 'rgba(255, 248, 230, 0)');
+            grad.addColorStop(0.25, `rgba(255, 248, 230, ${0.04 * breath})`);
+            grad.addColorStop(0.55, `rgba(255, 244, 220, ${0.025 * breath})`);
+            grad.addColorStop(1.00, 'rgba(255, 244, 220, 0)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, width, height);
+        };
+
+        const updateMotes = (time, dt) => {
+            for (const m of motes) {
+                m.x += m.vx * dt;
+                m.y += m.vy * dt;
+                // Wrap around (motes coming from edges)
+                if (m.x < -0.05) m.x = 1.05;
+                if (m.x > 1.05)  m.x = -0.05;
+                if (m.y < -0.05) m.y = 1.05;
+                if (m.y > 1.05)  m.y = -0.05;
+            }
+        };
+
+        const drawMotes = (time, cx, cy) => {
+            // Only highlight motes near light center for in-beam feel
+            for (const m of motes) {
+                const px = m.x * width;
+                const py = m.y * height;
+                const dx = px - cx;
+                const dy = py - cy;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const maxDist = Math.max(width, height) * 0.85;
+                const proximity = Math.max(0, 1 - dist / maxDist);
+                const twinkle = 0.5 + Math.sin(time * m.twinkleSpeed + m.twinklePhase) * 0.5;
+                const a = m.alpha * proximity * twinkle * 0.7;
+                if (a < 0.01) continue;
+                ctx.beginPath();
+                ctx.arc(px, py, m.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 250, 235, ${a})`;
+                ctx.fill();
+            }
+        };
+
+        let last = performance.now();
+        const animate = (now) => {
+            const time = now * 0.001;
+            const dt = Math.min(0.05, (now - last) / 1000) * 16; // normalized step
+            last = now;
+
+            ctx.clearRect(0, 0, width, height);
+            ctx.globalCompositeOperation = 'lighter';
+
+            // Fixed light source — light doesn't move; only intensity breathes.
             const cx = width * 0.5;
             const cy = height * 0.44;
-            const R = Math.max(width, height) * 1.3;
+            const R = Math.max(width, height) * 1.35;
 
-            beams.forEach(beam => {
-                const time = Date.now() * 0.001;
+            drawSourceBloom(cx, cy, time);
+            for (const beam of beams) drawBeam(beam, time, cx, cy, R);
 
-                // Drift the beam angle using sine wave (further increased for clear, beautiful movement)
-                const angleCenter = beam.baseAngle + Math.sin(time * beam.speed + beam.phase) * 0.14;
-                const a1 = angleCenter - beam.angleWidth * 0.5;
-                const a2 = angleCenter + beam.angleWidth * 0.5;
+            updateMotes(time, dt);
+            drawMotes(time, cx, cy);
 
-                // Pulse the opacity (deeper contrast pulse range for dynamic visibility)
-                const alpha = beam.maxAlpha * (0.5 + Math.sin(time * beam.pulseSpeed + beam.pulsePhase) * 0.5);
-
-                // Create a radial gradient from the source doorway to the screen edge
-                const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, R);
-                grad.addColorStop(0.0, `rgba(255, 255, 255, ${alpha})`);
-                grad.addColorStop(0.2, `rgba(255, 255, 255, ${alpha * 0.75})`);
-                grad.addColorStop(0.6, `rgba(255, 255, 255, ${alpha * 0.25})`);
-                grad.addColorStop(1.0, 'rgba(255, 255, 255, 0.0)');
-
-                // Draw the light cone polygon
-                ctx.beginPath();
-                ctx.moveTo(cx, cy);
-                ctx.lineTo(cx + R * Math.cos(a1), cy + R * Math.sin(a1));
-                ctx.lineTo(cx + R * Math.cos(a2), cy + R * Math.sin(a2));
-                ctx.closePath();
-
-                ctx.fillStyle = grad;
-                ctx.fill();
-            });
-
+            ctx.globalCompositeOperation = 'source-over';
             requestAnimationFrame(animate);
         };
 
-        animate();
+        requestAnimationFrame(animate);
     };
 
     initLightShafts('hero-light-shafts');
