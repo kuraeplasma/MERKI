@@ -7209,11 +7209,13 @@ br.sp-only {
     margin-left: auto;
     padding: 28px 30px 24px;
     border-radius: 20px;
-    background: #fbfaf7 !important;
-    border: 1px solid rgba(0,0,0,0.06);
+    background: rgba(251, 250, 247, 0.82) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0,0,0,0.08);
     box-shadow:
-        0 30px 60px -20px rgba(0,0,0,0.35),
-        0 8px 24px -10px rgba(0,0,0,0.18);
+        0 30px 60px -20px rgba(0,0,0,0.30),
+        0 8px 24px -10px rgba(0,0,0,0.15);
     color: #111 !important;
     font-family: 'Inter','Noto Sans JP',sans-serif;
     isolation: isolate;
@@ -7395,8 +7397,10 @@ br.sp-only {
     width: 100%; max-width: 580px;
     max-height: calc(100vh - 40px);
     overflow-y: auto;
-    background: #fbfaf7;
-    border: 1px solid rgba(0,0,0,0.06);
+    background: rgba(251, 250, 247, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(0,0,0,0.08);
     border-radius: 20px;
     color: #111;
     padding: 56px 36px 32px;
@@ -8830,14 +8834,16 @@ br.sp-only {
     max-width: 470px !important;
     margin-left: auto !important;
     padding: 34px 32px 28px !important;
-    border: 1px solid rgba(17, 24, 39, .11) !important;
+    border: 1px solid rgba(255, 255, 255, 0.45) !important;
     border-radius: 24px !important;
     background:
-        radial-gradient(circle at 0 0, rgba(255, 255, 255, .98), rgba(255, 255, 255, .84) 36%, rgba(255, 255, 255, 0) 64%),
-        linear-gradient(145deg, rgba(255, 255, 255, .96), rgba(246, 247, 249, .92)) !important;
+        radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.70), rgba(255, 255, 255, 0.45) 36%, rgba(255, 255, 255, 0.1) 64%),
+        linear-gradient(145deg, rgba(255, 255, 255, 0.55), rgba(246, 247, 249, 0.40)) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
     box-shadow:
-        0 28px 80px rgba(15, 23, 42, .22),
-        inset 0 1px 0 rgba(255, 255, 255, .9) !important;
+        0 28px 80px rgba(15, 23, 42, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
     color: #111827 !important;
     overflow: hidden !important;
     transform: none !important;
@@ -8914,10 +8920,10 @@ br.sp-only {
     gap: 14px !important;
     min-height: 76px !important;
     padding: 13px 16px !important;
-    border: 1px solid rgba(17, 24, 39, .08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.40) !important;
     border-radius: 14px !important;
-    background: rgba(255, 255, 255, .72) !important;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9) !important;
+    background: rgba(255, 255, 255, 0.45) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
 }
 
 .hero .diag-card__feature-ico {
