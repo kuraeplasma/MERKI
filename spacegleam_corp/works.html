@@ -4,19 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1T9HP3BLMP"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-1T9HP3BLMP');
-    </script>
+    <script src="/tracking.js"></script>
     <title>AI開発事例・AIシステム開発実績 | SPACE GLEAM株式会社</title>
     <meta name="description" content="SPACE GLEAMのAI開発事例・AIシステム開発実績を紹介。契約管理AI、経営改善支援、画像生成AI、Web監査AIなど、自社開発と受託開発の知見を掲載しています。">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=diag-top-white-wide-20260605-v25">
+    <link rel="stylesheet" href="style.css?v=works-v3-20260611">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="canonical" href="https://spacegleam.co.jp/works">
 
@@ -281,9 +275,6 @@
 
                 <!-- Detail panel -->
                 <div class="wv3-detail reveal is-visible" id="wv3Detail">
-                    <button type="button" class="wv3-detail-close" aria-label="閉じる">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
-                    </button>
                     <nav class="wv3-tabs" aria-label="プロダクト詳細タブ">
                         <button type="button" class="wv3-tab is-active" data-wv3-tab="diffsense"><span class="wv3-tab-logo"><img src="diffsense_logo_fixed.png?v=latest_v3" alt=""></span>DIFFsense</button>
                         <button type="button" class="wv3-tab" data-wv3-tab="merki"><span class="wv3-tab-logo"><img src="merki_logo.png" alt=""></span>MERKI</button>
@@ -693,14 +684,9 @@
 
             document.querySelectorAll('[data-wv3-open]').forEach(function (btn) {
                 btn.addEventListener('click', function () {
-                    detail.classList.remove('is-hidden');
                     show(btn.dataset.wv3Open);
                     detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 });
-            });
-
-            detail.querySelector('.wv3-detail-close').addEventListener('click', function () {
-                detail.classList.add('is-hidden');
             });
         })();
     </script>

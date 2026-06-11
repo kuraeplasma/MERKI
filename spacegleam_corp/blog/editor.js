@@ -215,13 +215,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1T9HP3BLMP"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-1T9HP3BLMP');
-    </script>
+    <script src="/tracking.js"></script>
     <title>${escapeHtml(data.title)} | SPACE GLEAM</title>
     <meta name="description" content="${escapeHtml(data.description)}">
     <link rel="canonical" href="https://spacegleam.co.jp/blog/${data.slug}/">
